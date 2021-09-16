@@ -1,4 +1,4 @@
-import React, {useRef, useState} from 'react';
+import React from 'react';
 import {KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
 import Background from '../components/Background/StyledBackground';
 import StyledButton from '../components/Button/StyledButton';
@@ -7,8 +7,9 @@ import {Colors} from '../utils/colors';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
 import Text14 from '../components/Text/Text14';
-import {PROCEED, SIGNIN_PHONE} from '../utils/constants';
+import {NUMBER_ERROR, PROCEED, SIGNIN_PHONE} from '../utils/constants';
 import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props {
   phoneInput: any;
@@ -17,6 +18,8 @@ interface Props {
   onChangeFormattedText: (text: string) => void;
   onChangeCountry: any;
   onSubmit: () => void;
+  error: boolean;
+  setError: any;
 }
 
 const SignInScreen: React.FC<Props> = ({
@@ -26,6 +29,8 @@ const SignInScreen: React.FC<Props> = ({
   onChangeFormattedText,
   onChangeCountry,
   onSubmit,
+  error,
+  setError,
 }) => {
   return (
     <View style={{flex: 1}}>
@@ -45,6 +50,7 @@ const SignInScreen: React.FC<Props> = ({
               contentContainerStyle={{flexGrow: 1}}
               keyboardShouldPersistTaps="handled">
               <View style={{flex: 1}}>
+                <BackgroundVector />
                 <View
                   style={{
                     flex: 1,
@@ -70,6 +76,7 @@ const SignInScreen: React.FC<Props> = ({
                     layout="first"
                     onChangeText={text => {
                       onChangeText(text);
+                      setError(false);
                     }}
                     onChangeFormattedText={text => {
                       onChangeFormattedText(text);
@@ -116,6 +123,19 @@ const SignInScreen: React.FC<Props> = ({
                       </View>
                     }
                   />
+                  {error ? (
+                    <View
+                      style={{
+                        width: '100%',
+                        paddingHorizontal: 40,
+                        marginTop: 5,
+                      }}>
+                      <Text14
+                        text={NUMBER_ERROR}
+                        textColor={Colors.POPUP_RED}
+                      />
+                    </View>
+                  ) : null}
                 </View>
                 <View
                   style={{

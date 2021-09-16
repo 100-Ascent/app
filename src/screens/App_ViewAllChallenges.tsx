@@ -106,7 +106,6 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
                 completedChallenge.length === 0 ? (
                   <ChallengeCardCarousal
                     allChallenge={allChallenge}
-                    data={images}
                     wrapStyle={{width: width, height: height}}
                     onPress={onChallengePress}
                     handleSubscribe={handleSubscribe}

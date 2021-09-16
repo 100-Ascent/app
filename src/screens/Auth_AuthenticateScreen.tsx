@@ -22,6 +22,8 @@ const AuthenticateScreen: React.FC<Props> = ({navigation}) => {
 
   const [isVerifyScreen, setVerifyScreen] = useState(false);
   const [otpArray, setOtpArray] = useState(['', '', '', '', '', '']);
+  const [isVerifyDisabled, setVerifyDisabled] = useState(true);
+  const [error, setError] = useState(false);
 
   const handleSetOtpArray = array => {
     setOtpArray(array);
@@ -32,13 +34,24 @@ const AuthenticateScreen: React.FC<Props> = ({navigation}) => {
     console.log(countryCode);
     if (formattedValue.length !== 0) {
       setVerifyScreen(true);
+    } else {
+      setError(true);
     }
+  };
+
+  const onGoBack = () => {
+    setVerifyScreen(false);
   };
 
   async function signInWithPhoneNumber(phoneNumber: any) {
     try {
-      const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
-      setConfirm(confirmation);
+      console.log('signing in with phone number');
+      await auth()
+        .signInWithPhoneNumber(phoneNumber)
+        .then(confirmation => {
+          setVerifyDisabled(false);
+          setConfirm(confirmation);
+        });
     } catch (error) {
       console.log(error);
     }
@@ -63,6 +76,8 @@ const AuthenticateScreen: React.FC<Props> = ({navigation}) => {
         setCountry(phoneInput.current?.getCallingCode() || '');
       }}
       onSubmit={onSubmit}
+      error={error}
+      setError={setError}
     />
   ) : (
     <VerifyScreen
@@ -71,6 +86,8 @@ const AuthenticateScreen: React.FC<Props> = ({navigation}) => {
       onVerify={confirmCode}
       otpArray={otpArray}
       handleSetOtpArray={handleSetOtpArray}
+      isVerifyDisabled={isVerifyDisabled}
+      onGoBack={onGoBack}
     />
   );
 };

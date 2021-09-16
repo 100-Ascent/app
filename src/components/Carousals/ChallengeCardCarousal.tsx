@@ -5,14 +5,12 @@ import {Colors} from '../../utils/colors';
 import CarousalCard from '../Cards/ChallengeScreen/AllChallenge_CarousalCard';
 
 interface Props {
-  data: string[];
   wrapStyle?: any;
   onPress: (val: Object) => void;
   allChallenge: Object[];
   handleSubscribe: (cid: string) => void;
 }
 const ChallengeCardCarousal: React.FC<Props> = ({
-  data,
   wrapStyle,
   onPress,
   allChallenge,

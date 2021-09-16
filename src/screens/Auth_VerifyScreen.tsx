@@ -5,6 +5,7 @@ import {
   Platform,
   ScrollView,
   Text,
+  TouchableOpacity,
   View,
 } from 'react-native';
 import Background from '../components/Background/StyledBackground';
@@ -14,8 +15,10 @@ import {Colors} from '../utils/colors';
 import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
 import Text16Bold from '../components/Text/Text16Bold';
 import OTPCard from '../components/Cards/AuthScreen/VerifyScreen_OTPCard';
-import {PROCEED, VERIFY} from '../utils/constants';
+import {AWAITINGOTP, RESEND_OTP, VERIFY} from '../utils/constants';
 import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import Text14 from '../components/Text/Text14';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props {
   phoneNumber: string;
@@ -23,6 +26,8 @@ interface Props {
   onSignInClicked: (phoneNumber: any) => Promise<void>;
   otpArray: string[];
   handleSetOtpArray: (array: string[]) => void;
+  isVerifyDisabled: boolean;
+  onGoBack: () => void;
 }
 
 const VerifyScreen: React.FC<Props> = ({
@@ -31,6 +36,8 @@ const VerifyScreen: React.FC<Props> = ({
   onSignInClicked,
   otpArray,
   handleSetOtpArray,
+  isVerifyDisabled,
+  onGoBack,
 }) => {
   useEffect(() => {
     onSignInClicked(phoneNumber);
@@ -54,6 +61,7 @@ const VerifyScreen: React.FC<Props> = ({
               contentContainerStyle={{flexGrow: 1}}
               keyboardShouldPersistTaps="handled">
               <View style={{flex: 1}}>
+                <BackgroundVector />
                 <View
                   style={{
                     flex: 1,
@@ -95,10 +103,31 @@ const VerifyScreen: React.FC<Props> = ({
                       handleSetOtpArray={handleSetOtpArray}
                     />
                   </View>
+                  <View
+                    style={{
+                      alignItems: 'flex-end',
+                      width: '100%',
+                      paddingHorizontal: 40,
+                      paddingTop: 20,
+                    }}>
+                    <TouchableOpacity
+                      onPress={() => onSignInClicked(phoneNumber)}>
+                      <View>
+                        <Text14
+                          text={RESEND_OTP}
+                          textColor={Colors.TEXT2}
+                          textStyle={{
+                            borderBottomWidth: 1,
+                            borderBottomColor: Colors.BLACK6,
+                          }}
+                        />
+                      </View>
+                    </TouchableOpacity>
+                  </View>
                 </View>
                 <View
                   style={{
-                    flex: 1,
+                    flex: 2,
                     justifyContent: 'flex-end',
                     paddingBottom: 30,
                   }}>
@@ -109,7 +138,9 @@ const VerifyScreen: React.FC<Props> = ({
                   <View style={{flex: 2}}>
                     <StyledButton
                       buttonStyle={{
-                        backgroundColor: Colors.POPUP_RED,
+                        backgroundColor: isVerifyDisabled
+                          ? Colors.BLACK6
+                          : Colors.POPUP_RED,
                         shadowColor: Colors.POPUP_RED,
                         shadowOffset: {
                           width: 0,
@@ -118,11 +149,17 @@ const VerifyScreen: React.FC<Props> = ({
                         shadowOpacity: 0.51,
                         shadowRadius: 13.16,
                       }}
-                      text={VERIFY}
+                      text={isVerifyDisabled ? AWAITINGOTP : VERIFY}
                       onPress={onVerify}
+                      disabled={isVerifyDisabled}
                     />
                   </View>
                   <View style={{flex: 1}} />
+                </View>
+                <View style={{flex: 1, alignItems: 'center'}}>
+                  <TouchableOpacity onPress={onGoBack}>
+                    <Text14 text={'GO BACK'} textColor={'#666666'} />
+                  </TouchableOpacity>
                 </View>
               </View>
             </ScrollView>
