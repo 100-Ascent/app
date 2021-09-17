@@ -1,12 +1,14 @@
 import React from 'react';
 import {View} from 'react-native';
 import {Colors} from '../../../utils/colors';
-import Background from '../../Background/StyledBackground';
 import Text16Normal from '../../Text/Text16Normal';
-import Reward1 from '../../../../assets/icons/Rewards/reward1.svg';
-import Reward2 from '../../../../assets/icons/Rewards/reward2.svg';
+import RewardCard from './NewRewardCard';
 
-const RewardsUnlocked = () => {
+interface Props {
+  onPress: (idx: number) => void;
+}
+
+const RewardsUnlocked = ({onPress}) => {
   return (
     <View
       style={{
@@ -30,41 +32,35 @@ const RewardsUnlocked = () => {
           flexDirection: 'row',
           marginHorizontal: 10,
         }}>
-        {RewardCard('#3378DF', '#22467B', <Reward1 />)}
-        {RewardCard('#34CE27', '#23861A', <Reward2 />)}
+        <RewardCard
+          startColor={'#3378DF'}
+          endColor={'#22467B'}
+          rewardIndex={1}
+          onPress={onPress}
+        />
+        <RewardCard
+          startColor={'#34CE27'}
+          endColor={'#23861A'}
+          rewardIndex={2}
+          onPress={onPress}
+        />
       </View>
       <View style={{flex: 1, flexDirection: 'row', marginHorizontal: 10}}>
-        {RewardCard('#DF3333', '#7B2222', <Reward2 />)}
-        {RewardCard('#8827CE', '#591A86', <Reward1 />)}
+        <RewardCard
+          startColor={'#DF3333'}
+          endColor={'#7B2222'}
+          rewardIndex={3}
+          onPress={onPress}
+        />
+        <RewardCard
+          startColor={'#8827CE'}
+          endColor={'#591A86'}
+          rewardIndex={4}
+          onPress={onPress}
+        />
       </View>
     </View>
   );
 };
 
 export default RewardsUnlocked;
-
-const RewardCard = (startColor, endColor, reward) => {
-  return (
-    <View
-      style={{
-        flex: 1,
-        borderRadius: 10,
-        margin: 10,
-      }}>
-      <Background
-        style={{borderRadius: 10}}
-        startColor={startColor}
-        endColor={endColor}>
-        <View
-          style={{
-            padding: 15,
-            borderRadius: 10,
-            justifyContent: 'center',
-            alignItems: 'center',
-          }}>
-          {reward}
-        </View>
-      </Background>
-    </View>
-  );
-};

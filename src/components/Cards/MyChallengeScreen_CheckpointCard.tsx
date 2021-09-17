@@ -25,20 +25,24 @@ interface Props {
 }
 
 const CheckpointCard: React.FC<Props> = ({checkpoint, onCheckpointPressed}) => {
-  console.log(checkpoint);
   return (
     <View style={{flex: 1}}>
       <TouchableOpacity activeOpacity={0.9} onPress={onCheckpointPressed}>
         <View
-          style={{alignItems: 'center', elevation: 5, marginHorizontal: 15}}>
+          style={{
+            alignItems: 'center',
+            elevation: 5,
+            marginHorizontal: 15,
+            borderRadius: 10,
+            backgroundColor: 'rgba(0,0,0,1)',
+          }}>
           <FastImage
             style={{
               width: '100%',
               height: 300,
               borderRadius: 10,
               position: 'relative',
-              opacity: 0.8,
-              backgroundColor: Colors.TEXTDARK,
+              opacity: 0.6,
             }}
             source={{
               uri: checkpoint.images[0],

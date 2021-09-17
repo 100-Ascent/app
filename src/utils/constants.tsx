@@ -22,3 +22,5 @@ export const EMAIL_VERIFICATION_SENT_AFTER =
 export const SUBSCRIBE_TO_CHALLENGE = 'Subscribe to a challenge to get started';
 export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
+
+export const DEBUG = true;

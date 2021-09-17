@@ -1,10 +1,18 @@
 import React from 'react';
 import {useState} from 'react';
-import {Dimensions, ScrollView, StyleSheet, Text, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Dimensions,
+  ScrollView,
+  StyleSheet,
+  Text,
+  View,
+} from 'react-native';
 import FastImage from 'react-native-fast-image';
 
 import auth from '@react-native-firebase/auth';
 import {useEffect} from 'react';
+import {Colors} from '../../utils/colors';
 
 interface Props {
   data: string[];
@@ -21,6 +29,7 @@ const ImageCarousal: React.FC<Props> = ({data, wrapStyle}) => {
 
   const [token, setToken] = useState('');
   const [active, setActive] = useState(0);
+  const [loading, setLoading] = useState(false);
   const change = nativeEvent => {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -42,18 +51,29 @@ const ImageCarousal: React.FC<Props> = ({data, wrapStyle}) => {
           horizontal
           style={[wrapStyle]}>
           {data.map((val, index) => (
-            <FastImage
-              key={index}
-              style={[wrapStyle]}
-              source={{
-                uri: typeof val === 'string' ? val : val['image'],
-                priority: FastImage.priority.high,
-                headers: {
-                  Authorization: token,
-                },
-              }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
+            <>
+              {/* {loading ? (
+                <View
+                  style={[
+                    wrapStyle,
+                    {alignItems: 'center', justifyContent: 'center'},
+                  ]}>
+                  <ActivityIndicator size="large" color={Colors.POPUP_RED} />
+                </View>
+              ) : null} */}
+              <FastImage
+                key={index}
+                style={[wrapStyle]}
+                source={{
+                  uri: typeof val === 'string' ? val : val['image'],
+                  priority: FastImage.priority.high,
+                  headers: {
+                    Authorization: token,
+                  },
+                }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
+            </>
           ))}
         </ScrollView>
         <View style={styles.wrapDot}>

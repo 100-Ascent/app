@@ -6,15 +6,16 @@ import RewardsCardHeader from '../Headers/RewardsCardHeader';
 import RewardsPopUp from '../PopUps/RewardsPopUp';
 
 const RewardsCard = ({rewards, onPress}) => {
-  const [indexOfReward, setIndexOfReward] = useState(0);
+  const [reward, setReward] = useState(0);
   const [visible, setVisible] = useState(false);
-  const handleRewardPress = idx => {
+  const handleRewardPress = val => {
+    setReward(val);
     setVisible(true);
-    setIndexOfReward(idx);
   };
   const onClose = () => {
     setVisible(false);
   };
+
   return (
     <View
       style={{
@@ -33,11 +34,7 @@ const RewardsCard = ({rewards, onPress}) => {
         </View>
       </TouchableOpacity>
       <RewardsCarousal data={rewards} onPress={handleRewardPress} />
-      <RewardsPopUp
-        data={rewards[indexOfReward]}
-        visible={visible}
-        onClose={onClose}
-      />
+      <RewardsPopUp data={reward} visible={visible} onClose={onClose} />
     </View>
   );
 };

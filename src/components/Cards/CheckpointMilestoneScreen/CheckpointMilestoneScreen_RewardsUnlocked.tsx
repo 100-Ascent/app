@@ -6,7 +6,7 @@ import RewardsCarousal from '../../Carousals/RewardsCarousal';
 import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
-  onPress: () => void;
+  onPress: (item: Object) => void;
   rewards: any;
 }
 

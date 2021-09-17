@@ -4,13 +4,16 @@ import MapView, {
   Marker,
   PROVIDER_GOOGLE,
   Polyline as Poly,
+  MapTypes,
 } from 'react-native-maps';
-import {StyleSheet, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import Polyline from '@mapbox/polyline';
 
 import FastImage from 'react-native-fast-image';
 import DefaultLocationButton from '../components/Button/DefaultLocationButton';
 import {HEIGHT} from '../utils/constants';
+import Icon from 'react-native-elements/dist/icons/Icon';
+import {Colors} from '../utils/colors';
 
 interface Props {
   navigation: RootNavProp<'MapViewFullScreen'>;
@@ -22,6 +25,7 @@ const MapViewFullScreen: React.FC<Props> = ({navigation, route}) => {
   const data = route.params.data;
   const [coords, setCoords] = useState([]);
   const [mapTypeToggle, setMapToggle] = useState<boolean>(true);
+  const mapTypeData: MapTypes[] = ['hybrid', 'standard'];
 
   const handleInitialRegionButtonPressed = () => {
     mapRef.current.animateToRegion(data.initialRegion, 1000);
@@ -75,7 +79,7 @@ const MapViewFullScreen: React.FC<Props> = ({navigation, route}) => {
         initialRegion={data.initialRegion}
         region={data.initialRegion}
         paddingAdjustmentBehavior="automatic"
-        mapType={'hybrid'}
+        mapType={mapTypeToggle ? mapTypeData[0] : mapTypeData[1]}
         zoomEnabled
         scrollEnabled
         showsScale={true}
@@ -109,7 +113,7 @@ const MapViewFullScreen: React.FC<Props> = ({navigation, route}) => {
           height: '80%',
           position: 'absolute',
           width: 35,
-          left: 5,
+          left: 15,
           top: 10,
           flexDirection: 'column-reverse',
         }}>
@@ -117,6 +121,16 @@ const MapViewFullScreen: React.FC<Props> = ({navigation, route}) => {
           <DefaultLocationButton
             handleSetInitialRegion={handleInitialRegionButtonPressed}
           />
+        </MapButtonView>
+        <MapButtonView>
+          <TouchableOpacity onPress={() => setMapToggle(!mapTypeToggle)}>
+            <Icon
+              name="terrain"
+              type="materialicons"
+              color={Colors.TEXTDARK}
+              size={25}
+            />
+          </TouchableOpacity>
         </MapButtonView>
       </View>
     </View>

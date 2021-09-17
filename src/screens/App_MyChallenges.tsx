@@ -18,6 +18,7 @@ import ProgressBar from '../components/ProgressBar/ProgressBar';
 import {AppState} from '../redux';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
+import LinearGradient from 'react-native-linear-gradient';
 
 const window = Dimensions.get('window');
 
@@ -56,9 +57,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(res => {
         let data = res.data.data;
-        // console.log(data);
         setChallengeData(data);
-        console.log(data);
         setDistanceData(data.challenge_data);
         const myJourneyData = getMyJourneyData(data.tracks);
         setJourneyData(myJourneyData);
@@ -149,7 +148,12 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                 funfact={challengeData.current_checkpoint.tid.fun_fact}
               />
             </View>
-            <View style={{padding: 70}} />
+            <LinearGradient
+              start={{x: 0, y: 0}}
+              end={{x: 1, y: 0}}
+              colors={['#026E8D', '#308FD7']}>
+              <View style={{padding: 50}} />
+            </LinearGradient>
           </ScrollView>
         )}
       </Background>

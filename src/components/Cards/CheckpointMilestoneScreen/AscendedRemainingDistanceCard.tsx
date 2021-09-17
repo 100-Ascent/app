@@ -5,6 +5,7 @@ import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import Text20 from '../../Text/Text20';
 import Text28 from '../../Text/Text28';
+import KlicksTooltip from '../../Tooltip/KlicksTooltip';
 
 const AscendedRemainingDistanceCard = ({current, total}) => {
   return (
@@ -40,12 +41,7 @@ const AscendedRemainingDistanceCard = ({current, total}) => {
             </View>
             <View
               style={{justifyContent: 'center', marginTop: 10, marginLeft: 5}}>
-              <Icon
-                name="help-circle-outline"
-                type="ionicon"
-                size={14}
-                color={Colors.TEXT}
-              />
+              <KlicksTooltip color={Colors.TEXT} />
             </View>
           </View>
           <View
@@ -76,12 +72,7 @@ const AscendedRemainingDistanceCard = ({current, total}) => {
             </View>
             <View
               style={{justifyContent: 'center', marginTop: 10, marginLeft: 5}}>
-              <Icon
-                name="help-circle-outline"
-                type="ionicon"
-                size={14}
-                color={Colors.TEXTDARK}
-              />
+              <KlicksTooltip color={Colors.TEXTDARK} />
             </View>
           </View>
           <View

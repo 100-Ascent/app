@@ -38,18 +38,17 @@ const AllRewards = ({data}) => {
       <View style={{flex: 1, paddingHorizontal: 20, paddingTop: 15}}>
         <Text16Normal text={'All Rewards'} textColor={Colors.TEXTDARK} />
       </View>
-      <View style={{flex: 1}}>
+      <View style={{flex: 1, padding: 5}}>
         {rewards.map((row, idx) => {
           return (
             <View
               style={{
                 flex: 1,
                 flexDirection: 'row',
-                paddingVertical: 10,
               }}
               key={idx}>
               {row.map((val, idx2) => {
-                return (
+                return val.is_passed ? (
                   <View
                     style={{
                       flex: 1,
@@ -57,6 +56,7 @@ const AllRewards = ({data}) => {
                       backgroundColor: Colors.TEXT,
                       marginHorizontal: 15,
                       padding: 5,
+                      marginTop: 15,
                     }}
                     key={idx2}>
                     <View
@@ -99,7 +99,7 @@ const AllRewards = ({data}) => {
                       />
                     </View>
                   </View>
-                );
+                ) : null;
               })}
             </View>
           );

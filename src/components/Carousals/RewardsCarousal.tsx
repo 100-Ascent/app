@@ -7,13 +7,9 @@ import Text14 from '../Text/Text14';
 
 const RewardsCarousal = ({data, onPress}) => {
   const rewards = data.map((val, idx) => {
-    console.log(val);
-    return (
+    return val.is_passed ? (
       <View style={{flex: 1}} key={idx}>
-        <TouchableOpacity
-          disabled={!val.is_passed}
-          activeOpacity={0.8}
-          onPress={() => onPress(idx)}>
+        <TouchableOpacity activeOpacity={0.8} onPress={() => onPress(val)}>
           <View
             style={{
               flex: 1,
@@ -26,8 +22,8 @@ const RewardsCarousal = ({data, onPress}) => {
                 width: 90,
                 height: 90,
                 borderRadius: 90,
-                opacity: val.is_passed ? 1 : 0.1,
-                backgroundColor: val.is_passed ? Colors.TRANSPARENT : 'grey',
+                opacity: 1,
+                backgroundColor: Colors.TRANSPARENT,
               }}
               source={{
                 uri: val.icon,
@@ -52,7 +48,7 @@ const RewardsCarousal = ({data, onPress}) => {
               }}>
               <Text14
                 text={val.title}
-                textColor={val.is_passed ? Colors.BLACK4 : Colors.BLACK2}
+                textColor={Colors.BLACK4}
                 textStyle={{textAlign: 'center'}}
               />
             </View>
@@ -60,7 +56,7 @@ const RewardsCarousal = ({data, onPress}) => {
           </View>
         </TouchableOpacity>
       </View>
-    );
+    ) : null;
   });
 
   return (

@@ -26,7 +26,7 @@ const HamperCard = () => {
           }}>
           <HamperIcon />
         </View>
-        <View style={{flex: 2}}>
+        <View style={{flex: 3}}>
           <View
             style={{
               flex: 1,

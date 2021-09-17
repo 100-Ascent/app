@@ -61,16 +61,18 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   const [defaultOption, setDefaultOption] = useState(0);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
 
-  const onChange = (event, selectedDate) => {
-    const currentDate = selectedDate;
+  const onChange = (event, selectedDateValue) => {
+    const currentDate = selectedDateValue;
     setShow(Platform.OS === 'ios');
-    setDate(currentDate);
-    setSelectedDate(currentDate);
-    setDisablePost(
-      selectedDate === null ||
-        selected['id'] === undefined ||
-        distanceTimeData.length === 0,
-    );
+    if (currentDate !== undefined) {
+      setDate(currentDate);
+      setSelectedDate(currentDate);
+      setDisablePost(
+        selectedDate === null ||
+          selected['id'] === undefined ||
+          distanceTimeData.length === 0,
+      );
+    }
   };
 
   const showMode = currentMode => {
@@ -123,7 +125,7 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
     setDisablePost(
       selectedDate === null ||
         selected['id'] === undefined ||
-        distanceTimeData.length === 0,
+        data.length === 0,
     );
   };
 
@@ -252,6 +254,9 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
 
                 {show && (
                   <DateTimePicker
+                    onTouchCancel={() => {
+                      console.log('cancelled');
+                    }}
                     testID="dateTimePicker"
                     value={date}
                     mode={'date'}
@@ -335,7 +340,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                     onPress={handlePostData}
                   />
                 </View>
-                <CustomPopUp />
               </View>
             )}
             <View style={{padding: 70}} />

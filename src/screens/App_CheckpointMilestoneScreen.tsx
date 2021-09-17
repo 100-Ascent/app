@@ -29,9 +29,17 @@ const height = Dimensions.get('window').height * 0.25;
 
 const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
   const [visible, setVisible] = useState(false);
+  const [reward, setReward] = useState({});
   const checkpointData = route.params.data;
+  const isLast = checkpointData.isLast;
   const current_distance = route.params.current_distance;
   const total_distance = route.params.total_distance;
+
+  const handleRewardPressed = item => {
+    setReward(item);
+    setVisible(true);
+  };
+
   const onClose = () => {
     setVisible(false);
   };
@@ -61,10 +69,12 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
               </View>
               <View style={{padding: 15}} />
-              <RewardsUnlockedCard
-                rewards={checkpointData.rewards}
-                onPress={() => setVisible(true)}
-              />
+              {checkpointData.rewards.length !== 0 ? (
+                <RewardsUnlockedCard
+                  rewards={checkpointData.rewards}
+                  onPress={handleRewardPressed}
+                />
+              ) : null}
               <View style={{marginTop: 20}}>
                 <AscendedRemainingDistanceCard
                   current={current_distance}
@@ -72,11 +82,7 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
                 />
               </View>
             </View>
-            {/* <RewardsPopUp
-              data={checkpointData.rewards}
-              visible={visible}
-              onClose={onClose}
-            /> */}
+            <RewardsPopUp data={reward} visible={visible} onClose={onClose} />
           </View>
           <View style={{padding: 100}} />
         </ScrollView>

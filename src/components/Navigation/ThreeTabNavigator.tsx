@@ -73,7 +73,13 @@ const ThreeTabNavigator = ({
           </>
         );
       case 2:
-        return <DistanceComponent distanceData={distanceData} />;
+        return (
+          <>
+            <DistanceComponent distanceData={distanceData} />
+            <View style={{padding: 10}} />
+            <FunFactCard fact={funfact} />
+          </>
+        );
       default:
         return <View></View>;
     }

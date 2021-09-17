@@ -12,11 +12,11 @@ import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {RootStackParamList} from './RootStackParamList';
 import {Text} from 'react-native';
-import {Image} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
-import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
-import {useEffect} from 'react';
+import AppIcon from '../../assets/icons/app-icon.svg';
+import Text20 from '../components/Text/Text20';
+import Text24 from '../components/Text/Text24';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -56,7 +56,7 @@ const CustomDrawerContent = ({...rest}) => {
     <View style={{flex: 1, marginVertical: 50}}>
       <View
         style={{justifyContent: 'center', alignItems: 'center', padding: 20}}>
-        <Text style={{color: Colors.WHITE}}>Profile Details here</Text>
+        <Text24 text={'100Ascent'} textColor={Colors.WHITE} />
       </View>
       <DrawerContentScrollView {...rest}>
         <DrawerItem

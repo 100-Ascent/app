@@ -11,10 +11,10 @@ const FootCard = ({steps}) => {
         <FootIcon />
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>
-        {/* <Text14
+        <Text14
           text={steps.length !== 0 ? `${steps}` : '---'}
           textColor={Colors.TEXTDARK}
-        /> */}
+        />
       </View>
     </View>
   );
