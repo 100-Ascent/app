@@ -15,6 +15,7 @@ import CheckpointMilestoneScreen from '../../screens/App_CheckpointMilestoneScre
 import RewardsScreen from '../../screens/App_RewardsScreen';
 import MapViewFullScreen from '../../screens/App_MapViewFullScreen';
 import MediaScreen from '../../screens/App_MediaScreen';
+import Text16Normal from '../../components/Text/Text16Normal';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 

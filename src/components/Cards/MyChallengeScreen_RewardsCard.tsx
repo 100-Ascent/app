@@ -1,32 +1,20 @@
-import React, {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
-import {Colors} from '../../utils/colors';
+import React, { useState } from 'react';
+import { TouchableOpacity, View } from 'react-native';
+import { Colors } from '../../utils/colors';
 import RewardsCarousal from '../Carousals/RewardsCarousal';
 import RewardsCardHeader from '../Headers/RewardsCardHeader';
 import RewardsPopUp from '../PopUps/RewardsPopUp';
 
-const RewardsCard = ({rewards, onPress}) => {
-<<<<<<< HEAD
-  const [indexOfReward, setIndexOfReward] = useState(0);
-  const [visible, setVisible] = useState(false);
-  const handleRewardPress = idx => {
-    setVisible(true);
-    setIndexOfReward(idx);
-=======
+const RewardsCard = ({ rewards, onPress }) => {
   const [reward, setReward] = useState(0);
   const [visible, setVisible] = useState(false);
   const handleRewardPress = val => {
     setReward(val);
     setVisible(true);
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
   };
   const onClose = () => {
     setVisible(false);
   };
-<<<<<<< HEAD
-=======
-
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
   return (
     <View
       style={{
@@ -45,15 +33,7 @@ const RewardsCard = ({rewards, onPress}) => {
         </View>
       </TouchableOpacity>
       <RewardsCarousal data={rewards} onPress={handleRewardPress} />
-<<<<<<< HEAD
-      <RewardsPopUp
-        data={rewards[indexOfReward]}
-        visible={visible}
-        onClose={onClose}
-      />
-=======
       <RewardsPopUp data={reward} visible={visible} onClose={onClose} />
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
     </View>
   );
 };

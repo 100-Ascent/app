@@ -1,9 +1,5 @@
 import React from 'react';
-<<<<<<< HEAD
 import { useState } from 'react';
-=======
-import {useState} from 'react';
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
 import {
   Dimensions,
   SafeAreaView,
