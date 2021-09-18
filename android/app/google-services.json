@@ -1,0 +1,55 @@
+{
+  "project_info": {
+    "project_number": "730727502414",
+    "project_id": "ascent-b3ac9",
+    "storage_bucket": "ascent-b3ac9.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:730727502414:android:d93a066ebd2ea2bdb2691f",
+        "android_client_info": {
+          "package_name": "com.tym.tym_100ascent"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "730727502414-2rkcdpc2o4e3cvdu5kipruf2bufk2dpi.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tym.tym_100ascent",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "730727502414-enooj7pjenlm7hon35iua07k2v34qjv0.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tym.tym_100ascent",
+            "certificate_hash": "6b7dd2a04cc538f20578b1d17ff9397830391ddc"
+          }
+        },
+        {
+          "client_id": "730727502414-3jb5i3fan0vajo3vqp3vpm79nmuhm2lt.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBCHH_BA0WU6L_hfUBKUiAMGm7UivB8YgA"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "730727502414-3jb5i3fan0vajo3vqp3vpm79nmuhm2lt.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
