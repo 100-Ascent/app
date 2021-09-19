@@ -50,6 +50,7 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
                   onPress={() => onPress(item)}>
                   <View
                     style={{
+                      elevation: 10,
                       borderWidth: 3,
                       borderColor:
                         arrayColor[

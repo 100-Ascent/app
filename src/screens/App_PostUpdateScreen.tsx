@@ -206,14 +206,14 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                       flexDirection: 'row',
                     }}>
                     <View></View>
-                    <Text20
+                    <Text16Normal
                       text="Add an Activity"
                       textColor={Colors.TEXTDARK}
                     />
                     <Icon
                       name="account-circle"
                       type="MaterialIcons"
-                      size={40}
+                      size={30}
                     />
                   </View>
                 </View>
@@ -261,7 +261,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                           name="calendar-today"
                           type="MaterialIcons"
                           size={20}
-                         
                         />
                       </View>
                     </View>

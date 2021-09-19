@@ -14,6 +14,9 @@ import MyChallengeScreen from '../../screens/App_MyChallenges';
 import CheckpointMilestoneScreen from '../../screens/App_CheckpointMilestoneScreen';
 import RewardsScreen from '../../screens/App_RewardsScreen';
 import MapViewFullScreen from '../../screens/App_MapViewFullScreen';
+import Text16Normal from '../../components/Text/Text16Normal';
+import {colors} from 'react-native-elements';
+import Text20 from '../../components/Text/Text20';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -42,12 +45,29 @@ const AllChallenges = ({navigation}) => {
         component={ChallengeDescriptionScreen}
         name={'ChallengeDescriptionScreen'}
         options={{
-          headerTitle: null,
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal
+                text="Challenge Description"
+                textColor={Colors.TEXTDARK}
+              />
+            </View>
+          ),
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon
                 name="arrow-back"
                 type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="account-circle"
+                type="materialicons"
                 size={30}
                 onPress={() => navigation.pop()}
               />
@@ -66,7 +86,11 @@ const AllChallenges = ({navigation}) => {
         component={MyChallengeScreen}
         name={'MyChallengeScreen'}
         options={({route}) => ({
-          headerTitle: null,
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal text="My Challenge" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon
@@ -74,6 +98,16 @@ const AllChallenges = ({navigation}) => {
                 type="ionicons"
                 size={30}
                 onPress={() => navigation.popToTop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.pop()}
               />
             </View>
           ),
@@ -88,12 +122,26 @@ const AllChallenges = ({navigation}) => {
         component={CheckpointMilestoneScreen}
         name={'CheckpointMilestoneScreen'}
         options={({route}) => ({
-          headerTitle: null,
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal text="Checkpoint" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon
                 name="arrow-back"
                 type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="account-circle"
+                type="materialicons"
                 size={30}
                 onPress={() => navigation.pop()}
               />
@@ -111,12 +159,26 @@ const AllChallenges = ({navigation}) => {
         component={RewardsScreen}
         name={'RewardsScreen'}
         options={({route}) => ({
-          headerTitle: null,
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal text="Rewards" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon
                 name="arrow-back"
                 type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="account-circle"
+                type="materialicons"
                 size={30}
                 onPress={() => navigation.pop()}
               />

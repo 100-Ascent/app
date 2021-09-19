@@ -17,7 +17,6 @@ const DistanceComponent = ({distanceData}) => {
           onLeftPress={() => setCurrent(current - 1)}
         />
       ) : null}
-      <KlicksToGoCard data={distanceData[current]} current={current} />
     </View>
   );
 };

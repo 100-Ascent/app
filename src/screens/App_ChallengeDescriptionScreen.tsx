@@ -25,6 +25,7 @@ import BackgroundVector from '../components/Background/BackgroundVector';
 import axios from 'axios';
 import {AppState} from '../redux';
 import {useSelector} from 'react-redux';
+import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -102,6 +103,8 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                 <CommonCard data={data.rewards[2]} />
                 <View style={{padding: 10}} />
                 <AdditionalRewardsCard data={data.extraRewards} />
+                <View style={{padding: 10}} />
+                <PreRegister />
               </View>
             )}
           </View>

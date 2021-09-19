@@ -146,8 +146,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   handleMyJourneyMilestonePressed
                 }
                 funfact={challengeData.current_checkpoint.tid.fun_fact}
+                distance={challengeData.current_distance}
               />
             </View>
+
             <LinearGradient
               start={{x: 0, y: 0}}
               end={{x: 1, y: 0}}

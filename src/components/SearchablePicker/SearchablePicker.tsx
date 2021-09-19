@@ -69,7 +69,7 @@ const RNSearchablePicker: React.FC<Props> = ({
           value={inputValue}
           onChangeText={onChange}
           placeholder={placeholder}
-          style={{color: Colors.TEXTDARK, ...inputStyles}}
+          style={{flex: 1, color: Colors.TEXTDARK, ...inputStyles}}
           onFocus={() => setListVisibility(true)}
           onPressOut={() => setListVisibility(false)}
         />
@@ -90,7 +90,7 @@ const RNSearchablePicker: React.FC<Props> = ({
                 style={{
                   justifyContent: 'flex-end',
                   alignItems: 'center',
-                  flex: 1,
+                  // flex: 1,
                   flexDirection: 'row',
                   paddingHorizontal: 15,
                   paddingVertical: 5,

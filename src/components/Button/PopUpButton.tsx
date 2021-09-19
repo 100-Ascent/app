@@ -7,10 +7,6 @@ interface Props {
   text: string;
   isCancelable: boolean;
   cancelText?: string;
-<<<<<<< HEAD
-}
-const PopUpButton: React.FC<Props> = ({text, isCancelable, cancelText}) => {
-=======
   onOk?: () => void;
   onCancel?: () => void;
 }
@@ -21,7 +17,6 @@ const PopUpButton: React.FC<Props> = ({
   onOk,
   onCancel,
 }) => {
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
   return (
     <View style={{flex: 1}}>
       <View style={{flexDirection: 'row'}}>
@@ -29,12 +24,8 @@ const PopUpButton: React.FC<Props> = ({
           <View>
             <TouchableOpacity
               activeOpacity={0.9}
-<<<<<<< HEAD
-              style={{borderRadius: 20, elevation: 2}}>
-=======
               style={{borderRadius: 20, elevation: 2}}
               onPress={onCancel}>
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
               <View
                 style={{
                   paddingVertical: 15,
@@ -50,12 +41,8 @@ const PopUpButton: React.FC<Props> = ({
         <View style={{marginLeft: 20}}>
           <TouchableOpacity
             activeOpacity={0.9}
-<<<<<<< HEAD
-            style={{borderRadius: 20, elevation: 2}}>
-=======
             style={{borderRadius: 20, elevation: 2}}
             onPress={onOk}>
->>>>>>> 07f66b329214a0c3ad1496e9b1891bf42e51ab99
             <View
               style={{
                 paddingVertical: 15,
