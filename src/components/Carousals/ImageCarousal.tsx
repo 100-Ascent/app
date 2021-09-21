@@ -6,10 +6,7 @@ import {
   ScrollView,
   StyleSheet,
   Text,
-<<<<<<< HEAD
   TouchableOpacity,
-=======
->>>>>>> e70f8a448bfc75ac883a71eeadcbb8105e515fb5
   View,
 } from 'react-native';
 import FastImage from 'react-native-fast-image';
