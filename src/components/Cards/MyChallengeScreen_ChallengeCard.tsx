@@ -4,6 +4,7 @@ import {Colors} from '../../utils/colors';
 import Text16Normal from '../Text/Text16Normal';
 import Text28 from '../Text/Text28';
 import FastImage from 'react-native-fast-image';
+import Text16Underline from '../Text/Text16Underline';
 
 const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
   return (
@@ -26,13 +27,13 @@ const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
           />
         </View>
       </View>
-      <View style={{flex: 3, marginLeft: 20}}>
+      <View style={{flex: 5, marginLeft: 20}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <Text28 text={name} textColor={Colors.TEXTDARK} />
         </View>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <TouchableOpacity onPress={onViewDetailsPressed}>
-            <Text16Normal text="View Details" textColor={Colors.TEXT3} />
+            <Text16Underline text="View Details" textColor={Colors.TEXT3} />
           </TouchableOpacity>
         </View>
       </View>

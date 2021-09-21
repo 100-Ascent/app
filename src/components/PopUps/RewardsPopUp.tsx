@@ -48,6 +48,7 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
             <ImageCarousal
               data={data.images}
               wrapStyle={{width: width, height: height}}
+              onPressImageHandler={null}
             />
           </View>
           <View style={{padding: 5}} />

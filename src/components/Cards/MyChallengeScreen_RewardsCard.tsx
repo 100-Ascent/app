@@ -15,7 +15,6 @@ const RewardsCard = ({rewards, onPress}) => {
   const onClose = () => {
     setVisible(false);
   };
-
   return (
     <View
       style={{

@@ -37,7 +37,6 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
   const [activeChallenge, setActiveChallenge] = useState([]);
   const [completedChallenge, setCompletedChallenge] = useState([]);
   const [allChallenge, setAllChallenge] = useState([]);
-
   const getChallengeData = () => {
     axios
       .get('/api/challenge', {

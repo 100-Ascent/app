@@ -14,6 +14,8 @@ import MyChallengeScreen from '../../screens/App_MyChallenges';
 import CheckpointMilestoneScreen from '../../screens/App_CheckpointMilestoneScreen';
 import RewardsScreen from '../../screens/App_RewardsScreen';
 import MapViewFullScreen from '../../screens/App_MapViewFullScreen';
+import MediaScreen from '../../screens/App_MediaScreen';
+import Text16Normal from '../../components/Text/Text16Normal';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -51,6 +53,11 @@ const AllChallenges = ({navigation}) => {
                 size={30}
                 onPress={() => navigation.pop()}
               />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon name="account-circle" type="materialIcons" />
             </View>
           ),
           headerStyle: {
@@ -110,6 +117,29 @@ const AllChallenges = ({navigation}) => {
       <AllChallengeStack.Screen
         component={RewardsScreen}
         name={'RewardsScreen'}
+        options={({route}) => ({
+          headerTitle: null,
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon
+                name="arrow-back"
+                type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={MediaScreen}
+        name={'MediaScreen'}
         options={({route}) => ({
           headerTitle: null,
           headerLeft: () => (

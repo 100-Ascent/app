@@ -20,6 +20,8 @@ export type RootStackParamList = {
     current_distance: any;
     total_distance: any;
   };
+
+  MediaScreen: {data: any};
   RewardsScreen: {data: any; name: any; icon: any};
   MapViewFullScreen: {data: any};
 };
