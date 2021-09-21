@@ -25,6 +25,7 @@ import BackgroundVector from '../components/Background/BackgroundVector';
 import axios from 'axios';
 import {AppState} from '../redux';
 import {useSelector} from 'react-redux';
+import PromoVideoCard from '../components/Cards/ChallengeDescriptionCards/PromoVideoCard';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -57,6 +58,17 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
       });
   };
 
+  const onRoadmapPressHandler = () => {
+    navigation.navigate('MediaScreen', {
+      data: data.roadMap,
+    });
+  };
+
+  const rewardImageOnPress = url => {
+    navigation.navigate('MediaScreen', {
+      data: url,
+    });
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
@@ -66,6 +78,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
             <View style={{padding: 10}} />
             <ChallengeNameSubscribeCard
               shouldShowButtons={!data.is_subscribed}
+              shouldShowTitle={true}
               name={data.name}
               icon={data.icon}
               cid={data.id}
@@ -84,26 +97,49 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                   milestones={data.milestones}
                 />
                 <View style={{padding: 10}} />
-
+                <PromoVideoCard />
+                <View style={{padding: 10}} />
                 <ChallengeDescriptionCard description={data.longDescription} />
                 <View style={{padding: 10}} />
 
-                <RoadMapCard roadMap={data.roadMap} />
+                <RoadMapCard
+                  roadMap={data.roadMap}
+                  roadmapOnPressHandler={onRoadmapPressHandler}
+                />
+
                 <View style={{padding: 10}} />
                 <AboutChallengeCard description={data.shortDescription} />
               </View>
             ) : (
               <View>
                 <View style={{padding: 10}} />
-                <CommonCard data={data.rewards[0]} />
+                <CommonCard
+                  data={data.rewards[0]}
+                  imageOnPress={rewardImageOnPress}
+                />
                 <View style={{padding: 10}} />
-                <CommonCard data={data.rewards[1]} />
+                <CommonCard
+                  data={data.rewards[1]}
+                  imageOnPress={rewardImageOnPress}
+                />
                 <View style={{padding: 10}} />
-                <CommonCard data={data.rewards[2]} />
+                <CommonCard
+                  data={data.rewards[2]}
+                  imageOnPress={rewardImageOnPress}
+                />
                 <View style={{padding: 10}} />
                 <AdditionalRewardsCard data={data.extraRewards} />
               </View>
             )}
+            <ChallengeNameSubscribeCard
+              shouldShowButtons={!data.is_subscribed}
+              shouldShowTitle={false}
+              name={data.name}
+              icon={data.icon}
+              cid={data.id}
+              playlist={data.playlist}
+              handleSubscribe={handleSubscribe}
+            />
           </View>
           <View style={{padding: 100}}></View>
         </ScrollView>

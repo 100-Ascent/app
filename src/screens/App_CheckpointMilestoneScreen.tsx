@@ -44,6 +44,11 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
     setVisible(false);
   };
 
+  const imageOnPress = url => {
+    navigation.navigate('MediaScreen', {
+      data: url,
+    });
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -53,6 +58,7 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
               <ImageCarousal
                 data={checkpointData.images}
                 wrapStyle={{width: width, height: height}}
+                onPressImageHandler={imageOnPress}
               />
               <View style={{flex: 1}}>
                 <View style={{padding: 20}}>

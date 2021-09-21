@@ -1,5 +1,5 @@
 import React from 'react';
-import { useState } from 'react';
+import {useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -12,15 +12,19 @@ import {
 import FastImage from 'react-native-fast-image';
 
 import auth from '@react-native-firebase/auth';
-import { useEffect } from 'react';
-import { Colors } from '../../utils/colors';
+import {useEffect} from 'react';
+import {Colors} from '../../utils/colors';
 
 interface Props {
   data: string[];
   wrapStyle: any;
   onPressImageHandler: any;
 }
-const ImageCarousal: React.FC<Props> = ({ data, wrapStyle, onPressImageHandler }) => {
+const ImageCarousal: React.FC<Props> = ({
+  data,
+  wrapStyle,
+  onPressImageHandler,
+}) => {
   const getToken = async () => {
     const token = await auth().currentUser.getIdToken();
     setToken(token);
@@ -47,23 +51,18 @@ const ImageCarousal: React.FC<Props> = ({ data, wrapStyle, onPressImageHandler }
     <View style={styles.container}>
       <View style={[wrapStyle]}>
         <ScrollView
-          onScroll={({ nativeEvent }) => change(nativeEvent)}
+          onScroll={({nativeEvent}) => change(nativeEvent)}
           showsHorizontalScrollIndicator={false}
           pagingEnabled
           horizontal
           style={[wrapStyle]}>
           {data.map((val, index) => (
-            <>
-              {/* {loading ? (
-                <View
-                  style={[
-                    wrapStyle,
-                    {alignItems: 'center', justifyContent: 'center'},
-                  ]}>
-                  <ActivityIndicator size="large" color={Colors.POPUP_RED} />
-                </View>
-              ) : null} */}
-            <TouchableOpacity onPress={() => onPressImageHandler(typeof val === 'string' ? val : val['image'])}>
+            <TouchableOpacity
+              onPress={() =>
+                onPressImageHandler(
+                  typeof val === 'string' ? val : val['image'],
+                )
+              }>
               <FastImage
                 key={index}
                 style={[wrapStyle]}
@@ -77,7 +76,6 @@ const ImageCarousal: React.FC<Props> = ({ data, wrapStyle, onPressImageHandler }
                 resizeMode={FastImage.resizeMode.cover}
               />
             </TouchableOpacity>
-
           ))}
         </ScrollView>
         <View style={styles.wrapDot}>
