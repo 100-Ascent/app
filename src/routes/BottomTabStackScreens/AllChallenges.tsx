@@ -200,7 +200,7 @@ const AllChallenges = ({navigation}) => {
           headerTitle: null,
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
-              <Icon name="arrow-back" type="ionicons" />
+              <Icon name="arrow-back" type="ionicons" onPress={() => navigation.pop()} />
             </View>
           ),
           headerRight: () => (
@@ -208,8 +208,7 @@ const AllChallenges = ({navigation}) => {
               <Icon
                 name="account-circle"
                 type="materialicons"
-                size={30}
-                onPress={() => navigation.pop()}
+                size={30}                
               />
             </View>
           ),

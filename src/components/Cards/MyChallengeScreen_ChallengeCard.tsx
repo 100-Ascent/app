@@ -33,7 +33,7 @@ const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
         </View>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <TouchableOpacity onPress={onViewDetailsPressed}>
-            <Text16Underline text="View Details" textColor={Colors.TEXT3} />
+            <Text16Underline text="View Details" textColor={Colors.BLUE} />
           </TouchableOpacity>
         </View>
       </View>
