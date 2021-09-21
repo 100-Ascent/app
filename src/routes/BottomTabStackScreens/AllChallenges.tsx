@@ -175,6 +175,16 @@ const AllChallenges = ({navigation}) => {
               />
             </View>
           ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
