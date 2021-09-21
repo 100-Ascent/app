@@ -10,9 +10,9 @@ const FitnessCard = ({isGoogleFit}) => {
       <View style={{flex: 1}}>
         <GoogleFitIcon />
       </View>
-      <View style={{flex: 3, justifyContent: 'center'}}>
+      <View style={{flex: 4, justifyContent: 'center'}}>
         <Text14
-          text={isGoogleFit ? 'via Google Fit' : '---'}
+          text={isGoogleFit ? 'via Google Fit' : 'via Manual Entry'}
           textColor={Colors.TEXTDARK}
         />
       </View>

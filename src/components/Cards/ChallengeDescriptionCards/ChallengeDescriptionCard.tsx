@@ -1,6 +1,5 @@
-import React, {useState} from 'react';
-import {Icon} from 'react-native-elements';
-import {StyleSheet, View} from 'react-native';
+import React from 'react';
+import {View} from 'react-native';
 import {Colors} from '../../../utils/colors';
 import Text14 from '../../Text/Text14';
 import Text20 from '../../Text/Text20';

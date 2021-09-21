@@ -9,6 +9,7 @@ import HamperCard from '../components/Cards/RewardsScreen/CustomHamperCard';
 import RewardsUnlocked from '../components/Cards/RewardsScreen/RewardsUnlocked';
 import AllRewards from '../components/Cards/RewardsScreen/AllRewards';
 import NewRewardPopUp from '../components/PopUps/NewRewardPopUp';
+import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;
@@ -56,13 +57,15 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               name={challengeName}
               icon={challengeIcon}
               shouldShowButtons={false}
+              shouldShowTitle={true}
             />
 
             <View style={{padding: 5}} />
             <HamperCard />
 
+            <View style={{padding: 5}} />
+            <PreRegister />
             <View style={{padding: 10}} />
-
             <RewardsUnlocked onPress={handleNewRewardPressed} />
             <View style={{padding: 10}} />
 

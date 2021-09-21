@@ -13,6 +13,15 @@ const window = Dimensions.get('window');
 const JourneySliderComponent = ({data, onPress, funfact}) => {
   const [currentOffset, setCurrentOffset] = useState(0);
   const [avgWidth, setWidth] = useState(0);
+  const arrayColor = [
+    '#9400d3',
+    '#2c9bff',
+    '#ffbd1b',
+    '#ff7f00',
+    '#000080',
+    '#ff0000',
+    '#633a0d',
+  ];
 
   const handleScroll = e => {
     const x = (parseInt(e.nativeEvent.contentOffset.x) / 180) | 0;
@@ -27,7 +36,10 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
             <View style={{flex: 1}} />
             <View style={{flex: 2, alignItems: 'center'}}>
               <View
-                style={{flex: 1, paddingHorizontal: 20}}
+                style={{
+                  flex: 1,
+                  paddingHorizontal: 20,
+                }}
                 onLayout={event => {
                   var {x, y, width, height} = event.nativeEvent.layout;
                   setWidth(width);
@@ -38,7 +50,12 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
                   onPress={() => onPress(item)}>
                   <View
                     style={{
+                      elevation: 10,
                       borderWidth: 3,
+                      borderColor:
+                        arrayColor[
+                          Math.floor(Math.random() * arrayColor.length)
+                        ],
                       padding: 3,
                       borderRadius: 90,
                       backgroundColor: item.is_passed
@@ -47,7 +64,11 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
                       opacity: item.is_passed ? 1 : 0.2,
                     }}>
                     <FastImage
-                      style={{width: 90, height: 90, borderRadius: 90}}
+                      style={{
+                        width: 90,
+                        height: 90,
+                        borderRadius: 90,
+                      }}
                       source={{
                         uri: item.images[0],
                         priority: FastImage.priority.high,
@@ -61,12 +82,17 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
                 <Text14 text={item.name} textColor={Colors.BLACK1} />
               </View>
             </View>
-            <View style={{flex: 2, alignItems: 'flex-end', marginTop: 10}}>
+            <View
+              style={{
+                alignItems: 'center',
+                // marginTop: 10,
+                paddingTop: 30,
+              }}>
               {ii !== data.length - 1 ? (
                 <Icon
                   name="arrow-long-right"
                   type="entypo"
-                  size={80}
+                  size={30}
                   color={Colors.ORANGE}
                 />
               ) : null}

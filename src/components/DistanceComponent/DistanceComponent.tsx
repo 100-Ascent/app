@@ -2,7 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import {View} from 'react-native';
 import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
-
+import KlicksToGoCard from '../Cards/ChallengeScreen/KlicksToGoCard';
 const DistanceComponent = ({distanceData}) => {
   const [current, setCurrent] = useState(0);
 

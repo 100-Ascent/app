@@ -2,6 +2,7 @@ import React from 'react';
 import {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
+import KlicksToGoCard from '../Cards/ChallengeScreen/KlicksToGoCard';
 import FunFactCard from '../Cards/MyChallengeScreen_FunFactCard';
 import DistanceComponent from '../DistanceComponent/DistanceComponent';
 import JourneySliderComponent from '../JourneySlider/JourneySlider';
@@ -20,14 +21,15 @@ const TabView = ({children, onPress, isActive}) => {
         <View
           style={{
             flex: 1,
-            paddingVertical: 8,
-            paddingHorizontal: 10,
+            // paddingVertical: 10,
+            // paddingHorizontal: 10,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: isActive
               ? Colors.CARDS_COLOR1
               : Colors.TRANSPARENT,
             borderRadius: 10,
+            elevation: isActive ? 15 : 0,
           }}>
           {children}
         </View>
@@ -42,6 +44,7 @@ const ThreeTabNavigator = ({
   handleMyJourneyMilestonePressed,
   distanceData,
   funfact,
+  distance,
 }) => {
   const [active, setActive] = useState(0);
   const [index, setIndex] = useState(0);
@@ -76,6 +79,7 @@ const ThreeTabNavigator = ({
         return (
           <>
             <DistanceComponent distanceData={distanceData} />
+            <KlicksToGoCard distance={distance} />
             <View style={{padding: 10}} />
             <FunFactCard fact={funfact} />
           </>
@@ -87,24 +91,44 @@ const ThreeTabNavigator = ({
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1, flexDirection: 'row', marginHorizontal: 15}}>
+      <View
+        style={{
+          flex: 1,
+          flexDirection: 'row',
+          marginHorizontal: 10,
+        }}>
         <TabView isActive={active === 0} onPress={() => handlePress(0)}>
-          <Text14
-            text="My Journey"
-            textColor={active === 0 ? Colors.WHITE : Colors.TEXTDARK}
-          />
+          <View
+            style={{
+              padding: 10,
+            }}>
+            <Text14
+              text="My Journey"
+              textColor={active === 0 ? Colors.WHITE : Colors.TEXTDARK}
+            />
+          </View>
         </TabView>
         <TabView isActive={active === 1} onPress={() => handlePress(1)}>
-          <Text14
-            text="Tracks"
-            textColor={active === 1 ? Colors.WHITE : Colors.TEXTDARK}
-          />
+          <View
+            style={{
+              padding: 10,
+            }}>
+            <Text14
+              text="Tracks"
+              textColor={active === 1 ? Colors.WHITE : Colors.TEXTDARK}
+            />
+          </View>
         </TabView>
         <TabView isActive={active === 2} onPress={() => handlePress(2)}>
-          <Text14
-            text="My Distances"
-            textColor={active === 2 ? Colors.WHITE : Colors.TEXTDARK}
-          />
+          <View
+            style={{
+              padding: 10,
+            }}>
+            <Text14
+              text="My Distances"
+              textColor={active === 2 ? Colors.WHITE : Colors.TEXTDARK}
+            />
+          </View>
         </TabView>
       </View>
       <View>{getComponent()}</View>

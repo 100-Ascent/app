@@ -2,7 +2,7 @@ import React from 'react';
 import {TextInput, View} from 'react-native';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
-
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 const AddCommentImageCard = ({comment, onCommentChange}) => {
   return (
     <View
@@ -14,7 +14,7 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <View style={{paddingTop: 5, paddingRight: 15}}>
-          <Text16Normal text={'* optional'} textColor={Colors.BLACK4} />
+          <Text16Normal text={'*optional'} textColor={Colors.BLACK4} />
         </View>
       </View>
       <View style={{flex: 1, paddingHorizontal: 20}}>
@@ -23,7 +23,15 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
           textColor={Colors.TEXTDARK}
         />
       </View>
-      <View style={{flex: 1, marginHorizontal: 20, paddingVertical: 20}}>
+      <View
+        style={{
+          flex: 1,
+          marginHorizontal: 20,
+          paddingVertical: 20,
+          flexDirection: 'row',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+        }}>
         <TextInput
           value={comment}
           onChangeText={text => onCommentChange(text)}
@@ -33,7 +41,13 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
             backgroundColor: Colors.BLACK5,
             paddingLeft: 10,
             color: Colors.TEXTDARK,
+            flex: 1,
           }}
+        />
+        <Icon
+          name="clear"
+          type="MaterialIcons"
+          onPress={() => onCommentChange('')}
         />
       </View>
     </View>

@@ -43,7 +43,8 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAllowPost, setDisablePost] = useState(true);
-
+  const [value, setValue] = useState('');
+  const [klicks, setKlicks] = useState(0);
   const [dropdownData, setDropdownData] = useState([]);
   const [subscribedChallenge, setSubscribedChallenge] = useState([]);
   const [selectedCid, setSelectedCid] = useState(0);
@@ -87,6 +88,8 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   const selectHandler = item => {
     setSelected(item);
     setDefaultOption(item.is_distance ? 0 : 1);
+    setValue('');
+    setKlicks(0);
   };
 
   const getDropdownActivities = () => {
@@ -193,13 +196,26 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
               <RNLoader />
             ) : (
               <View style={{flex: 1}}>
-                <View
-                  style={{
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    paddingVertical: 20,
-                  }}>
-                  <Text20 text="Add an activity" textColor={Colors.TEXTDARK} />
+                <View style={{flexDirection: 'row'}}>
+                  <View
+                    style={{
+                      justifyContent: 'space-between',
+                      alignItems: 'center',
+                      padding: 20,
+                      flex: 1,
+                      flexDirection: 'row',
+                    }}>
+                    <View></View>
+                    <Text16Normal
+                      text="Add an Activity"
+                      textColor={Colors.TEXTDARK}
+                    />
+                    <Icon
+                      name="account-circle"
+                      type="MaterialIcons"
+                      size={30}
+                    />
+                  </View>
                 </View>
                 <View
                   style={{
@@ -245,7 +261,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                           name="calendar-today"
                           type="MaterialIcons"
                           size={20}
-                          onPress={() => setSelectedDate(null)}
                         />
                       </View>
                     </View>
@@ -254,9 +269,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
 
                 {show && (
                   <DateTimePicker
-                    onTouchCancel={() => {
-                      console.log('cancelled');
-                    }}
                     testID="dateTimePicker"
                     value={date}
                     mode={'date'}
@@ -297,7 +309,13 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                       onSelect={selectHandler}
                       data={dropdownData}
                       placeholder="Choose an item"
-                      defaultValue={dropdownData[0].name}
+                      defaultValue={
+                        dropdownData[
+                          dropdownData.findIndex(item =>
+                            item.name.includes('Walking'),
+                          )
+                        ].name
+                      }
                       containerStyles={{marginHorizontal: 20}}
                       listStyles={{maxHeight: 120}}
                       inputStyles={{paddingLeft: 15}}
@@ -312,6 +330,10 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                       setDefaultOption(1 - defaultOption);
                     }}
                     getData={getDistanceTimeData}
+                    value={value}
+                    setValue={setValue}
+                    klicks={klicks}
+                    setKlicks={setKlicks}
                   />
                 </View>
                 <View style={{marginTop: 20}}>

@@ -29,7 +29,7 @@ const ChallengeCityAndDistanceCard = ({data, distance, milestones}) => {
             <View style={{marginLeft: 10}}>
               <Text24 text={milestones} />
             </View>
-            <View style={{marginLeft: 10, marginTop: 8}}>
+            <View style={{marginLeft: 10, marginTop: 5}}>
               <Text16Normal text={'Milestones'} textColor={Colors.TEXTDARK} />
             </View>
           </View>
@@ -40,7 +40,7 @@ const ChallengeCityAndDistanceCard = ({data, distance, milestones}) => {
             <View style={{marginLeft: 10}}>
               <Text24 text={distance} />
             </View>
-            <View style={{marginLeft: 10, marginTop: 8}}>
+            <View style={{marginLeft: 10, marginTop: 5}}>
               <Text16Normal text={'km'} textColor={Colors.TEXTDARK} />
             </View>
           </View>

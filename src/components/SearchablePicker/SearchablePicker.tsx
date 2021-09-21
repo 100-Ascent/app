@@ -88,9 +88,18 @@ const RNSearchablePicker: React.FC<Props> = ({
             ) : (
               <View
                 style={{
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  // flex: 1,
+                  flexDirection: 'row',
+                  paddingHorizontal: 15,
                   paddingVertical: 5,
-                  paddingHorizontal: 20,
                 }}>
+                <Icon
+                  name="clear"
+                  type="MaterialIcons"
+                  onPress={() => setInputValue('')}
+                />
                 <Icon name="search" type="ionicon" />
               </View>
             )}

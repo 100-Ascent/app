@@ -4,6 +4,7 @@ import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Colors} from '../../utils/colors';
 import Text14 from '../Text/Text14';
 import FireIcon from '../../../assets/icons/fire.svg';
+import LottieView from 'lottie-react-native';
 
 const CircularProgressBar = ({streak}) => {
   return (
@@ -19,7 +20,11 @@ const CircularProgressBar = ({streak}) => {
       {() => (
         <View>
           <View style={{alignItems: 'center', paddingBottom: 5}}>
-            <FireIcon width={35} height={35} />
+            <LottieView
+              source={require('../../../assets/lottie/streak.json')}
+              style={{width: 50, height: 45}}
+              autoPlay
+              loop></LottieView>
           </View>
           <Text14
             text={`${streak} ${streak === 1 ? 'day' : 'days'}`}

@@ -13,7 +13,7 @@ const AboutChallengeCard = ({description}) => {
         borderRadius: 10,
         elevation: 1,
       }}>
-      <View style={{paddingTop: 10, paddingHorizontal: 20}}>
+      <View style={{paddingTop: 10, alignItems: 'center'}}>
         <Text20
           text="Virtually Travel to Incredible India"
           textColor={Colors.TEXTDARK}

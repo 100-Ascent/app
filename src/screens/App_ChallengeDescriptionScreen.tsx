@@ -26,6 +26,7 @@ import axios from 'axios';
 import {AppState} from '../redux';
 import {useSelector} from 'react-redux';
 import PromoVideoCard from '../components/Cards/ChallengeDescriptionCards/PromoVideoCard';
+import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;

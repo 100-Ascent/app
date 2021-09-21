@@ -11,10 +11,12 @@ const DistanceTimeCard = ({
   selectedItem,
   toggleHandler,
   getData,
+  value,
+  setValue,
+  klicks,
+  setKlicks,
 }) => {
   const option = ['Distance', 'Time'];
-  const [value, setValue] = useState('');
-  const [klicks, setKlicks] = useState(0);
 
   const optionView = option.map((val, idx) => {
     return (
@@ -36,6 +38,7 @@ const DistanceTimeCard = ({
             borderRadius: 10,
             backgroundColor:
               defaultOption === idx ? Colors.CARDS_COLOR1 : Colors.TRANSPARENT,
+            elevation: defaultOption === idx ? 10 : 0,
           }}>
           <View
             style={{
@@ -78,9 +81,9 @@ const DistanceTimeCard = ({
           <View
             style={{
               flex: 3,
-              borderLeftWidth: 0.5,
-              borderTopWidth: 0.5,
-              borderBottomWidth: 0.5,
+              backgroundColor: Colors.TEXT,
+              borderRadius: 5,
+              elevation: 3,
             }}>
             <TextInput
               keyboardType="numeric"
@@ -112,7 +115,10 @@ const DistanceTimeCard = ({
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
-              borderLeftWidth: 0.5,
+              elevation: 3,
+              borderRadius: 5,
+              backgroundColor: Colors.TEXT,
+              marginLeft: 2,
             }}>
             <Text16Normal
               text={defaultOption === 0 ? 'km' : 'min'}

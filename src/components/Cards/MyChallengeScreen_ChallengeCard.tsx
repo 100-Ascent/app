@@ -27,7 +27,7 @@ const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
           />
         </View>
       </View>
-      <View style={{flex: 5, marginLeft: 20}}>
+      <View style={{flex: 3, marginLeft: 20}}>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <Text28 text={name} textColor={Colors.TEXTDARK} />
         </View>

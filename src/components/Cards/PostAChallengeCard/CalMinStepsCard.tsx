@@ -17,7 +17,7 @@ const CalMinStepsCard = ({calminsteps, getCalMinSteps}) => {
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <View style={{paddingTop: 5, paddingRight: 10}}>
-          <Text16Normal text={'* optional'} textColor={Colors.BLACK4} />
+          <Text16Normal text={'*optional'} textColor={Colors.BLACK4} />
         </View>
       </View>
       <View style={{flexDirection: 'row'}}>
