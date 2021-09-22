@@ -32,7 +32,7 @@
 		</dict>
 	</array>
 	<key>CFBundleVersion</key>
-	<string>1</string>
+	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
 	<key>NSAppTransportSecurity</key>
@@ -47,7 +47,9 @@
 		</dict>
 	</dict>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>100 Ascent tracks user data and performance to help users assess their fitness journey. It also helps in personalizing the experience and deciding rewards for your fitness journey</string>
+	<key>NSUserTrackingUsageDescription</key>
+	<string>100 Ascent tracks user data and performance to help users assess their fitness journey. It also helps in personalizing the experience and deciding rewards for your fitness journey</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>Quicksand-Light.ttf</string>

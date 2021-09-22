@@ -1,3 +1,4 @@
+import { NavigationRouteContext, useNavigation } from '@react-navigation/core';
 import React from 'react';
 import {Dimensions, Modal} from 'react-native';
 import {View} from 'react-native';
@@ -20,6 +21,14 @@ interface Props {
 }
 
 const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
+  console.log(data.images);
+  const navigation = useNavigation();
+  const onPress = () => {
+    onClose();
+    navigation.navigate('MediaScreen', {
+      data: data.images[0],
+    });
+  }
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View
@@ -48,7 +57,7 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
             <ImageCarousal
               data={data.images}
               wrapStyle={{width: width, height: height}}
-              onPressImageHandler={null}
+              onPressImageHandler={onPress}
             />
           </View>
           <View style={{padding: 5}} />
