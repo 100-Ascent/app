@@ -69,7 +69,7 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
       setDate(currentDate);
       setSelectedDate(currentDate);
       setDisablePost(
-        selectedDate === null ||
+        currentDate === null ||
           selected['id'] === undefined ||
           distanceTimeData.length === 0,
       );
@@ -114,8 +114,8 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
       });
   };
 
-  const getSelectedChallenge = item => {
-    setSelectedCid(item.id);
+  const getSelectedChallenge = idx => {
+    setSelectedCid(idx);
     setDisablePost(
       selectedDate === null ||
         selected['id'] === undefined ||
@@ -158,8 +158,8 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
       steps: calminsteps.steps,
       comment: comment,
     };
-    const cid = subscribedChallenge[selectedCid].cid;
 
+    const cid = subscribedChallenge[selectedCid].cid;
     axios
       .post('/api/post/data/' + cid, data)
       .then(res => {
