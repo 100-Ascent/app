@@ -130,6 +130,8 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                 />
                 <View style={{padding: 10}} />
                 <AdditionalRewardsCard data={data.extraRewards} />
+                <View style={{padding: 10}} />
+                <PreRegister />
               </View>
             )}
             <ChallengeNameSubscribeCard

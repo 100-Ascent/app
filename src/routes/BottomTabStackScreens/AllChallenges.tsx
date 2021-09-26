@@ -66,12 +66,7 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.pop()}
-              />
+              <Icon name="account-circle" type="materialicons" size={30} />
             </View>
           ),
           headerStyle: {
@@ -104,12 +99,7 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.pop()}
-              />
+              <Icon name="account-circle" type="materialicons" size={30} />
             </View>
           ),
           headerStyle: {
@@ -140,12 +130,7 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.pop()}
-              />
+              <Icon name="account-circle" type="materialicons" size={30} />
             </View>
           ),
           headerStyle: {
@@ -177,12 +162,7 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.pop()}
-              />
+              <Icon name="account-circle" type="materialicons" size={30} />
             </View>
           ),
           headerStyle: {
@@ -200,16 +180,16 @@ const AllChallenges = ({navigation}) => {
           headerTitle: null,
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
-              <Icon name="arrow-back" type="ionicons" onPress={() => navigation.pop()} />
+              <Icon
+                name="arrow-back"
+                type="ionicons"
+                onPress={() => navigation.pop()}
+              />
             </View>
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}                
-              />
+              <Icon name="account-circle" type="materialicons" size={30} />
             </View>
           ),
           headerStyle: {
