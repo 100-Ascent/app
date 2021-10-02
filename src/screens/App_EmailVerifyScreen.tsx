@@ -50,7 +50,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
 
     if (isEverythingOk) {
       axios
-        .post('/api/updateEmail', {email: email})
+        .post('/api/updateEmail', {email: email,first_name:'test',last_name:'user'})
         .then(async res => {
           console.log(res.data.data.success);
           if (res.data.data.success) {

@@ -30,85 +30,7 @@ const BottomTabStack = ({navigation}) => {
     return width / 5;
   }
 
-  return DEBUG ? (
-    <Tab.Navigator
-      initialRouteName="AllChallengesScreen"
-      tabBarOptions={{
-        showLabel: false,
-        style: {
-          backgroundColor: Colors.WHITE,
-          position: 'absolute',
-          bottom: 15,
-          marginHorizontal: 10,
-
-          height: 60,
-          borderRadius: 15,
-          elevation: 10,
-
-          shadowColor: Colors.BLACK1,
-          shadowOpacity: 0.06,
-          shadowOffset: {
-            width: 10,
-            height: 10,
-          },
-        },
-      }}>
-      <Tab.Screen
-        name="AllChallengesScreen"
-        component={AllChallenges}
-        options={{
-          tabBarLabel: '4',
-          unmountOnBlur: true,
-          tabBarIcon: ({focused}) => (
-            <View style={{position: 'absolute', top: 15}}>
-              <Icon
-                name="trophy"
-                type="ionicon"
-                size={30}
-                color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
-              />
-            </View>
-          ),
-        }}
-        listeners={({navigation, route}) => ({
-          // Onpress Update....
-          tabPress: e => {
-            Animated.spring(tabOffsetValue, {
-              toValue: getWidth() * 3,
-              useNativeDriver: true,
-            }).start();
-          },
-        })}
-      />
-      <Tab.Screen
-        name="PostDataScreen"
-        component={PostUpdateScreen}
-        options={{
-          tabBarLabel: '2',
-          unmountOnBlur: true,
-          tabBarIcon: ({focused}) => (
-            <View style={{position: 'absolute', top: 15}}>
-              <Icon
-                name="plus"
-                type="ant-design"
-                size={30}
-                color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
-              />
-            </View>
-          ),
-        }}
-        listeners={({navigation, route}) => ({
-          // Onpress Update....
-          tabPress: e => {
-            Animated.spring(tabOffsetValue, {
-              toValue: getWidth(),
-              useNativeDriver: true,
-            }).start();
-          },
-        })}
-      />
-    </Tab.Navigator>
-  ) : (
+  return DEBUG ?   (
     <>
       <Tab.Navigator
         initialRouteName="AllChallengesScreen"
@@ -276,7 +198,86 @@ const BottomTabStack = ({navigation}) => {
           transform: [{translateX: tabOffsetValue}],
         }}></Animated.View>
     </>
-  );
+  ):(
+    <Tab.Navigator
+      initialRouteName="AllChallengesScreen"
+      tabBarOptions={{
+        showLabel: false,
+        style: {
+          backgroundColor: Colors.WHITE,
+          position: 'absolute',
+          bottom: 15,
+          marginHorizontal: 10,
+
+          height: 60,
+          borderRadius: 15,
+          elevation: 10,
+
+          shadowColor: Colors.BLACK1,
+          shadowOpacity: 0.06,
+          shadowOffset: {
+            width: 10,
+            height: 10,
+          },
+        },
+      }}>
+      <Tab.Screen
+        name="AllChallengesScreen"
+        component={AllChallenges}
+        options={{
+          tabBarLabel: '4',
+          unmountOnBlur: true,
+          tabBarIcon: ({focused}) => (
+            <View style={{position: 'absolute', top: 15}}>
+              <Icon
+                name="trophy"
+                type="ionicon"
+                size={30}
+                color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+              />
+            </View>
+          ),
+        }}
+        listeners={({navigation, route}) => ({
+          // Onpress Update....
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth() * 3,
+              useNativeDriver: true,
+            }).start();
+          },
+        })}
+      />
+      <Tab.Screen
+        name="PostDataScreen"
+        component={PostUpdateScreen}
+        options={{
+          tabBarLabel: '2',
+          unmountOnBlur: true,
+          tabBarIcon: ({focused}) => (
+            <View style={{position: 'absolute', top: 15}}>
+              <Icon
+                name="plus"
+                type="ant-design"
+                size={30}
+                color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+              />
+            </View>
+          ),
+        }}
+        listeners={({navigation, route}) => ({
+          // Onpress Update....
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth(),
+              useNativeDriver: true,
+            }).start();
+          },
+        })}
+      />
+    </Tab.Navigator>
+  )
+  ;
 };
 
 export default BottomTabStack;
