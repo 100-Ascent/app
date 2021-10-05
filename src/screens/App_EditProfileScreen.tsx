@@ -1,20 +1,45 @@
 import React, {useState} from 'react';
-import {View, Text, ScrollView, StyleSheet, SafeAreaView} from 'react-native';
+import {
+  View,
+  Text,
+  ScrollView,
+  StyleSheet,
+  SafeAreaView,
+  ImageBackground,
+  TouchableOpacity,
+} from 'react-native';
 import Background from '../components/Background/StyledBackground';
 import FastImage from 'react-native-fast-image';
 import Text16Normal from '../components/Text/Text16Normal';
 import {Colors} from '../utils/colors';
 import {RootNavProp} from '../routes/RootStackParamList';
 import Text16Bold from '../components/Text/Text16Bold';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import MyProfileTextInput from '../components/MyProfile/MyProfileTextInput';
 import StyledButton from '../components/Button/StyledButton';
+
+import ImagePicker from 'react-native-image-crop-picker';
+
 interface Props {
   navigation: RootNavProp<'EditProfileScreen'>;
 }
 const EditProfileScreen: React.FC<Props> = ({navigation}) => {
   const handleSave = () => {};
-
+  const [image, setImage] = useState(
+    'https://api.adorable.io/avatars/80/abott@adorable.png',
+  );
+  const choosePhotoFromLibrary = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 300,
+      cropping: true,
+      compressImageQuality: 0.7,
+    }).then(image => {
+      console.log(image);
+      setImage(image.path);
+    });
+  };
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -27,20 +52,38 @@ const EditProfileScreen: React.FC<Props> = ({navigation}) => {
                 paddingHorizontal: 10,
               }}>
               <View style={{borderWidth: 1, borderRadius: 100, padding: 3}}>
-                <FastImage
-                  style={{width: 100, height: 100, borderRadius: 100}}
+                <ImageBackground
                   source={{
-                    uri: '',
-                    priority: FastImage.priority.high,
+                    uri: image,
                   }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
+                  style={{height: 100, width: 100}}
+                  imageStyle={{borderRadius: 100}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="camera"
+                      size={35}
+                      color="#fff"
+                      style={{
+                        opacity: 0.7,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
               </View>
               <View style={{paddingVertical: 5}} />
-              <Text16Normal
-                text={'Change Profile photo'}
-                textColor={Colors.TEXTDARK}
-              />
+              <TouchableOpacity onPress={choosePhotoFromLibrary}>
+                <Text>Change Profile Photo</Text>
+              </TouchableOpacity>
             </View>
 
             <View style={styles.container}>

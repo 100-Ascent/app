@@ -1,5 +1,12 @@
 import React, {useState} from 'react';
-import {SafeAreaView, ScrollView, Text, View, StyleSheet} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  Text,
+  View,
+  StyleSheet,
+  ImageBackground,
+} from 'react-native';
 import {Colors} from '../utils/colors';
 import {Image, TouchableOpacity} from 'react-native';
 import FastImage from 'react-native-fast-image';
@@ -10,12 +17,16 @@ import Text16Bold from '../components/Text/Text16Bold';
 import Gender from '../../assets/icons/profile-gender.svg';
 import ProfileDetails from '../components/MyProfile/ProfileDetails';
 import Background from '../components/Background/StyledBackground';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
   route: RootNavRouteProps<'MyProfileScreen'>;
 }
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
+  const [image, setImage] = useState(
+    'https://api.adorable.io/avatars/80/abott@adorable.png',
+  );
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -28,14 +39,33 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 paddingHorizontal: 10,
               }}>
               <View style={{borderWidth: 1, borderRadius: 100, padding: 3}}>
-                <FastImage
-                  style={{width: 100, height: 100, borderRadius: 100}}
+                <ImageBackground
                   source={{
-                    uri: '',
-                    priority: FastImage.priority.high,
+                    uri: image,
                   }}
-                  resizeMode={FastImage.resizeMode.cover}
-                />
+                  style={{height: 100, width: 100}}
+                  imageStyle={{borderRadius: 100}}>
+                  <View
+                    style={{
+                      flex: 1,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                    }}>
+                    <Icon
+                      name="camera"
+                      size={35}
+                      color="#fff"
+                      style={{
+                        opacity: 0.7,
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        borderWidth: 1,
+                        borderColor: '#fff',
+                        borderRadius: 10,
+                      }}
+                    />
+                  </View>
+                </ImageBackground>
               </View>
               <Text28 text={'Megha Dandapat'} textColor={Colors.TEXTDARK} />
               <Text16Normal
