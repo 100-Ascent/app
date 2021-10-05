@@ -4,7 +4,12 @@ import {Colors} from '../../../utils/colors';
 import Text14 from '../../Text/Text14';
 import Text20 from '../../Text/Text20';
 
-const AboutChallengeCard = ({description}) => {
+interface Props {
+  title: string;
+  description: string;
+}
+
+const AboutChallengeCard: React.FC<Props> = ({title, description}) => {
   return (
     <View
       style={{
@@ -14,14 +19,8 @@ const AboutChallengeCard = ({description}) => {
         elevation: 1,
       }}>
       <View style={{paddingTop: 10, alignItems: 'center'}}>
-        <Text20
-          text="Virtually Travel to Incredible India"
-          textColor={Colors.TEXTDARK}
-        />
+        <Text20 text={title} textColor={Colors.TEXTDARK} />
       </View>
-      {/* <View style={{paddingTop: 10, paddingHorizontal: 20}}>
-        <Text14 text={description} textColor={Colors.TEXTDARK} />
-      </View> */}
       <View style={{paddingTop: 10, paddingBottom: 10, paddingHorizontal: 20}}>
         <Text14 text={description} textColor={Colors.TEXTDARK} />
       </View>

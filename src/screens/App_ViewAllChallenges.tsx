@@ -1,42 +1,46 @@
+import React, {useEffect, useState} from 'react';
+import {SafeAreaView, View} from 'react-native';
+
+import {AppState} from '../redux';
 import axios from 'axios';
-import React, {useEffect} from 'react';
-import {useState} from 'react';
-import {Dimensions, Image, SafeAreaView, View} from 'react-native';
 import {ScrollView} from 'react-native-gesture-handler';
-import {useDispatch, useSelector} from 'react-redux';
-import BackgroundVector from '../components/Background/BackgroundVector';
-import Background from '../components/Background/StyledBackground';
+import {useSelector} from 'react-redux';
+
 import ActiveChallengeCard from '../components/Cards/ChallengeScreen/AllChallenge_ActiveChallenge';
-import CarousalCard from '../components/Cards/ChallengeScreen/AllChallenge_CarousalCard';
+import Background from '../components/Background/StyledBackground';
+import BackgroundVector from '../components/Background/BackgroundVector';
+import ChallengeCardCarousal from '../components/Carousals/ChallengeCardCarousal';
 import CompletedChallenge from '../components/Cards/ChallengeScreen/AllChallenge_CompletedChallenge';
 import NoActiveChallengeCard from '../components/Cards/ChallengeScreen/AllChallenge_NoActiveChallengeCard';
-import ChallengeCardCarousal from '../components/Carousals/ChallengeCardCarousal';
 import RNLoader from '../components/Loader/RNLoader';
 import Text20 from '../components/Text/Text20';
-import {AppState} from '../redux';
+
 import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
+import {HEIGHT, WIDTH} from '../utils/constants';
+import globalStyles from '../styles/Global/styles';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
 
-const width = Dimensions.get('window').width;
-const height = Dimensions.get('window').height * 0.45;
+const width = WIDTH;
+const height = HEIGHT * 0.45;
 
-const images = [
-  'https://www.omipharma.vn/files/banner/2020-07/xit-chong-nang-lishan-nhat-ban-spf-50-pa-huong-tinh-dau-thien-nhien.jpg',
-  'https://www.omipharma.vn/files/banner/2020-06/omi-pharma-thau-hieu-hon-moi-ngay.jpg',
-  'https://www.omipharma.vn/files/banner/2020-06/omi-pharma-thau-hieu-nhu-cau-dan-dau-lua-chon.jpg',
-];
 interface Props {
   navigation: RootNavProp<'AllChallengesScreen'>;
 }
 
 const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
-  const dispatch = useDispatch();
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
-  const [loading, setLoading] = useState<Boolean>(true);
-  const [listOfChallenges, setListOfChallenges] = useState([]);
   const [activeChallenge, setActiveChallenge] = useState([]);
-  const [completedChallenge, setCompletedChallenge] = useState([]);
   const [allChallenge, setAllChallenge] = useState([]);
+  const [completedChallenge, setCompletedChallenge] = useState([]);
+  const [loading, setLoading] = useState<boolean>(true);
+  const [subscribePopUp, setSubscribePopUp] = useState<boolean>(false);
+  const [toSubscribeCid, setSubscribeCid] = useState('');
+
+  useEffect(() => {
+    getChallengeData();
+  }, []);
+
   const getChallengeData = () => {
     axios
       .get('/api/challenge', {
@@ -46,31 +50,27 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
       })
       .then(res => {
         const allChallenge = res.data.data[0].remainingList;
-        console.log(res.data.data[0]);
         setAllChallenge(allChallenge);
         setActiveChallenge(res.data.data[0].subsList);
         setCompletedChallenge(res.data.data[0].completedList);
         setLoading(false);
       })
       .catch(err => {
-        console.log('error on get my challenges');
+        console.log('Error on get my challenges');
         console.log(err);
       });
   };
 
-  useEffect(() => {
-    getChallengeData();
-  }, []);
-
-  const handleSubscribe = cid => {
+  const handleSubscribe = () => {
+    setSubscribePopUp(false);
+    setLoading(true);
     axios
-      .get('/api/challenge/subscribed/' + cid, {
+      .get('/api/challenge/subscribed/' + toSubscribeCid, {
         headers: {
           'X-CONTEXT-ID': contextId,
         },
       })
       .then(res => {
-        setLoading(true);
         getChallengeData();
       })
       .catch(err => {
@@ -79,8 +79,9 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
       });
   };
 
-  const onChallengePress = item => {
-    navigation.navigate('ChallengeDescriptionScreen', {data: item});
+  const handleSubscribedPressed = cid => {
+    setSubscribeCid(cid);
+    setSubscribePopUp(true);
   };
 
   const handleActiveChallengePressed = (data: any) => {
@@ -91,14 +92,18 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
     });
   };
 
+  const onChallengePress = item => {
+    navigation.navigate('ChallengeDescriptionScreen', {data: item});
+  };
+
   return (
-    <SafeAreaView style={{flex: 1}}>
+    <SafeAreaView style={globalStyles.flex}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
         {!loading ? (
           <ScrollView
             style={{flexGrow: 1}}
             contentContainerStyle={{flexGrow: 1}}>
-            <View style={{flex: 1}}>
+            <View style={globalStyles.flex}>
               <BackgroundVector />
               <View>
                 {allChallenge.length !== 0 &&
@@ -107,7 +112,7 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
                     allChallenge={allChallenge}
                     wrapStyle={{width: width, height: height}}
                     onPress={onChallengePress}
-                    handleSubscribe={handleSubscribe}
+                    handleSubscribe={handleSubscribedPressed}
                   />
                 ) : null}
               </View>
@@ -140,8 +145,20 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
                 </View>
               </View>
             </View>
-
             <View style={{margin: 70}} />
+            <CustomPopUp
+              isCancelable={true}
+              cancelText={'Cancel'}
+              description={'Do you really want to subscribe?'}
+              header={'Confirm Subscription'}
+              oKText={'Subscribe'}
+              visible={subscribePopUp}
+              onCancel={() => {
+                setSubscribeCid('');
+                setSubscribePopUp(false);
+              }}
+              onOk={handleSubscribe}
+            />
           </ScrollView>
         ) : (
           <RNLoader />

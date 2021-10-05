@@ -18,6 +18,7 @@ import MediaScreen from '../../screens/App_MediaScreen';
 import Text16Normal from '../../components/Text/Text16Normal';
 import {colors} from 'react-native-elements';
 import Text20 from '../../components/Text/Text20';
+import {EditActivityDataScreen} from '../../screens/App_EditActivityDataScreen';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -176,6 +177,33 @@ const AllChallenges = ({navigation}) => {
       <AllChallengeStack.Screen
         component={MediaScreen}
         name={'MediaScreen'}
+        options={({route}) => ({
+          headerTitle: null,
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon
+                name="arrow-back"
+                type="ionicons"
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon name="account-circle" type="materialicons" size={30} />
+            </View>
+          ),
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={EditActivityDataScreen}
+        name={'EditActivityDataScreen'}
         options={({route}) => ({
           headerTitle: null,
           headerLeft: () => (

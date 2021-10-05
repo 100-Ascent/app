@@ -31,32 +31,43 @@ import {Colors} from '../utils/colors';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
-  navigation: RootNavProp<'PostDataScreen'>;
+  navigation: RootNavProp<'EditActivityDataScreen'>;
+  route: RootNavRouteProps<'MyChallengeScreen'>;
 }
-export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+
+export const EditActivityDataScreen: React.FC<Props> = ({
+  navigation,
+  route,
+}) => {
+  const routeData = route.params.data;
+
+  const [selectedDate, setSelectedDate] = useState(
+    routeData ? routeData.date : routeData,
+  );
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>('date');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAllowPost, setDisablePost] = useState(true);
-  const [value, setValue] = useState('');
+  const [value, setValue] = useState(routeData ? routeData.data : '');
   const [klicks, setKlicks] = useState(0);
   const [dropdownData, setDropdownData] = useState([]);
   const [subscribedChallenge, setSubscribedChallenge] = useState([]);
   const [selectedCid, setSelectedCid] = useState(0);
   const [distanceTimeData, setDistanceTimeData] = useState('');
   const [calminsteps, setCalMinSteps] = useState({
-    cal: '',
-    min: '',
-    steps: '',
+    cal: routeData ? routeData.calorie : '',
+    min: routeData ? routeData.min : '',
+    steps: routeData ? routeData.steps : '',
   });
-  const [comment, setComment] = useState('');
+  const [comment, setComment] = useState(routeData ? routeData.comment : '');
   const [selected, setSelected] = useState({
     icon: ' ',
   });
 
-  const [defaultOption, setDefaultOption] = useState(0);
+  const [defaultOption, setDefaultOption] = useState(
+    routeData ? (routeData.activity.is_distance ? 0 : 1) : 0,
+  );
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
 
   const onChange = (event, selectedDateValue) => {
@@ -144,7 +155,7 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('AllChallengesScreen');
   };
 
-  const handlePostData = () => {
+  const handleUpdateData = () => {
     const data = {
       data: distanceTimeData,
       activity: selected['id'],
@@ -155,17 +166,17 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
       steps: calminsteps.steps,
       comment: comment,
     };
-
-    const cid = subscribedChallenge[selectedCid].cid;
-    axios
-      .post('/api/post/data/' + cid, data)
-      .then(res => {
-        navigation.navigate('AllChallengesScreen');
-      })
-      .catch(err => {
-        console.log('error');
-        console.log(err);
-      });
+    console.log(data);
+    // const cid = subscribedChallenge[selectedCid].cid;
+    // axios
+    //   .post('/api/post/data/' + cid, data)
+    //   .then(res => {
+    //     navigation.navigate('AllChallengesScreen');
+    //   })
+    //   .catch(err => {
+    //     console.log('error');
+    //     console.log(err);
+    //   });
   };
 
   useEffect(() => {
@@ -192,27 +203,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
               <RNLoader />
             ) : (
               <View style={{flex: 1}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: 20,
-                      flex: 1,
-                      flexDirection: 'row',
-                    }}>
-                    <View></View>
-                    <Text16Normal
-                      text="Add an Activity"
-                      textColor={Colors.TEXTDARK}
-                    />
-                    <Icon
-                      name="account-circle"
-                      type="MaterialIcons"
-                      size={30}
-                    />
-                  </View>
-                </View>
                 <View
                   style={{
                     marginVertical: 10,
@@ -293,7 +283,9 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                       <FastImage
                         style={{width: 80, height: 80, borderRadius: 80}}
                         source={{
-                          uri: selected.icon,
+                          uri: routeData
+                            ? routeData.activity.icon
+                            : selected.icon,
                           priority: FastImage.priority.high,
                         }}
                         resizeMode={FastImage.resizeMode.cover}
@@ -306,11 +298,17 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                       data={dropdownData}
                       placeholder="Choose an item"
                       defaultValue={
-                        dropdownData[
-                          dropdownData.findIndex(item =>
-                            item.name.includes('Walking'),
-                          )
-                        ].name
+                        routeData
+                          ? dropdownData[
+                              dropdownData.findIndex(item =>
+                                item.name.includes(routeData.activity.name),
+                              )
+                            ].name
+                          : dropdownData[
+                              dropdownData.findIndex(item =>
+                                item.name.includes('Walking'),
+                              )
+                            ].name
                       }
                       containerStyles={{marginHorizontal: 20}}
                       listStyles={{maxHeight: 120}}
@@ -353,9 +351,9 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
                 </View>
                 <View style={{marginTop: 20, marginHorizontal: 20}}>
                   <StyledButton
-                    text="POST"
+                    text="UPDATE"
                     disabled={isAllowPost}
-                    onPress={handlePostData}
+                    onPress={handleUpdateData}
                   />
                 </View>
               </View>

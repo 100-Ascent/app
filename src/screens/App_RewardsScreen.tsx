@@ -1,15 +1,17 @@
 import React, {useRef, useState} from 'react';
-import {SafeAreaView, ScrollView, Text, View} from 'react-native';
+import {SafeAreaView, ScrollView, View} from 'react-native';
+
+import AllRewards from '../components/Cards/RewardsScreen/AllRewards';
 import BackgroundVector from '../components/Background/BackgroundVector';
 import Background from '../components/Background/StyledBackground';
 import ChallengeNameSubscribeCard from '../components/Cards/ChallengeDescriptionCards/ChallengeNameSubscribeCard';
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import {Colors} from '../utils/colors';
 import HamperCard from '../components/Cards/RewardsScreen/CustomHamperCard';
-import RewardsUnlocked from '../components/Cards/RewardsScreen/RewardsUnlocked';
-import AllRewards from '../components/Cards/RewardsScreen/AllRewards';
 import NewRewardPopUp from '../components/PopUps/NewRewardPopUp';
 import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
+import RewardsUnlocked from '../components/Cards/RewardsScreen/RewardsUnlocked';
+
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import {Colors} from '../utils/colors';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;

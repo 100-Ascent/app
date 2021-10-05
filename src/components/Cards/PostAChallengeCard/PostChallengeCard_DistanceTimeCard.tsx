@@ -1,5 +1,4 @@
 import React from 'react';
-import {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
 import {Colors} from '../../../utils/colors';
@@ -17,7 +16,6 @@ const DistanceTimeCard = ({
   setKlicks,
 }) => {
   const option = ['Distance', 'Time'];
-
   const optionView = option.map((val, idx) => {
     return (
       <View

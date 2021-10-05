@@ -1,10 +1,13 @@
 import {
   ContextIdType,
+  CurrentValueType,
   NotificationType,
   SetContextIdActionTypes,
+  SetCurrentValueActionTypes,
   SetNotifyTokenActionTypes,
   SetUserActionTypes,
   SET_CONTEXTID,
+  SET_CURRENT_VALUES,
   SET_NOTIFYTOKEN,
   SET_USER,
   UserType,
@@ -26,5 +29,12 @@ export const setContextId = (
   payload: ContextIdType | null,
 ): SetContextIdActionTypes => ({
   type: SET_CONTEXTID,
+  payload,
+});
+
+export const setCurrentValues = (
+  payload: CurrentValueType | null,
+): SetCurrentValueActionTypes => ({
+  type: SET_CURRENT_VALUES,
   payload,
 });

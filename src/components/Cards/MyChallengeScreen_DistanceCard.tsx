@@ -3,7 +3,6 @@ import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import FastImage from 'react-native-fast-image';
 import Text28 from '../Text/Text28';
-import Text16Bold from '../Text/Text16Bold';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CalorieCard from '../DistanceComponent/CalorieCard';
 import TimeCard from '../DistanceComponent/TimeCard';
@@ -19,12 +18,21 @@ import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
 
-const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
+const DistanceCard = ({
+  data,
+  onRightPress,
+  onLeftPress,
+  current,
+  editPressed,
+  handleDelete,
+  total,
+}) => {
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
   const [mask, setMask] = useState(false);
 
   const handleOk = () => {
+    handleDelete();
     setVisible(false);
   };
 
@@ -143,7 +151,11 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
                   justifyContent: 'flex-end',
                 }}>
                 <View style={{}}>
-                  <Icon name="edit" type="material-icons" />
+                  <Icon
+                    name="edit"
+                    type="material-icons"
+                    onPress={editPressed}
+                  />
                 </View>
                 <View style={{}}>
                   <TouchableOpacity>
@@ -238,7 +250,16 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
           </View>
         </View>
       </ViewShot>
-      <CustomPopUp visible={visible} onOk={handleOk} onCancel={handleCancel} />
+      <CustomPopUp
+        visible={visible}
+        onOk={handleOk}
+        isCancelable={true}
+        onCancel={handleCancel}
+        oKText={'Delete'}
+        cancelText={'Cancel'}
+        header={'Confirm Delete'}
+        description={'Do you really want to delete?'}
+      />
     </View>
   );
 };

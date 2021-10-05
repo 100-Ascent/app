@@ -111,7 +111,7 @@ const NewRewardPopUp = ({
         origin={{x: -20, y: HEIGHT / 2}}
         autoStart={false}
         onAnimationStart={() => {
-          console.log('sd');
+          //console.log('sd');
         }}
         onAnimationEnd={() => {}}
       />

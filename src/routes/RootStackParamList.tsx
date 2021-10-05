@@ -11,7 +11,8 @@ export type RootStackParamList = {
   ChallengeDescriptionScreen: {data: Object};
 
   CommunityScreen: undefined;
-  PostDataScreen: undefined;
+  PostDataScreen: any;
+  EditActivityDataScreen: {data?: any};
   MyChallengeScreen: {data: Object; challengeId: Object};
   UserProfileScreen: undefined;
 

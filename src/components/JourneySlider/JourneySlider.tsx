@@ -6,22 +6,26 @@ import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../utils/colors';
 import FunFactCard from '../Cards/MyChallengeScreen_FunFactCard';
+import RewardsPopUp from '../PopUps/RewardsPopUp';
 import Text14 from '../Text/Text14';
 
-const window = Dimensions.get('window');
-
-const JourneySliderComponent = ({data, onPress, funfact}) => {
+const JourneySliderComponent = ({
+  colorArray,
+  data,
+  onPress,
+  funfact,
+  fun_fact_start_color,
+  fun_fact_end_color,
+}) => {
   const [currentOffset, setCurrentOffset] = useState(0);
   const [avgWidth, setWidth] = useState(0);
-  const arrayColor = [
-    '#9400d3',
-    '#2c9bff',
-    '#ffbd1b',
-    '#ff7f00',
-    '#000080',
-    '#ff0000',
-    '#633a0d',
-  ];
+  const [isRewardPopUpVisible, setIsRewardPopUpVisible] = useState(false);
+  const [rewardData, setRewardData] = useState({});
+
+  const handleRewardsPressed = item => {
+    setRewardData(item);
+    setIsRewardPopUpVisible(true);
+  };
 
   const handleScroll = e => {
     const x = (parseInt(e.nativeEvent.contentOffset.x) / 180) | 0;
@@ -45,17 +49,18 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
                   setWidth(width);
                 }}>
                 <TouchableOpacity
-                  disabled={!item.is_passed}
+                  disabled={false}
                   activeOpacity={item.is_passed ? 0.5 : 1}
-                  onPress={() => onPress(item)}>
+                  onPress={() =>
+                    item.type === 'checkpoint'
+                      ? onPress(item)
+                      : handleRewardsPressed(item)
+                  }>
                   <View
                     style={{
                       elevation: 10,
                       borderWidth: 3,
-                      borderColor:
-                        arrayColor[
-                          Math.floor(Math.random() * arrayColor.length)
-                        ],
+                      borderColor: colorArray[0],
                       padding: 3,
                       borderRadius: 90,
                       backgroundColor: item.is_passed
@@ -111,10 +116,18 @@ const JourneySliderComponent = ({data, onPress, funfact}) => {
         scrollEventThrottle={5}
         onScroll={e => handleScroll(e)}>
         {cards}
-
         <View style={{padding: 20}} />
       </ScrollView>
-      <FunFactCard fact={funfact} />
+      <RewardsPopUp
+        data={rewardData}
+        visible={isRewardPopUpVisible}
+        onClose={() => setIsRewardPopUpVisible(false)}
+      />
+      <FunFactCard
+        fact={funfact}
+        startColor={fun_fact_start_color}
+        endColor={fun_fact_end_color}
+      />
     </View>
   );
 };

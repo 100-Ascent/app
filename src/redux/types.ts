@@ -4,6 +4,7 @@ import {AppState} from '.';
 export const SET_USER = 'SET_USER';
 export const SET_NOTIFYTOKEN = 'SET_NOTIFYTOKEN';
 export const SET_CONTEXTID = 'SET_CONTEXTID';
+export const SET_CURRENT_VALUES = 'SET_CURRENT_VALUES';
 
 export interface UserType {
   user: any;
@@ -17,10 +18,16 @@ export interface ContextIdType {
   contextId: string;
 }
 
+export interface CurrentValueType {
+  distance: any;
+  index: any;
+}
+
 export interface ReduxState {
   user: UserType | null;
   notifyToken: NotificationType | null;
   contextId: ContextIdType | null;
+  currentValue: CurrentValueType;
 }
 
 export interface SetUserActionTypes {
@@ -38,10 +45,16 @@ export interface SetContextIdActionTypes {
   payload: ContextIdType | null;
 }
 
+export interface SetCurrentValueActionTypes {
+  type: typeof SET_CURRENT_VALUES;
+  payload: CurrentValueType | null;
+}
+
 export type AppActionsType =
   | SetUserActionTypes
   | SetNotifyTokenActionTypes
-  | SetContextIdActionTypes;
+  | SetContextIdActionTypes
+  | SetCurrentValueActionTypes;
 
 export type MyThunkAction<R, T = any> = ThunkAction<
   R,

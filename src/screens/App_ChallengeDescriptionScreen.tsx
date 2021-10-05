@@ -1,32 +1,25 @@
-import React from 'react';
-import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  TouchableOpacity,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import Background from '../components/Background/StyledBackground';
-import RoadMapCard from '../components/Cards/ChallengeDescriptionCards/ChallengeDescriptionScreen_RoadMapCard';
+import React, {useState} from 'react';
+import {SafeAreaView, ScrollView, View} from 'react-native';
+
+import axios from 'axios';
+import {useSelector} from 'react-redux';
+import {AppState} from '../redux';
+
 import AboutChallengeCard from '../components/Cards/ChallengeDescriptionCards/AboutChallengeCard';
+import AdditionalRewardsCard from '../components/Cards/ChallengeDescriptionCards/AdditionalRewardsCard';
+import Background from '../components/Background/StyledBackground';
+import BackgroundVector from '../components/Background/BackgroundVector';
+import ChallengeCityAndDistanceCard from '../components/Cards/ChallengeDescriptionCards/ChallengeCityAndDistanceCard';
+import ChallengeDescriptionCard from '../components/Cards/ChallengeDescriptionCards/ChallengeDescriptionCard';
+import ChallengeNameSubscribeCard from '../components/Cards/ChallengeDescriptionCards/ChallengeNameSubscribeCard';
+import CommonCard from '../components/Cards/Common/CommonCard';
+import CustomSwitch from '../components/Switch/CustomSwitch';
+import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
+import PromoVideoCard from '../components/Cards/ChallengeDescriptionCards/PromoVideoCard';
+import RoadMapCard from '../components/Cards/ChallengeDescriptionCards/ChallengeDescriptionScreen_RoadMapCard';
+
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
-import ChallengeDescriptionCard from '../components/Cards/ChallengeDescriptionCards/ChallengeDescriptionCard';
-import ChallengeCityAndDistanceCard from '../components/Cards/ChallengeDescriptionCards/ChallengeCityAndDistanceCard';
-import ChallengeNameSubscribeCard from '../components/Cards/ChallengeDescriptionCards/ChallengeNameSubscribeCard';
-import {useState} from 'react';
-import CustomSwitch from '../components/Switch/CustomSwitch';
-import CommonCard from '../components/Cards/Common/CommonCard';
-import AdditionalRewardsCard from '../components/Cards/ChallengeDescriptionCards/AdditionalRewardsCard';
-import {Image} from 'react-native';
-import BackgroundVector from '../components/Background/BackgroundVector';
-import axios from 'axios';
-import {AppState} from '../redux';
-import {useSelector} from 'react-redux';
-import PromoVideoCard from '../components/Cards/ChallengeDescriptionCards/PromoVideoCard';
-import PreRegister from '../components/Cards/RewardsScreen/PreRegister';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -34,14 +27,15 @@ interface Props {
 }
 
 const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
-  const [currentTab, setTab] = useState(0);
   const data = route.params.data;
+  const [currentTab, setTab] = useState(0);
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+
   const handleSwitch = () => {
     const tab = 1 - currentTab;
     setTab(tab);
   };
 
-  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const handleSubscribe = () => {
     axios
       .get('/api/challenge/subscribed/' + data.id, {
@@ -50,7 +44,6 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
         },
       })
       .then(res => {
-        console.log(res.data);
         navigation.popToTop();
       })
       .catch(err => {
@@ -109,7 +102,10 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                 />
 
                 <View style={{padding: 10}} />
-                <AboutChallengeCard description={data.shortDescription} />
+                <AboutChallengeCard
+                  title={data.bottom_title}
+                  description={data.bottom_desc}
+                />
               </View>
             ) : (
               <View>
