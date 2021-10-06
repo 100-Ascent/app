@@ -20,15 +20,15 @@ import MyProfileTextInput from '../components/MyProfile/MyProfileTextInput';
 import StyledButton from '../components/Button/StyledButton';
 
 import ImagePicker from 'react-native-image-crop-picker';
+import RadioButton from '../components/RadioButton/RadioButton';
+import MyProfileRadioComponent from '../components/RadioButton/RadioButton';
 
 interface Props {
   navigation: RootNavProp<'EditProfileScreen'>;
 }
 const EditProfileScreen: React.FC<Props> = ({navigation}) => {
   const handleSave = () => {};
-  const [image, setImage] = useState(
-    'https://api.adorable.io/avatars/80/abott@adorable.png',
-  );
+  const [image, setImage] = useState('');
   const choosePhotoFromLibrary = () => {
     ImagePicker.openPicker({
       width: 300,
@@ -64,7 +64,7 @@ const EditProfileScreen: React.FC<Props> = ({navigation}) => {
                       justifyContent: 'center',
                       alignItems: 'center',
                     }}>
-                    <Icon
+                    {/* <Icon
                       name="camera"
                       size={35}
                       color="#fff"
@@ -76,7 +76,7 @@ const EditProfileScreen: React.FC<Props> = ({navigation}) => {
                         borderColor: '#fff',
                         borderRadius: 10,
                       }}
-                    />
+                    /> */}
                   </View>
                 </ImageBackground>
               </View>
@@ -93,6 +93,7 @@ const EditProfileScreen: React.FC<Props> = ({navigation}) => {
               <MyProfileTextInput placeholderText="Name" />
               <MyProfileTextInput placeholderText="Email" />
               <MyProfileTextInput placeholderText="Date of Birth" />
+              <MyProfileRadioComponent />
               <View style={{marginVertical: 20}}>
                 <Text16Bold text="Address" textColor={Colors.TEXTDARK} />
               </View>

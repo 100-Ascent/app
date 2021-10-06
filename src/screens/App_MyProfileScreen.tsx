@@ -24,9 +24,7 @@ interface Props {
   route: RootNavRouteProps<'MyProfileScreen'>;
 }
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
-  const [image, setImage] = useState(
-    'https://api.adorable.io/avatars/80/abott@adorable.png',
-  );
+  const [image, setImage] = useState('');
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
