@@ -1,10 +1,6 @@
 import React, {Component} from 'react';
-import RadioForm, {
-  RadioButton,
-  RadioButtonInput,
-  RadioButtonLabel,
-} from 'react-native-simple-radio-button';
-import {Platform, StyleSheet, Text, View, ToastAndroid} from 'react-native';
+import {View} from 'react-native';
+import RadioForm from 'react-native-simple-radio-button';
 import Text14 from '../Text/Text14';
 import {Colors} from '../../utils/colors';
 

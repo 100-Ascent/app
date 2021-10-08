@@ -4,20 +4,17 @@ import {
   ScrollView,
   Text,
   View,
-  StyleSheet,
   ImageBackground,
 } from 'react-native';
-import {Colors} from '../utils/colors';
-import {Image, TouchableOpacity} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import Background from '../components/Background/StyledBackground';
+import ProfileDetails from '../components/MyProfile/ProfileDetails';
 import Text28 from '../components/Text/Text28';
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import {Colors} from '../utils/colors';
 import Text16Normal from '../components/Text/Text16Normal';
 import Text16Bold from '../components/Text/Text16Bold';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import Gender from '../../assets/icons/profile-gender.svg';
-import ProfileDetails from '../components/MyProfile/ProfileDetails';
-import Background from '../components/Background/StyledBackground';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -25,45 +22,20 @@ interface Props {
 }
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [image, setImage] = useState('');
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
         <ScrollView scrollEnabled style={{flexGrow: 1}}>
           <View style={{flex: 1, marginHorizontal: 15}}>
-            <View
-              style={{
-                justifyContent: 'center',
-                alignItems: 'center',
-                paddingHorizontal: 10,
-              }}>
-              <View style={{borderWidth: 1, borderRadius: 100, padding: 3}}>
+            <View style={myProfileStyles.profileWrapper}>
+              <View style={myProfileStyles.circularImage}>
                 <ImageBackground
                   source={{
                     uri: image,
                   }}
-                  style={{height: 100, width: 100}}
-                  imageStyle={{borderRadius: 100}}>
-                  <View
-                    style={{
-                      flex: 1,
-                      justifyContent: 'center',
-                      alignItems: 'center',
-                    }}>
-                    <Icon
-                      name="camera"
-                      size={35}
-                      color="#fff"
-                      style={{
-                        opacity: 0.7,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                        borderWidth: 1,
-                        borderColor: '#fff',
-                        borderRadius: 10,
-                      }}
-                    />
-                  </View>
-                </ImageBackground>
+                  style={myProfileStyles.profilePhoto}
+                  imageStyle={{borderRadius: 100}}></ImageBackground>
               </View>
               <Text28 text={'Megha Dandapat'} textColor={Colors.TEXTDARK} />
               <Text16Normal
@@ -71,19 +43,18 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 textColor={Colors.TEXTDARK}
               />
             </View>
-            <View style={styles.menuWrapper}>
+            <View style={myProfileStyles.menuWrapper}>
               <ProfileDetails
                 iconName="email"
                 textField="megha13dandapat@gmail.com"
               />
-
               <ProfileDetails iconName="phone" textField="8830401437" />
               <ProfileDetails iconName="public" textField="India" />
               <ProfileDetails iconName="home" textField="Pune" />
               <ProfileDetails iconName="cake" textField="01/01/20202" />
-              <View style={styles.menuItem}>
+              <View style={myProfileStyles.menuItem}>
                 <Gender />
-                <Text style={styles.menuItemText}>Male</Text>
+                <Text style={myProfileStyles.menuItemText}>Female</Text>
               </View>
             </View>
             <View>
@@ -101,25 +72,3 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
 };
 
 export default MyProfileScreen;
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-  },
-
-  menuWrapper: {
-    marginTop: 10,
-  },
-  menuItem: {
-    flexDirection: 'row',
-    paddingVertical: 15,
-    paddingHorizontal: 10,
-  },
-  menuItemText: {
-    color: '#777777',
-    marginLeft: 10,
-    fontWeight: '600',
-    fontSize: 16,
-    lineHeight: 26,
-  },
-});

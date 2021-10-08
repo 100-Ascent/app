@@ -1,7 +1,8 @@
 import React from 'react';
-import {TextInput, View, StyleSheet} from 'react-native';
+import {TextInput, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import Text14 from '../Text/Text14';
+import textInputStyles from '../../styles/MyProfileScreen/MyProfileTextInput';
 
 interface Props {
   placeholderText: string;
@@ -9,13 +10,13 @@ interface Props {
 
 const MyProfileTextInput: React.FC<Props> = ({placeholderText}) => {
   return (
-    <View style={styles.editform}>
-      <View style={styles.textfield}>
+    <View style={textInputStyles.editform}>
+      <View style={textInputStyles.textfield}>
         <Text14 text={placeholderText} textColor={Colors.TEXTDARK} />
       </View>
 
       <TextInput
-        style={styles.textInput}
+        style={textInputStyles.textInput}
         underlineColorAndroid={'transparent'}
         autoCorrect={false}
       />
@@ -24,21 +25,3 @@ const MyProfileTextInput: React.FC<Props> = ({placeholderText}) => {
 };
 
 export default MyProfileTextInput;
-const styles = StyleSheet.create({
-  textfield: {
-    marginVertical: 0,
-    paddingVertical: 0,
-  },
-
-  textInput: {
-    alignSelf: 'stretch',
-    height: 30,
-    marginBottom: 20,
-    paddingBottom: 0,
-    borderBottomColor: 'black',
-    borderBottomWidth: 1,
-  },
-  editform: {
-    alignSelf: 'stretch',
-  },
-});
