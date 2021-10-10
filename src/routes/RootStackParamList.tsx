@@ -9,7 +9,7 @@ export type RootStackParamList = {
 
   AllChallengesScreen: undefined;
   ChallengeDescriptionScreen: {data: Object};
-
+  OnboardingScreen: undefined;
   CommunityScreen: undefined;
   PostDataScreen: undefined;
   MyChallengeScreen: {data: Object; challengeId: Object};

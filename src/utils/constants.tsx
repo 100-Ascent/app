@@ -1,7 +1,7 @@
 import {Dimensions} from 'react-native';
 
-// export const BASEURL = 'https://team-100-ascent.herokuapp.com';
-export const BASEURL = 'https://pre-prod.100ascent.com';
+export const BASEURL = 'https://team-100-ascent.herokuapp.com';
+// export const BASEURL = 'https://pre-prod.100ascent.com';
 
 export const NUMBER_ERROR = 'Enter a valid mobile number';
 export const VALID_EMAIL_ERROR = 'Please enter a valid email id';

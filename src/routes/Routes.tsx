@@ -16,6 +16,7 @@ import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import {useDispatch} from 'react-redux';
 import {setContextId} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
+import OnboardingScreen from '../screens/App_OnBoarding';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
@@ -149,8 +150,9 @@ const Routes = () => {
           <RNLoader />
         ) : user ? (
           isEmailVerified ? (
-            <AppStack />
+            <OnboardingScreen navigation={undefined} />
           ) : (
+            // <AppStack />
             <EmailVerifyScreen
               setIsEmailVerifiedToTrue={() => setEmailVerified(true)}
             />
