@@ -3,9 +3,10 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 export type RootStackParamList = {
   AuthenticateScreen: undefined;
-
+  MyProfileScreen: {data: any};
   HomeStack: undefined;
   BottomTabStack: undefined;
+  EditProfileScreen: undefined;
 
   DataLoaderScreen: undefined;
   AllChallengesScreen: undefined;

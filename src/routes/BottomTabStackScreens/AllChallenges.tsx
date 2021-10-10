@@ -12,6 +12,10 @@ import RewardsScreen from '../../screens/App_RewardsScreen';
 import MapViewFullScreen from '../../screens/App_MapViewFullScreen';
 import MediaScreen from '../../screens/App_MediaScreen';
 import Text16Normal from '../../components/Text/Text16Normal';
+import {colors} from 'react-native-elements';
+import Text20 from '../../components/Text/Text20';
+import MyProfileScreen from '../../screens/App_MyProfileScreen';
+import EditProfileScreen from '../../screens/App_EditProfileScreen';
 import {EditActivityDataScreen} from '../../screens/App_EditActivityDataScreen';
 import {PostUpdateScreen} from '../../screens/App_PostUpdateScreen';
 import DataLoaderScreen from '../../screens/App_DataLoaderScreen';
@@ -77,7 +81,12 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon name="account-circle" type="materialicons" size={30} />
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('MyProfileScreen')}
+              />
             </View>
           ),
           headerStyle: {
@@ -102,7 +111,12 @@ const AllChallenges = ({navigation}) => {
           headerLeft: null,
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon name="account-circle" type="materialicons" size={30} />
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('MyProfileScreen')}
+              />
             </View>
           ),
           headerStyle: {
@@ -134,7 +148,12 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon name="account-circle" type="materialicons" size={30} />
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('MyProfileScreen')}
+              />
             </View>
           ),
           headerStyle: {
@@ -167,7 +186,12 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon name="account-circle" type="materialicons" size={30} />
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('MyProfileScreen')}
+              />
             </View>
           ),
           headerStyle: {
@@ -195,7 +219,12 @@ const AllChallenges = ({navigation}) => {
           ),
           headerRight: () => (
             <View style={{marginRight: 10}}>
-              <Icon name="account-circle" type="materialicons" size={30} />
+              <Icon
+                name="account-circle"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('MyProfileScreen')}
+              />
             </View>
           ),
           headerStyle: {
@@ -275,6 +304,72 @@ const AllChallenges = ({navigation}) => {
               />
             </View>
           ),
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={MyProfileScreen}
+        name={'MyProfileScreen'}
+        options={({route}) => ({
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal text="My Profile" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon
+                name="arrow-back"
+                type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => (
+            <View style={{marginRight: 10}}>
+              <Icon
+                name="edit"
+                type="materialicons"
+                size={30}
+                onPress={() => navigation.navigate('EditProfileScreen')}
+              />
+            </View>
+          ),
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={EditProfileScreen}
+        name={'EditProfileScreen'}
+        options={({route}) => ({
+          headerTitle: () => (
+            <View style={{alignItems: 'center'}}>
+              <Text16Normal text="Edit Profile" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
+          headerLeft: () => (
+            <View style={{marginLeft: 10}}>
+              <Icon
+                name="arrow-back"
+                type="ionicons"
+                size={30}
+                onPress={() => navigation.pop()}
+              />
+            </View>
+          ),
+          headerRight: () => <View style={{marginRight: 10}}></View>,
+
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
