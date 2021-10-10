@@ -1,7 +1,8 @@
-import React from 'react';
+import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
+import {RINGCOLORS} from '../../utils/constants';
 import KlicksToGoCard from '../Cards/ChallengeScreen/KlicksToGoCard';
 import FunFactCard from '../Cards/MyChallengeScreen_FunFactCard';
 import DistanceComponent from '../DistanceComponent/DistanceComponent';
@@ -40,14 +41,23 @@ const TabView = ({children, onPress, isActive}) => {
 
 const ThreeTabNavigator = ({
   tracks,
+  tracksCoordinates,
   journeyData,
   handleMyJourneyMilestonePressed,
   distanceData,
   funfact,
   distance,
+  userLocation,
+  userJourneyIndex,
 }) => {
   const [active, setActive] = useState(0);
   const [index, setIndex] = useState(0);
+  const [colorArray, setColorArray] = useState([]);
+
+  const arr = journeyData.map((val, idx) => {
+    return RINGCOLORS[0];
+  });
+
   const handlePress = (i: number) => setActive(i);
   const getCurrentIndex = idx => {
     setIndex(idx);
@@ -59,8 +69,12 @@ const ThreeTabNavigator = ({
         return (
           <JourneySliderComponent
             onPress={handleMyJourneyMilestonePressed}
+            colorArray={arr}
             data={journeyData}
+            journeyIndex={userJourneyIndex}
             funfact={funfact}
+            fun_fact_start_color={tracks[index].fun_fact_start_color}
+            fun_fact_end_color={tracks[index].fun_fact_end_color}
           />
         );
       case 1:
@@ -68,11 +82,17 @@ const ThreeTabNavigator = ({
           <>
             <View style={{height: 450}}>
               <MapViewSlider
+                trackCoordinates={tracksCoordinates}
                 tracks={tracks}
                 getCurrentIndex={getCurrentIndex}
+                userLocation={userLocation}
               />
             </View>
-            <FunFactCard fact={tracks[index].fun_fact} />
+            <FunFactCard
+              fact={tracks[index].fun_fact}
+              startColor={tracks[index].fun_fact_start_color}
+              endColor={tracks[index].fun_fact_end_color}
+            />
           </>
         );
       case 2:
@@ -81,7 +101,11 @@ const ThreeTabNavigator = ({
             <DistanceComponent distanceData={distanceData} />
             <KlicksToGoCard distance={distance} />
             <View style={{padding: 10}} />
-            <FunFactCard fact={funfact} />
+            <FunFactCard
+              fact={funfact}
+              startColor={tracks[index].fun_fact_start_color}
+              endColor={tracks[index].fun_fact_end_color}
+            />
           </>
         );
       default:

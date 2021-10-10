@@ -1,5 +1,5 @@
 import React, {useRef, useState} from 'react';
-import {Dimensions, Platform, TouchableOpacity, View} from 'react-native';
+import {Dimensions, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {Colors} from '../../utils/colors';
 import Text28 from '../Text/Text28';
@@ -8,11 +8,16 @@ import MapViewComponent from './MapView';
 import {useNavigation} from '@react-navigation/native';
 import {Region} from 'react-native-maps';
 
-const MapViewSlider = ({tracks, getCurrentIndex}) => {
+const MapViewSlider = ({
+  tracks,
+  trackCoordinates,
+  getCurrentIndex,
+  userLocation,
+}) => {
   const navigation = useNavigation();
+  const mapRef = useRef(null);
   let trackNames = [];
   let trackCentralLatLong = [];
-  const mapRef = useRef(null);
 
   const data = tracks.map((val, idx) => {
     const obj = {
@@ -32,16 +37,37 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
     trackCheckpointMap.set(tracks[i].order, tracks[i].checkpoints);
   }
 
+  const trackCoordinatesMap = new Map();
+
+  const getRefactoredCoordinates = coords => {
+    let coordinatesArray = coords.map((point, index) => {
+      return {
+        latitude: point.lat,
+        longitude: point.long,
+      };
+    });
+    return coordinatesArray;
+  };
+
+  for (let i = 0; i < trackCoordinates.length; i++) {
+    trackCoordinatesMap.set(
+      i,
+      getRefactoredCoordinates(trackCoordinates[i]['co-ordinates']),
+    );
+  }
+
   const [currentMapIndex, setMapIndex] = useState(0);
   const [initialRegion, setinitialRegion] = useState<Region>(
     trackCentralLatLong[0],
   );
 
+  // Changing the region
   const [region, setRegion] = useState(trackCentralLatLong[0]);
   const onRegionChangeComplete = region => {
     setRegion(region);
   };
 
+  // Left button
   const onLeftPressed = () => {
     const index = currentMapIndex;
     setinitialRegion(trackCentralLatLong[index - 1]);
@@ -50,6 +76,7 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
     setMapIndex(currentMapIndex - 1);
   };
 
+  // Right button
   const onRightPressed = () => {
     const index = currentMapIndex;
     setinitialRegion(trackCentralLatLong[index + 1]);
@@ -58,10 +85,12 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
     setMapIndex(currentMapIndex + 1);
   };
 
+  // Initial Region Button
   const handleInitialRegionButtonPressed = () => {
     mapRef.current.animateToRegion(initialRegion, 1000);
   };
 
+  // Zoom In
   const handleZoomIn = () => {
     const newRegion = {
       latitude: region.latitude,
@@ -73,6 +102,7 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
     mapRef.current.animateToRegion(newRegion, 1000);
   };
 
+  // Zoom Out
   const handleZoomOut = () => {
     const newRegion = {
       latitude: region.latitude,
@@ -105,7 +135,10 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
         <MapViewComponent
           initialRegion={initialRegion}
           region={region}
+          currentMapIndex={currentMapIndex}
           tracks={trackCheckpointMap.get(currentMapIndex)}
+          trackCoordinates={trackCoordinatesMap.get(currentMapIndex)}
+          userLocation={userLocation}
           handleInitialRegionButtonPressed={handleInitialRegionButtonPressed}
           mapRef={mapRef}
           zoomIn={handleZoomIn}
@@ -167,6 +200,7 @@ const MapViewSlider = ({tracks, getCurrentIndex}) => {
                   data: {
                     initialRegion: trackCentralLatLong[currentMapIndex],
                     tracks: trackCheckpointMap.get(currentMapIndex),
+                    trackCoordinates: trackCoordinatesMap.get(currentMapIndex),
                   },
                 })
               }

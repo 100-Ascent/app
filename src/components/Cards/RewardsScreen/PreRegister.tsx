@@ -1,12 +1,14 @@
 import React, {useState} from 'react';
 import {View, TextInput} from 'react-native';
+
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import StyledButton from '../../Button/StyledButton';
-import {LongPressGestureHandler} from 'react-native-gesture-handler';
+
 const PreRegister = () => {
   const [email, setEmail] = useState('');
   const submitHandler = () => {};
+
   return (
     <View
       style={{
@@ -31,7 +33,7 @@ const PreRegister = () => {
               text={'Pre-register for physical gifts'}
             />
           </View>
-          <View style={{flex: 1, flexDirection: 'row'}}>
+          <View style={{flex: 1, flexDirection: 'row', marginBottom: 5}}>
             <View
               style={{
                 width: '70%',
@@ -40,7 +42,8 @@ const PreRegister = () => {
               }}>
               <TextInput
                 value={email}
-                placeholder="email-id"
+                placeholder="Email Id"
+                placeholderTextColor={Colors.BLACK3}
                 onChangeText={text => setEmail(text)}
                 style={{
                   width: '100%',

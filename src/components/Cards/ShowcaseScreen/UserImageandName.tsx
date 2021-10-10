@@ -2,7 +2,7 @@ import React from 'react'
 import { View } from 'react-native'
 import FastImage from 'react-native-fast-image';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import globalStyles from '../../../styles/global/styles';
+import globalStyles from '../../../styles/Global/styles';
 import ShowcaseStyles from '../../../styles/ShowcaseScreen/styles';
 import { Colors } from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';

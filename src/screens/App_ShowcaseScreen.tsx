@@ -14,7 +14,7 @@ import SubscribedChallengesCard from '../components/Cards/ShowcaseScreen/Subscri
 import TopActivityCard from '../components/Cards/ShowcaseScreen/TopActivityCard';
 import UserImageandName from '../components/Cards/ShowcaseScreen/UserImageandName';
 
-import globalStyles from '../styles/global/styles';
+import globalStyles from '../styles/Global/styles';
 import ShowcaseStyles from '../styles/ShowcaseScreen/styles';
 import { Colors } from '../utils/colors';
 

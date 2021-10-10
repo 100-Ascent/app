@@ -1,21 +1,14 @@
-import React from 'react';
-import {useState} from 'react';
-import {
-  Dimensions,
-  SafeAreaView,
-  ScrollView,
-  TouchableWithoutFeedback,
-  View,
-} from 'react-native';
-import Icon from 'react-native-elements/dist/icons/Icon';
-import Background from '../components/Background/StyledBackground';
-import AscendedRemainingDistanceCard from '../components/Cards/CheckpointMilestoneScreen/AscendedRemainingDistanceCard';
-import RewardsUnlockedCard from '../components/Cards/CheckpointMilestoneScreen/CheckpointMilestoneScreen_RewardsUnlocked';
+import React, {useState} from 'react';
+import {Dimensions, SafeAreaView, ScrollView, View} from 'react-native';
 
+import AscendedRemainingDistanceCard from '../components/Cards/CheckpointMilestoneScreen/AscendedRemainingDistanceCard';
+import Background from '../components/Background/StyledBackground';
 import ImageCarousal from '../components/Carousals/ImageCarousal';
 import RewardsPopUp from '../components/PopUps/RewardsPopUp';
+import RewardsUnlockedCard from '../components/Cards/CheckpointMilestoneScreen/CheckpointMilestoneScreen_RewardsUnlocked';
 import Text14 from '../components/Text/Text14';
 import Text20 from '../components/Text/Text20';
+
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
 
@@ -75,7 +68,7 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
               </View>
               <View style={{padding: 15}} />
-              {checkpointData.rewards.length !== 0 ? (
+              {checkpointData.rewards && checkpointData.rewards.length !== 0 ? (
                 <RewardsUnlockedCard
                   rewards={checkpointData.rewards}
                   onPress={handleRewardPressed}

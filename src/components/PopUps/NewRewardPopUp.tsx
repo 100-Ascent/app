@@ -15,6 +15,7 @@ const NewRewardPopUp = ({
   explosion,
   setRef,
   isRevealed,
+  toUnlockRewardsArray,
 }) => {
   const getStartColor = rewardIndex => {
     switch (rewardIndex) {
@@ -64,9 +65,10 @@ const NewRewardPopUp = ({
                     height: 250,
                     borderRadius: 10,
                     marginHorizontal: 20,
+                    padding: 10,
                   }}
                   source={{
-                    uri: 'https://static-data.100ascent.com/rewards/postcard.webp',
+                    uri: toUnlockRewardsArray[rewardIndex - 1].icon,
                     priority: FastImage.priority.high,
                   }}
                   resizeMode={FastImage.resizeMode.contain}
@@ -89,7 +91,11 @@ const NewRewardPopUp = ({
               <View style={{flex: 1}} />
               <View style={{flex: isRevealed ? 5 : 3}}>
                 <StyledButton
-                  onPress={isRevealed ? onCancel : onHandleRevealPressed}
+                  onPress={
+                    isRevealed
+                      ? onCancel
+                      : () => onHandleRevealPressed(rewardIndex)
+                  }
                   text={isRevealed ? 'CHECK OTHER REWARDS' : 'REVEAL NOW'}
                   buttonStyle={{backgroundColor: Colors.BLACK5, opacity: 1}}
                   textStyle={{color: Colors.TEXTDARK, fontWeight: 'bold'}}
@@ -111,7 +117,7 @@ const NewRewardPopUp = ({
         origin={{x: -20, y: HEIGHT / 2}}
         autoStart={false}
         onAnimationStart={() => {
-          console.log('sd');
+          //console.log('sd');
         }}
         onAnimationEnd={() => {}}
       />

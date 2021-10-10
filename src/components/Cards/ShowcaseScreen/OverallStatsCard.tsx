@@ -1,6 +1,6 @@
 import React from 'react';
 import {Image, ImageBackground, TouchableOpacity, View} from 'react-native';
-import globalStyles from '../../../styles/global/styles';
+import globalStyles from '../../../styles/Global/styles';
 import {Colors} from '../../../utils/colors';
 import Background from '../../Background/StyledBackground';
 import Text24 from '../../Text/Text24';

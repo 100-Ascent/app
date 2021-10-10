@@ -1,7 +1,7 @@
 import React from 'react';
 import { View } from 'react-native';
 import { TouchableOpacity } from 'react-native-gesture-handler';
-import globalStyles from '../../../styles/global/styles';
+import globalStyles from '../../../styles/Global/styles';
 import Background from '../../Background/StyledBackground';
 import Km from '../../../../assets/icons/ShowCase/km.svg';
 import FireWhite from '../../../../assets/icons/ShowCase/FireWhite.svg';
