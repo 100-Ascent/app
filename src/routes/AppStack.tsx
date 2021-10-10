@@ -11,12 +11,11 @@ import {Colors} from '../utils/colors';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
 import Animated from 'react-native-reanimated';
 import {RootStackParamList} from './RootStackParamList';
-import {Text} from 'react-native';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
-import AppIcon from '../../assets/icons/app-icon.svg';
-import Text20 from '../components/Text/Text20';
 import Text24 from '../components/Text/Text24';
+import AllChallenges from './BottomTabStackScreens/AllChallenges';
+import {VERSION_1} from '../utils/constants';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -39,13 +38,23 @@ const HomeStack = ({navigation, style}) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
       <Stack.Navigator initialRouteName="HomeStack">
-        <Stack.Screen
-          name="BottomTabStack"
-          component={BottomTabStack}
-          options={({route}) => ({
-            header: () => null,
-          })}
-        />
+        {VERSION_1 ? (
+          <Stack.Screen
+            name="AllChallengesScreen"
+            component={AllChallenges}
+            options={({route}) => ({
+              header: () => null,
+            })}
+          />
+        ) : (
+          <Stack.Screen
+            name="BottomTabStack"
+            component={BottomTabStack}
+            options={({route}) => ({
+              header: () => null,
+            })}
+          />
+        )}
       </Stack.Navigator>
     </Animated.View>
   );

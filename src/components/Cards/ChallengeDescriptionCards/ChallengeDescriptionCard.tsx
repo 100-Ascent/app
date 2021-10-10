@@ -1,6 +1,8 @@
-import React, { useState } from 'react';
+import React, {useState} from 'react';
 import {View} from 'react-native';
+
 import Icon from 'react-native-elements/dist/icons/Icon';
+
 import {Colors} from '../../../utils/colors';
 import Text14 from '../../Text/Text14';
 import Text20 from '../../Text/Text20';
@@ -12,6 +14,7 @@ const ChallengeDescriptionCard = ({description}) => {
     const tab = 1 - pressed;
     setPressed(tab);
   };
+
   return (
     <View
       style={{
@@ -23,11 +26,21 @@ const ChallengeDescriptionCard = ({description}) => {
       <View style={{paddingTop: 10, paddingLeft: 20, flexDirection: 'row'}}>
         <Text20 text="Description" textColor={Colors.TEXTDARK} />
         <View style={{marginLeft: 'auto', paddingRight: 20}}>
-          <Icon
-            style={{marginTop: 'auto', marginLeft: 'auto'}}
-            type="material"
-            name="expand-more"
-            onPress={handleExpand}></Icon>
+          {pressed === 0 ? (
+            <Icon
+              style={{marginTop: 'auto', marginLeft: 'auto'}}
+              type="material"
+              name="expand-more"
+              onPress={handleExpand}
+            />
+          ) : (
+            <Icon
+              style={{marginTop: 'auto', marginLeft: 'auto'}}
+              type="material"
+              name="expand-less"
+              onPress={handleExpand}
+            />
+          )}
         </View>
       </View>
       {pressed === 0 ? (

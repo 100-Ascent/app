@@ -1,6 +1,8 @@
 import React from 'react';
 import {ActivityIndicator, View} from 'react-native';
 import {Colors} from '../../utils/colors';
+import LottieView from 'lottie-react-native';
+import {WIDTH} from '../../utils/constants';
 
 const RNLoader = () => {
   return (
@@ -12,6 +14,11 @@ const RNLoader = () => {
           alignItems: 'center',
         }}>
         <ActivityIndicator size="large" color={Colors.POPUP_RED} />
+        {/* <LottieView
+          source={require('../../../assets/lottie/cycle.json')}
+          style={{width: WIDTH, height: 200}}
+          autoPlay
+          loop></LottieView> */}
       </View>
     </View>
   );

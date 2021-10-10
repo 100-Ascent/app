@@ -3,7 +3,6 @@ import {View} from 'react-native';
 import {AnimatedCircularProgress} from 'react-native-circular-progress';
 import {Colors} from '../../utils/colors';
 import Text14 from '../Text/Text14';
-import FireIcon from '../../../assets/icons/fire.svg';
 import LottieView from 'lottie-react-native';
 
 const CircularProgressBar = ({streak}) => {

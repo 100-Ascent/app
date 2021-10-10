@@ -6,7 +6,27 @@ import Text16Normal from '../Text/Text16Normal';
 import PopUpButton from '../Button/PopUpButton';
 import Text20 from '../Text/Text20';
 
-const CustomPopUp = ({visible, onOk, onCancel}) => {
+interface Props {
+  cancelText?: string;
+  description?: string;
+  header?: string;
+  isCancelable?: boolean;
+  onCancel: () => void;
+  onOk: () => void;
+  oKText?: string;
+  visible: boolean;
+}
+
+const CustomPopUp: React.FC<Props> = ({
+  cancelText,
+  description,
+  header,
+  isCancelable,
+  onCancel,
+  onOk,
+  oKText,
+  visible,
+}) => {
   return (
     <Modal
       style={{margin: 20}}
@@ -28,19 +48,16 @@ const CustomPopUp = ({visible, onOk, onCancel}) => {
           </View>
           <View style={{flex: 2}}></View>
           <View style={{flex: 1, alignItems: 'center', paddingTop: 15}}>
-            <Text20 text="Confirm Delete" textColor={Colors.TEXTDARK} />
+            <Text20 text={header} textColor={Colors.TEXTDARK} />
             <View style={{marginTop: 5}}>
-              <Text16Normal
-                text="Do you really want to delete?"
-                textColor={Colors.TEXTDARK}
-              />
+              <Text16Normal text={description} textColor={Colors.TEXTDARK} />
             </View>
           </View>
           <View style={{flex: 1, alignItems: 'center'}}>
             <PopUpButton
-              text="CONFIRM"
-              isCancelable={true}
-              cancelText="NO"
+              text={oKText}
+              isCancelable={isCancelable}
+              cancelText={cancelText}
               onCancel={onCancel}
               onOk={onOk}
             />

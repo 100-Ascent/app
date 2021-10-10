@@ -29,7 +29,7 @@ const PopUpButton: React.FC<Props> = ({
               <View
                 style={{
                   paddingVertical: 15,
-                  paddingHorizontal: 50,
+                  paddingHorizontal: 25,
                   backgroundColor: Colors.POPUP_GREY,
                   borderRadius: 20,
                 }}>

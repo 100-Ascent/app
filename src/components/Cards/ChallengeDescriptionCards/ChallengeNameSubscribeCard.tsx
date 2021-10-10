@@ -18,7 +18,7 @@ interface Props {
   shouldShowTitle: boolean;
   cid?: string;
   playlist?: string;
-  handleSubscribe?: () => void;
+  handleSubscribe?: (cid: string) => void;
 }
 
 const ChallengeNameSubscribeCard: React.FC<Props> = ({
@@ -87,7 +87,10 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
       <View style={{flex: 1, flexDirection: 'row', marginTop: 20}}>
         {shouldShowButtons ? (
           <View style={{flex: 4, justifyContent: 'center'}}>
-            <StyledButton text="SUBSCRIBE" onPress={handleSubscribe} />
+            <StyledButton
+              text="SUBSCRIBE"
+              onPress={() => handleSubscribe(cid)}
+            />
           </View>
         ) : null}
         <OpenURLButton url={playlist} />
