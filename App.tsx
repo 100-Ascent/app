@@ -1,14 +1,21 @@
 import 'react-native-gesture-handler';
-import React, { useEffect } from 'react';
-import { Alert, Platform, SafeAreaView, StatusBar, useColorScheme } from 'react-native';
+import React, {useEffect, useRef, useState} from 'react';
+import {
+  Alert,
+  AppState,
+  Platform,
+  SafeAreaView,
+  StatusBar,
+  useColorScheme,
+} from 'react-native';
 import NavigationProviders from './src/routes';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
-import { BASEURL } from './src/utils/constants';
-import { store } from './src/utils/utils';
-import { Provider } from 'react-redux';
+import {BASEURL} from './src/utils/constants';
+import {store} from './src/utils/utils';
+import {Provider} from 'react-redux';
 
-import { LogBox } from 'react-native';
+import {LogBox} from 'react-native';
 import {
   getTrackingStatus,
   requestTrackingPermission,
@@ -23,10 +30,11 @@ axios.interceptors.request.use(async request => {
   return request;
 });
 
+LogBox.ignoreLogs(['Warning: ...']);
+LogBox.ignoreAllLogs();
+
 const App = () => {
-
   if (Platform.OS === 'ios') {
-
     const [trackingStatus, setTrackingStatus] = React.useState<
       TrackingStatus | '(loading)'
     >('(loading)');
@@ -34,10 +42,10 @@ const App = () => {
     React.useEffect(() => {
       request();
       getTrackingStatus()
-        .then((status) => {
+        .then(status => {
           setTrackingStatus(status);
         })
-        .catch((e) => Alert.alert('Error', e?.toString?.() ?? e));
+        .catch(e => Alert.alert('Error', e?.toString?.() ?? e));
     }, []);
 
     const request = React.useCallback(async () => {
@@ -57,7 +65,29 @@ const App = () => {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
-  
+
+  // const appState = useRef(AppState.currentState);
+  // const [appStateVisible, setAppStateVisible] = useState(appState.current);
+
+  // useEffect(() => {
+  //   const subscription = AppState.addEventListener('change', nextAppState => {
+  //     if (
+  //       appState.current.match(/inactive|background/) &&
+  //       nextAppState === 'active'
+  //     ) {
+  //       console.log('App has come to the foreground!');
+  //     }
+
+  //     appState.current = nextAppState;
+  //     setAppStateVisible(appState.current);
+  //     console.log('AppState', appState.current);
+  //   });
+
+  //   return () => {
+  //     subscription.remove();
+  //   };
+  // }, []);
+
   return (
     <SafeAreaView style={backgroundStyle}>
       <Provider store={store}>

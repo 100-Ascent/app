@@ -4,6 +4,7 @@ import {Colors} from '../../../utils/colors';
 import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
 import HamperIcon from '../../../../assets/icons/reward-hamper-icon.svg';
+import LottieView from 'lottie-react-native';
 
 const HamperCard = () => {
   return (
@@ -14,7 +15,7 @@ const HamperCard = () => {
         elevation: 2,
         marginTop: 10,
         borderRadius: 10,
-        backgroundColor: Colors.TEXT,
+        backgroundColor: '#FFF',
       }}>
       <View style={{flex: 1, flexDirection: 'row'}}>
         <View
@@ -24,7 +25,11 @@ const HamperCard = () => {
             alignItems: 'center',
             padding: 10,
           }}>
-          <HamperIcon />
+          <LottieView
+            source={require('../../../../assets/lottie/gift.json')}
+            style={{width: 60, height: 60}}
+            autoPlay
+            loop></LottieView>
         </View>
         <View style={{flex: 3}}>
           <View

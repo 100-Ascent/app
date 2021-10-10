@@ -10,7 +10,19 @@ import Text20 from '../../Text/Text20';
 import CityCarousal from '../../Carousals/CityCarousal';
 import FastImage from 'react-native-fast-image';
 
-const CarousalCard = ({onPress, data, handleSubscribe}) => {
+interface Props {
+  data: any;
+  handleSubscribe?: (id: any) => void;
+  isSubscribed?: boolean;
+  onPress: () => void;
+}
+
+const CarousalCard: React.FC<Props> = ({
+  onPress,
+  data,
+  handleSubscribe,
+  isSubscribed,
+}) => {
   return (
     <View
       style={{
@@ -19,6 +31,7 @@ const CarousalCard = ({onPress, data, handleSubscribe}) => {
         marginTop: 5,
         backgroundColor: Colors.TEXT,
         borderRadius: 10,
+        paddingVertical: 10,
         elevation: 2,
       }}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
@@ -58,10 +71,14 @@ const CarousalCard = ({onPress, data, handleSubscribe}) => {
               <Text24 text={data.name} />
             </View>
             <View style={{flex: 1, marginRight: 15, marginTop: 15}}>
-              <StyledButton
-                text={'SUBSCRIBE'}
-                onPress={() => handleSubscribe(data.id)}
-              />
+              {isSubscribed ? (
+                <View style={{padding: 10}} />
+              ) : (
+                <StyledButton
+                  text={'SUBSCRIBE'}
+                  onPress={() => handleSubscribe(data.id)}
+                />
+              )}
             </View>
           </View>
         </View>
@@ -95,7 +112,7 @@ const CarousalCard = ({onPress, data, handleSubscribe}) => {
             </View>
           </View>
         </View>
-        <View style={{height: '55%', marginTop: 10}}>
+        <View style={{height: isSubscribed ? '50%' : '55%', marginTop: 10}}>
           <View style={{flex: 1, marginLeft: 15}}>
             <Text20
               text={'Cities you will explore'}

@@ -42,7 +42,9 @@ const RewardCard: React.FC<Props> = ({
         endColor={endColor}>
         <TouchableOpacity
           activeOpacity={0.9}
-          onPress={() => onPress(rewardIndex)}>
+          onPress={() => {
+            onPress(rewardIndex);
+          }}>
           <View
             style={{
               height: '100%',
