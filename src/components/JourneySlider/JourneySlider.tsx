@@ -1,9 +1,11 @@
 import React from 'react';
 import {useState} from 'react';
-import {Image, TouchableOpacity} from 'react-native';
-import {View, StyleSheet, ScrollView, Dimensions} from 'react-native';
+import {TouchableOpacity} from 'react-native';
+import {View, StyleSheet, ScrollView} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
+import {useSelector} from 'react-redux';
+import {AppState} from '../../redux';
 import {Colors} from '../../utils/colors';
 import FunFactCard from '../Cards/MyChallengeScreen_FunFactCard';
 import RewardsPopUp from '../PopUps/RewardsPopUp';
@@ -16,6 +18,7 @@ const JourneySliderComponent = ({
   funfact,
   fun_fact_start_color,
   fun_fact_end_color,
+  journeyIndex,
 }) => {
   const [currentOffset, setCurrentOffset] = useState(0);
   const [avgWidth, setWidth] = useState(0);
@@ -49,8 +52,8 @@ const JourneySliderComponent = ({
                   setWidth(width);
                 }}>
                 <TouchableOpacity
-                  disabled={false}
-                  activeOpacity={item.is_passed ? 0.5 : 1}
+                  disabled={item.order > journeyIndex}
+                  activeOpacity={item.order <= journeyIndex ? 1 : 0.5}
                   onPress={() =>
                     item.type === 'checkpoint'
                       ? onPress(item)
@@ -63,10 +66,11 @@ const JourneySliderComponent = ({
                       borderColor: colorArray[0],
                       padding: 3,
                       borderRadius: 90,
-                      backgroundColor: item.is_passed
-                        ? Colors.TRANSPARENT
-                        : Colors.BLACK5,
-                      opacity: item.is_passed ? 1 : 0.2,
+                      backgroundColor:
+                        item.order <= journeyIndex
+                          ? Colors.BLACK5
+                          : Colors.TRANSPARENT,
+                      opacity: item.order <= journeyIndex ? 1 : 0.2,
                     }}>
                     <FastImage
                       style={{
@@ -113,7 +117,6 @@ const JourneySliderComponent = ({
       <ScrollView
         horizontal={true}
         showsHorizontalScrollIndicator={false}
-        scrollEventThrottle={5}
         onScroll={e => handleScroll(e)}>
         {cards}
         <View style={{padding: 20}} />

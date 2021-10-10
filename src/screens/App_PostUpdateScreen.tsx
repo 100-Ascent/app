@@ -24,9 +24,8 @@ import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker'
 import RNLoader from '../components/Loader/RNLoader';
 import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
 import StyledButton from '../components/Button/StyledButton';
-import Text16Normal from '../components/Text/Text16Normal';
 
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
 
 export type AndroidMode = 'date' | 'time';
@@ -34,7 +33,7 @@ interface Props {
   navigation: RootNavProp<'PostDataScreen'>;
 }
 export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [date, setDate] = useState(new Date());
   const [mode, setMode] = useState<AndroidMode>('date');
   const [show, setShow] = useState(false);
@@ -58,6 +57,9 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
 
   const [defaultOption, setDefaultOption] = useState(0);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const activityData = useSelector(
+    (state: AppState) => state.rootStore.activityData.data,
+  );
 
   const onChange = (event, selectedDateValue) => {
     const currentDate = selectedDateValue;
@@ -90,25 +92,13 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const getDropdownActivities = () => {
-    axios
-      .get('/api/activities', {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(res => {
-        setDropdownData(res.data.data.activities);
-        setSubscribedChallenge(res.data.data.challenges);
-        const item = res.data.data.activities[0];
-        setSelected(item);
-        setDefaultOption(item.is_distance ? 0 : 1);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('error');
-        console.log(err);
-        setLoading(false);
-      });
+    setDropdownData(activityData.activities);
+    setSubscribedChallenge(activityData.challenges);
+    let item = activityData.activities;
+    let index = item.findIndex(item => item.name.includes('Walking'));
+    setSelected(item[index]);
+    setDefaultOption(item[index].is_distance ? 0 : 1);
+    setLoading(false);
   };
 
   const getSelectedChallenge = idx => {
@@ -169,6 +159,10 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Add an activity',
+      headerTitleContainerStyle: {alignItems: 'center'},
+    });
     getDropdownActivities();
   }, []);
 
@@ -192,27 +186,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
               <RNLoader />
             ) : (
               <View style={{flex: 1}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: 20,
-                      flex: 1,
-                      flexDirection: 'row',
-                    }}>
-                    <View></View>
-                    <Text16Normal
-                      text="Add an Activity"
-                      textColor={Colors.TEXTDARK}
-                    />
-                    <Icon
-                      name="account-circle"
-                      type="MaterialIcons"
-                      size={30}
-                    />
-                  </View>
-                </View>
                 <View
                   style={{
                     marginVertical: 10,

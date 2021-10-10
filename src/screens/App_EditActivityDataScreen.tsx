@@ -24,7 +24,6 @@ import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker'
 import RNLoader from '../components/Loader/RNLoader';
 import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
 import StyledButton from '../components/Button/StyledButton';
-import Text16Normal from '../components/Text/Text16Normal';
 
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
@@ -44,7 +43,7 @@ export const EditActivityDataScreen: React.FC<Props> = ({
   const [selectedDate, setSelectedDate] = useState(
     routeData ? routeData.date : routeData,
   );
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(routeData.date);
   const [mode, setMode] = useState<AndroidMode>('date');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -69,6 +68,9 @@ export const EditActivityDataScreen: React.FC<Props> = ({
     routeData ? (routeData.activity.is_distance ? 0 : 1) : 0,
   );
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const activityData = useSelector(
+    (state: AppState) => state.rootStore.activityData.data,
+  );
 
   const onChange = (event, selectedDateValue) => {
     const currentDate = selectedDateValue;
@@ -101,25 +103,12 @@ export const EditActivityDataScreen: React.FC<Props> = ({
   };
 
   const getDropdownActivities = () => {
-    axios
-      .get('/api/activities', {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(res => {
-        setDropdownData(res.data.data.activities);
-        setSubscribedChallenge(res.data.data.challenges);
-        const item = res.data.data.activities[0];
-        setSelected(item);
-        setDefaultOption(item.is_distance ? 0 : 1);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('error');
-        console.log(err);
-        setLoading(false);
-      });
+    setDropdownData(activityData.activities);
+    setSubscribedChallenge(activityData.challenges);
+    const item = activityData.activities[0];
+    setSelected(item);
+    setDefaultOption(item.is_distance ? 0 : 1);
+    setLoading(false);
   };
 
   const getSelectedChallenge = idx => {
@@ -166,20 +155,23 @@ export const EditActivityDataScreen: React.FC<Props> = ({
       steps: calminsteps.steps,
       comment: comment,
     };
-    console.log(data);
-    // const cid = subscribedChallenge[selectedCid].cid;
-    // axios
-    //   .post('/api/post/data/' + cid, data)
-    //   .then(res => {
-    //     navigation.navigate('AllChallengesScreen');
-    //   })
-    //   .catch(err => {
-    //     console.log('error');
-    //     console.log(err);
-    //   });
+
+    axios
+      .post('/api/challenge_data/edit/' + route.params.cd_id, data)
+      .then(res => {
+        navigation.navigate('AllChallengesScreen');
+      })
+      .catch(err => {
+        console.log('error');
+        console.log(err);
+      });
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Edit activity',
+      headerTitleContainerStyle: {alignItems: 'center'},
+    });
     getDropdownActivities();
   }, []);
 

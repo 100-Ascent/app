@@ -35,10 +35,7 @@ const DistanceComponent = ({distanceData}) => {
         },
       })
       .then(res => {
-        let data = distanceData.splice(current, 1);
-        if (res.data.success) {
-          setDistance(data);
-        }
+        navigation.navigate('AllChallengesScreen');
       })
       .catch(err => {
         console.log('error123');
@@ -47,7 +44,10 @@ const DistanceComponent = ({distanceData}) => {
   };
 
   const handleEditPressed = () => {
-    navigation.navigate('EditActivityDataScreen', {data: distance[current]});
+    navigation.navigate('EditActivityDataScreen', {
+      data: distance[current],
+      cd_id: distance[current].id,
+    });
   };
 
   return (

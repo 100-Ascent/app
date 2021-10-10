@@ -1,11 +1,5 @@
 import React, {useRef} from 'react';
-import {
-  Dimensions,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 import MapView, {
   Marker,
   PROVIDER_GOOGLE,
@@ -13,8 +7,6 @@ import MapView, {
   MapTypes,
   Callout,
 } from 'react-native-maps';
-import {useEffect} from 'react';
-import Polyline from '@mapbox/polyline';
 import {useState} from 'react';
 import {Colors} from '../../utils/colors';
 import Icon from 'react-native-elements/dist/icons/Icon';
@@ -22,7 +14,6 @@ import ZoomInButton from '../Button/ZoomInButton';
 import ZoomOutButton from '../Button/ZoomOutButtom';
 import DefaultLocationButton from '../Button/DefaultLocationButton';
 import {useNavigation} from '@react-navigation/core';
-import FlagIcon from '../../../assets/icons/flag.svg';
 import Text14 from '../Text/Text14';
 import {useSelector} from 'react-redux';
 import {AppState} from '../../redux';
@@ -129,20 +120,12 @@ const MapViewComponent = ({
                 }}
                 ref={markerRef}
                 icon={{
-                  uri: 'https://static-data.100ascent.com/maps/flag-marker.svg',
+                  uri: 'https://static-data.100ascent.com/maps/flag-marker.png',
                 }}
                 key={index}
                 title={marker.name}
                 description={marker.description}
                 onPress={() => {}}>
-                {/* <View
-                  style={{
-                    alignItems: 'center',
-                    borderWidth: 6,
-                    borderColor: Colors.TRANSPARENT,
-                  }}>
-                  <FlagIcon />
-                </View> */}
                 <Callout
                   tooltip
                   onPress={() =>
@@ -179,13 +162,13 @@ const MapViewComponent = ({
             coordinates={polylines}
             strokeColor={Colors.WHITE}
             fillColor={Colors.WHITE}
-            strokeWidth={1}
+            strokeWidth={2}
           />
           <Poly
             coordinates={polylinesCompleted}
             strokeColor={'#A86C95'}
             fillColor="rgba(255,255,0,0.5)"
-            strokeWidth={4}
+            strokeWidth={3}
           />
         </MapView>
         <View

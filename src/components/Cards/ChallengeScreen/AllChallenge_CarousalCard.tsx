@@ -31,6 +31,7 @@ const CarousalCard: React.FC<Props> = ({
         marginTop: 5,
         backgroundColor: Colors.TEXT,
         borderRadius: 10,
+        paddingVertical: 10,
         elevation: 2,
       }}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>

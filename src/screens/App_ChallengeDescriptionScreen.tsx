@@ -20,6 +20,7 @@ import RoadMapCard from '../components/Cards/ChallengeDescriptionCards/Challenge
 
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -30,21 +31,23 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
   const data = route.params.data;
   const [currentTab, setTab] = useState(0);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
-
+  const [subscribePopUp, setSubscribePopUp] = useState<boolean>(false);
+  const [toSubscribeCid, setSubscribeCid] = useState('');
   const handleSwitch = () => {
     const tab = 1 - currentTab;
     setTab(tab);
   };
 
-  const handleSubscribe = () => {
-    axios
+  const handleSubscribe = async () => {
+    await axios
       .get('/api/challenge/subscribed/' + data.id, {
         headers: {
           'X-CONTEXT-ID': contextId,
         },
       })
       .then(res => {
-        navigation.popToTop();
+        setSubscribePopUp(false);
+        navigation.navigate('DataLoaderScreen');
       })
       .catch(err => {
         console.log('error in subscribing to challenge');
@@ -56,6 +59,11 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     navigation.navigate('MediaScreen', {
       data: data.roadMap,
     });
+  };
+
+  const handleSubscribedPressed = cid => {
+    setSubscribeCid(cid);
+    setSubscribePopUp(true);
   };
 
   const rewardImageOnPress = url => {
@@ -77,7 +85,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               icon={data.icon}
               cid={data.id}
               playlist={data.playlist}
-              handleSubscribe={handleSubscribe}
+              handleSubscribe={handleSubscribedPressed}
             />
 
             <CustomSwitch currentTab={currentTab} onPress={handleSwitch} />
@@ -141,6 +149,19 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
             />
           </View>
           <View style={{padding: 100}}></View>
+          <CustomPopUp
+            isCancelable={true}
+            cancelText={'Cancel'}
+            description={'Do you really want to subscribe?'}
+            header={'Confirm Subscription'}
+            oKText={'Subscribe'}
+            visible={subscribePopUp}
+            onCancel={() => {
+              setSubscribeCid('');
+              setSubscribePopUp(false);
+            }}
+            onOk={handleSubscribe}
+          />
         </ScrollView>
       </Background>
     </SafeAreaView>

@@ -48,6 +48,7 @@ const ThreeTabNavigator = ({
   funfact,
   distance,
   userLocation,
+  userJourneyIndex,
 }) => {
   const [active, setActive] = useState(0);
   const [index, setIndex] = useState(0);
@@ -70,6 +71,7 @@ const ThreeTabNavigator = ({
             onPress={handleMyJourneyMilestonePressed}
             colorArray={arr}
             data={journeyData}
+            journeyIndex={userJourneyIndex}
             funfact={funfact}
             fun_fact_start_color={tracks[index].fun_fact_start_color}
             fun_fact_end_color={tracks[index].fun_fact_end_color}

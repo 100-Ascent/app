@@ -19,7 +19,9 @@ import ThreeTabNavigator from '../components/Navigation/ThreeTabNavigator';
 
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
-import {setCurrentValues} from '../redux/action';
+import {setCurrentValues, setJourneyIndex} from '../redux/action';
+import {VERSION_1} from '../utils/constants';
+import FloatingActionButton from '../components/Button/FloatingActionButton';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -56,6 +58,8 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
             index: data.current_track_index,
           }),
         );
+
+        dispatch(setJourneyIndex({index: data.user_journey_index}));
         setChallengeData(data);
         setDistanceData(data.challenge_data);
         setLoading(false);
@@ -103,6 +107,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerLeft: () => <View style={{marginLeft: 10}} />,
+      headerTitle: 'My Challenge',
+    });
     callToGetChallengeDataFromId();
     callToGetTracksData();
     callToGetUserJourneyData();
@@ -142,61 +150,81 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
         {loading ? (
           <RNLoader />
         ) : (
-          <ScrollView scrollEnabled style={{flexGrow: 1}}>
-            <View style={{flex: 1}}>
-              <BackgroundVector />
-              <View style={{padding: 5}} />
+          <View style={{flex: 1}}>
+            <ScrollView scrollEnabled style={{flexGrow: 1}}>
+              <View style={{flex: 1}}>
+                <BackgroundVector />
+                <View style={{padding: 5}} />
 
-              <ChallengeNameWithIconCard
-                onViewDetailsPressed={onViewDetailsPressed}
-                name={data.name}
-                icon={data.icon}
-              />
+                <ChallengeNameWithIconCard
+                  onViewDetailsPressed={onViewDetailsPressed}
+                  name={data.name}
+                  icon={data.icon}
+                />
 
-              <View style={{padding: 15}} />
+                <View style={{padding: 15}} />
 
-              <StatsCard streak={challengeData.streak} />
-              <View style={{padding: 10}} />
+                <StatsCard streak={challengeData.streak} />
+                <View style={{padding: 10}} />
 
-              <ProgressBar distance={currentDistance} />
-              <View style={{padding: 10}} />
+                <ProgressBar distance={currentDistance} />
+                <View style={{padding: 10}} />
 
-              <RewardsCard
-                rewards={challengeData.rewards}
-                onPress={handleRewardsPressed}
-              />
-              <View style={{padding: 10}} />
+                <RewardsCard
+                  rewards={challengeData.rewards}
+                  onPress={handleRewardsPressed}
+                />
+                <View style={{padding: 10}} />
 
-              <CheckpointCard
-                checkpoint={challengeData.current_checkpoint}
-                onCheckpointPressed={onCheckpointPressed}
-              />
-              <View style={{padding: 10}} />
+                <CheckpointCard
+                  checkpoint={challengeData.current_checkpoint}
+                  onCheckpointPressed={onCheckpointPressed}
+                />
+                <View style={{padding: 10}} />
 
-              <ThreeTabNavigator
-                userLocation={{
-                  latitude: challengeData.user_lat,
-                  longitude: challengeData.user_long,
-                }}
-                journeyData={myJourneyData}
-                tracksCoordinates={tracksData}
-                tracks={challengeData.tracks}
-                distanceData={myDistanceData}
-                handleMyJourneyMilestonePressed={
-                  handleMyJourneyMilestonePressed
-                }
-                funfact={challengeData.current_checkpoint.tid.fun_fact}
-                distance={challengeData.current_distance}
-              />
-            </View>
-
-            <LinearGradient
-              start={{x: 0, y: 0}}
-              end={{x: 1, y: 0}}
-              colors={['#026E8D', '#308FD7']}>
-              <View style={{padding: 50}} />
-            </LinearGradient>
-          </ScrollView>
+                <ThreeTabNavigator
+                  userLocation={{
+                    latitude: challengeData.user_lat,
+                    longitude: challengeData.user_long,
+                  }}
+                  journeyData={myJourneyData}
+                  userJourneyIndex={challengeData.user_journey_index}
+                  tracksCoordinates={tracksData}
+                  tracks={challengeData.tracks}
+                  distanceData={myDistanceData}
+                  handleMyJourneyMilestonePressed={
+                    handleMyJourneyMilestonePressed
+                  }
+                  funfact={challengeData.current_checkpoint.tid.fun_fact}
+                  distance={challengeData.current_distance}
+                />
+              </View>
+              <LinearGradient
+                start={{x: 0, y: 0}}
+                end={{x: 1, y: 0}}
+                colors={[
+                  challengeData.current_checkpoint.tid.fun_fact_start_color,
+                  challengeData.current_checkpoint.tid.fun_fact_end_color,
+                ]}>
+                <View style={{padding: 50}} />
+              </LinearGradient>
+            </ScrollView>
+            {VERSION_1 ? (
+              <View
+                style={{
+                  position: 'absolute',
+                  right: 15,
+                  bottom: 40,
+                  zIndex: 200,
+                }}>
+                <FloatingActionButton
+                  onPress={() => {
+                    navigation.navigate('PostDataScreen');
+                  }}
+                />
+              </View>
+            ) : null}
+          </View>
         )}
       </Background>
     </SafeAreaView>

@@ -104,7 +104,6 @@ const Routes = () => {
           callToUserCheckIn(setLoading, dispatch);
           setUser(user);
         } else {
-          console.log('existing user');
           callToUserCheckIn(setLoading, dispatch);
           setEmailVerified(true);
           setLoading(false);

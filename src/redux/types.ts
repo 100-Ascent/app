@@ -5,6 +5,8 @@ export const SET_USER = 'SET_USER';
 export const SET_NOTIFYTOKEN = 'SET_NOTIFYTOKEN';
 export const SET_CONTEXTID = 'SET_CONTEXTID';
 export const SET_CURRENT_VALUES = 'SET_CURRENT_VALUES';
+export const SET_JOURNEY_INDEX = 'SET_JOURNEY_INDEX';
+export const SET_ACTIVITIES = 'SET_ACTIVITIES';
 
 export interface UserType {
   user: any;
@@ -23,11 +25,21 @@ export interface CurrentValueType {
   index: any;
 }
 
+export interface JourneyIndexType {
+  index: any;
+}
+
+export interface ActivitiesDataType {
+  data: any;
+}
+
 export interface ReduxState {
   user: UserType | null;
   notifyToken: NotificationType | null;
   contextId: ContextIdType | null;
   currentValue: CurrentValueType;
+  journeyIndex: JourneyIndexType;
+  activityData: ActivitiesDataType;
 }
 
 export interface SetUserActionTypes {
@@ -50,11 +62,23 @@ export interface SetCurrentValueActionTypes {
   payload: CurrentValueType | null;
 }
 
+export interface SetJourneyIndexActionTypes {
+  type: typeof SET_JOURNEY_INDEX;
+  payload: JourneyIndexType | null;
+}
+
+export interface SetActivitDataActionTypes {
+  type: typeof SET_ACTIVITIES;
+  payload: ActivitiesDataType | null;
+}
+
 export type AppActionsType =
   | SetUserActionTypes
   | SetNotifyTokenActionTypes
   | SetContextIdActionTypes
-  | SetCurrentValueActionTypes;
+  | SetCurrentValueActionTypes
+  | SetJourneyIndexActionTypes
+  | SetActivitDataActionTypes;
 
 export type MyThunkAction<R, T = any> = ThunkAction<
   R,

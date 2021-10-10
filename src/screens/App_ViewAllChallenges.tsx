@@ -20,6 +20,8 @@ import {Colors} from '../utils/colors';
 import {HEIGHT, WIDTH} from '../utils/constants';
 import globalStyles from '../styles/Global/styles';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
+import {useIsFocused} from '@react-navigation/native';
+import {NavigationDrawerStructure} from '../routes/AppStack';
 
 const width = WIDTH;
 const height = HEIGHT * 0.45;
@@ -36,13 +38,15 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
   const [loading, setLoading] = useState<boolean>(true);
   const [subscribePopUp, setSubscribePopUp] = useState<boolean>(false);
   const [toSubscribeCid, setSubscribeCid] = useState('');
+  const isFocused = useIsFocused();
 
   useEffect(() => {
     getChallengeData();
-  }, []);
+  }, [isFocused]);
 
-  const getChallengeData = () => {
-    axios
+  const getChallengeData = async () => {
+    setLoading(true);
+    await axios
       .get('/api/challenge', {
         headers: {
           'X-CONTEXT-ID': contextId,
@@ -50,10 +54,23 @@ const ViewAllChallenges: React.FC<Props> = ({navigation}) => {
       })
       .then(res => {
         const allChallenge = res.data.data[0].remainingList;
-        setAllChallenge(allChallenge);
-        setActiveChallenge(res.data.data[0].subsList);
-        setCompletedChallenge(res.data.data[0].completedList);
-        setLoading(false);
+        const activeChallenge = res.data.data[0].subsList;
+        if (activeChallenge.length == 1) {
+          navigation.navigate('MyChallengeScreen', {
+            data: activeChallenge[0],
+            challengeId: activeChallenge[0].id,
+          });
+        } else {
+          navigation.setOptions({
+            headerLeft: () => (
+              <NavigationDrawerStructure navigationProps={navigation} />
+            ),
+          });
+          setAllChallenge(allChallenge);
+          setActiveChallenge(activeChallenge);
+          setCompletedChallenge(res.data.data[0].completedList);
+          setLoading(false);
+        }
       })
       .catch(err => {
         console.log('Error on get my challenges');

@@ -7,12 +7,13 @@ export type RootStackParamList = {
   HomeStack: undefined;
   BottomTabStack: undefined;
 
+  DataLoaderScreen: undefined;
   AllChallengesScreen: undefined;
   ChallengeDescriptionScreen: {data: Object};
 
   CommunityScreen: undefined;
   PostDataScreen: any;
-  EditActivityDataScreen: {data?: any};
+  EditActivityDataScreen: {data?: any; cd_id: any};
   MyChallengeScreen: {data: Object; challengeId: Object};
   UserProfileScreen: undefined;
 
