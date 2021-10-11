@@ -24,6 +24,9 @@ export type RootStackParamList = {
     total_distance: any;
   };
 
+  ShowcaseScreen: {
+    data: Object;
+  };
   MediaScreen: {data: any};
   RewardsScreen: {data: any; name: any; icon: any};
   MapViewFullScreen: {data: any};
