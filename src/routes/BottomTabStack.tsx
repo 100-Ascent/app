@@ -30,7 +30,7 @@ const BottomTabStack = ({navigation}) => {
     return width / 5;
   }
 
-  return DEBUG ? (
+  return !DEBUG ?   (
     <Tab.Navigator
       initialRouteName="AllChallengesScreen"
       tabBarOptions={{
@@ -108,9 +108,10 @@ const BottomTabStack = ({navigation}) => {
         })}
       />
     </Tab.Navigator>
-  ) : (
+      
+  ):(
     <>
-      <Tab.Navigator
+<Tab.Navigator
         initialRouteName="AllChallengesScreen"
         tabBarOptions={{
           showLabel: false,
@@ -276,7 +277,9 @@ const BottomTabStack = ({navigation}) => {
           transform: [{translateX: tabOffsetValue}],
         }}></Animated.View>
     </>
-  );
+  )
+  ;
 };
 
 export default BottomTabStack;
+

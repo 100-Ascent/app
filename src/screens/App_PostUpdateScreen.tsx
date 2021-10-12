@@ -7,38 +7,34 @@ import {
   ScrollView,
   Text,
 } from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import Background from '../components/Background/StyledBackground';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {Colors} from '../utils/colors';
-import moment from 'moment';
-import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-import Text16Normal from '../components/Text/Text16Normal';
-import FastImage from 'react-native-fast-image';
-import CustomPopUp from '../components/PopUps/CustomPopUp';
-import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
+
 import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import FastImage from 'react-native-fast-image';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import moment from 'moment';
+import {useSelector} from 'react-redux';
 import {AppState} from '../redux';
-import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
-import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+
 import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
-import StyledButton from '../components/Button/StyledButton';
-import Text20 from '../components/Text/Text20';
+import Background from '../components/Background/StyledBackground';
+import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
+import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
+import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
 import RNLoader from '../components/Loader/RNLoader';
+import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+import StyledButton from '../components/Button/StyledButton';
+
 import {RootNavProp} from '../routes/RootStackParamList';
+import {Colors} from '../utils/colors';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
   navigation: RootNavProp<'PostDataScreen'>;
 }
 export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
-  // const date123 = new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000);
-  // const x = moment.utc(date123).format('YYYY-MM-DD HH:mm:ss');
-  // console.log(x);
-  const [selectedDate, setSelectedDate] = useState(null);
+  const [selectedDate, setSelectedDate] = useState(new Date());
   const [date, setDate] = useState(new Date());
-  const [time, setTime] = useState('');
   const [mode, setMode] = useState<AndroidMode>('date');
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
@@ -61,6 +57,9 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
 
   const [defaultOption, setDefaultOption] = useState(0);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const activityData = useSelector(
+    (state: AppState) => state.rootStore.activityData.data,
+  );
 
   const onChange = (event, selectedDateValue) => {
     const currentDate = selectedDateValue;
@@ -93,25 +92,13 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const getDropdownActivities = () => {
-    axios
-      .get('/api/activities', {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(res => {
-        setDropdownData(res.data.data.activities);
-        setSubscribedChallenge(res.data.data.challenges);
-        const item = res.data.data.activities[0];
-        setSelected(item);
-        setDefaultOption(item.is_distance ? 0 : 1);
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('error');
-        console.log(err);
-        setLoading(false);
-      });
+    setDropdownData(activityData.activities);
+    setSubscribedChallenge(activityData.challenges);
+    let item = activityData.activities;
+    let index = item.findIndex(item => item.name.includes('Walking'));
+    setSelected(item[index]);
+    setDefaultOption(item[index].is_distance ? 0 : 1);
+    setLoading(false);
   };
 
   const getSelectedChallenge = idx => {
@@ -163,7 +150,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
     axios
       .post('/api/post/data/' + cid, data)
       .then(res => {
-        console.log(res.data);
         navigation.navigate('AllChallengesScreen');
       })
       .catch(err => {
@@ -173,6 +159,10 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Add an activity',
+      headerTitleContainerStyle: {alignItems: 'center'},
+    });
     getDropdownActivities();
   }, []);
 
@@ -196,27 +186,6 @@ export const PostUpdateScreen: React.FC<Props> = ({navigation}) => {
               <RNLoader />
             ) : (
               <View style={{flex: 1}}>
-                <View style={{flexDirection: 'row'}}>
-                  <View
-                    style={{
-                      justifyContent: 'space-between',
-                      alignItems: 'center',
-                      padding: 20,
-                      flex: 1,
-                      flexDirection: 'row',
-                    }}>
-                    <View></View>
-                    <Text16Normal
-                      text="Add an Activity"
-                      textColor={Colors.TEXTDARK}
-                    />
-                    <Icon
-                      name="account-circle"
-                      type="MaterialIcons"
-                      size={30}
-                    />
-                  </View>
-                </View>
                 <View
                   style={{
                     marginVertical: 10,

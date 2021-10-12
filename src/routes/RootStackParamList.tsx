@@ -3,15 +3,18 @@ import {StackNavigationProp} from '@react-navigation/stack';
 
 export type RootStackParamList = {
   AuthenticateScreen: undefined;
-
+  MyProfileScreen: {data: any};
   HomeStack: undefined;
   BottomTabStack: undefined;
+  EditProfileScreen: undefined;
 
+  DataLoaderScreen: undefined;
   AllChallengesScreen: undefined;
   ChallengeDescriptionScreen: {data: Object};
   OnboardingScreen: undefined;
   CommunityScreen: undefined;
-  PostDataScreen: undefined;
+  PostDataScreen: any;
+  EditActivityDataScreen: {data?: any; cd_id: any};
   MyChallengeScreen: {data: Object; challengeId: Object};
   UserProfileScreen: undefined;
 
@@ -21,6 +24,9 @@ export type RootStackParamList = {
     total_distance: any;
   };
 
+  ShowcaseScreen: {
+    data: Object;
+  };
   MediaScreen: {data: any};
   RewardsScreen: {data: any; name: any; icon: any};
   MapViewFullScreen: {data: any};

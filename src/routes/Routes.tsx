@@ -1,22 +1,24 @@
-import React, {useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import AppStack from './AppStack';
+import React, {useState, useEffect} from 'react';
+import {View, Platform} from 'react-native';
+
 import AuthStack from './AuthStack';
-import {useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
-import messaging from '@react-native-firebase/messaging';
+import AppStack from './AppStack';
 import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import {Platform} from 'react-native';
-import VersionNumber from 'react-native-version-number';
-import uuid from 'react-native-uuid';
-import {View} from 'react-native';
-import {Text} from 'react-native-elements';
-import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
+import messaging from '@react-native-firebase/messaging';
+import {NavigationContainer} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {setContextId} from '../redux/action';
+import uuid from 'react-native-uuid';
+import VersionNumber from 'react-native-version-number';
+
+import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
+<<<<<<< HEAD
 import OnboardingScreen from '../screens/App_OnBoarding';
+=======
+import {setContextId} from '../redux/action';
+>>>>>>> 359995ddd5a5aebee98795c2aa0260f9b2f7e95c
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
@@ -118,7 +120,6 @@ const Routes = () => {
           callToUserCheckIn(setLoading, dispatch);
           setUser(user);
         } else {
-          console.log('existing user');
           callToUserCheckIn(setLoading, dispatch);
           setEmailVerified(true);
           setLoading(false);

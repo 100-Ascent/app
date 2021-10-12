@@ -7,15 +7,19 @@ import Text14 from '../Text/Text14';
 
 const RewardsCarousal = ({data, onPress}) => {
   const rewards = data.map((val, idx) => {
-    return val.is_passed ? (
+    return (
       <View style={{flex: 1}} key={idx}>
-        <TouchableOpacity activeOpacity={0.8} onPress={() => onPress(val)}>
+        <TouchableOpacity
+          disabled={!val.is_passed}
+          activeOpacity={0.8}
+          onPress={() => onPress(val)}>
           <View
             style={{
               flex: 1,
               alignItems: 'center',
               marginHorizontal: 10,
               marginVertical: 5,
+              opacity: val.is_passed ? 1 : 0.15,
             }}>
             <FastImage
               style={{
@@ -49,14 +53,17 @@ const RewardsCarousal = ({data, onPress}) => {
               <Text14
                 text={val.title}
                 textColor={Colors.BLACK4}
-                textStyle={{textAlign: 'center'}}
+                textStyle={{
+                  textAlign: 'center',
+                  opacity: val.is_passed ? 1 : 0.35,
+                }}
               />
             </View>
             <View style={{width: '10%'}} />
           </View>
         </TouchableOpacity>
       </View>
-    ) : null;
+    );
   });
 
   return (
