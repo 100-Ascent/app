@@ -14,11 +14,8 @@ import VersionNumber from 'react-native-version-number';
 
 import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
-<<<<<<< HEAD
 import OnboardingScreen from '../screens/App_OnBoarding';
-=======
 import {setContextId} from '../redux/action';
->>>>>>> 359995ddd5a5aebee98795c2aa0260f9b2f7e95c
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
