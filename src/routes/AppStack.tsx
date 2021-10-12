@@ -17,6 +17,7 @@ import MenuIcon from '../../assets/icons/menu.svg';
 import AppIcon from '../../assets/icons/app-icon.svg';
 import Text20 from '../components/Text/Text20';
 import Text24 from '../components/Text/Text24';
+import OnboardingScreen from '../screens/App_OnBoarding';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -46,6 +47,7 @@ const HomeStack = ({navigation, style}) => {
             header: () => null,
           })}
         />
+        <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
       </Stack.Navigator>
     </Animated.View>
   );

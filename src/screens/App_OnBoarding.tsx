@@ -1,14 +1,10 @@
 import React from 'react';
 import {Text, Button, StyleSheet, View, Image} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-import {RootNavProp} from '../routes/RootStackParamList';
-interface Props {
-  navigation: RootNavProp<'OnboardingScreen'>;
-}
-const OnboardingScreen: React.FC<Props> = ({navigation}) => {
+
+const OnboardingScreen = () => {
   return (
     <Onboarding
-      onDone={() => navigation.navigate('HomeStack')}
       pages={[
         {
           backgroundColor: '#29BEF0',

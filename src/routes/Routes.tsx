@@ -17,7 +17,6 @@ import {useDispatch} from 'react-redux';
 import {setContextId} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
 import OnboardingScreen from '../screens/App_OnBoarding';
-import OnboardingStack from './OnboardingStack';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
@@ -89,7 +88,7 @@ const callToUserCheckIn = (
 };
 
 const Routes = () => {
-  const [isFirstLaunch, setIsFiirstLaunch] = useState(null);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
@@ -101,9 +100,9 @@ const Routes = () => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       if (value == null) {
         AsyncStorage.setItem('alreadyLaunched', 'true');
-        setIsFiirstLaunch(true);
+        setIsFirstLaunch(true);
       } else {
-        setIsFiirstLaunch(false);
+        setIsFirstLaunch(false);
       }
     });
   }, []);
@@ -163,9 +162,8 @@ const Routes = () => {
           <RNLoader />
         ) : user ? (
           isEmailVerified ? (
-            // <AppStack />
             isFirstLaunch ? (
-              <OnboardingStack />
+              <OnboardingScreen />
             ) : (
               <AppStack />
             )
