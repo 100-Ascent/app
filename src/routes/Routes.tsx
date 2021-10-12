@@ -14,6 +14,7 @@ import VersionNumber from 'react-native-version-number';
 
 import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
+import OnboardingScreen from '../screens/App_OnBoarding';
 import {setContextId} from '../redux/action';
 
 const getFcmToken = async () => {
@@ -86,12 +87,24 @@ const callToUserCheckIn = (
 };
 
 const Routes = () => {
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
   const [loading, setLoading] = useState(false);
   const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
   const [isValidAppVersion, setIsValidAppVersion] = useState(false);
   const [isEmailVerified, setEmailVerified] = useState(false);
   const dispatch = useDispatch();
+
+  useEffect(() => {
+    AsyncStorage.getItem('alreadyLaunched').then(value => {
+      if (value == null) {
+        AsyncStorage.setItem('alreadyLaunched', 'true');
+        setIsFirstLaunch(true);
+      } else {
+        setIsFirstLaunch(false);
+      }
+    });
+  }, []);
 
   function onAuthStateChanged(user) {
     if (user) {
@@ -140,6 +153,10 @@ const Routes = () => {
     return subscriber;
   }, []);
 
+  const showAppStack = () => {
+    setIsFirstLaunch(false);
+  };
+
   return (
     <NavigationContainer>
       {isValidAppVersion ? (
@@ -147,7 +164,11 @@ const Routes = () => {
           <RNLoader />
         ) : user ? (
           isEmailVerified ? (
-            <AppStack />
+            isFirstLaunch ? (
+              <OnboardingScreen showAppStack={showAppStack} />
+            ) : (
+              <AppStack />
+            )
           ) : (
             <EmailVerifyScreen
               setIsEmailVerifiedToTrue={() => setEmailVerified(true)}
