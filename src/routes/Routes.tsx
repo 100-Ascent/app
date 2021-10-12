@@ -155,6 +155,10 @@ const Routes = () => {
     return subscriber;
   }, []);
 
+  const showAppStack = () => {
+    setIsFirstLaunch(false);
+  };
+
   return (
     <NavigationContainer>
       {isValidAppVersion ? (
@@ -163,7 +167,7 @@ const Routes = () => {
         ) : user ? (
           isEmailVerified ? (
             isFirstLaunch ? (
-              <OnboardingScreen />
+              <OnboardingScreen showAppStack={showAppStack} />
             ) : (
               <AppStack />
             )

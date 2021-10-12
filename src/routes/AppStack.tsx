@@ -47,7 +47,6 @@ const HomeStack = ({navigation, style}) => {
             header: () => null,
           })}
         />
-        <Stack.Screen name="OnboardingScreen" component={OnboardingScreen} />
       </Stack.Navigator>
     </Animated.View>
   );

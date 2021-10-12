@@ -1,10 +1,15 @@
 import React from 'react';
 import {Text, Button, StyleSheet, View, Image} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
-
-const OnboardingScreen = () => {
+import {RootNavProp} from '../routes/RootStackParamList';
+interface Props {
+  showAppStack: RootNavProp<'OnboardingScreen'>;
+}
+const OnboardingScreen = ({showAppStack}) => {
   return (
     <Onboarding
+      onSkip={() => showAppStack()}
+      onDone={() => showAppStack()}
       pages={[
         {
           backgroundColor: '#29BEF0',
