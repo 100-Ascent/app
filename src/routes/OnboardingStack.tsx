@@ -1,21 +1,20 @@
 import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from './RootStackParamList';
-import AuthenticateScreen from '../screens/Auth_AuthenticateScreen';
 import OnboardingScreen from '../screens/App_OnBoarding';
 
 const Stack = createStackNavigator<RootStackParamList>();
 
-const AuthStack = () => {
+const OnboardingStack = () => {
   return (
-    <Stack.Navigator initialRouteName="AuthenticateScreen">
+    <Stack.Navigator initialRouteName="OnboardingScreen">
       <Stack.Screen
-        name="AuthenticateScreen"
-        component={AuthenticateScreen}
+        name="OnboardingScreen"
+        component={OnboardingScreen}
         options={{header: () => null}}
       />
     </Stack.Navigator>
   );
 };
 
-export default AuthStack;
+export default OnboardingStack;
