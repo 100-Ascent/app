@@ -14,6 +14,7 @@ import {RootStackParamList} from './RootStackParamList';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
 import Text24 from '../components/Text/Text24';
+import OnboardingScreen from '../screens/App_OnBoarding';
 import AllChallenges from './BottomTabStackScreens/AllChallenges';
 import {VERSION_1} from '../utils/constants';
 
