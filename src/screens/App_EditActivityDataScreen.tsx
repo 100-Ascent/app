@@ -39,20 +39,15 @@ export const EditActivityDataScreen: React.FC<Props> = ({
   route,
 }) => {
   const routeData = route.params.data;
-
-  const [selectedDate, setSelectedDate] = useState(
-    routeData ? routeData.date : routeData,
-  );
-  const [date, setDate] = useState(routeData.date);
-  const [mode, setMode] = useState<AndroidMode>('date');
+  const [selectedDate, setSelectedDate] = useState(new Date(routeData.date));
+  const [date, setDate] = useState(new Date(routeData.date));
   const [show, setShow] = useState(false);
   const [loading, setLoading] = useState(true);
   const [isAllowPost, setDisablePost] = useState(true);
-  const [value, setValue] = useState(routeData ? routeData.data : '');
-  const [klicks, setKlicks] = useState(0);
+  const [value, setValue] = useState(routeData.data);
+  const [klicks, setKlicks] = useState(parseFloat(routeData.distance));
   const [dropdownData, setDropdownData] = useState([]);
   const [subscribedChallenge, setSubscribedChallenge] = useState([]);
-  const [selectedCid, setSelectedCid] = useState(0);
   const [distanceTimeData, setDistanceTimeData] = useState('');
   const [calminsteps, setCalMinSteps] = useState({
     cal: routeData ? routeData.calorie : '',
@@ -60,9 +55,7 @@ export const EditActivityDataScreen: React.FC<Props> = ({
     steps: routeData ? routeData.steps : '',
   });
   const [comment, setComment] = useState(routeData ? routeData.comment : '');
-  const [selected, setSelected] = useState({
-    icon: ' ',
-  });
+  const [selected, setSelected] = useState(routeData.activity);
 
   const [defaultOption, setDefaultOption] = useState(
     routeData ? (routeData.activity.is_distance ? 0 : 1) : 0,
@@ -88,7 +81,6 @@ export const EditActivityDataScreen: React.FC<Props> = ({
 
   const showMode = currentMode => {
     setShow(true);
-    setMode(currentMode);
   };
 
   const showDatepicker = () => {
@@ -105,14 +97,14 @@ export const EditActivityDataScreen: React.FC<Props> = ({
   const getDropdownActivities = () => {
     setDropdownData(activityData.activities);
     setSubscribedChallenge(activityData.challenges);
-    const item = activityData.activities[0];
-    setSelected(item);
-    setDefaultOption(item.is_distance ? 0 : 1);
+    let item = activityData.activities;
+    let index = item.findIndex(item => item.name.includes('Walking'));
+    setSelected(item[index]);
+    setDefaultOption(item[index].is_distance ? 0 : 1);
     setLoading(false);
   };
 
   const getSelectedChallenge = idx => {
-    setSelectedCid(idx);
     setDisablePost(
       selectedDate === null ||
         selected['id'] === undefined ||
@@ -313,6 +305,8 @@ export const EditActivityDataScreen: React.FC<Props> = ({
                     defaultOption={defaultOption}
                     selectedItem={selected}
                     toggleHandler={() => {
+                      setValue(0);
+                      setKlicks(0);
                       setDefaultOption(1 - defaultOption);
                     }}
                     getData={getDistanceTimeData}

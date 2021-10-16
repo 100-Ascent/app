@@ -12,8 +12,18 @@ interface Props {
 }
 
 const RewardsUnlocked: React.FC<Props> = ({rewards, onPress}) => {
-  const REWARD_START_BGCOLOR = ['#3378DF', '#34CE27', '#DF3333', '#8827CE'];
-  const REWARD_END_BGCOLOR = ['#22467B', '#23861A', '#7B2222', '#591A86'];
+  const REWARD_START_BGCOLOR = [
+    'rgb(51, 120, 223)',
+    'rgb(52, 206, 39)',
+    'rgb(223, 51, 51)',
+    'rgb(136, 39, 206)',
+  ];
+  const REWARD_END_BGCOLOR = [
+    'rgb(34, 70, 123)',
+    'rgb(35, 134, 26)',
+    'rgb(123, 34, 34)',
+    'rgb(89, 26, 134)',
+  ];
 
   let data = [];
   let temp = [];
@@ -73,8 +83,14 @@ const RewardsUnlocked: React.FC<Props> = ({rewards, onPress}) => {
                     key={idx2}>
                     {val !== '' ? (
                       <RewardCard
-                        startColor={REWARD_START_BGCOLOR[index]}
-                        endColor={REWARD_END_BGCOLOR[index]}
+                        startColor={
+                          REWARD_START_BGCOLOR[
+                            index % REWARD_START_BGCOLOR.length
+                          ]
+                        }
+                        endColor={
+                          REWARD_END_BGCOLOR[index % REWARD_END_BGCOLOR.length]
+                        }
                         rewardIndex={index + 1}
                         onPress={onPress}
                       />

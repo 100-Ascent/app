@@ -108,7 +108,6 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerLeft: () => <View style={{marginLeft: 10}} />,
       headerTitle: 'My Challenge',
     });
     callToGetChallengeDataFromId();

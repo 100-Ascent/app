@@ -2,11 +2,9 @@ import React from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {RootStackParamList} from '../RootStackParamList';
 import {Colors} from '../../utils/colors';
-import {NavigationDrawerStructure} from '../AppStack';
-import CommunityScreen from '../../screens/App_CommunityScreen';
 import ShowcaseScreen from '../../screens/App_ShowcaseScreen';
 import Text16Normal from '../../components/Text/Text16Normal';
-import { View } from 'react-native';
+import {View} from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
 
 const UserStack = createStackNavigator<RootStackParamList>();
@@ -22,10 +20,7 @@ const User = ({navigation}) => {
         options={({route}) => ({
           headerTitle: () => (
             <View style={{alignItems: 'center'}}>
-              <Text16Normal
-                text="Showcase"
-                textColor={Colors.TEXTDARK}
-              />
+              <Text16Normal text="Showcase" textColor={Colors.TEXTDARK} />
             </View>
           ),
           headerLeft: () => (

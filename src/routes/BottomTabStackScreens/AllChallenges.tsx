@@ -108,17 +108,8 @@ const AllChallenges = ({navigation}) => {
               <Text16Normal text="My Challenge" textColor={Colors.TEXTDARK} />
             </View>
           ),
-          headerLeft: null,
-          headerRight: () => (
-            <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.navigate('MyProfileScreen')}
-              />
-            </View>
-          ),
+          headerLeft: () => <View style={{marginLeft: 0}} />,
+          headerRight: () => <View style={{marginLeft: 0}} />,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
