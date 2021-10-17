@@ -103,7 +103,6 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
   useEffect(() => {
     getToUnlockRewards();
   }, []);
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>

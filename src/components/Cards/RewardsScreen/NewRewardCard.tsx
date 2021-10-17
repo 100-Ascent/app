@@ -27,6 +27,8 @@ const RewardCard: React.FC<Props> = ({
         return <Reward2 />;
       case 4:
         return <Reward1 />;
+      default:
+        return <Reward2 />;
     }
   };
   return (
