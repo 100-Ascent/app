@@ -17,6 +17,7 @@ const MapSliderChanger: React.FC<Props> = ({sliderDirection, onPressed}) => {
           height: '100%',
           zIndex: 10,
           //   backgroundColor: 'rgba(0,0,0,0.3)',
+          marginLeft: 2,
           justifyContent: 'center',
         }}>
         <Icon name={sliderDirection} type="ant-design" color={'white'} />

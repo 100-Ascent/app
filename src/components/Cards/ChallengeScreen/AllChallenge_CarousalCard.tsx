@@ -66,11 +66,11 @@ const CarousalCard: React.FC<Props> = ({
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
-          <View style={{flex: 3, paddingHorizontal: 20, marginTop: 20}}>
+          <View style={{flex: 3, paddingHorizontal: 20, marginTop: 15}}>
             <View style={{flex: 1, justifyContent: 'center'}}>
               <Text24 text={data.name} />
             </View>
-            <View style={{flex: 1, marginRight: 15, marginTop: 15}}>
+            <View style={{flex: 1, marginRight: 15, marginTop: 5}}>
               {isSubscribed ? (
                 <View style={{padding: 10}} />
               ) : (

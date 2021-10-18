@@ -108,10 +108,10 @@ const OTPCard: React.FC<Props> = ({otpArray, handleSetOtpArray}) => {
   return (
     <View>
       <View style={{alignItems: 'center'}}>
-        <Text16Normal
+        {/* <Text16Normal
           text={'PLEASE ENTER THE OTP'}
           textColor={Colors.TEXTDARK}
-        />
+        /> */}
       </View>
       <View style={{flexDirection: 'row', marginTop: 10}}>{data}</View>
     </View>

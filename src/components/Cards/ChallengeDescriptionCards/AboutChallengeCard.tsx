@@ -18,7 +18,7 @@ const AboutChallengeCard: React.FC<Props> = ({title, description}) => {
         borderRadius: 10,
         elevation: 1,
       }}>
-      <View style={{paddingTop: 10, alignItems: 'center'}}>
+      <View style={{paddingTop: 10, paddingHorizontal: 20}}>
         <Text20 text={title} textColor={Colors.TEXTDARK} />
       </View>
       <View style={{paddingTop: 10, paddingBottom: 10, paddingHorizontal: 20}}>

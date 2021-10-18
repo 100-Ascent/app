@@ -293,7 +293,11 @@ const AllChallenges = ({navigation}) => {
         component={MapViewFullScreen}
         name={'MapViewFullScreen'}
         options={({route}) => ({
-          headerTitle: null,
+          headerTitle: () => (
+            <View style={{alignItems: 'center',marginRight: 20, paddingRight: 20}}>
+              <Text16Normal text="Map View" textColor={Colors.TEXTDARK} />
+            </View>
+          ),
           headerLeft: () => (
             <View style={{marginLeft: 10}}>
               <Icon

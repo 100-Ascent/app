@@ -116,7 +116,7 @@ const MapViewSlider = ({
 
   return (
     <View style={{flex: 1}}>
-      <View style={{flex: 1, flexDirection: 'row'}}>
+      <View style={{flex: 1, flexDirection: 'row',}}>
         {currentMapIndex !== 0 ? (
           <View
             style={{
@@ -125,6 +125,7 @@ const MapViewSlider = ({
               bottom: 0,
               height: '15%',
               justifyContent: 'center',
+              
             }}>
             <MapSliderChanger
               sliderDirection={'left'}

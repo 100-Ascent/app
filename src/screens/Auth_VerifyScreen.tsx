@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
@@ -29,6 +29,7 @@ interface Props {
   onSignInClicked: (phoneNumber: any) => Promise<void>;
   onVerify: () => void;
   otpArray: string[];
+  resendDisabled: boolean;
 }
 
 const VerifyScreen: React.FC<Props> = ({
@@ -39,10 +40,16 @@ const VerifyScreen: React.FC<Props> = ({
   onSignInClicked,
   onVerify,
   otpArray,
+  resendDisabled,
 }) => {
+
+  
+  
   useEffect(() => {
     onSignInClicked(phoneNumber);
   }, []);
+
+
 
   return (
     <View style={globalStyles.flex}>
@@ -76,13 +83,13 @@ const VerifyScreen: React.FC<Props> = ({
                   <View style={{}}>
                     <View style={{alignItems: 'center'}}>
                       <Text16Normal
-                        text={`AN OTP HAS BEEN SENT TO THE`}
+                        text={`An OTP has been sent to the`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
                     <View style={{alignItems: 'center'}}>
                       <Text16Normal
-                        text={`MOBILE NUMBER`}
+                        text={`following number`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
@@ -107,10 +114,10 @@ const VerifyScreen: React.FC<Props> = ({
                       paddingTop: 20,
                     }}>
                     <TouchableOpacity
-                      onPress={() => onSignInClicked(phoneNumber)}>
+                      onPress={() => onSignInClicked(phoneNumber)} disabled={resendDisabled}>                        
                       <View>
                         <Text14
-                          text={RESEND_OTP}
+                          text={resendDisabled? ("Waiting for XX sec") : RESEND_OTP}
                           textColor={Colors.TEXT2}
                           textStyle={{
                             borderBottomWidth: 1,

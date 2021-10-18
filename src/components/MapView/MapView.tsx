@@ -177,7 +177,7 @@ const MapViewComponent = ({
             height: '80%',
             position: 'absolute',
             width: 35,
-            left: 5,
+            left: 10,
             top: 10,
             flexDirection: 'column-reverse',
           }}>

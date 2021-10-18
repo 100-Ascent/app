@@ -28,18 +28,16 @@ const ChallengeDescriptionCard = ({description}) => {
         <View style={{marginLeft: 'auto', paddingRight: 20}}>
           {pressed === 0 ? (
             <Icon
-              style={{marginTop: 'auto', marginLeft: 'auto'}}
+              style={{ marginTop: 'auto', marginLeft: 'auto' }}
               type="material"
               name="expand-more"
-              onPress={handleExpand}
-            />
+              onPress={handleExpand} tvParallaxProperties={undefined}            />
           ) : (
             <Icon
-              style={{marginTop: 'auto', marginLeft: 'auto'}}
-              type="material"
-              name="expand-less"
-              onPress={handleExpand}
-            />
+                style={{ marginTop: 'auto', marginLeft: 'auto' }}
+                type="material"
+                name="expand-less"
+                onPress={handleExpand} tvParallaxProperties={undefined}            />
           )}
         </View>
       </View>

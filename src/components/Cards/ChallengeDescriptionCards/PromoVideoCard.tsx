@@ -11,7 +11,7 @@ const PromoVideoCard = () => {
             borderRadius: 10,
             elevation: 1,
         }}>
-            <View style={{ marginHorizontal: 5, marginTop: 5 }}>
+            <View style={{ paddingHorizontal:20 , paddingTop: 10 }}>
                 <YoutubePlayer height={200} play={false} videoId={'e8nzhP30Jwk'} />
             </View>
 

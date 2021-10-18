@@ -115,8 +115,7 @@ const MapViewFullScreen: React.FC<Props> = ({navigation, route}) => {
               name="terrain"
               type="materialicons"
               color={Colors.TEXTDARK}
-              size={25}
-            />
+              size={25} tvParallaxProperties={undefined}            />
           </TouchableOpacity>
         </MapButtonView>
       </View>

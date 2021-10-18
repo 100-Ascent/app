@@ -15,7 +15,8 @@ import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
 import axios from 'axios';
 import {
   EMAIL,
-  EMAIL_VERIFICATION_SENT_AFTER,
+  EMAIL_VERIFICATION_SENT_AFTER_1,
+  EMAIL_VERIFICATION_SENT_AFTER_2,
   EMAIL_VERIFICATION_SENT_BEFORE,
   FIRSTNAME,
   LASTNAME,
@@ -34,6 +35,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [isProceedDisabled, setProceedDisabled] = useState(true);
   const [isEmailSentMessage, setEmailSentMessage] = useState(false);
   const [error, setError] = useState(false);
+  const [resendEmailDisabled, setResendEmailDisabled] = useState(false);
 
   const validateEmail = email => {
     const re =
@@ -68,6 +70,14 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
         });
     }
   };
+
+  const resendEmail = () => {
+    setResendEmailDisabled(true);
+    setTimeout(() => {
+      setResendEmailDisabled(false);
+    }, 30000)
+
+  }
 
   return (
     <View style={{flex: 1}}>
@@ -117,9 +127,15 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                         </View>
                         <View style={{paddingVertical: 3}}>
                           <Text16Normal
-                            text={EMAIL_VERIFICATION_SENT_AFTER}
+                            text={EMAIL_VERIFICATION_SENT_AFTER_1}
                             textColor={Colors.TEXTDARK}
-                          />
+                          />                          
+                        </View>
+                        <View style={{paddingVertical: 3}}>
+                          <Text16Normal
+                            text={EMAIL_VERIFICATION_SENT_AFTER_2}
+                            textColor={Colors.TEXTDARK}
+                          />                          
                         </View>
                         <View
                           style={{
@@ -128,10 +144,10 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                             paddingHorizontal: 45,
                             paddingTop: 40,
                           }}>
-                          <TouchableOpacity onPress={() => {}}>
+                          <TouchableOpacity onPress={() => {resendEmail}} disabled={resendEmailDisabled}>
                             <View>
                               <Text14
-                                text="RESEND LINK"
+                                text={resendEmailDisabled? ("Waiting for XX sec") : ("Resend Link")}
                                 textColor={Colors.TEXT2}
                                 textStyle={{
                                   borderBottomWidth: 1,

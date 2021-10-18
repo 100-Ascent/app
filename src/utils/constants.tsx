@@ -1,23 +1,25 @@
 import {Dimensions} from 'react-native';
 
-export const BASEURL = 'https://team-100-ascent.herokuapp.com';
-// export const BASEURL = 'https://pre-prod.100ascent.com';
+// export const BASEURL = 'https://team-100-ascent.herokuapp.com';
+export const BASEURL = 'https://pre-prod.100ascent.com';
 
 export const AWAITINGOTP = 'Waiting for OTP';
-export const EMAIL = 'E-MAIL ID';
-export const FIRSTNAME = 'FIRST NAME';
-export const LASTNAME = 'LAST NAME';
+export const EMAIL = 'Email ID';
+export const FIRSTNAME = 'First Name';
+export const LASTNAME = 'Last Name';
 export const NUMBER_ERROR = 'Enter a valid mobile number';
-export const PROCEED = 'PROCEED';
-export const RESEND_OTP = 'RESEND OTP';
-export const SIGNIN_PHONE = 'PLEASE ENTER YOUR MOBILE NUMBER';
+export const PROCEED = 'Proceed';
+export const RESEND_OTP = 'Resend OTP';
+export const SIGNIN_PHONE = 'Your Mobile Number';
 export const SUBSCRIBE_TO_CHALLENGE = 'Subscribe to a challenge to get started';
 export const VALID_EMAIL_ERROR = 'Please enter a valid email id';
 export const VERIFY = 'VERIFY';
 
-export const EMAIL_VERIFICATION_SENT_BEFORE = 'WE HAVE SENT AN EMAIL TO ';
-export const EMAIL_VERIFICATION_SENT_AFTER =
-  'PLEASE CLICK THE VERIFICATION LINK';
+export const EMAIL_VERIFICATION_SENT_BEFORE = 'We have sent an email to ';
+export const EMAIL_VERIFICATION_SENT_AFTER_1 =
+  'Please click the verification link';
+export const EMAIL_VERIFICATION_SENT_AFTER_2 =
+  'sent on above email';
 
 export const NO_REWARDS_TEXT =
   'Good stuff come to those who work hard! Keep grinding on your fitness journey you will unlock rewards on completing milestone';
