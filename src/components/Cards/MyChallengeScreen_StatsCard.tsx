@@ -29,11 +29,11 @@ const StatsCard = ({streak}) => {
         endColor={Colors.CARDS_COLOR2}
         style={[{borderRadius: 20}]}>
         <View style={{flex: 1, borderRadius: 10}}>
-          <View style={{flex: 1, alignItems: 'center', paddingVertical: 20}}>
+          <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
             <CircularProgressBar streak={streak} />
           </View>
 
-          <View style={{flex: 1, alignItems: 'center', paddingVertical: 10}}>
+          <View style={{flex: 1, alignItems: 'center', marginTop: 10}}>
             <WeeklyStreakCard />
           </View>
           <View
@@ -41,7 +41,7 @@ const StatsCard = ({streak}) => {
               flex: 1,
               alignItems: 'center',
               justifyContent: 'center',
-              padding: 5,
+              marginTop: 10,
             }}>
             <Text16Normal text="Streak Continued!" textColor={Colors.TEXT1} />
           </View>

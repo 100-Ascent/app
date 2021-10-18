@@ -16,14 +16,12 @@ const TabView = ({children, onPress, isActive}) => {
       <View
         style={{
           flex: 1,
-          paddingVertical: 8,
-          paddingHorizontal: 5,
+          marginVertical: 8,
+          paddingHorizontal: 0,
         }}>
         <View
           style={{
             flex: 1,
-            // paddingVertical: 10,
-            // paddingHorizontal: 10,
             justifyContent: 'center',
             alignItems: 'center',
             backgroundColor: isActive
@@ -52,7 +50,6 @@ const ThreeTabNavigator = ({
 }) => {
   const [active, setActive] = useState(0);
   const [index, setIndex] = useState(0);
-  const [colorArray, setColorArray] = useState([]);
 
   const arr = journeyData.map((val, idx) => {
     return RINGCOLORS[0];
@@ -122,10 +119,7 @@ const ThreeTabNavigator = ({
           marginHorizontal: 10,
         }}>
         <TabView isActive={active === 0} onPress={() => handlePress(0)}>
-          <View
-            style={{
-              padding: 10,
-            }}>
+          <View style={{paddingVertical: 10}}>
             <Text14
               text="My Journey"
               textColor={active === 0 ? Colors.WHITE : Colors.TEXTDARK}
@@ -133,10 +127,7 @@ const ThreeTabNavigator = ({
           </View>
         </TabView>
         <TabView isActive={active === 1} onPress={() => handlePress(1)}>
-          <View
-            style={{
-              padding: 10,
-            }}>
+          <View style={{paddingVertical: 10}}>
             <Text14
               text="Tracks"
               textColor={active === 1 ? Colors.WHITE : Colors.TEXTDARK}
@@ -144,10 +135,7 @@ const ThreeTabNavigator = ({
           </View>
         </TabView>
         <TabView isActive={active === 2} onPress={() => handlePress(2)}>
-          <View
-            style={{
-              padding: 10,
-            }}>
+          <View style={{paddingVertical: 10}}>
             <Text14
               text="My Distances"
               textColor={active === 2 ? Colors.WHITE : Colors.TEXTDARK}
