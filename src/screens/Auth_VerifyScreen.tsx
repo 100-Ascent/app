@@ -17,7 +17,7 @@ import Text16Bold from '../components/Text/Text16Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 
 import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
-import {AWAITINGOTP, RESEND_OTP, VERIFY} from '../utils/constants';
+import {AWAITINGOTP, RESEND_OTP, VERIFY} from '../utils/constants/constants';
 import {Colors} from '../utils/colors';
 import globalStyles from '../styles/Global/styles';
 
@@ -29,16 +29,20 @@ interface Props {
   onSignInClicked: (phoneNumber: any) => Promise<void>;
   onVerify: () => void;
   otpArray: string[];
+  resendDisabled: boolean;
+  startTimeMS: number;
 }
 
 const VerifyScreen: React.FC<Props> = ({
   handleSetOtpArray,
   isVerifyDisabled,
   phoneNumber,
+  resendDisabled,
   onGoBack,
   onSignInClicked,
   onVerify,
   otpArray,
+  startTimeMS,
 }) => {
   useEffect(() => {
     onSignInClicked(phoneNumber);
@@ -76,17 +80,17 @@ const VerifyScreen: React.FC<Props> = ({
                   <View style={{}}>
                     <View style={{alignItems: 'center'}}>
                       <Text16Normal
-                        text={`AN OTP HAS BEEN SENT TO THE`}
+                        text={`An OTP has been sent to the`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{alignItems: 'center', paddingTop: 5}}>
                       <Text16Normal
-                        text={`MOBILE NUMBER`}
+                        text={`following number`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{alignItems: 'center', paddingTop: 10}}>
                       <Text16Bold
                         text={`${phoneNumber}`}
                         textColor={Colors.TEXTDARK}
@@ -107,10 +111,15 @@ const VerifyScreen: React.FC<Props> = ({
                       paddingTop: 20,
                     }}>
                     <TouchableOpacity
-                      onPress={() => onSignInClicked(phoneNumber)}>
+                      onPress={() => onSignInClicked(phoneNumber)}
+                      disabled={resendDisabled}>
                       <View>
                         <Text14
-                          text={RESEND_OTP}
+                          text={
+                            resendDisabled
+                              ? 'Resend OTP in ' + startTimeMS + ' sec'
+                              : RESEND_OTP
+                          }
                           textColor={Colors.TEXT2}
                           textStyle={{
                             borderBottomWidth: 1,

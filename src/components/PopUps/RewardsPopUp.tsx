@@ -4,7 +4,7 @@ import {Dimensions, Modal} from 'react-native';
 import {View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {Colors} from '../../utils/colors';
-import {HEIGHT} from '../../utils/constants';
+import {HEIGHT} from '../../utils/constants/constants';
 import ImageCarousal from '../Carousals/ImageCarousal';
 
 import Text16Normal from '../Text/Text16Normal';

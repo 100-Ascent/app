@@ -14,9 +14,8 @@ import {RootStackParamList} from './RootStackParamList';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
 import Text24 from '../components/Text/Text24';
-import OnboardingScreen from '../screens/App_OnBoarding';
 import AllChallenges from './BottomTabStackScreens/AllChallenges';
-import {VERSION_1} from '../utils/constants';
+import {AMSTERDAM} from '../utils/constants/versions';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -39,7 +38,7 @@ const HomeStack = ({navigation, style}) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
       <Stack.Navigator initialRouteName="HomeStack">
-        {VERSION_1 ? (
+        {AMSTERDAM ? (
           <Stack.Screen
             name="AllChallengesScreen"
             component={AllChallenges}

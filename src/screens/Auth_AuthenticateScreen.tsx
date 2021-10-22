@@ -20,6 +20,8 @@ const AuthenticateScreen: React.FC<Props> = () => {
   const [isVerifyScreen, setVerifyScreen] = useState(false);
   const [otpArray, setOtpArray] = useState(['', '', '', '', '', '']);
   const [value, setValue] = useState('');
+  const [resendOTPDisabled, setResendOTPDisabled] = useState(false);
+  const [startTimeMS, setStartTimeMS] = useState(0);
 
   //Async calls
   async function confirmCode() {
@@ -31,6 +33,20 @@ const AuthenticateScreen: React.FC<Props> = () => {
     }
   }
 
+  function countdown() {
+    var seconds = 20;
+    function tick() {
+      seconds--;
+      setStartTimeMS(seconds);
+      if (seconds > 0) {
+        setTimeout(tick, 1000);
+      } else {
+        setResendOTPDisabled(false);
+      }
+    }
+    tick();
+  }
+
   async function signInWithPhoneNumber(phoneNumber: any) {
     try {
       await auth()
@@ -38,6 +54,8 @@ const AuthenticateScreen: React.FC<Props> = () => {
         .then(confirmation => {
           setVerifyDisabled(false);
           setConfirm(confirmation);
+          setResendOTPDisabled(true);
+          countdown();
         });
     } catch (error) {
       console.log(error);
@@ -83,6 +101,8 @@ const AuthenticateScreen: React.FC<Props> = () => {
       handleSetOtpArray={handleSetOtpArray}
       isVerifyDisabled={isVerifyDisabled}
       onGoBack={onGoBack}
+      resendDisabled={resendOTPDisabled}
+      startTimeMS={startTimeMS}
     />
   );
 };

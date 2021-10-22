@@ -4,7 +4,7 @@ import {Colors} from '../../utils/colors';
 import StyledButton from '../Button/StyledButton';
 import RewardCard from '../Cards/RewardsScreen/NewRewardCard';
 import ConfettiCannon from 'react-native-confetti-cannon';
-import {HEIGHT} from '../../utils/constants';
+import {HEIGHT} from '../../utils/constants/constants';
 import FastImage from 'react-native-fast-image';
 
 const NewRewardPopUp = ({

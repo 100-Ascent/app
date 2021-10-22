@@ -1,8 +1,7 @@
 import 'react-native-gesture-handler';
-import React, {useEffect, useRef, useState} from 'react';
+import React, {useEffect} from 'react';
 import {
   Alert,
-  AppState,
   Platform,
   SafeAreaView,
   StatusBar,
@@ -11,7 +10,7 @@ import {
 import NavigationProviders from './src/routes';
 import axios from 'axios';
 import auth from '@react-native-firebase/auth';
-import {BASEURL} from './src/utils/constants';
+import {BASEURL} from './src/utils/constants/constants';
 import {store} from './src/utils/utils';
 import {Provider} from 'react-redux';
 
@@ -23,7 +22,6 @@ import {
 } from 'react-native-tracking-transparency';
 
 axios.defaults.baseURL = BASEURL;
-const CancelToken = axios.CancelToken;
 
 axios.interceptors.request.use(async request => {
   request.headers.Authorization = await auth().currentUser.getIdToken();
@@ -62,6 +60,7 @@ const App = () => {
   const backgroundStyle = {
     flex: 1,
   };
+
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);

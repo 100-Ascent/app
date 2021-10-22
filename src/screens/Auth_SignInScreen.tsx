@@ -8,10 +8,15 @@ import BackgroundVector from '../components/Background/BackgroundVector';
 import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
 import StyledButton from '../components/Button/StyledButton';
 import Text14 from '../components/Text/Text14';
+import Text16Normal from '../components/Text/Text16Normal';
 
 import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
 import {Colors} from '../utils/colors';
-import {NUMBER_ERROR, PROCEED, SIGNIN_PHONE} from '../utils/constants';
+import {
+  NUMBER_ERROR,
+  PROCEED,
+  SIGNIN_PHONE,
+} from '../utils/constants/constants';
 
 import globalStyles from '../styles/Global/styles';
 import styles from '../styles/SignInScreen/styles';
@@ -60,7 +65,10 @@ const SignInScreen: React.FC<Props> = ({
                 </View>
                 <View style={styles.phoneInput}>
                   <View style={{marginBottom: 10}}>
-                    <Text14 textColor={Colors.TEXTDARK} text={SIGNIN_PHONE} />
+                    <Text16Normal
+                      textColor={Colors.TEXTDARK}
+                      text={SIGNIN_PHONE}
+                    />
                   </View>
                   <PhoneInput
                     ref={phoneInput}
@@ -96,6 +104,11 @@ const SignInScreen: React.FC<Props> = ({
                       fontSize: 18,
                       color: Colors.TEXTDARK,
                       paddingHorizontal: 0,
+                      paddingVertical: 0,
+                      borderLeftWidth: 1,
+                      marginVertical: 8,
+                      borderLeftColor: Colors.BLACK3,
+                      paddingLeft: 10,
                     }}
                     textInputProps={{
                       selectionColor: Colors.TEXTDARK,
@@ -139,7 +152,7 @@ const SignInScreen: React.FC<Props> = ({
                   <RNStepIndicator stepCount={3} currentStep={1} />
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View style={{flex: 1}} />
+                  <View style={globalStyles.flex} />
                   <View style={{flex: 2}}>
                     <StyledButton
                       buttonStyle={{
@@ -156,7 +169,7 @@ const SignInScreen: React.FC<Props> = ({
                       onPress={onSubmit}
                     />
                   </View>
-                  <View style={{flex: 1}} />
+                  <View style={globalStyles.flex} />
                 </View>
               </View>
             </ScrollView>

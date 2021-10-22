@@ -16,6 +16,9 @@ import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
 import OnboardingScreen from '../screens/App_OnBoarding';
 import {setContextId} from '../redux/action';
+import uninterceptedAxiosInstance from '../utils/services/uninterceptedAxiosInstance';
+import {LOGIN, USER_CHECKIN, VERSION_CHECK} from '../utils/apis/endpoints';
+import {LOGIN_TYPE, VERSION_CHECK_TYPE} from '../utils/apis/endpointType';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
@@ -27,55 +30,44 @@ const getFcmToken = async () => {
   }
 };
 
-const callToCreateUser = (
+const callToCreateUser = async (
   notifyToken: string,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setEmailVerified: {
-    (value: React.SetStateAction<boolean>): void;
-    (arg0: boolean): void;
-  },
+  setLoading: any,
+  setEmailEntered: any,
 ) => {
-  const data = {
+  const data: LOGIN_TYPE = {
     notifyToken: notifyToken,
     os: Platform.OS,
     appVersion: VersionNumber.appVersion,
     deviceId: uuid.v4().toString(),
   };
 
-  console.log('creating user');
-  console.log(data);
-
-  axios
-    .post('/login', data)
+  await axios
+    .post(LOGIN, data)
     .then(async res => {
-      console.log(res.data.status);
       if (res.data.status.code !== undefined) {
         if (res.data.status.code === '101') {
-          setEmailVerified(false);
+          setEmailEntered(false);
+        } else if (res.data.status.code === '102') {
+          setEmailEntered(true);
         }
       } else {
-        setEmailVerified(true);
+        setEmailEntered(true);
       }
       await AsyncStorage.setItem('user', 'true');
-      setLoading(false);
     })
     .catch(err => {
-      console.log('failed');
+      console.log('failed in login api');
       console.log(err);
       setLoading(false);
     });
 };
 
-const callToUserCheckIn = (
-  setLoading: {
-    (value: React.SetStateAction<boolean>): void;
-    (arg0: boolean): void;
-  },
-  dispatch,
-) => {
-  axios
-    .get('/api/userCheckIn')
+const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
+  await axios
+    .get(USER_CHECKIN)
     .then(async res => {
+      console.log('checked in user');
       dispatch(setContextId(res.data.data.code));
       setLoading(false);
     })
@@ -87,18 +79,78 @@ const callToUserCheckIn = (
 };
 
 const Routes = () => {
-  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [initializing, setInitializing] = useState(true);
-  const [user, setUser] = useState();
   const [isValidAppVersion, setIsValidAppVersion] = useState(false);
-  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [user, setUser] = useState();
+  const [isEmailEntered, setEmailEntered] = useState(false);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const [initializing, setInitializing] = useState(true);
   const dispatch = useDispatch();
 
+  const onAuthStateChanged = user => {
+    if (user) {
+      setLoading(true);
+      getFcmToken()
+        .then(async notifyToken => {
+          const isValidUser = await AsyncStorage.getItem('user');
+          if (isValidUser === null) {
+            callToCreateUser(notifyToken, setLoading, setEmailEntered);
+            callToUserCheckIn(setLoading, dispatch);
+            setUser(user);
+          } else {
+            setEmailEntered(true);
+            callToUserCheckIn(setLoading, dispatch);
+            setLoading(false);
+            setUser(user);
+          }
+        })
+        .catch(err => {
+          console.log('Error getting FCM token' + err);
+        });
+    } else {
+      setUser(null);
+    }
+    if (initializing) setInitializing(false);
+  };
+
+  const showAppStack = () => {
+    AsyncStorage.setItem('alreadyLaunched', 'true');
+    setIsFirstLaunch(false);
+  };
+
+  // Check app version
+  const checkAppVersion = () => {
+    const data: VERSION_CHECK_TYPE = {
+      appVersion: VersionNumber.appVersion,
+      os: Platform.OS,
+    };
+
+    uninterceptedAxiosInstance
+      .post(VERSION_CHECK, data)
+      .then(res => {
+        setIsValidAppVersion(res.data.data.success);
+      })
+      .catch(err => {
+        console.log('failed');
+        console.log(err);
+      });
+  };
+
+  // First called
+  useEffect(() => {
+    checkAppVersion();
+  }, []);
+
+  // Second called
+  useEffect(() => {
+    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+    return subscriber;
+  }, []);
+
+  // Third called
   useEffect(() => {
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       if (value == null) {
-        AsyncStorage.setItem('alreadyLaunched', 'true');
         setIsFirstLaunch(true);
       } else {
         setIsFirstLaunch(false);
@@ -106,72 +158,19 @@ const Routes = () => {
     });
   }, []);
 
-  function onAuthStateChanged(user) {
-    if (user) {
-      setLoading(true);
-      getFcmToken().then(async notifyToken => {
-        const isValidUser = await AsyncStorage.getItem('user');
-
-        if (isValidUser === null) {
-          callToCreateUser(notifyToken, setLoading, setEmailVerified);
-          callToUserCheckIn(setLoading, dispatch);
-          setUser(user);
-        } else {
-          callToUserCheckIn(setLoading, dispatch);
-          setEmailVerified(true);
-          setLoading(false);
-          setUser(user);
-        }
-      });
-    } else {
-      setUser(null);
-    }
-    if (initializing) setInitializing(false);
-  }
-
-  // Check app version
-  useEffect(() => {
-    console.log('check app version');
-    const uninterceptedAxiosInstance = axios.create();
-    uninterceptedAxiosInstance
-      .post('/versionCheck', {
-        appVersion: VersionNumber.appVersion,
-        os: Platform.OS,
-      })
-      .then(res => {
-        console.log('Checking version');
-        setIsValidAppVersion(res.data.data.success);
-      })
-      .catch(err => {
-        console.log('failed');
-        console.log(err);
-      });
-  }, []);
-
-  useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
-  }, []);
-
-  const showAppStack = () => {
-    setIsFirstLaunch(false);
-  };
-
   return (
     <NavigationContainer>
       {isValidAppVersion ? (
         loading ? (
           <RNLoader />
+        ) : isFirstLaunch ? (
+          <OnboardingScreen showAppStack={showAppStack} />
         ) : user ? (
-          isEmailVerified ? (
-            isFirstLaunch ? (
-              <OnboardingScreen showAppStack={showAppStack} />
-            ) : (
-              <AppStack />
-            )
+          isEmailEntered ? (
+            <AppStack />
           ) : (
             <EmailVerifyScreen
-              setIsEmailVerifiedToTrue={() => setEmailVerified(true)}
+              setIsEmailVerifiedToTrue={() => setEmailEntered(true)}
             />
           )
         ) : (

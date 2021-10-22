@@ -1,4 +1,4 @@
-package com.tym.tym_100ascent;
+package com.tym.hundredascent;
 
 import android.app.Application;
 import android.content.Context;
@@ -69,7 +69,7 @@ public class MainApplication extends Application implements ReactApplication {
          We use reflection here to pick up the class that initializes Flipper,
         since Flipper library is not available in release mode
         */
-        Class<?> aClass = Class.forName("com.tym.tym_100ascent.ReactNativeFlipper");
+        Class<?> aClass = Class.forName("com.tym.hundredascent.ReactNativeFlipper");
         aClass
             .getMethod("initializeFlipper", Context.class, ReactInstanceManager.class)
             .invoke(null, context, reactInstanceManager);

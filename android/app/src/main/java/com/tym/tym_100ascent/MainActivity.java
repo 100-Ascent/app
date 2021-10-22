@@ -1,4 +1,4 @@
-package com.tym.tym_100ascent;
+package com.tym.hundredascent;
 
 import com.facebook.react.ReactActivity;
 
