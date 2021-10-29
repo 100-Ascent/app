@@ -199,25 +199,8 @@ const AllChallenges = ({navigation}) => {
         name={'MediaScreen'}
         options={({route}) => ({
           headerTitle: null,
-          headerLeft: () => (
-            <View style={{marginLeft: 10}}>
-              <Icon
-                name="arrow-back"
-                type="ionicons"
-                onPress={() => navigation.pop()}
-              />
-            </View>
-          ),
-          headerRight: () => (
-            <View style={{marginRight: 10}}>
-              <Icon
-                name="account-circle"
-                type="materialicons"
-                size={30}
-                onPress={() => navigation.navigate('MyProfileScreen')}
-              />
-            </View>
-          ),
+          headerLeft: null,
+          headerRight: null,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,

@@ -14,6 +14,8 @@ target 'TYM_100Ascent' do
     :hermes_enabled => false
   )
 
+  pod 'react-native-orientation', :path => '../node_modules/react-native-orientation'
+
   target 'TYM_100AscentTests' do
     inherit! :complete
     # Pods for testing
