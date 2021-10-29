@@ -17,6 +17,7 @@ export type RootStackParamList = {
   EditActivityDataScreen: {data?: any; cd_id: any};
   MyChallengeScreen: {data: Object; challengeId: Object};
   UserProfileScreen: undefined;
+  GoogleFitScreen: undefined;
 
   CheckpointMilestoneScreen: {
     data: Object;

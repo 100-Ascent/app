@@ -1,5 +1,4 @@
 import React, {useRef} from 'react';
-
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {Colors} from '../utils/colors';
 import {Animated, View} from 'react-native';
@@ -12,6 +11,8 @@ import MyChallenge from './BottomTabStackScreens/Challenge';
 import User from './BottomTabStackScreens/User';
 import Community from './BottomTabStackScreens/Community';
 import {DEBUG, WIDTH} from '../utils/constants';
+import GoogleFitIcon from '../../assets/icons/googlefit.svg';
+import GoogleFitScreen from '../screens/App_GoogleFitScreen';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -30,7 +31,7 @@ const BottomTabStack = ({navigation}) => {
     return width / 5;
   }
 
-  return !DEBUG ?   (
+  return !DEBUG ? (
     <Tab.Navigator
       initialRouteName="AllChallengesScreen"
       tabBarOptions={{
@@ -107,11 +108,32 @@ const BottomTabStack = ({navigation}) => {
           },
         })}
       />
+      <Tab.Screen
+        name="GoogleFitScreen"
+        component={GoogleFitScreen}
+        options={{
+          tabBarLabel: '2',
+          unmountOnBlur: true,
+          tabBarIcon: ({focused}) => (
+            <View style={{position: 'absolute', top: 15}}>
+              <GoogleFitIcon />
+            </View>
+          ),
+        }}
+        listeners={({navigation, route}) => ({
+          // Onpress Update....
+          tabPress: e => {
+            Animated.spring(tabOffsetValue, {
+              toValue: getWidth(),
+              useNativeDriver: true,
+            }).start();
+          },
+        })}
+      />
     </Tab.Navigator>
-      
-  ):(
+  ) : (
     <>
-<Tab.Navigator
+      <Tab.Navigator
         initialRouteName="AllChallengesScreen"
         tabBarOptions={{
           showLabel: false,
@@ -211,6 +233,26 @@ const BottomTabStack = ({navigation}) => {
           }}
         />
         <Tab.Screen
+          name="GoogleFitScreen"
+          component={GoogleFitScreen}
+          options={{
+            tabBarLabel: '3',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View>
+                <GoogleFitIcon />
+              </View>
+            ),
+            tabBarButton: props => (
+              <CustomTabBarButton
+                onPress={() => navigation.navigate('GoogleFitScreen')}
+                {...props}
+              />
+            ),
+          }}
+        />
+
+        <Tab.Screen
           name="AllChallengesScreen"
           component={AllChallenges}
           options={{
@@ -277,9 +319,7 @@ const BottomTabStack = ({navigation}) => {
           transform: [{translateX: tabOffsetValue}],
         }}></Animated.View>
     </>
-  )
-  ;
+  );
 };
 
 export default BottomTabStack;
-

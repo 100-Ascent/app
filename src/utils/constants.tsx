@@ -1,7 +1,7 @@
 import {Dimensions} from 'react-native';
 
-export const BASEURL = 'https://team-100-ascent.herokuapp.com';
-// export const BASEURL = 'https://pre-prod.100ascent.com';
+// export const BASEURL = 'https://team-100-ascent.herokuapp.com';
+export const BASEURL = 'https://pre-prod.100ascent.com';
 
 export const AWAITINGOTP = 'Waiting for OTP';
 export const EMAIL = 'E-MAIL ID';
@@ -26,7 +26,7 @@ export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
 
 export const DEBUG = true;
-export const VERSION_1 = true;
+export const VERSION_1 = false;
 
 export const RINGCOLORS = [
   '#9400d3',

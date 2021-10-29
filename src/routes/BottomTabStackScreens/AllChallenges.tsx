@@ -19,6 +19,7 @@ import EditProfileScreen from '../../screens/App_EditProfileScreen';
 import {EditActivityDataScreen} from '../../screens/App_EditActivityDataScreen';
 import {PostUpdateScreen} from '../../screens/App_PostUpdateScreen';
 import DataLoaderScreen from '../../screens/App_DataLoaderScreen';
+import GoogleFitScreen from '../../screens/App_GoogleFitScreen';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -290,6 +291,21 @@ const AllChallenges = ({navigation}) => {
         })}
       />
       <AllChallengeStack.Screen
+        component={GoogleFitScreen}
+        name={'GoogleFitScreen'}
+        options={({route}) => ({
+          headerTitle: 'GoogleFit',
+          headerLeft: () => null,
+          headerRight: () => null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
         component={MapViewFullScreen}
         name={'MapViewFullScreen'}
         options={({route}) => ({
@@ -312,6 +328,7 @@ const AllChallenges = ({navigation}) => {
           },
         })}
       />
+
       <AllChallengeStack.Screen
         component={MyProfileScreen}
         name={'MyProfileScreen'}
