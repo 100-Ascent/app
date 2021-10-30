@@ -138,7 +138,7 @@ android {
     }
 
     defaultConfig {
-        applicationId "com.tym.hundredascent"
+        applicationId "com.tym.tym_100ascent"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 3

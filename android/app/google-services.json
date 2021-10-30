@@ -1,58 +1,65 @@
 {
   "project_info": {
-    "project_number": "204117368761",
-    "project_id": "ascent-36ab7",
-    "storage_bucket": "ascent-36ab7.appspot.com"
+    "project_number": "730727502414",
+    "project_id": "ascent-b3ac9",
+    "storage_bucket": "ascent-b3ac9.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:204117368761:android:10397e41119b5a8855a068",
+        "mobilesdk_app_id": "1:730727502414:android:d93a066ebd2ea2bdb2691f",
         "android_client_info": {
-          "package_name": "com.tym.hundredascent"
+          "package_name": "com.tym.tym_100ascent"
         }
       },
       "oauth_client": [
         {
-          "client_id": "204117368761-6rc466g4b43huqffio36vgb0p0atosl1.apps.googleusercontent.com",
+          "client_id": "730727502414-6m6lsn9d45vh56qa01hmg4n82lncial4.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.tym.hundredascent",
-            "certificate_hash": "c0ebfeeba76b74e73016fa7219614a5b3ae4eeda"
-          }
-        },
-        {
-          "client_id": "204117368761-9fdr4b9kpan0ips2sui3pdaisuvjrim1.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.tym.hundredascent",
-            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
-          }
-        },
-        {
-          "client_id": "204117368761-la9rslk6gmida27bjbte9j7n2nqp2vnk.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "com.tym.hundredascent",
+            "package_name": "com.tym.tym_100ascent",
             "certificate_hash": "1854bbaed64b62bfcd5ce645f401e9ed3354e352"
           }
         },
         {
-          "client_id": "204117368761-694cmh1hp4ild2s1v80cjh6g3iedm69t.apps.googleusercontent.com",
+          "client_id": "730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tym.tym_100ascent",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "730727502414-urev3kc18jh61qc41r3slea7pkltmvk5.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tym.tym_100ascent",
+            "certificate_hash": "c0ebfeeba76b74e73016fa7219614a5b3ae4eeda"
+          }
+        },
+        {
+          "client_id": "730727502414-3jb5i3fan0vajo3vqp3vpm79nmuhm2lt.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyAeZOEP9085ywLxBe0tsCVCzX7Fam73lgM"
+          "current_key": "AIzaSyBCHH_BA0WU6L_hfUBKUiAMGm7UivB8YgA"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "204117368761-694cmh1hp4ild2s1v80cjh6g3iedm69t.apps.googleusercontent.com",
+              "client_id": "730727502414-3jb5i3fan0vajo3vqp3vpm79nmuhm2lt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "730727502414-mod835eeflbdpf3s3v7d289h08fb76ec.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.tym.TYM-100Ascent"
+              }
             }
           ]
         }
