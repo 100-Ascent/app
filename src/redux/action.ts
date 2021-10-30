@@ -2,17 +2,20 @@ import {
   ActivitiesDataType,
   ContextIdType,
   CurrentValueType,
+  EmailVerifiedType,
   JourneyIndexType,
   NotificationType,
   SetActivitDataActionTypes,
   SetContextIdActionTypes,
   SetCurrentValueActionTypes,
+  SetEmailVerifiedActionTypes,
   SetJourneyIndexActionTypes,
   SetNotifyTokenActionTypes,
   SetUserActionTypes,
   SET_ACTIVITIES,
   SET_CONTEXTID,
   SET_CURRENT_VALUES,
+  SET_EMAIL_VERIFIED,
   SET_JOURNEY_INDEX,
   SET_NOTIFYTOKEN,
   SET_USER,
@@ -56,5 +59,12 @@ export const SetActivitData = (
   payload: ActivitiesDataType | null,
 ): SetActivitDataActionTypes => ({
   type: SET_ACTIVITIES,
+  payload,
+});
+
+export const setEmailVerifiedData = (
+  payload: EmailVerifiedType | null,
+): SetEmailVerifiedActionTypes => ({
+  type: SET_EMAIL_VERIFIED,
   payload,
 });

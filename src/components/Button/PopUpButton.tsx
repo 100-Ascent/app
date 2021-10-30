@@ -18,8 +18,8 @@ const PopUpButton: React.FC<Props> = ({
   onCancel,
 }) => {
   return (
-    <View style={{flex: 1}}>
-      <View style={{flexDirection: 'row'}}>
+    <View style={{flex: 1, justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row',  }}>
         {isCancelable ? (
           <View>
             <TouchableOpacity

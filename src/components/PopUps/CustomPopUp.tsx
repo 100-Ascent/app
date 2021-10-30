@@ -1,10 +1,11 @@
 import React from 'react';
-import {Modal, View} from 'react-native';
+import {Modal, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
 import Text16Normal from '../Text/Text16Normal';
 import PopUpButton from '../Button/PopUpButton';
 import Text20 from '../Text/Text20';
+import Text14 from '../Text/Text14';
 
 interface Props {
   cancelText?: string;
@@ -15,6 +16,9 @@ interface Props {
   onOk: () => void;
   oKText?: string;
   visible: boolean;
+  icon: any,
+  isCloseButton?: boolean;
+  closeButtonPress?: ()=>void
 }
 
 const CustomPopUp: React.FC<Props> = ({
@@ -26,34 +30,37 @@ const CustomPopUp: React.FC<Props> = ({
   onOk,
   oKText,
   visible,
+  icon,
+  isCloseButton,
+  closeButtonPress
 }) => {
   return (
     <Modal
       style={{margin: 20}}
       visible={visible}
-      onRequestClose={() => {}}
+      onRequestClose={onCancel}      
       transparent>
       <View style={{flex: 1, backgroundColor: '#000000aa'}}>
         <View style={{flex: 2}} />
         <View
           style={{
             position: 'relative',
-            flex: 3,
+            flex: 4,
             backgroundColor: Colors.WHITE,
             marginHorizontal: 30,
             borderRadius: 20,
           }}>
           <View style={{position: 'absolute', left: 40, top: -80}}>
-            <DeleteModalIcon />
+            {icon}
           </View>
-          <View style={{flex: 2}}></View>
-          <View style={{flex: 1, alignItems: 'center', paddingTop: 15}}>
+          <View style={{flex: 4}}></View>
+          <View style={{flex: 2, alignItems: 'center', paddingTop: 30}}>
             <Text20 text={header} textColor={Colors.TEXTDARK} />
-            <View style={{marginTop: 5}}>
-              <Text16Normal text={description} textColor={Colors.TEXTDARK} />
+            <View style={{marginTop: 5, paddingHorizontal: 10 }}>
+              <Text14 text={description} textStyle={{ textAlign: 'center' }} textColor={Colors.TEXTDARK} />
             </View>
           </View>
-          <View style={{flex: 1, alignItems: 'center'}}>
+          <View style={{flex: 2, alignItems: 'center'}}>
             <PopUpButton
               text={oKText}
               isCancelable={isCancelable}
@@ -61,7 +68,14 @@ const CustomPopUp: React.FC<Props> = ({
               onCancel={onCancel}
               onOk={onOk}
             />
-          </View>
+          </View>   
+          { isCloseButton ? <View style={{flex: 1, alignItems: 'center'}}>
+            <TouchableOpacity activeOpacity={0.3} onPress={closeButtonPress}>
+              <View>
+                <Text14 textColor={Colors.TEXTDARK} text={"Close"}/>
+              </View>
+            </TouchableOpacity>
+            </View> :null }   
         </View>
         <View style={{flex: 2}} />
       </View>

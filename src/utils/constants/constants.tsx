@@ -35,3 +35,12 @@ export const RINGCOLORS = [
   '#ff0000',
   '#633a0d',
 ];
+
+export enum ProfileInputFieldTypes {
+  EMAIL = "email",
+  PHONE = "phone",
+  COUNTRY = "country",
+  ADDRESS = "address",
+  DOB = "dob",
+  GENDER = "gender",
+}

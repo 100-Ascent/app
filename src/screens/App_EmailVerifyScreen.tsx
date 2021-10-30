@@ -27,6 +27,7 @@ import Text16Bold from '../components/Text/Text16Bold';
 import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
 import Text14 from '../components/Text/Text14';
 import BackgroundVector from '../components/Background/BackgroundVector';
+import { UPDATE_EMAIL } from '../utils/apis/endpoints';
 
 const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [email, setEmail] = useState('');
@@ -67,13 +68,12 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
 
     if (isEverythingOk) {
       axios
-        .post('/api/updateEmail', {
+        .post(UPDATE_EMAIL, {
           email: email,
-          first_name: 'test',
-          last_name: 'user',
+          first_name: firstName,
+          last_name: lastName,
         })
         .then(async res => {
-          console.log(res.data.data.success);
           if (res.data.data.success) {
             setProceedDisabled(false);
             setEmailSentMessage(true);

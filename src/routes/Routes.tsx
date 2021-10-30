@@ -15,7 +15,7 @@ import VersionNumber from 'react-native-version-number';
 import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
 import OnboardingScreen from '../screens/App_OnBoarding';
-import {setContextId} from '../redux/action';
+import {setContextId, setEmailVerifiedData} from '../redux/action';
 import uninterceptedAxiosInstance from '../utils/services/uninterceptedAxiosInstance';
 import {LOGIN, USER_CHECKIN, VERSION_CHECK} from '../utils/apis/endpoints';
 import {LOGIN_TYPE, VERSION_CHECK_TYPE} from '../utils/apis/endpointType';
@@ -34,6 +34,7 @@ const callToCreateUser = async (
   notifyToken: string,
   setLoading: any,
   setEmailEntered: any,
+  dispatch: any,
 ) => {
   const data: LOGIN_TYPE = {
     notifyToken: notifyToken,
@@ -41,11 +42,12 @@ const callToCreateUser = async (
     appVersion: VersionNumber.appVersion,
     deviceId: uuid.v4().toString(),
   };
-
+  
   await axios
     .post(LOGIN, data)
     .then(async res => {
       if (res.data.status.code !== undefined) {
+        dispatch(setEmailVerifiedData({isEmailVerified: false}));
         if (res.data.status.code === '101') {
           setEmailEntered(false);
         } else if (res.data.status.code === '102') {
@@ -67,12 +69,11 @@ const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
   await axios
     .get(USER_CHECKIN)
     .then(async res => {
-      console.log('checked in user');
       dispatch(setContextId(res.data.data.code));
       setLoading(false);
     })
     .catch(err => {
-      console.log('failed');
+      console.log('user checkin failed');
       console.log(err);
       setLoading(false);
     });
@@ -89,12 +90,14 @@ const Routes = () => {
 
   const onAuthStateChanged = user => {
     if (user) {
+      console.log(user);
       setLoading(true);
       getFcmToken()
         .then(async notifyToken => {
           const isValidUser = await AsyncStorage.getItem('user');
+
           if (isValidUser === null) {
-            callToCreateUser(notifyToken, setLoading, setEmailEntered);
+            callToCreateUser(notifyToken, setLoading, setEmailEntered, dispatch);
             callToUserCheckIn(setLoading, dispatch);
             setUser(user);
           } else {
@@ -131,7 +134,7 @@ const Routes = () => {
         setIsValidAppVersion(res.data.data.success);
       })
       .catch(err => {
-        console.log('failed');
+        console.log('check app version failed');
         console.log(err);
       });
   };

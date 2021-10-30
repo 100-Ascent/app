@@ -7,6 +7,7 @@ export const SET_CONTEXTID = 'SET_CONTEXTID';
 export const SET_CURRENT_VALUES = 'SET_CURRENT_VALUES';
 export const SET_JOURNEY_INDEX = 'SET_JOURNEY_INDEX';
 export const SET_ACTIVITIES = 'SET_ACTIVITIES';
+export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
 
 export interface UserType {
   user: any;
@@ -33,6 +34,10 @@ export interface ActivitiesDataType {
   data: any;
 }
 
+export interface EmailVerifiedType {
+  isEmailVerified: any;
+}
+
 export interface ReduxState {
   user: UserType | null;
   notifyToken: NotificationType | null;
@@ -40,6 +45,7 @@ export interface ReduxState {
   currentValue: CurrentValueType;
   journeyIndex: JourneyIndexType;
   activityData: ActivitiesDataType;
+  email: EmailVerifiedType
 }
 
 export interface SetUserActionTypes {
@@ -72,13 +78,20 @@ export interface SetActivitDataActionTypes {
   payload: ActivitiesDataType | null;
 }
 
+
+export interface SetEmailVerifiedActionTypes {
+  type: typeof SET_EMAIL_VERIFIED;
+  payload: EmailVerifiedType | null;
+}
+
 export type AppActionsType =
   | SetUserActionTypes
   | SetNotifyTokenActionTypes
   | SetContextIdActionTypes
   | SetCurrentValueActionTypes
   | SetJourneyIndexActionTypes
-  | SetActivitDataActionTypes;
+  | SetActivitDataActionTypes
+  | SetEmailVerifiedActionTypes;
 
 export type MyThunkAction<R, T = any> = ThunkAction<
   R,

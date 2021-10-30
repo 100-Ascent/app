@@ -6,6 +6,7 @@ import {
   SET_CONTEXTID,
   SET_CURRENT_VALUES,
   SET_ACTIVITIES,
+  SET_EMAIL_VERIFIED,
 } from './types';
 
 const initialState: ReduxState = {
@@ -15,6 +16,7 @@ const initialState: ReduxState = {
   currentValue: {distance: 0, index: 0},
   journeyIndex: {index: '0-0'},
   activityData: {data: null},
+  email: {isEmailVerified: false},
 };
 
 export default (state = initialState, action: AppActionsType): ReduxState => {
@@ -36,6 +38,9 @@ export default (state = initialState, action: AppActionsType): ReduxState => {
 
     case SET_ACTIVITIES:
       return {...state, activityData: action.payload};
+      
+    case SET_EMAIL_VERIFIED:
+        return {...state, email: action.payload};
 
     default:
       return state;
