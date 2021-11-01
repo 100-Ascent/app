@@ -68,8 +68,8 @@ const OnboardingScreen = ({showAppStack}) => {
       onDone={() => showAppStack()}
       bottomBarHighlight={false}
       bottomBarHeight={80}
-      titleStyles={{color: Colors.TEXT}}
-      subTitleStyles={{color: Colors.TEXT}}
+      titleStyles={{color: Colors.TEXT, fontFamily: 'Quicksand-SemiBold'}}
+      subTitleStyles={{color: Colors.TEXT, fontFamily: 'Quicksand-Regular'}}
       pages={[
         {
           backgroundColor: SCREEN1_COLOR,

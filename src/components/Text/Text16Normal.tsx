@@ -13,7 +13,7 @@ const Text16Normal: React.FC<Props> = ({text, textColor, textStyle}) => {
     <View>
       <Text
         style={[
-          {fontSize: 16, color: textColor, fontFamily: 'Quicksand'},
+          {fontSize: 16, color: textColor, fontFamily: 'Quicksand-Regular'},
           textStyle,
         ]}>
         {text}

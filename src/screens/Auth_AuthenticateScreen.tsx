@@ -4,6 +4,7 @@ import auth from '@react-native-firebase/auth';
 import {RootNavProp} from '../routes/RootStackParamList';
 import SignInScreen from './Auth_SignInScreen';
 import VerifyScreen from './Auth_VerifyScreen';
+import { ToastAndroid } from 'react-native';
 
 interface Props {
   navigation: RootNavProp<'AuthenticateScreen'>;
@@ -29,7 +30,8 @@ const AuthenticateScreen: React.FC<Props> = () => {
       const otp = otpArray.join('');
       await confirm.confirm(otp);
     } catch (error) {
-      console.log('Invalid code.');
+      ToastAndroid.show( "Error: Invalid Code!", ToastAndroid.CENTER)
+      console.log('Invalid Code');
     }
   }
 
@@ -58,6 +60,7 @@ const AuthenticateScreen: React.FC<Props> = () => {
           countdown();
         });
     } catch (error) {
+      ToastAndroid.show( "Error: " + error, ToastAndroid.LONG);
       console.log(error);
     }
   }
@@ -93,7 +96,7 @@ const AuthenticateScreen: React.FC<Props> = () => {
       onSubmit={onSubmit}
     />
   ) : (
-    <VerifyScreen
+      <VerifyScreen
       phoneNumber={formattedValue}
       onSignInClicked={signInWithPhoneNumber}
       onVerify={confirmCode}
@@ -103,7 +106,7 @@ const AuthenticateScreen: React.FC<Props> = () => {
       onGoBack={onGoBack}
       resendDisabled={resendOTPDisabled}
       startTimeMS={startTimeMS}
-    />
+      />
   );
 };
 

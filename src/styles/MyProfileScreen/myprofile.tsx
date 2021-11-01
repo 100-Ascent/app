@@ -4,7 +4,7 @@ const myProfileStyles = StyleSheet.create({
     flex: 1,
   },
   menuWrapper: {
-    marginTop: 15,
+    marginTop: 20
   },
   menuItem: {
     flexDirection: 'row',
@@ -27,7 +27,7 @@ const myProfileStyles = StyleSheet.create({
   circularImage: {
     borderWidth: 1,
     borderRadius: 100,
-    padding: 3,
+    padding: 5,
   },
   profilePhoto: {
     height: 120,

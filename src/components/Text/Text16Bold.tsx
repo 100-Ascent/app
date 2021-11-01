@@ -16,7 +16,7 @@ const Text16Bold: React.FC<Props> = ({text, textColor}) => {
             fontSize: 16,
             fontWeight: 'bold',
             color: textColor,
-            fontFamily: 'Quicksand',
+            fontFamily: 'Quicksand-Bold',
           },
         ]}>
         {text}

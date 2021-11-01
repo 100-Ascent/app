@@ -52,6 +52,8 @@ const callToCreateUser = async (
           setEmailEntered(false);
         } else if (res.data.status.code === '102') {
           setEmailEntered(true);
+        } else {
+          setEmailEntered(true);
         }
       } else {
         setEmailEntered(true);
@@ -61,6 +63,7 @@ const callToCreateUser = async (
     .catch(err => {
       console.log('failed in login api');
       console.log(err);
+      setEmailEntered(true);
       setLoading(false);
     });
 };

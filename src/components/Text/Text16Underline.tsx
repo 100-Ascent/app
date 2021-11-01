@@ -10,7 +10,7 @@ interface Props {
 const Text16Underline: React.FC<Props> = ({ text, textColor }) => {
     return (
         <View>
-            <Text style={[{ fontSize: 16, color: textColor, fontFamily: 'Quicksand', textDecorationLine: 'underline' }]}>
+            <Text style={[{ fontSize: 16, color: textColor, fontFamily: 'Quicksand-Regular', textDecorationLine: 'underline' }]}>
                 {text}
             </Text>
         </View>

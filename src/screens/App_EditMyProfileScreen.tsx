@@ -16,6 +16,8 @@ import Icon from 'react-native-elements/dist/icons/Icon';
 import axios from 'axios';
 import { USER_DETAILS_UPDATE } from '../utils/apis/endpoints';
 import moment from 'moment';
+import Text16Bold from '../components/Text/Text16Bold';
+import Text20 from '../components/Text/Text20';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -82,12 +84,13 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.pop()}
-        />
+          onPress={() => navigation.pop()} 
+          tvParallaxProperties={undefined}        />
       </View>
     ),
     headerRight: () => <View style={{marginLeft: 10}} />,
     headerTitle: 'My Profile',
+    headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
   });
 
@@ -118,7 +121,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
 
             <View style={{marginTop: 20}}>
               <View style={{marginHorizontal: 10}}>
-                <Text18 text={'Personal Info'} textColor={Colors.TEXTDARK} />
+                <Text20 text={'Personal Info'} textColor={Colors.TEXTDARK} />
               </View>
 
               <EditProfileInput

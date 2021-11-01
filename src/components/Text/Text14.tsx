@@ -17,7 +17,7 @@ const Text14: React.FC<Props> = ({text, textColor, textStyle}) => {
             fontSize: 14,
             color: textColor,
             textAlign: 'left',
-            fontFamily: 'Quicksand',
+            fontFamily: 'Quicksand-Light',
           },
           textStyle,
         ]}>

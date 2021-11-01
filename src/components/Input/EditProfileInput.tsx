@@ -89,7 +89,7 @@ const EditProfileInput: React.FC<Props> = ({
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}/>
               <View style={{flex: 1, alignItems: 'center'}}>
-                <Icon name="calendar-today" type="MaterialIcons" size={20} />
+                <Icon name="calendar-today" type="MaterialIcons" size={20} tvParallaxProperties={undefined} />
               </View>
             </View>
           </TouchableOpacity>

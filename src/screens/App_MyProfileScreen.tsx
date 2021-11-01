@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, View, ImageBackground, ToastAndroid} from 'react-native';
+import {SafeAreaView, ScrollView, View, ImageBackground, ToastAndroid, RefreshControl, TouchableOpacity} from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState} from '../redux';
@@ -19,7 +19,9 @@ import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
-import { useIsFocused } from '@react-navigation/native';
+import { Link, useIsFocused } from '@react-navigation/native';
+import parsePhoneNumber from 'libphonenumber-js'
+import Text12Bold from '../components/Text/Text12Bold';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -31,12 +33,21 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [userData, setUserData] = useState({});
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
 
+  const wait = (timeout) => {
+  return new Promise(resolve => setTimeout(resolve, timeout));  
+  } 
+  const [refreshing, setRefreshing] = React.useState(false);
+  const onRefresh = React.useCallback(() => {
+    setRefreshing(true);
+    callToGetUserDetails(true);
+  }, []);
+
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
 
-  const callToGetUserDetails = async () => {
-    setLoading(true);
+  const callToGetUserDetails = async (pullLoader = false) => {
+    pullLoader === false ? setLoading(true) : setRefreshing(true);
     await axios
       .get(USER_DETAILS, {
         headers: {
@@ -47,17 +58,17 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         dispatch(setEmailVerifiedData(data['"is_verified_email']));
         setUserData(data);
-        setLoading(false);
+        pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
       .catch(err => {
         console.log('failed');
         console.log(err);
-        setLoading(false);
+        pullLoader === false ? setLoading(false) : setRefreshing(false);
       });
   };
 
   useEffect(() => {
-    callToGetUserDetails();
+    callToGetUserDetails(false);
   }, [isFocused]);
 
   const handleInfoPressed = () => {
@@ -74,6 +85,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         }
       })
       .catch(err => {
+        ToastAndroid.show("Something went wrong. Please try again!", ToastAndroid.SHORT);
         console.log('failed');
         console.log(err);
       });
@@ -81,6 +93,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
 
   navigation.setOptions({
     headerTitle: 'My Profile',
+    headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
     headerLeft: () => <View style={{marginLeft: 10}} />,
     headerRight: () => (
@@ -104,9 +117,29 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           <ScrollView
             scrollEnabled
             style={{flexGrow: 1}}
+            refreshControl={
+              <RefreshControl
+                refreshing={refreshing}
+                onRefresh={onRefresh}
+              />
+            }
             contentContainerStyle={{flexGrow: 1}}>
             <View style={{flex: 1, paddingHorizontal: 15}}>
               <View style={myProfileStyles.profileWrapper}>
+                {
+                  userData['is_verified_email'] ? (<View />) : (
+                    <View style={{backgroundColor: '#F9EEA0', borderRadius: 5, width: '100%', marginBottom: 20, marginTop: -10, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 7}}>
+                      <Icon name='warning' size={14} color='#E4252D' style={{marginRight: 5}} />
+                      <TouchableOpacity onPress={() => {handleInfoPressed()}}>
+                        <Text12Bold
+                          text='Your email id is not yet verified. Verify Now!'
+                          textColor={Colors.TEXTDARK}
+                          textStyle={{textDecorationLine: 'underline'}}
+                        />
+                      </TouchableOpacity>
+                    </View>
+                  )
+                }
                 <View style={myProfileStyles.circularImage}>
                   <ImageBackground
                     source={{
@@ -115,7 +148,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     style={myProfileStyles.profilePhoto}
                     imageStyle={{borderRadius: 100}}></ImageBackground>
                 </View>
-                <View style={{marginTop: 20}}>
+                <View style={{marginTop: 10}}>
                   <Text28
                     text={userData['first_name'] + ' ' + userData['last_name']}
                     textColor={Colors.TEXTDARK}
@@ -141,7 +174,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   type={ProfileInputFieldTypes.PHONE}
                   iconName="phone"
                   isPhone = {true}
-                  textField={userData['phoneNumber']}
+                  textField={parsePhoneNumber(userData['phoneNumber']).formatInternational()}
                 />
                 <ProfileInput
                   type={ProfileInputFieldTypes.COUNTRY}
@@ -152,32 +185,41 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                       : userData['country']
                   }
                 />
-                <ProfileInput
-                  type={ProfileInputFieldTypes.ADDRESS}
-                  iconName="home"
-                  textField={
-                    userData['address'].length === 0
-                      ? 'Hogwarts Castle, Highlands'
-                      : userData['address']
-                  }
-                  isAddressFilled={userData['address'].length !== 0}
-                />
-                <ProfileInput
-                  type={ProfileInputFieldTypes.GENDER}
-                  iconName="user"
-                  iconType="feather"
-                  textField={userData['gender']}
-                />
-                <ProfileInput
-                  type={ProfileInputFieldTypes.DOB}
-                  iconName="cake"
-                  isDOBFilled = { userData['dob'].length !== 0 }
-                  textField={
-                    userData['dob'].length === 0
-                      ? '29/02/2030'
-                      : userData['dob']
-                  }
-                />
+                {
+                   userData['address'].length === 0  ? (<View />) : (  
+                    <ProfileInput
+                    type={ProfileInputFieldTypes.ADDRESS}
+                    iconName="home"
+                    textField={
+                      userData['address'].length === 0
+                        ? 'Hogwarts Castle, Highlands'
+                        : userData['address'] + ", " + userData['city'] + ", " + userData['state'] + " - " + userData['pincode'] 
+                    }
+                    isAddressFilled={userData['address'].length !== 0}
+                    /> )
+                }
+                {
+                  userData['gender'] == 'Rather not say' || userData['gender'] == 'Rather Not Say'  ? (<View />) : (  
+                    <ProfileInput
+                    type={ProfileInputFieldTypes.GENDER}
+                    iconName="user"
+                    iconType="feather"
+                    textField={userData['gender']}
+                  /> )
+                }
+                {
+                  userData['dob'].length === 0 ? (<View />) : (  
+                  <ProfileInput
+                    type={ProfileInputFieldTypes.DOB}
+                    iconName="cake"
+                    isDOBFilled = { userData['dob'].length !== 0 }
+                    textField={
+                      userData['dob'].length === 0
+                        ? '29/02/2030'
+                        : userData['dob']
+                    }
+                  /> )
+                }
               </View>
             </View>
             <CustomPopUp

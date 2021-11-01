@@ -4,16 +4,21 @@ import {Colors} from '../../utils/colors';
 
 interface Props {
   text: string;
-  textColor?: string;
+  textColor: string;
   textStyle?: TextStyle;
 }
 
-const Text24: React.FC<Props> = ({text, textColor, textStyle}) => {
+const Text12Bold: React.FC<Props> = ({text, textColor, textStyle}) => {
   return (
     <View>
       <Text
         style={[
-          {fontSize: 24, color: textColor, fontFamily: 'Quicksand-Medium'},
+          {
+            fontSize: 12,
+            color: textColor,
+            textAlign: 'left',
+            fontFamily: 'Quicksand-Bold',
+          },
           textStyle,
         ]}>
         {text}
@@ -22,4 +27,4 @@ const Text24: React.FC<Props> = ({text, textColor, textStyle}) => {
   );
 };
 
-export default Text24;
+export default Text12Bold;

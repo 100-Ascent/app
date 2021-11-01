@@ -10,7 +10,7 @@ interface Props {
 const Text20: React.FC<Props> = ({text, textColor}) => {
   return (
     <View>
-      <Text style={[{fontSize: 20, color: textColor, fontFamily: 'Quicksand'}]}>
+      <Text style={[{fontSize: 20, color: textColor, fontFamily: 'Quicksand-Medium'}]}>
         {text}
       </Text>
     </View>
