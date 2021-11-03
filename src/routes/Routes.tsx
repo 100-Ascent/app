@@ -93,7 +93,6 @@ const Routes = () => {
 
   const onAuthStateChanged = user => {
     if (user) {
-      console.log(user);
       setLoading(true);
       getFcmToken()
         .then(async notifyToken => {

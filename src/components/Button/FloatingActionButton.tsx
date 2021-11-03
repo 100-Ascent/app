@@ -1,7 +1,6 @@
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
-import {RootNavProp} from '../../routes/RootStackParamList';
 import {Colors} from '../../utils/colors';
 
 interface Props {

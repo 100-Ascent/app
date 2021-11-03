@@ -5,7 +5,8 @@ export type RootStackParamList = {
   AuthenticateScreen: undefined;
   MyProfileScreen: {data: any};
   EditMyProfileScreen: {data: any}
-
+  AddActivityScreen: any;
+  DataInListViewScreen: {data: any};
 
 
 
@@ -18,7 +19,6 @@ export type RootStackParamList = {
   ChallengeDescriptionScreen: {data: Object};
   OnboardingScreen: undefined;
   CommunityScreen: undefined;
-  PostDataScreen: any;
   EditActivityDataScreen: {data?: any; cd_id: any};
   MyChallengeScreen: {data: Object; challengeId: Object};
   UserProfileScreen: undefined;

@@ -1,7 +1,7 @@
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {View, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity} from 'react-native';
-import {Icon, Image} from 'react-native-elements';
+import {Icon} from 'react-native-elements';
 
 import globalStyles from '../../styles/Global/styles';
 import { Colors } from '../../utils/colors';

@@ -1,5 +1,13 @@
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, View, ImageBackground, ToastAndroid, RefreshControl, TouchableOpacity} from 'react-native';
+import {
+  SafeAreaView,
+  ScrollView,
+  View,
+  ImageBackground,
+  ToastAndroid,
+  RefreshControl,
+  TouchableOpacity,
+} from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
 import {AppState} from '../redux';
@@ -10,7 +18,12 @@ import ProfileInput from '../components/Input/ProfileInput';
 import Text28 from '../components/Text/Text28';
 import Text16Normal from '../components/Text/Text16Normal';
 
-import {UPDATE_EMAIL, USER_DETAILS, VERIFY_EMAIL} from '../utils/apis/endpoints';
+import {
+  UPDATE_EMAIL,
+  USER_ACTIVITY_DATA,
+  USER_DETAILS,
+  VERIFY_EMAIL,
+} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {setEmailVerifiedData} from '../redux/action';
@@ -19,9 +32,12 @@ import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
-import { Link, useIsFocused } from '@react-navigation/native';
-import parsePhoneNumber from 'libphonenumber-js'
+import {Link, useIsFocused} from '@react-navigation/native';
+import parsePhoneNumber from 'libphonenumber-js';
 import Text12Bold from '../components/Text/Text12Bold';
+import FloatingActionButton from '../components/Button/FloatingActionButton';
+import Text16Bold from '../components/Text/Text16Bold';
+import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -32,19 +48,20 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
+  const [activityData, setActivityData] = useState([]);
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const dispatch = useDispatch();
+  const isFocused = useIsFocused();
 
-  const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));  
-  } 
+  const wait = timeout => {
+    return new Promise(resolve => setTimeout(resolve, timeout));
+  };
+
   const [refreshing, setRefreshing] = React.useState(false);
   const onRefresh = React.useCallback(() => {
     setRefreshing(true);
     callToGetUserDetails(true);
   }, []);
-
-  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
-  const dispatch = useDispatch();
-  const isFocused = useIsFocused();
 
   const callToGetUserDetails = async (pullLoader = false) => {
     pullLoader === false ? setLoading(true) : setRefreshing(true);
@@ -58,12 +75,36 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         dispatch(setEmailVerifiedData(data['"is_verified_email']));
         setUserData(data);
+        callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
       .catch(err => {
-        console.log('failed');
+        console.log('failed in user data');
         console.log(err);
         pullLoader === false ? setLoading(false) : setRefreshing(false);
+      });
+  };
+
+  const callToGetUserActivityData = async () => {
+    setLoading(true);
+    await axios
+      .get(USER_ACTIVITY_DATA, {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+        const data = res.data.data;
+        if (res.data.success) {
+          setActivityData(data);
+        } else {
+          setActivityData([]);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('failed in activity data yohoooooooo');
+        console.log(err);
       });
   };
 
@@ -79,13 +120,19 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     axios
       .get(VERIFY_EMAIL)
       .then(async res => {
-        if (res.data.data.success) {            
+        if (res.data.data.success) {
           setVerifyEmailPopUp(false);
-          ToastAndroid.show("Verification link sent successfully!", ToastAndroid.SHORT);
+          ToastAndroid.show(
+            'Verification link sent successfully!',
+            ToastAndroid.SHORT,
+          );
         }
       })
       .catch(err => {
-        ToastAndroid.show("Something went wrong. Please try again!", ToastAndroid.SHORT);
+        ToastAndroid.show(
+          'Something went wrong. Please try again!',
+          ToastAndroid.SHORT,
+        );
         console.log('failed');
         console.log(err);
       });
@@ -111,138 +158,199 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
-        {loading ? (
-          <RNLoader />
-        ) : (
-          <ScrollView
-            scrollEnabled
-            style={{flexGrow: 1}}
-            refreshControl={
-              <RefreshControl
-                refreshing={refreshing}
-                onRefresh={onRefresh}
-              />
-            }
-            contentContainerStyle={{flexGrow: 1}}>
-            <View style={{flex: 1, paddingHorizontal: 15}}>
-              <View style={myProfileStyles.profileWrapper}>
-                {
-                  userData['is_verified_email'] ? (<View />) : (
-                    <View style={{backgroundColor: '#F9EEA0', borderRadius: 5, width: '100%', marginBottom: 20, marginTop: -10, display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'center', padding: 7}}>
-                      <Icon name='warning' size={14} color='#E4252D' style={{marginRight: 5}} />
-                      <TouchableOpacity onPress={() => {handleInfoPressed()}}>
+        <>
+          {loading ? (
+            <RNLoader />
+          ) : (
+            <ScrollView
+              scrollEnabled
+              style={{flexGrow: 1}}
+              refreshControl={
+                <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+              }
+              contentContainerStyle={{flexGrow: 1}}>
+              <View style={{flex: 1, paddingHorizontal: 15}}>
+                <View style={myProfileStyles.profileWrapper}>
+                  {userData['is_verified_email'] ? (
+                    <View />
+                  ) : (
+                    <View
+                      style={{
+                        backgroundColor: '#F9EEA0',
+                        borderRadius: 5,
+                        width: '100%',
+                        marginBottom: 20,
+                        marginTop: -10,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        padding: 7,
+                      }}>
+                      <Icon
+                        name="warning"
+                        size={14}
+                        color="#E4252D"
+                        style={{marginRight: 5}}
+                      />
+                      <TouchableOpacity
+                        onPress={() => {
+                          handleInfoPressed();
+                        }}>
                         <Text12Bold
-                          text='Your email id is not yet verified. Verify Now!'
+                          text="Your email id is not yet verified. Verify Now!"
                           textColor={Colors.TEXTDARK}
                           textStyle={{textDecorationLine: 'underline'}}
                         />
                       </TouchableOpacity>
                     </View>
-                  )
-                }
-                <View style={myProfileStyles.circularImage}>
-                  <ImageBackground
-                    source={{
-                      uri: 'https://www.iphonehacks.com/wp-content/uploads/2019/11/Anamorphic-Pro-Visual-Effects-Mac-Bundle.jpg',
-                    }}
-                    style={myProfileStyles.profilePhoto}
-                    imageStyle={{borderRadius: 100}}></ImageBackground>
-                </View>
-                <View style={{marginTop: 10}}>
-                  <Text28
-                    text={userData['first_name'] + ' ' + userData['last_name']}
+                  )}
+                  <View style={myProfileStyles.circularImage}>
+                    <ImageBackground
+                      source={{
+                        uri: 'https://www.iphonehacks.com/wp-content/uploads/2019/11/Anamorphic-Pro-Visual-Effects-Mac-Bundle.jpg',
+                      }}
+                      style={myProfileStyles.profilePhoto}
+                      imageStyle={{borderRadius: 100}}></ImageBackground>
+                  </View>
+                  <View style={{marginTop: 10}}>
+                    <Text28
+                      text={
+                        userData['first_name'] + ' ' + userData['last_name']
+                      }
+                      textColor={Colors.TEXTDARK}
+                    />
+                  </View>
+                  <Text16Normal
+                    text={
+                      'Member since ' +
+                      new Date(userData['created_at']).getFullYear()
+                    }
                     textColor={Colors.TEXTDARK}
                   />
                 </View>
-                <Text16Normal
-                  text={
-                    'Member since ' +
-                    new Date(userData['created_at']).getFullYear()
-                  }
-                  textColor={Colors.TEXTDARK}
-                />
-              </View>
-              <View style={myProfileStyles.menuWrapper}>
-                <ProfileInput
-                  type={ProfileInputFieldTypes.EMAIL}
-                  iconName="email"
-                  textField={userData['email']}
-                  isEmailVerified={userData['is_verified_email']}
-                  onInfoPressed={handleInfoPressed}
-                />
-                <ProfileInput
-                  type={ProfileInputFieldTypes.PHONE}
-                  iconName="phone"
-                  isPhone = {true}
-                  textField={parsePhoneNumber(userData['phoneNumber']).formatInternational()}
-                />
-                <ProfileInput
-                  type={ProfileInputFieldTypes.COUNTRY}
-                  iconName="public"
-                  textField={
-                    userData['country'].length === 0
-                      ? 'India'
-                      : userData['country']
-                  }
-                />
-                {
-                   userData['address'].length === 0  ? (<View />) : (  
-                    <ProfileInput
-                    type={ProfileInputFieldTypes.ADDRESS}
-                    iconName="home"
-                    textField={
-                      userData['address'].length === 0
-                        ? 'Hogwarts Castle, Highlands'
-                        : userData['address'] + ", " + userData['city'] + ", " + userData['state'] + " - " + userData['pincode'] 
-                    }
-                    isAddressFilled={userData['address'].length !== 0}
-                    /> )
-                }
-                {
-                  userData['gender'] == 'Rather not say' || userData['gender'] == 'Rather Not Say'  ? (<View />) : (  
-                    <ProfileInput
-                    type={ProfileInputFieldTypes.GENDER}
-                    iconName="user"
-                    iconType="feather"
-                    textField={userData['gender']}
-                  /> )
-                }
-                {
-                  userData['dob'].length === 0 ? (<View />) : (  
+                <View style={myProfileStyles.menuWrapper}>
                   <ProfileInput
-                    type={ProfileInputFieldTypes.DOB}
-                    iconName="cake"
-                    isDOBFilled = { userData['dob'].length !== 0 }
+                    type={ProfileInputFieldTypes.EMAIL}
+                    iconName="email"
+                    textField={userData['email']}
+                    isEmailVerified={userData['is_verified_email']}
+                    onInfoPressed={handleInfoPressed}
+                  />
+                  <ProfileInput
+                    type={ProfileInputFieldTypes.PHONE}
+                    iconName="phone"
+                    isPhone={true}
+                    textField={parsePhoneNumber(
+                      userData['phoneNumber'],
+                    ).formatInternational()}
+                  />
+                  <ProfileInput
+                    type={ProfileInputFieldTypes.COUNTRY}
+                    iconName="public"
                     textField={
-                      userData['dob'].length === 0
-                        ? '29/02/2030'
-                        : userData['dob']
+                      userData['country'].length === 0
+                        ? 'India'
+                        : userData['country']
                     }
-                  /> )
-                }
+                  />
+                  {userData['address'].length === 0 ? (
+                    <View />
+                  ) : (
+                    <ProfileInput
+                      type={ProfileInputFieldTypes.ADDRESS}
+                      iconName="home"
+                      textField={
+                        userData['address'].length === 0
+                          ? 'Hogwarts Castle, Highlands'
+                          : userData['address'] +
+                            ', ' +
+                            userData['city'] +
+                            ', ' +
+                            userData['state'] +
+                            ' - ' +
+                            userData['pincode']
+                      }
+                      isAddressFilled={userData['address'].length !== 0}
+                    />
+                  )}
+                  {userData['gender'] == 'Rather not say' ||
+                  userData['gender'] == 'Rather Not Say' ? (
+                    <View />
+                  ) : (
+                    <ProfileInput
+                      type={ProfileInputFieldTypes.GENDER}
+                      iconName="user"
+                      iconType="feather"
+                      textField={userData['gender']}
+                    />
+                  )}
+                  {userData['dob'].length === 0 ? (
+                    <View />
+                  ) : (
+                    <ProfileInput
+                      type={ProfileInputFieldTypes.DOB}
+                      iconName="cake"
+                      isDOBFilled={userData['dob'].length !== 0}
+                      textField={
+                        userData['dob'].length === 0
+                          ? '29/02/2030'
+                          : userData['dob']
+                      }
+                    />
+                  )}
+                </View>
+                <View style={{marginTop: 20, flexDirection: 'row'}}>
+                  <View style={{flex: 1}}>
+                    <Text16Bold
+                      text="All Activities"
+                      textColor={Colors.TEXTDARK}
+                    />
+                  </View>
+                </View>
+                <View style={{marginHorizontal: 10}}>
+                  <DistanceComponent distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
+                </View>
+                { activityData.length > 3 ? <View style={{flex: 1, alignItems: 'flex-end', marginRight: 15, marginTop: 10 }}>
+                    <TouchableOpacity onPress={()=> 
+                        navigation.navigate('DataInListViewScreen',{ data: activityData }) }>
+                    <Text16Bold
+                      text="See All"
+                      textColor={Colors.TEXTDARK}
+                    />
+                    </TouchableOpacity>
+                  </View> : null}
               </View>
-            </View>
-            <CustomPopUp
-              icon={<VerifyEmailIcon />}
-              visible={verifyEmailPopUpVisible}
-              onOk={handleResendEmail}
-              isCancelable={true}
-              onCancel={() => {
-                navigation.navigate('EditMyProfileScreen', {data: userData});
-                setVerifyEmailPopUp(false);
+              <CustomPopUp
+                icon={<VerifyEmailIcon />}
+                visible={verifyEmailPopUpVisible}
+                onOk={handleResendEmail}
+                isCancelable={true}
+                onCancel={() => {
+                  navigation.navigate('EditMyProfileScreen', {data: userData});
+                  setVerifyEmailPopUp(false);
+                }}
+                oKText={'Resend link'}
+                cancelText={'Edit Email'}
+                header={'Verify E-Mail'}
+                description={
+                  'Please verify your email by clicking on the link sent to ' +
+                  userData['email']
+                }
+                isCloseButton={true}
+                closeButtonPress={() => setVerifyEmailPopUp(false)}
+              />
+              <View style={{padding: 50}} />
+            </ScrollView>
+          )}
+          <View style={{position: 'absolute', bottom: 20, right: 20}}>
+            <FloatingActionButton
+              onPress={() => {
+                navigation.navigate('AddActivityScreen');
               }}
-              oKText={'Resend link'}
-              cancelText={'Edit Email'}
-              header={'Verify E-Mail'}
-              description={
-                'Please verify your email by clicking on the link sent to ' +
-                userData['email']
-              }
-              isCloseButton={true}
-              closeButtonPress={()=>setVerifyEmailPopUp(false)}
             />
-          </ScrollView>
-        )}
+          </View>
+        </>
       </Background>
     </SafeAreaView>
   );

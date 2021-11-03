@@ -1,7 +1,6 @@
 import React from 'react';
 import {Modal, TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
-import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
 import Text16Normal from '../Text/Text16Normal';
 import PopUpButton from '../Button/PopUpButton';
 import Text20 from '../Text/Text20';
