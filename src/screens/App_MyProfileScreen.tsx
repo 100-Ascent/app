@@ -39,6 +39,9 @@ import FloatingActionButton from '../components/Button/FloatingActionButton';
 import Text16Bold from '../components/Text/Text16Bold';
 import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
 
+import EmptyState from '../../assets/icons/empty_state.svg';
+import Text14 from '../components/Text/Text14';
+
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
   route: RootNavRouteProps<'MyProfileScreen'>;
@@ -208,7 +211,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   <View style={myProfileStyles.circularImage}>
                     <ImageBackground
                       source={{
-                        uri: 'https://www.iphonehacks.com/wp-content/uploads/2019/11/Anamorphic-Pro-Visual-Effects-Mac-Bundle.jpg',
+                        uri: 'https://i.ibb.co/XJ127jN/john-wick.png',
                       }}
                       style={myProfileStyles.profilePhoto}
                       imageStyle={{borderRadius: 100}}></ImageBackground>
@@ -300,24 +303,33 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
-                <View style={{marginTop: 20, flexDirection: 'row'}}>
+                <View style={{marginTop: 40, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
-                      text="All Activities"
-                      textColor={Colors.TEXTDARK}
-                    />
+                        text="All Activities"
+                        textColor={Colors.TEXTDARK} textStyle={undefined}                    />
                   </View>
                 </View>
+                {
+                  activityData.length < 1 ? (
+                    <View style={{marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+                      <EmptyState />
+                      <Text16Bold text={'No Activity Found!'} textColor={''} textStyle={{marginTop: -30}} />
+                      <Text12Bold text={'Click on + icon to add your first activity'} textColor={'grey'} />
+                    </View>
+                  ) : (
+                    <View />
+                  )
+                }
                 <View style={{marginHorizontal: 10}}>
-                  <DistanceComponent distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
+                  <DistanceComponent setLoading={setLoading} setActivityData={setActivityData} setRefreshing={setRefreshing} distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
                 </View>
-                { activityData.length > 3 ? <View style={{flex: 1, alignItems: 'flex-end', marginRight: 15, marginTop: 10 }}>
+                { activityData.length > 3 ? <View style={{flex: 1, alignItems: 'flex-end', marginRight: 15, marginTop: 20 }}>
                     <TouchableOpacity onPress={()=> 
                         navigation.navigate('DataInListViewScreen',{ data: activityData }) }>
                     <Text16Bold
-                      text="See All"
-                      textColor={Colors.TEXTDARK}
-                    />
+                        text="See All Activities"
+                        textColor={Colors.TEXTDARK} textStyle={{textDecorationLine: 'underline'}}                    />
                     </TouchableOpacity>
                   </View> : null}
               </View>

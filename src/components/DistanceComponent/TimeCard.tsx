@@ -9,7 +9,7 @@ const TimeCard = ({time}) => {
   const min = time % 60;
 
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',}}>
       <View style={{flex: 1}}>
         <TimeIcon />
       </View>

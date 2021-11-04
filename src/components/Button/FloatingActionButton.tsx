@@ -27,9 +27,9 @@ const FloatingActionButton: React.FC<Props> = ({onPress}) => {
         height: 65,
         backgroundColor: Colors.POPUP_RED,
         borderRadius: 100,
-        elevation: 5,
+        elevation: 7,
       }}>
-      <Icon name="plus" type="ant-design" size={30} color={Colors.TEXT} />
+      <Icon name="plus" type="ant-design" size={30} color={Colors.TEXT} tvParallaxProperties={undefined} />
     </TouchableOpacity>
   );
 };

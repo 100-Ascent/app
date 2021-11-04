@@ -22,6 +22,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'All Activity Data',
+      headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerTitleContainerStyle: {alignItems: 'center'},
       headerRight: () => <View style={{marginLeft: 10}} />,
       headerLeft: () => (
@@ -31,7 +32,6 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
             type="ionicons"
             size={30}
             onPress={() => navigation.pop()}
-            tvParallaxProperties={undefined}
           />
         </View>
       ),
@@ -47,7 +47,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
           contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, paddingHorizontal: 15}}>
             <View style={{marginHorizontal: 10}}>
-              <DistanceComponent distanceData={data} />
+              <DistanceComponent setRefreshing={() => {}} setActivityData={() => {}} setLoading={() => {}} distanceData={data} />
             </View>
           </View>
           <View style={{padding: 50}} />

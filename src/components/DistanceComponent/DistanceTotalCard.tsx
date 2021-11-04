@@ -6,8 +6,8 @@ import {Colors} from '../../utils/colors';
 
 const DistanceTotalCard = ({data, isDistance}) => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
-      <View style={{flex: 1}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',}}>
+      <View style={{flex: 1, width: 30, height: 14}}>
         <DistanceIcon />
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>

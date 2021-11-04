@@ -98,9 +98,11 @@ const RNSearchablePicker: React.FC<Props> = ({
                 <Icon
                   name="clear"
                   type="MaterialIcons"
+                  size={18}
+                  color={Colors.INFO_GREY} 
                   onPress={() => setInputValue('')}
                 />
-                <Icon name="search" type="ionicon" />
+                <Icon name="search" size={18} color={Colors.ORANGE} type="ionicon" />
               </View>
             )}
           </TouchableNativeFeedback>

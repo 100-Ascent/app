@@ -29,6 +29,8 @@ import StyledButton from '../components/Button/StyledButton';
 import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
 import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import Text12Bold from '../components/Text/Text12Bold';
+import Text14 from '../components/Text/Text14';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -141,17 +143,18 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     const data = {
       count: parseInt(distanceTimeData),
       activity_id: selected['id'],
-      date: moment.utc(selectedDate).format('YYYY-MM-DD'),
+      date: moment.utc(selectedDate).format('DD/MM/YYYY'),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
       min: calminsteps.min,
       steps: calminsteps.steps,
       comment: comment
     };
-
+    console.log(data);  
     axios
       .post('/api/user/data', data)
-      .then(res => {        
+      .then(res => { 
+        console.log(res);       
         ToastAndroid.show('Added Data successfully!', ToastAndroid.SHORT);
         navigation.navigate('MyProfileScreen');
       })
@@ -165,6 +168,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     navigation.setOptions({
       headerTitle: 'Add an activity',
       headerTitleContainerStyle: {alignItems: 'center'},
+      headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerRight: () => <View style={{marginLeft: 10}} />,
       headerLeft: () => (
         <View style={{marginLeft: 10}}>
@@ -172,13 +176,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.pop()} 
-          tvParallaxProperties={undefined} />
+          onPress={() => navigation.pop()}  />
       </View>
     ),
     });
     getDropdownActivities();
   }, []);
+
+  var dateDifference = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))/ (1000 * 60 * 60 * 24));
 
   return (
     <View style={{flex: 1}}>
@@ -199,11 +204,11 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
             {loading && dropdownData.length === 0 ? (
               <RNLoader />
             ) : (
-              <View style={{flex: 1}}>
+              <View style={{flex: 1, marginHorizontal: 20}}>
                 <View
                   style={{
-                    marginVertical: 10,
-                    marginHorizontal: 20,
+                    marginVertical: 20,
+                    
                   }}>
                   <TouchableOpacity
                     onPress={showDatepicker}
@@ -230,10 +235,10 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                         flexDirection: 'row',
                       }}>
                       <View style={{flex: 5}}>
-                        <Text style={{color: Colors.TEXTDARK}}>
+                        <Text style={{color: Colors.TEXTDARK, fontWeight: 'normal'}}>
                           {selectedDate === null
                             ? 'Select Date'
-                            : moment(date).format('DD-MM-YYYY')}
+                            : moment(date).format('MMM DD, YYYY - hh:mm:ss A')}
                         </Text>
                       </View>
                       <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -244,11 +249,53 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                           name="calendar-today"
                           type="MaterialIcons"
                           size={20}
+                          color={Colors.ORANGE}
                         />
                       </View>
                     </View>
                   </TouchableOpacity>
                 </View>
+
+                {dateDifference < 2 ? (
+                    <View />
+                  ) : (
+                    <View
+                      style={{
+                        backgroundColor: '#F9EEA0',
+                        borderRadius: 10,
+                        width: '100%',
+                        marginBottom: 20,
+                        marginTop: -10,
+                        display: 'flex',
+                        flexDirection: 'row',
+                        alignItems: 'center',
+                        justifyContent: 'flex-start',
+                        paddingVertical: 7,
+                        paddingHorizontal: 15,
+                        shadowColor: Colors.BLACK1,
+                        shadowOffset: {
+                          width: 0,
+                          height: 1,
+                        },
+                        shadowOpacity: 0.22,
+                        shadowRadius: 2.22,
+                        elevation: 3,
+                      }}>
+                      <Icon
+                        name="warning"
+                        size={14}
+                        color={Colors.ORANGE}
+                        style={{marginRight: 10}}
+                      />
+                      <View>
+                        <Text12Bold
+                          text="Note: This activity won't be considered in streak calculations. However, it'll be considered while calculating your general statistics."
+                          textColor={Colors.TEXTDARK}
+                          textStyle={{textDecorationLine: 'none'}}
+                        />
+                      </View>
+                    </View>
+                  )}
 
                 {show && (
                   <DateTimePicker
@@ -266,7 +313,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                 )}
                 
                 <View
-                  style={{flexDirection: 'row', width: '100%', marginTop: 20}}>
+                  style={{flexDirection: 'row', width: '100%', marginTop: 10}}>
                   <View
                     style={{
                       width: '30%',
@@ -276,10 +323,10 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                       style={{
                         borderWidth: 2,
                         borderRadius: 80,
-                        padding: 3,
+                        padding: 10,
                       }}>
                       <FastImage
-                        style={{width: 80, height: 80, borderRadius: 80}}
+                        style={{width: 70, height: 70, borderRadius: 30}}
                         source={{
                           uri: selected.icon,
                           priority: FastImage.priority.high,
@@ -288,7 +335,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                       />
                     </View>
                   </View>
-                  <View style={{width: '70%', marginTop: 10}}>
+                  <View style={{width: '75%', marginTop: 10}}>
                     <RNSearchablePicker
                       onSelect={selectHandler}
                       data={dropdownData}
@@ -306,7 +353,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     />
                   </View>
                 </View>
-                <View style={{marginTop: 30}}>
+                <View style={{marginTop: 30, marginHorizontal: -20}}>
                   <DistanceTimeCard
                     defaultOption={defaultOption}
                     selectedItem={selected}
@@ -320,7 +367,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     setKlicks={setKlicks}
                   />
                 </View>
-                <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20, marginHorizontal: -20}}>
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
@@ -333,13 +380,13 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
                 </View> */}
-                <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20, marginHorizontal: -20}}>
                   <AddCommentImageCard
                     comment={comment}
                     onCommentChange={onCommentChange}
                   />
                 </View>
-                <View style={{marginTop: 20, marginHorizontal: 20}}>
+                <View style={{marginTop: 20, marginHorizontal: 0}}>
                   <StyledButton
                     text="POST"
                     disabled={isAllowPost}

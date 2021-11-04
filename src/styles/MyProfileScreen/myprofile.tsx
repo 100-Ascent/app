@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import { Colors } from '../../utils/colors';
 const myProfileStyles = StyleSheet.create({
   container: {
     flex: 1,
@@ -25,13 +26,15 @@ const myProfileStyles = StyleSheet.create({
     marginTop: 20,
   },
   circularImage: {
-    borderWidth: 1,
+    borderWidth: 2,
     borderRadius: 100,
     padding: 5,
+    borderColor: Colors.RED
   },
   profilePhoto: {
     height: 120,
     width: 120,
+    borderRadius: 100
   },
 });
 export default myProfileStyles;

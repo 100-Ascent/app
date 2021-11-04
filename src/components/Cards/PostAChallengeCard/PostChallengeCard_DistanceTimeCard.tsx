@@ -4,6 +4,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import Text24 from '../../Text/Text24';
+import KlicksTooltip from '../../Tooltip/KlicksTooltip';
 
 const DistanceTimeCard = ({
   defaultOption,
@@ -16,6 +17,11 @@ const DistanceTimeCard = ({
   setKlicks,
 }) => {
   const option = ['Distance', 'Time'];
+  var toggle = () => {
+    toggleHandler();
+    setKlicks(0);
+    setValue(0);
+  }
   const optionView = option.map((val, idx) => {
     return (
       <View
@@ -29,7 +35,7 @@ const DistanceTimeCard = ({
         }}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={toggleHandler}
+          onPress={toggle}
           disabled={!selectedItem.is_distance || defaultOption === idx}
           style={{
             width: '100%',
@@ -42,7 +48,8 @@ const DistanceTimeCard = ({
             style={{
               alignItems: 'center',
               paddingHorizontal: 10,
-              paddingVertical: 5,
+              paddingTop: 5,
+              paddingBottom: 8,
             }}>
             <Text16Normal
               text={val}
@@ -136,6 +143,14 @@ const DistanceTimeCard = ({
             <View style={{justifyContent: 'flex-end', marginBottom: 3}}>
               <Text16Normal text=" Klicks" textColor={Colors.POPUP_RED} />
             </View>
+            <View
+                  style={{
+                    justifyContent: 'center',
+                    marginTop: 10,
+                    marginLeft: 5,
+                  }}>
+                  <KlicksTooltip color={Colors.TEXTDARK} />
+                </View>
           </View>
         </View>
       </View>

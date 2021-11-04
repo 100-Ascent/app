@@ -6,7 +6,7 @@ import {Colors} from '../../utils/colors';
 
 const CalorieCard = ({calorie}) => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',}}>
       <View style={{flex: 1}}>
         <CalorieIcon />
       </View>

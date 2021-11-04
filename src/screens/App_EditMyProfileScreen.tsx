@@ -106,7 +106,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <View style={myProfileStyles.circularImage}>
                 <ImageBackground
                   source={{
-                    uri: 'https://www.iphonehacks.com/wp-content/uploads/2019/11/Anamorphic-Pro-Visual-Effects-Mac-Bundle.jpg',
+                    uri: 'https://i.ibb.co/XJ127jN/john-wick.png',
                   }}
                   style={myProfileStyles.profilePhoto}
                   imageStyle={{borderRadius: 60}}></ImageBackground>

@@ -5,6 +5,7 @@ import Text16Normal from '../../Text/Text16Normal';
 import CaloriesIcon from '../../../../assets/icons/CalMinStepsIcon/calorie.svg';
 import DistanceIcon from '../../../../assets/icons/CalMinStepsIcon/time.svg';
 import StepsIcon from '../../../../assets/icons/CalMinStepsIcon/foot.svg';
+import Text14 from '../../Text/Text14';
 
 const CalMinStepsCard = ({calminsteps, getCalMinSteps}) => {
   return (
@@ -16,8 +17,8 @@ const CalMinStepsCard = ({calminsteps, getCalMinSteps}) => {
         elevation: 3,
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
-        <View style={{paddingTop: 5, paddingRight: 10}}>
-          <Text16Normal text={'*optional'} textColor={Colors.BLACK4} />
+        <View style={{paddingTop: 5, paddingRight: 10, marginBottom: 10}}>
+          <Text14 text={'*optional'} textColor={Colors.BLACK4} />
         </View>
       </View>
       <View style={{flexDirection: 'row'}}>
@@ -47,20 +48,21 @@ const inputCard = (
   getCalMinSteps: (arg0: string, arg1: string) => void,
 ) => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
+    <View style={{flex: 1, flexDirection: 'row', marginHorizontal: 3}}>
       <View
         style={{
-          flex: 1,
+          flex: 3,
           justifyContent: 'center',
-          alignItems: 'center',
+          alignItems: 'center'
         }}>
         {icon}
       </View>
       <View
         style={{
-          flex: 2,
+          flex: 5,
           borderWidth: 1,
           borderRadius: 10,
+          borderColor: '#777'
         }}>
         <TextInput
           keyboardType="numeric"

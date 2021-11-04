@@ -3,6 +3,7 @@ import {TextInput, View} from 'react-native';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Text14 from '../../Text/Text14';
 const AddCommentImageCard = ({comment, onCommentChange}) => {
   return (
     <View
@@ -14,7 +15,7 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
       }}>
       <View style={{flexDirection: 'row', justifyContent: 'flex-end'}}>
         <View style={{paddingTop: 5, paddingRight: 15}}>
-          <Text16Normal text={'*optional'} textColor={Colors.BLACK4} />
+          <Text14 text={'*optional'} textColor={Colors.BLACK4} />
         </View>
       </View>
       <View style={{flex: 1, paddingHorizontal: 20}}>
@@ -42,6 +43,8 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
             paddingLeft: 10,
             color: Colors.TEXTDARK,
             flex: 1,
+            borderRadius: 10,
+            marginRight:10
           }}
         />
         <Icon

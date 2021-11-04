@@ -6,11 +6,11 @@ import {Colors} from '../../utils/colors';
 
 const FitnessCard = ({isGoogleFit}) => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
-      <View style={{flex: 1}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
+      <View style={{flex: 1, width: 30, height: 14}}>
         <GoogleFitIcon />
       </View>
-      <View style={{flex: 4, justifyContent: 'center'}}>
+      <View style={{flex: 7, justifyContent: 'flex-start'}}>
         <Text14
           text={isGoogleFit ? 'via Google Fit' : 'via Manual Entry'}
           textColor={Colors.TEXTDARK}
