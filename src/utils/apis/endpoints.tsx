@@ -6,3 +6,5 @@ export const VERIFY_EMAIL = "/api/sendEmailVerification";
 export const USER_DETAILS = "/api/user";
 export const USER_DETAILS_UPDATE = "/api/user";
 export const USER_ACTIVITY_DATA = "/api/user/data";
+export const ADD_ACTIVITY_DATA = "/api/user/data";
+export const UPDATE_ACTIVITY_DATA = "/api/user/data/";

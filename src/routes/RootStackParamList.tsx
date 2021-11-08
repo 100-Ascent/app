@@ -7,7 +7,7 @@ export type RootStackParamList = {
   EditMyProfileScreen: {data: any}
   AddActivityScreen: any;
   DataInListViewScreen: {data: any};
-
+  EditActivityScreen: {data: any};
 
 
   HomeStack: undefined;

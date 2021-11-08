@@ -17,11 +17,13 @@ const DistanceTimeCard = ({
   setKlicks,
 }) => {
   const option = ['Distance', 'Time'];
+
   var toggle = () => {
     toggleHandler();
     setKlicks(0);
     setValue(0);
-  }
+  };
+
   const optionView = option.map((val, idx) => {
     return (
       <View
@@ -91,8 +93,9 @@ const DistanceTimeCard = ({
               elevation: 3,
             }}>
             <TextInput
+              value={value.toString()}
               keyboardType="numeric"
-              maxLength={3}
+              maxLength={5}
               onChangeText={text => {
                 const text_float = parseFloat(text);
                 if (text.length === 0) {
@@ -107,7 +110,6 @@ const DistanceTimeCard = ({
                 setValue(text);
                 getData(text);
               }}
-              value={value}
               style={{
                 paddingVertical: 5,
                 paddingLeft: 15,
@@ -144,13 +146,13 @@ const DistanceTimeCard = ({
               <Text16Normal text=" Klicks" textColor={Colors.POPUP_RED} />
             </View>
             <View
-                  style={{
-                    justifyContent: 'center',
-                    marginTop: 10,
-                    marginLeft: 5,
-                  }}>
-                  <KlicksTooltip color={Colors.TEXTDARK} />
-                </View>
+              style={{
+                justifyContent: 'center',
+                marginTop: 10,
+                marginLeft: 5,
+              }}>
+              <KlicksTooltip color={Colors.TEXTDARK} />
+            </View>
           </View>
         </View>
       </View>

@@ -221,7 +221,7 @@ const DistanceCard = ({
                     <Icon
                       name="edit"
                       type="material-icons"
-                      onPress={editPressed}
+                      onPress={()=> editPressed(data.id)}
                       size={24}
                       color={Colors.POPUP_GREY}
                     />

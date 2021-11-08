@@ -11,6 +11,7 @@ import EditMyProfileScreen from '../../screens/App_EditMyProfileScreen';
 import AddActivityScreen from '../../screens/App_AddActivityScreen';
 import DataLoaderScreen from '../../screens/App_DataLoaderScreen';
 import DataInListViewScreen from '../../screens/App_DataInListViewScreen';
+import EditActivityScreen from '../../screens/App_EditActivityScreen';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -33,7 +34,7 @@ const AllChallenges = ({navigation}) => {
           },
         })}
       /> */}
-       <AllChallengeStack.Screen
+      <AllChallengeStack.Screen
         component={DataLoaderScreen}
         name={'DataLoaderScreen'}
         options={({route}) => ({
@@ -47,12 +48,12 @@ const AllChallenges = ({navigation}) => {
           },
         })}
       />
-       <AllChallengeStack.Screen
+      <AllChallengeStack.Screen
         component={MyProfileScreen}
         name={'MyProfileScreen'}
         options={({route}) => ({
           headerTitle: null,
-          headerLeft: () => null,           
+          headerLeft: () => null,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
@@ -61,12 +62,12 @@ const AllChallenges = ({navigation}) => {
           },
         })}
       />
-       <AllChallengeStack.Screen
+      <AllChallengeStack.Screen
         component={EditMyProfileScreen}
         name={'EditMyProfileScreen'}
         options={({route}) => ({
           headerTitle: null,
-          headerLeft: () => null,          
+          headerLeft: () => null,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
@@ -80,7 +81,7 @@ const AllChallenges = ({navigation}) => {
         name={'AddActivityScreen'}
         options={({route}) => ({
           headerTitle: null,
-          headerLeft: () => null,          
+          headerLeft: () => null,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,
@@ -94,7 +95,21 @@ const AllChallenges = ({navigation}) => {
         name={'DataInListViewScreen'}
         options={({route}) => ({
           headerTitle: null,
-          headerLeft: () => null,          
+          headerLeft: () => null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={EditActivityScreen}
+        name={'EditActivityScreen'}
+        options={({route}) => ({
+          headerTitle: null,
+          headerLeft: () => null,
           headerStyle: {
             backgroundColor: Colors.TRANSPARENT,
             elevation: 0,

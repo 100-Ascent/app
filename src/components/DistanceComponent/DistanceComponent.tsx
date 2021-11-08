@@ -1,20 +1,15 @@
+import React from 'react';
+import {ToastAndroid, View} from 'react-native';
 import {useNavigation} from '@react-navigation/core';
 import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
-import React, {useState} from 'react';
-import {ToastAndroid, View} from 'react-native';
-import { call } from 'react-native-reanimated';
-
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {AppState} from '../../redux';
-import {setCurrentValues} from '../../redux/action';
+
 import {RootStackParamList} from '../../routes/RootStackParamList';
 import { USER_ACTIVITY_DATA } from '../../utils/apis/endpoints';
 import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
 
-const wait = (timeout) => {
-  return new Promise(resolve => setTimeout(resolve, timeout));
-}
 
 const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivityData}) => {
 
@@ -41,15 +36,7 @@ const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivity
       });
   };
 
-  const [current, setCurrent] = useState(0);
-  const [distance, setDistance] = useState(distanceData);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
-
-  const currentValue = useSelector(
-    (state: AppState) => state.rootStore.currentValue,
-  );
-
-  const dispatch = useDispatch();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const callToDeleteDistance = async (id) => {
@@ -70,11 +57,9 @@ const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivity
       });
   };
 
-  const handleEditPressed = () => {
-    navigation.navigate('EditActivityDataScreen', {
-      data: distance[current],
-      cd_id: distance[current].id,
-    });
+  const handleEditPressed = (id: any ) => {     
+    const index = distanceData.findIndex( obj => obj.id === id );    
+    navigation.navigate('EditActivityScreen', { data: distanceData[index] });
   };
 
   const card = distanceData.map((val,idx)=>{
