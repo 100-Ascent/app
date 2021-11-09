@@ -83,7 +83,7 @@ const DistanceTimeCard = ({
           style={{
             flex: 4,
             flexDirection: 'row',
-            margin: 10,
+            margin: 5,
           }}>
           <View
             style={{
@@ -133,7 +133,7 @@ const DistanceTimeCard = ({
             />
           </View>
         </View>
-        <View style={{flex: 0, justifyContent: 'center', marginRight: 10}}>
+        <View style={{flex: 0, justifyContent: 'center', marginRight: 5}}>
           <Text16Normal text="=" textColor={Colors.TEXTDARK} />
         </View>
         <View style={{flex: 3, justifyContent: 'center'}}>
