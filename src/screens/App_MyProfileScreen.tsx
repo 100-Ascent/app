@@ -41,6 +41,7 @@ import DistanceComponent from '../components/DistanceComponent/DistanceComponent
 
 import EmptyState from '../../assets/icons/empty_state.svg';
 import StatsCard from '../components/Cards/StatsCard';
+import { SvgUri } from 'react-native-svg';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -234,12 +235,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     </View>
                   )}
                   <View style={myProfileStyles.circularImage}>
-                    <ImageBackground
-                      source={{
-                        uri: 'https://i.ibb.co/XJ127jN/john-wick.png',
-                      }}
-                      style={myProfileStyles.profilePhoto}
-                      imageStyle={{borderRadius: 100}}></ImageBackground>
+                      <SvgUri
+                        width={110}
+                        height={110}
+                        uri="https://avatars.dicebear.com/api/croodles-neutral/john+wick.svg"
+                      />
                   </View>
                   <View style={{marginTop: 10}}>
                     <Text28
