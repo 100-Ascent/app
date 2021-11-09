@@ -40,7 +40,7 @@ import Text16Bold from '../components/Text/Text16Bold';
 import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
 
 import EmptyState from '../../assets/icons/empty_state.svg';
-import Text14 from '../components/Text/Text14';
+import StatsCard from '../components/Cards/StatsCard';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -52,6 +52,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [userData, setUserData] = useState({});
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
   const [activityData, setActivityData] = useState([]);
+  const [streak, setStreak] = useState(0);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -76,7 +77,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
-        dispatch(setEmailVerifiedData(data['"is_verified_email']));
+        dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);
         callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
@@ -100,6 +101,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         if (res.data.success) {
           setActivityData(data);
+          callToGetStreakData();
         } else {
           setActivityData([]);
         }
@@ -110,6 +112,29 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         console.log(err);
       });
   };
+
+  const callToGetStreakData = async () => {
+    setLoading(true);
+    await axios
+      .get("/api/user/activity/streak", {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+        const data = res.data.data.streak;
+        if(res.data.success){
+          setStreak(data);
+        }else{
+          setStreak(0);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('failed in Streakkk data yohoooooooo');
+        console.log(err);
+      });
+  }
 
   useEffect(() => {
     callToGetUserDetails(false);
@@ -302,6 +327,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                       }
                     />
                   )}
+                </View>
+                <View style={{marginTop: 20 }}>
+                 <StatsCard streak={streak} />
                 </View>
                 <View style={{marginTop: 40, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
