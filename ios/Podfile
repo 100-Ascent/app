@@ -14,6 +14,8 @@ target 'TYM_100Ascent' do
     :hermes_enabled => false
   )
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'TYM_100AscentTests' do
     inherit! :complete
     # Pods for testing
