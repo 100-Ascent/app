@@ -175,7 +175,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, paddingHorizontal: 15}}>
             <View style={myProfileStyles.profileWrapper}>
-              <View style={myProfileStyles.circularImage}>
+              <TouchableOpacity onPress={handleImagePicker} style={myProfileStyles.circularImage}>
                   <FastImage
                         style={{ width: 110, height: 110, borderRadius: 110 }}
                           source={{
@@ -189,7 +189,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                           }}
                           resizeMode={FastImage.resizeMode.cover}
                         />
-              </View>
+              </TouchableOpacity>
               <View style={{marginTop: 15}}>
                 <TouchableOpacity onPress={handleImagePicker}>
                   <Text14
