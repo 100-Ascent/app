@@ -132,6 +132,8 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         },
       })
       .then(async res => {
+        console.log('STREAKKKK')
+        console.log(res.data)
         const data = res.data.data.streak;
         if(res.data.success){
           setStreak(data);
@@ -343,10 +345,17 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
+                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
+                  <View style={{flex: 1}}>
+                    <Text16Bold
+                        text="Streak Data"
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
+                  </View>
+                </View>
                 <View style={{marginTop: 20 }}>
                  <StatsCard streak={streak} />
                 </View>
-                <View style={{marginTop: 40, marginHorizontal: 20, flexDirection: 'row'}}>
+                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
                         text="All Activities"
