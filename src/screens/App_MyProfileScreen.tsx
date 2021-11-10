@@ -28,7 +28,7 @@ import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {setEmailVerifiedData} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
-import {ProfileInputFieldTypes} from '../utils/constants/constants';
+import {BASEURL, ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
@@ -41,7 +41,8 @@ import DistanceComponent from '../components/DistanceComponent/DistanceComponent
 
 import EmptyState from '../../assets/icons/empty_state.svg';
 import StatsCard from '../components/Cards/StatsCard';
-import { SvgUri } from 'react-native-svg';
+import FastImage from 'react-native-fast-image';
+import auth from '@react-native-firebase/auth';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -51,6 +52,7 @@ interface Props {
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
+  const [token, setToken] = useState('');
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
   const [activityData, setActivityData] = useState([]);
   const [streak, setStreak] = useState(0);
@@ -68,6 +70,12 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     callToGetUserDetails(true);
   }, []);
 
+
+  const getToken = async () => {
+    const token = await auth().currentUser.getIdToken();
+    setToken(token);
+  };
+
   const callToGetUserDetails = async (pullLoader = false) => {
     pullLoader === false ? setLoading(true) : setRefreshing(true);
     await axios
@@ -80,6 +88,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);
+        getToken();
         callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
@@ -235,11 +244,17 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     </View>
                   )}
                   <View style={myProfileStyles.circularImage}>
-                      <SvgUri
-                        width={110}
-                        height={110}
-                        uri="https://avatars.dicebear.com/api/croodles-neutral/john+wick.svg"
-                      />
+                    <FastImage
+                        style={{ width: 110, height: 110 }}
+                          source={{
+                            uri: BASEURL + "/api/user/image/" + userData['image_id'],
+                            priority: FastImage.priority.high,
+                            headers: {
+                              Authorization: token,
+                            },
+                          }}
+                          resizeMode={FastImage.resizeMode.cover}
+                        />
                   </View>
                   <View style={{marginTop: 10}}>
                     <Text28
@@ -335,7 +350,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   <View style={{flex: 1}}>
                     <Text16Bold
                         text="All Activities"
-                        textColor={Colors.TEXTDARK} textStyle={undefined}                    />
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
                 </View>
                 {
@@ -350,14 +365,14 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   )
                 }
                 <View style={{marginHorizontal: 10}}>
-                  <DistanceComponent setLoading={setLoading} setActivityData={setActivityData} setRefreshing={setRefreshing} distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
+                  <DistanceComponent setLoading={setLoading} setActivityData={setActivityData} setStreak={setStreak} setRefreshing={setRefreshing} distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
                 </View>
                 { activityData.length > 3 ? <View style={{flex: 1, alignItems: 'flex-end', marginRight: 15, marginTop: 20 }}>
                     <TouchableOpacity onPress={()=> 
                         navigation.navigate('DataInListViewScreen',{ data: activityData }) }>
                     <Text16Bold
                         text="See All Activities"
-                        textColor={Colors.TEXTDARK} textStyle={{textDecorationLine: 'underline'}}                    />
+                        textColor={Colors.TEXTDARK} textStyle={{textDecorationLine: 'underline'}} />
                     </TouchableOpacity>
                   </View> : null}
               </View>

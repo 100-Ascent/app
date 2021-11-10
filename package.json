@@ -47,6 +47,7 @@
     "react-native-step-indicator": "^1.0.3",
     "react-native-svg": "^12.1.1",
     "react-native-svg-transformer": "^0.14.3",
+    "react-native-svg-uri": "^1.2.3",
     "react-native-tracking-transparency": "^0.1.1",
     "react-native-uuid": "^2.0.1",
     "react-native-vector-icons": "^8.1.0",

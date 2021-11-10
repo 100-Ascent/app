@@ -18,6 +18,8 @@ import { USER_DETAILS_UPDATE } from '../utils/apis/endpoints';
 import moment from 'moment';
 import Text16Bold from '../components/Text/Text16Bold';
 import Text20 from '../components/Text/Text20';
+import ImagePicker from 'react-native-image-crop-picker';
+import { TouchableOpacity } from 'react-native-gesture-handler';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -28,6 +30,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   //State variables
   const userData = route.params.data;
   const [data, setData] = useState(userData);  
+  const [image,setImage] = useState(null);
   const genderOptions = [
     {id: 'male', value: 'Male'},
     {id: 'female', value: 'Female'},
@@ -50,6 +53,16 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const handleInput = (name, value) => {
     setData(prevState => ({...prevState, [name]: value}));
   };
+  
+  const handleImagePicker = () => {
+    ImagePicker.openPicker({
+      width: 300,
+      height: 400,
+      cropping: true
+    }).then(image => {
+      setImage(image);
+    });
+  }
 
   // Extras
   const genderView = genderOptions.map((val, idx) => {
@@ -106,16 +119,18 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <View style={myProfileStyles.circularImage}>
                 <ImageBackground
                   source={{
-                    uri: 'https://i.ibb.co/XJ127jN/john-wick.png',
+                    uri: image ? image.path : 'https://i.ibb.co/XJ127jN/john-wick.png',
                   }}
                   style={myProfileStyles.profilePhoto}
                   imageStyle={{borderRadius: 60}}></ImageBackground>
               </View>
               <View style={{marginTop: 15}}>
-                <Text14
-                  text={'Change Profile Photo'}
-                  textColor={Colors.BLACK2}
-                />
+                <TouchableOpacity onPress={handleImagePicker}>
+                  <Text14
+                    text={'Change Profile Photo'}
+                    textColor={Colors.BLACK2}
+                  />
+                </TouchableOpacity>
               </View>
             </View>
 

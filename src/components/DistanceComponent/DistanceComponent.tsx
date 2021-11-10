@@ -11,7 +11,7 @@ import { USER_ACTIVITY_DATA } from '../../utils/apis/endpoints';
 import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
 
 
-const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivityData}) => {
+const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivityData, setStreak}) => {
 
   const callToGetUserActivityData = async () => {
     setLoading(true);
@@ -25,6 +25,7 @@ const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivity
         const data = res.data.data;
         if (res.data.success) {
           setActivityData(data);
+          callToGetStreakData();
         } else {
           setActivityData([]);
         }
@@ -35,6 +36,29 @@ const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivity
         console.log(err);
       });
   };
+
+  const callToGetStreakData = async () => {
+    setLoading(true);
+    await axios
+      .get("/api/user/activity/streak", {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+        const data = res.data.data.streak;
+        if(res.data.success){
+          setStreak(data);
+        }else{
+          setStreak(0);
+        }
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('failed in Streakkk data yohoooooooo');
+        console.log(err);
+      });
+  }
 
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
