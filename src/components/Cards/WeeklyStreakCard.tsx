@@ -11,13 +11,13 @@ interface Props {
 const WeeklyStreakCard: React.FC<Props> = ({ streak }) => {
 
     const today = new Date().getDay();
-    const daysOfWeek = ['S', 'M', 'T', 'W', 'T', 'F', 'S'];
+    const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
     const displayWeek = daysOfWeek.map((val, idx) => {
         return <View style={{
             flex: 1,
             justifyContent: 'center', alignItems: 'center',            
         }}>
-            <View style={[styles.circular , { borderColor: streak === 0 ? "#232323" : streak <= idx ? "#232323" : "#886348",  borderWidth: 2, }]}>
+            <View style={[styles.circular , { borderColor: streak === 0 ? "#232323" : streak <= idx ? "#232323" : "#886300",  borderWidth: 2, }]}>
                 <Text14 text={val} textColor={Colors.WHITE} />       
             </View>
         </View>

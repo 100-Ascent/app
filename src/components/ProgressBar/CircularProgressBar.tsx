@@ -9,19 +9,19 @@ const CircularProgressBar = ({streak}) => {
   return (
     <AnimatedCircularProgress
       size={140}
-      width={5}
+      width={4}
       fill={(streak * 100) / 7}
       rotation={0}
       lineCap={'round'}
-      tintColor="#E06627"
+      tintColor='#ff9320'
       onAnimationComplete={() => console.log('onAnimationComplete')}
       backgroundColor={Colors.BACKGROUND}>
       {() => (
         <View>
-          <View style={{alignItems: 'center', paddingBottom: 5}}>
+          <View style={{alignItems: 'center', paddingBottom: 0, marginBottom: -5}}>
             <LottieView
               source={require('../../../assets/lottie/streak.json')}
-              style={{width: 70, height: 70}}
+              style={{width: 90, height: 90}}
               autoPlay
               loop
             />

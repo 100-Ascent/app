@@ -20,13 +20,13 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../../redux';
 import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
 import CommentCard from '../DistanceComponent/CommentCard';
+import DateCard from '../DistanceComponent/DateCard';
 
 const DistanceCard = ({
   data,
   editPressed,
   handleDelete,
 }) => {
-
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
   const [toDeleteId, setToDeleteId ] = useState(0);
@@ -184,7 +184,12 @@ const DistanceCard = ({
               </View>
             </View>
           </View>
-          <View style={{padding: 15}} />
+          <View style={{padding: 5}} />
+          <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <DateCard date={data.date} />
+            </View>
+          </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <CalorieCard calorie={data.calories} />
