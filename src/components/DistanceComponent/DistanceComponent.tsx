@@ -11,7 +11,7 @@ import { USER_ACTIVITY_DATA } from '../../utils/apis/endpoints';
 import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
 
 
-const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivityData, setStreak}) => {
+const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivityData, setStreak, setIsToday }) => {
 
   const callToGetUserActivityData = async () => {
     setLoading(true);
@@ -47,7 +47,9 @@ const DistanceComponent = ({setRefreshing, distanceData, setLoading, setActivity
       })
       .then(async res => {
         const data = res.data.data.streak;
+        const isToday = res.data.data.is_today;
         if(res.data.success){
+          setIsToday(isToday);
           setStreak(data);
         }else{
           setStreak(0);

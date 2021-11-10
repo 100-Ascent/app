@@ -85,7 +85,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
       .put( UPDATE_ACTIVITY_DATA + route.params.data.id, data)
       .then(res => {
         ToastAndroid.show('Updated activity data',ToastAndroid.SHORT);
-        navigation.pop();
+        navigation.popToTop();
       })
       .catch(err => {
         console.log('error');

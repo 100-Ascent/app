@@ -30,6 +30,7 @@ import {useSelector} from 'react-redux';
 import {AppState} from '../redux';
 import {BASEURL} from '../utils/constants/constants';
 import auth from '@react-native-firebase/auth';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -87,20 +88,21 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           ? image.path
           : image.path.replace('file://', ''),
       type: image.mime,
+      name: "profile",
       height: image.height,
       width: image.width,
     });
-   
     await axios.post('/api/user/image', imageData,
           { headers: {
-              'Content-Type': 'multipart/form-data',              
+              'Content-Type': 'multipart/form-data',                        
               'X-CONTEXT-ID': contextId,
             },
           },
         ).then((res)=>{
           console.log(res.data);
-          ToastAndroid.show('Updating profile picture', ToastAndroid.SHORT);
+          ToastAndroid.show('Updated profile picture', ToastAndroid.SHORT);
         }).catch(err => {
+          console.log(err)
           ToastAndroid.show(
             'Error updating the profile picture',
             ToastAndroid.SHORT,
@@ -174,14 +176,19 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           <View style={{flex: 1, paddingHorizontal: 15}}>
             <View style={myProfileStyles.profileWrapper}>
               <View style={myProfileStyles.circularImage}>
-                <ImageBackground
-                  source={{
-                    uri: image
-                      ? image.path
-                      : 'https://i.ibb.co/XJ127jN/john-wick.png',
-                  }}
-                  style={myProfileStyles.profilePhoto}
-                  imageStyle={{borderRadius: 60}}></ImageBackground>
+                  <FastImage
+                        style={{ width: 110, height: 110, borderRadius: 110 }}
+                          source={{
+                            uri: image
+                            ? image.path
+                            : userData['image_id'],
+                            priority: FastImage.priority.high,
+                            headers: {
+                              Authorization: token,
+                            },
+                          }}
+                          resizeMode={FastImage.resizeMode.cover}
+                        />
               </View>
               <View style={{marginTop: 15}}>
                 <TouchableOpacity onPress={handleImagePicker}>

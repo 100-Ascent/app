@@ -27,7 +27,7 @@ const myProfileStyles = StyleSheet.create({
   },
   circularImage: {
     borderWidth: 2,
-    borderRadius: 100,
+    borderRadius: 110,
     padding: 5,
     borderColor: Colors.RED
   },

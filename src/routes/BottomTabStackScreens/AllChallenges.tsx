@@ -55,7 +55,7 @@ const AllChallenges = ({navigation}) => {
           headerTitle: null,
           headerLeft: () => null,
           headerStyle: {
-            backgroundColor: Colors.TRANSPARENT,
+            backgroundColor: Colors.WHITE,
             elevation: 0,
             borderWidth: 0,
             borderColor: Colors.BLACK2,

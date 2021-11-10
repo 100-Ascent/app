@@ -56,6 +56,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
   const [activityData, setActivityData] = useState([]);
   const [streak, setStreak] = useState(0);
+  const [isToday,setIsToday] = useState(false);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -109,7 +110,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
-        if (res.data.success) {
+        if (res.data.success) {          
           setActivityData(data);
           callToGetStreakData();
         } else {
@@ -132,10 +133,10 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         },
       })
       .then(async res => {
-        console.log('STREAKKKK')
-        console.log(res.data)
         const data = res.data.data.streak;
+        const isToday = res.data.data.is_today;
         if(res.data.success){
+          setIsToday(isToday);
           setStreak(data);
         }else{
           setStreak(0);
@@ -247,12 +248,12 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   )}
                   <View style={myProfileStyles.circularImage}>
                     <FastImage
-                        style={{ width: 110, height: 110 }}
+                        style={{ width: 110, height: 110, borderRadius: 110 }}
                           source={{
-                            uri: BASEURL + "/api/user/image/" + userData['image_id'],
+                            uri: userData['image_id'],
                             priority: FastImage.priority.high,
                             headers: {
-                              Authorization: `Bearer ${token}`,
+                              Authorization: token,
                             },
                           }}
                           resizeMode={FastImage.resizeMode.cover}
@@ -353,7 +354,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                 </View>
                 <View style={{marginTop: 20 }}>
-                 <StatsCard streak={streak} />
+                 <StatsCard streak={streak} isToday={isToday} />
                 </View>
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
@@ -374,7 +375,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   )
                 }
                 <View style={{marginHorizontal: 10}}>
-                  <DistanceComponent setLoading={setLoading} setActivityData={setActivityData} setStreak={setStreak} setRefreshing={setRefreshing} distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
+                  <DistanceComponent setLoading={setLoading} setActivityData={setActivityData} setStreak={setStreak} setIsToday={setIsToday} setRefreshing={setRefreshing} distanceData={ activityData.length === 0 ? activityData : activityData.slice(0,3)} />
                 </View>
                 { activityData.length > 3 ? <View style={{flex: 1, alignItems: 'flex-end', marginRight: 15, marginTop: 20 }}>
                     <TouchableOpacity onPress={()=> 

@@ -7,7 +7,7 @@ import Text14 from '../Text/Text14';
 import Text16Normal from '../Text/Text16Normal';
 import WeeklyStreakCard from './WeeklyStreakCard';
 
-const StatsCard = ({streak}) => {
+const StatsCard = ({streak, isToday}) => {
   return (
     <View
       style={{
@@ -29,7 +29,7 @@ const StatsCard = ({streak}) => {
         style={[{borderRadius: 20, paddingBottom: 15}]}>
         <View style={{flex: 1, borderRadius: 10}}>
           <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
-            <CircularProgressBar streak={streak} />
+            <CircularProgressBar isToday={isToday}  streak={streak} />
           </View>
 
           <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>

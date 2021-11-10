@@ -9,8 +9,6 @@ interface Props {
 }
 
 const WeeklyStreakCard: React.FC<Props> = ({ streak }) => {
-
-    const today = new Date().getDay();
     const daysOfWeek = ['1', '2', '3', '4', '5', '6', '7'];
     const displayWeek = daysOfWeek.map((val, idx) => {
         return <View style={{

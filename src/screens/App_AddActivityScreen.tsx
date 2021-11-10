@@ -132,7 +132,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const getDropdownActivities = () => {
     setDropdownData(activityData.activities);
     let item = activityData.activities;
-    let index = item.findIndex(item => item.name.includes('Walking'));
+    let index = item.findIndex(item => item.name.includes('Average'));
     setSelected(item[index]);
     setDefaultOption(item[index].is_distance ? 0 : 1);
     setLoading(false);
@@ -340,7 +340,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                       defaultValue={
                         dropdownData[
                           dropdownData.findIndex(item =>
-                            item.name.includes('Walking'),
+                            item.name.includes('Average'),
                           )
                         ].name
                       }
