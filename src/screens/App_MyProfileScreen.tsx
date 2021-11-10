@@ -269,7 +269,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                   <Text16Normal
                     text={
-                      'Member since ' +
+                      'Member since ' + new Date(userData['created_at']).toLocaleString().substring(3, 6) + ' ' +
                       new Date(userData['created_at']).getFullYear()
                     }
                     textColor={Colors.TEXTDARK}
