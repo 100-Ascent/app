@@ -250,7 +250,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                             uri: BASEURL + "/api/user/image/" + userData['image_id'],
                             priority: FastImage.priority.high,
                             headers: {
-                              Authorization: token,
+                              Authorization: `Bearer ${token}`,
                             },
                           }}
                           resizeMode={FastImage.resizeMode.cover}

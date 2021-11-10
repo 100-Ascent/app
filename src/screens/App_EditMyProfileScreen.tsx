@@ -1,5 +1,12 @@
-import React, {useState} from 'react';
-import {ImageBackground, SafeAreaView, ScrollView, View} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {
+  ImageBackground,
+  Platform,
+  SafeAreaView,
+  ScrollView,
+  ToastAndroid,
+  View,
+} from 'react-native';
 
 import Background from '../components/Background/StyledBackground';
 import EditProfileInput from '../components/Input/EditProfileInput';
@@ -14,12 +21,15 @@ import Checkbox from '../components/Checkbox/Checkbox';
 import StyledButton from '../components/Button/StyledButton';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import axios from 'axios';
-import { USER_DETAILS_UPDATE } from '../utils/apis/endpoints';
+import {USER_DETAILS_UPDATE} from '../utils/apis/endpoints';
 import moment from 'moment';
-import Text16Bold from '../components/Text/Text16Bold';
 import Text20 from '../components/Text/Text20';
-import ImagePicker from 'react-native-image-crop-picker';
-import { TouchableOpacity } from 'react-native-gesture-handler';
+import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {useSelector} from 'react-redux';
+import {AppState} from '../redux';
+import {BASEURL} from '../utils/constants/constants';
+import auth from '@react-native-firebase/auth';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -29,44 +39,90 @@ interface Props {
 const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   //State variables
   const userData = route.params.data;
-  const [data, setData] = useState(userData);  
-  const [image,setImage] = useState(null);
+  const [data, setData] = useState(userData);
+  const [image, setImage] = useState(null);
+  const [token, setToken] = useState('');
+
   const genderOptions = [
     {id: 'male', value: 'Male'},
     {id: 'female', value: 'Female'},
     {id: 'other', value: 'Rather Not Say'},
   ];
   const [checkedGender, setCheckedGender] = useState(userData['gender']);
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
 
   //Async functions
+  const getToken = async () => {
+    const token = await auth().currentUser.getIdToken();
+    setToken(token);
+  };
+
+  useEffect(()=>{
+    getToken();
+  },[])
+
 
   //Component functions
   const handleCheckBoxPress = (e, value) => {
     setCheckedGender(value);
-    setData(prevState => ({...prevState, ["gender"]: value}))
+    setData(prevState => ({...prevState, ['gender']: value}));
   };
 
-  const handleDateOfBirth = (dob) => {
-    setData(prevState => ({...prevState, ["dob"]: moment(new Date(dob)).format('DD/MM/YYYY')  }))
-  }
+  const handleDateOfBirth = dob => {
+    setData(prevState => ({
+      ...prevState,
+      ['dob']: moment(new Date(dob)).format('DD/MM/YYYY'),
+    }));
+  };
 
   const handleInput = (name, value) => {
     setData(prevState => ({...prevState, [name]: value}));
   };
-  
+
+  const callToUploadImage = async (image: ImageOrVideo) => {
+    const imageData = new FormData();
+    imageData.append('image', {
+      uri:
+        Platform.OS === 'android'
+          ? image.path
+          : image.path.replace('file://', ''),
+      type: image.mime,
+      height: image.height,
+      width: image.width,
+    });
+   
+    await axios.post('/api/user/image', imageData,
+          { headers: {
+              'Content-Type': 'multipart/form-data',              
+              'X-CONTEXT-ID': contextId,
+            },
+          },
+        ).then((res)=>{
+          console.log(res.data);
+          ToastAndroid.show('Updating profile picture', ToastAndroid.SHORT);
+        }).catch(err => {
+          ToastAndroid.show(
+            'Error updating the profile picture',
+            ToastAndroid.SHORT,
+          );
+        })
+  };
+
   const handleImagePicker = () => {
     ImagePicker.openPicker({
       width: 300,
       height: 400,
-      cropping: true
+      cropping: true,
     }).then(image => {
+      callToUploadImage(image);
       setImage(image);
+    }).catch(err=>{
+      console.log(err)
     });
-  }
+  };
 
   // Extras
   const genderView = genderOptions.map((val, idx) => {
-
     return (
       <View style={{marginRight: 10, marginTop: 5}} key={idx}>
         <Checkbox
@@ -79,7 +135,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   });
 
   const handleSavePress = () => {
-      axios
+    axios
       .post(USER_DETAILS_UPDATE, data)
       .then(async res => {
         navigation.pop();
@@ -88,7 +144,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         console.log('failed');
         console.log(err);
       });
-  }
+  };
 
   navigation.setOptions({
     headerLeft: () => (
@@ -97,8 +153,9 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.pop()} 
-          tvParallaxProperties={undefined}        />
+          onPress={() => navigation.pop()}
+          tvParallaxProperties={undefined}
+        />
       </View>
     ),
     headerRight: () => <View style={{marginLeft: 10}} />,
@@ -119,7 +176,9 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <View style={myProfileStyles.circularImage}>
                 <ImageBackground
                   source={{
-                    uri: image ? image.path : 'https://i.ibb.co/XJ127jN/john-wick.png',
+                    uri: image
+                      ? image.path
+                      : 'https://i.ibb.co/XJ127jN/john-wick.png',
                   }}
                   style={myProfileStyles.profilePhoto}
                   imageStyle={{borderRadius: 60}}></ImageBackground>
@@ -162,7 +221,11 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <EditProfileInput
                 label={'Date of Birth'}
                 keyName={'dob'}
-                value={data['dob'].length===0 ? moment(new Date()).format('DD/MM/YYYY'): data['dob'] }
+                value={
+                  data['dob'].length === 0
+                    ? moment(new Date()).format('DD/MM/YYYY')
+                    : data['dob']
+                }
                 handleDateOfBirth={handleDateOfBirth}
               />
 
