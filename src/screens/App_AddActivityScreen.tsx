@@ -72,7 +72,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   // API call to update
   const handlePostData = async () => {
     const data = {
-      count: parseInt(distanceTimeData),
+      count: parseFloat(distanceTimeData),
       activity_id: selected['id'],
       date: moment.utc(selectedDate).format('DD/MM/YYYY'),
       is_distance: defaultOption === 0,
