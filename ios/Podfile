@@ -16,6 +16,8 @@ target 'TYM_100Ascent' do
 
   pod 'RNSVG', :path => '../node_modules/react-native-svg'
 
+  pod 'react-native-splash-screen', :path => '../node_modules/react-native-splash-screen'
+
   target 'TYM_100AscentTests' do
     inherit! :complete
     # Pods for testing

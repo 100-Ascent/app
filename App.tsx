@@ -13,7 +13,7 @@ import auth from '@react-native-firebase/auth';
 import {BASEURL} from './src/utils/constants/constants';
 import {store} from './src/utils/utils';
 import {Provider} from 'react-redux';
-
+import SplashScreen from 'react-native-splash-screen';
 import {LogBox} from 'react-native';
 import {
   getTrackingStatus,
@@ -32,6 +32,11 @@ LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
 
 const App = () => {
+
+  useEffect(()=>{
+    SplashScreen.hide();
+  },[]);
+
   if (Platform.OS === 'ios') {
     const [trackingStatus, setTrackingStatus] = React.useState<
       TrackingStatus | '(loading)'
@@ -64,6 +69,7 @@ const App = () => {
   useEffect(() => {
     LogBox.ignoreLogs(['VirtualizedLists should never be nested']);
   }, []);
+
 
   // const appState = useRef(AppState.currentState);
   // const [appStateVisible, setAppStateVisible] = useState(appState.current);
