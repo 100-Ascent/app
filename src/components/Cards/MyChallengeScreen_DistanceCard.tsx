@@ -177,11 +177,11 @@ const DistanceCard = ({
                   </TouchableOpacity>
                 </View>
               </View> */}
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
+              { mask ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onShare()}>
                   <Icon name="share" color={Colors.POPUP_GREY} size={24} />
                 </TouchableOpacity>
-              </View>
+              </View>}
             </View>
           </View>
           <View style={{padding: 5}} />
@@ -216,7 +216,7 @@ const DistanceCard = ({
               <CommentCard comment={data.comment} />
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <View
+              { mask ? null : <View
                   style={{
                     flex: 1,
                     flexDirection: 'row',
@@ -245,7 +245,7 @@ const DistanceCard = ({
                       />
                     </TouchableOpacity>
                   </View>
-                </View>
+                </View>}
             </View>
           </View>                   
         </View>

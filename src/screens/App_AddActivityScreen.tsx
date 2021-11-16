@@ -77,7 +77,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       date: moment.utc(selectedDate).format('DD/MM/YYYY'),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
-      min: calminsteps.min,
+      min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment
     };
@@ -368,6 +368,9 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
+                    isDistance={defaultOption===0}
+                    value={value}
+
                   />
                 </View>
                 {/* <View style={{marginTop: 20}}>

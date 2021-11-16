@@ -76,7 +76,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
       count: parseFloat(distanceTimeData),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
-      min: calminsteps.min,
+      min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment,
     };
@@ -374,6 +374,8 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
+                    isDistance={defaultOption===0}
+                    value={value}
                   />
                 </View>
 
