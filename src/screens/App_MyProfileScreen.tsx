@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -43,6 +44,7 @@ import EmptyState from '../../assets/icons/empty_state.svg';
 import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
+import { authorize, refresh } from 'react-native-app-auth';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -195,6 +197,26 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       </View>
     ),
   });
+
+  const handlePress = async () => {
+    const config = {
+      issuer: 'https://accounts.google.com',
+      clientId: '730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com',
+      redirectUrl: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e:/oauth2redirect/google',
+      scopes: [ 
+        'https://www.googleapis.com/auth/fitness.activity.read',
+        // 'https://www.googleapis.com/auth/fitness.activity.write',
+    ]
+    };
+    
+    try {
+      const result = await authorize(config);
+      console.log(result.refreshToken);
+      // result includes accessToken, accessTokenExpirationDate and refreshToken
+    } catch (error) {
+      console.log(error);
+    }
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -415,6 +437,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               }}
             />
           </View>
+          <View>
+            <Button title={"sd"} onPress={handlePress}/>
+            </View>
         </>
       </Background>
     </SafeAreaView>

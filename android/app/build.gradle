@@ -144,6 +144,9 @@ android {
         versionCode 5
         versionName "1.0.5"
         vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [
+            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e'
+        ]
     }
     splits {
         abi {
