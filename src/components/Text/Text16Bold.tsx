@@ -1,11 +1,10 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {Colors} from '../../utils/colors';
 
 interface Props {
   text: string;
   textColor: string;
-  textStyle: object;
+  textStyle?: object;
 }
 
 const Text16Bold: React.FC<Props> = ({text, textColor, textStyle = {}}) => {

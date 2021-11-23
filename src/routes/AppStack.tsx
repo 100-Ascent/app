@@ -5,7 +5,6 @@ import {
   DrawerContentScrollView,
   DrawerItem,
 } from '@react-navigation/drawer';
-import BottomTabStack from './BottomTabStack';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {Colors} from '../utils/colors';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
@@ -14,8 +13,9 @@ import {RootStackParamList} from './RootStackParamList';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
 import Text24 from '../components/Text/Text24';
-import AllChallenges from './BottomTabStackScreens/AllChallenges';
-import {AMSTERDAM} from '../utils/constants/versions';
+
+import AllChallenges from './ScreenStacks/AllChallenges';
+import Fitness from './ScreenStacks/Fitness';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -38,7 +38,6 @@ const HomeStack = ({navigation, style}) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
       <Stack.Navigator initialRouteName="HomeStack">
-        {AMSTERDAM ? (
           <Stack.Screen
             name="AllChallengesScreen"
             component={AllChallenges}
@@ -46,15 +45,29 @@ const HomeStack = ({navigation, style}) => {
               header: () => null,
             })}
           />
-        ) : (
-          <Stack.Screen
+          {/* <Stack.Screen
             name="BottomTabStack"
             component={BottomTabStack}
             options={({route}) => ({
               header: () => null,
             })}
+          /> */}
+      </Stack.Navigator>
+    </Animated.View>
+  );
+};
+
+const FitnessStack = ({navigation, style}) => {
+  return (
+    <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
+      <Stack.Navigator initialRouteName="FitnessStack">
+          <Stack.Screen
+            name="FitnessStack"
+            component={Fitness}
+            options={({route}) => ({
+              header: () => null,
+            })}
           />
-        )}
       </Stack.Navigator>
     </Animated.View>
   );
@@ -108,9 +121,10 @@ const CustomDrawerContent = ({...rest}) => {
               size={size}
             />
           )}
-          label="Connections"
+          label="3rd Party Sync"
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
+            rest.navigation.navigate('FitnessStack')
             rest.navigation.closeDrawer();
           }}
         />
@@ -161,6 +175,9 @@ const AppStack = () => {
       }}>
       <Drawer.Screen name="HomeStack">
         {props => <HomeStack {...props} style={animatedStyle} />}
+      </Drawer.Screen>
+      <Drawer.Screen name="FitnessStack">
+        {props => <FitnessStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
     </Drawer.Navigator>
   );

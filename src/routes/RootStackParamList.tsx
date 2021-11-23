@@ -6,35 +6,39 @@ export type RootStackParamList = {
   MyProfileScreen: {data: any};
   EditMyProfileScreen: {data: any}
   AddActivityScreen: any;
-  DataInListViewScreen: {data: any};
   EditActivityScreen: {data: any};
-
+  DataInListViewScreen: {data: any};
+  FitnessIntegrationScreen : undefined;
+  FitnessConnectionScreen: { data: any };
 
   HomeStack: undefined;
+  FitnessStack: undefined;
+  
   BottomTabStack: undefined;
-  EditProfileScreen: undefined;
+
 
   DataLoaderScreen: undefined;
   AllChallengesScreen: undefined;
   ChallengeDescriptionScreen: {data: Object};
   OnboardingScreen: undefined;
   CommunityScreen: undefined;
-  EditActivityDataScreen: {data?: any; cd_id: any};
-  MyChallengeScreen: {data: Object; challengeId: Object};
-  UserProfileScreen: undefined;
+  
+  // EditActivityDataScreen: {data?: any; cd_id: any};
+  // MyChallengeScreen: {data: Object; challengeId: Object};
+  // UserProfileScreen: undefined;
 
-  CheckpointMilestoneScreen: {
-    data: Object;
-    current_distance: any;
-    total_distance: any;
-  };
+  // CheckpointMilestoneScreen: {
+  //   data: Object;
+  //   current_distance: any;
+  //   total_distance: any;
+  // };
 
-  ShowcaseScreen: {
-    data: Object;
-  };
-  MediaScreen: {data: any};
-  RewardsScreen: {data: any; name: any; icon: any};
-  MapViewFullScreen: {data: any};
+  // ShowcaseScreen: {
+  //   data: Object;
+  // };
+  // MediaScreen: {data: any};
+  // RewardsScreen: {data: any; name: any; icon: any};
+  // MapViewFullScreen: {data: any};
 };
 
 export type RootNavRouteProps<T extends keyof RootStackParamList> = {

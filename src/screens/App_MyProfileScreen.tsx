@@ -45,11 +45,20 @@ import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
 import { authorize, refresh } from 'react-native-app-auth';
+import SyncNowButton from '../components/Button/SyncNowButton';
+import moment from 'moment';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
   route: RootNavRouteProps<'MyProfileScreen'>;
 }
+
+const preferredConnection = {
+  icon: "logo-google",
+  brand: 'Google Fit',
+  connected: true,
+  date: moment(new Date()).format('llll'),
+};
 
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
@@ -185,7 +194,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitle: 'My Profile',
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
-    headerLeft: () => <View style={{marginLeft: 10}} />,
     headerRight: () => (
       <View style={{marginRight: 15}}>
         <Icon
@@ -198,25 +206,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     ),
   });
 
-  const handlePress = async () => {
-    const config = {
-      issuer: 'https://accounts.google.com',
-      clientId: '730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com',
-      redirectUrl: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e:/oauth2redirect/google',
-      scopes: [ 
-        'https://www.googleapis.com/auth/fitness.activity.read',
-        // 'https://www.googleapis.com/auth/fitness.activity.write',
-    ]
-    };
-    
-    try {
-      const result = await authorize(config);
-      console.log(result.refreshToken);
-      // result includes accessToken, accessTokenExpirationDate and refreshToken
-    } catch (error) {
-      console.log(error);
-    }
-  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -378,6 +367,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{marginTop: 20 }}>
                  <StatsCard streak={streak} isToday={isToday} />
                 </View>
+
+                <View style={{marginTop: 20 }}/>
+                <SyncNowButton data={preferredConnection}/>
+
+
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -437,9 +431,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               }}
             />
           </View>
-          <View>
-            <Button title={"sd"} onPress={handlePress}/>
-            </View>
         </>
       </Background>
     </SafeAreaView>

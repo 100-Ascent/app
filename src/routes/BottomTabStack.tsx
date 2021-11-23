@@ -5,10 +5,10 @@ import {Animated, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {RootStackParamList} from './RootStackParamList';
 
-import AllChallenges from './BottomTabStackScreens/AllChallenges';
 
 import {WIDTH} from '../utils/constants/constants';
 import {Colors} from '../utils/colors';
+import AllChallenges from './ScreenStacks/AllChallenges';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
