@@ -12,6 +12,7 @@ import {TextInput} from 'react-native-gesture-handler';
 import Background from '../components/Background/StyledBackground';
 import StyledButton from '../components/Button/StyledButton';
 import ConnectionCard from '../components/Cards/FitnessCards/ConnectionCard';
+import Text16Bold from '../components/Text/Text16Bold';
 import Text18 from '../components/Text/Text18';
 import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
@@ -24,7 +25,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
   //State variables
   const data = [
     {
-      icon: "logo-google",
+      icon: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Google_Fit_icon_%282018%29.svg",
       brand: 'Google Fit',
       connected: false,
       date: moment(new Date()).format('llll'),
@@ -45,8 +46,8 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.navigate('MyProfileScreen')}
-        />
+          onPress={() => navigation.navigate('MyProfileScreen')} 
+          tvParallaxProperties={undefined}        />
       </View>
     ),
   });
@@ -75,13 +76,15 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
 
               <View
                 style={{
-                  borderWidth: 1,
                   marginHorizontal: 10,
                   paddingBottom: 15,
+                  paddingHorizontal: 15,
                   borderRadius: 10,
+                  backgroundColor: '#f8f8f8',
+                  elevation: 10
                 }}>
-                <View style={{flex: 1, paddingLeft: 15, paddingVertical: 10}}>
-                  <Text18
+                <View style={{flex: 1, paddingVertical: 10}}>
+                  <Text16Bold
                     text={'Request a new connection'}
                     textColor={Colors.TEXTDARK}
                   />
@@ -89,10 +92,9 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                 <View
                   style={{
                     flexDirection: 'row',
-                    paddingHorizontal: 15,
                     marginTop: 10,
                   }}>
-                  <View style={{flex: 4}}>
+                  <View style={{flex: 2}}>
                     <TextInput
                       placeholder={'e.g. Garmin '}
                       placeholderTextColor={'#A3A3A3'}
@@ -108,7 +110,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                       }}
                     />
                   </View>
-                  <View style={{flex: 2}}>
+                  <View style={{flex: 1, justifyContent: 'center'}}>
                     <StyledButton text="Submit" onPress={()=>{}} />
                   </View>
                 </View>

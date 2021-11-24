@@ -44,7 +44,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
 
   //Component functions
   navigation.setOptions({
-    headerTitle: 'Suitable Title?',
+    headerTitle: data.brand,
     headerTitleContainerStyle: {alignItems: 'center'},
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerRight: () => <View style={{marginLeft: 10}} />,
@@ -80,7 +80,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
             <View style={{flex: 1, paddingHorizontal: 20 }}>
 
                 <ConnectionCard data={data} />
-                <View style={{paddingTop: 15}} />
+                <View style={{paddingTop: 15, marginTop: 30}} />
 
                 { data.connected ?                 
                     <View style={{ }}>

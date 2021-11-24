@@ -54,7 +54,7 @@ interface Props {
 }
 
 const preferredConnection = {
-  icon: "logo-google",
+  icon: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Google_Fit_icon_%282018%29.svg",
   brand: 'Google Fit',
   connected: true,
   date: moment(new Date()).format('llll'),
@@ -357,6 +357,22 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
+
+
+
+                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{flex: 1}}>
+                    <Text16Bold
+                        text="Sync Now"
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
+                  </View>
+                  <TouchableOpacity onPress={() => {navigation.navigate('FitnessIntegrationScreen')}}>
+                    <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
+                  </TouchableOpacity>
+                </View>
+                <View style={{marginTop: 20 }}/>
+                <SyncNowButton data={preferredConnection} token={token}/>
+
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -367,10 +383,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{marginTop: 20 }}>
                  <StatsCard streak={streak} isToday={isToday} />
                 </View>
-
-                <View style={{marginTop: 20 }}/>
-                <SyncNowButton data={preferredConnection}/>
-
 
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
