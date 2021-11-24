@@ -8,3 +8,5 @@ export const USER_DETAILS_UPDATE = "/api/user";
 export const USER_ACTIVITY_DATA = "/api/user/data";
 export const ADD_ACTIVITY_DATA = "/api/user/data";
 export const UPDATE_ACTIVITY_DATA = "/api/user/data/";
+
+export const EXTERNAL_CONNECTIONS = "/api/external/connections";

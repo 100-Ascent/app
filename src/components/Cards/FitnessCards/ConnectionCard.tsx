@@ -1,7 +1,8 @@
 import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
-import { SvgUri } from 'react-native-svg';
+import FastImage from 'react-native-fast-image';
+import {SvgUri} from 'react-native-svg';
 import syncNowStyles from '../../../styles/MyProfileScreen/SyncNowCard';
 import {Colors} from '../../../utils/colors';
 import Background from '../../Background/StyledBackground';
@@ -22,60 +23,92 @@ const ConnectionCard: React.FC<Props> = ({data, onPress}) => {
   //Component functions
 
   return (
-
     <View
       style={{
-        marginTop:30,
-        marginHorizontal: 10
+        marginTop: 30,
+        marginHorizontal: 10,
       }}>
-      <TouchableOpacity style={{flexDirection: 'row', justifyContent: 'flex-end'}} activeOpacity={0.9} onPress={onPress}>
+      <TouchableOpacity
+        style={{flexDirection: 'row', justifyContent: 'flex-end'}}
+        activeOpacity={0.9}
+        onPress={onPress}>
         <View style={[syncNowStyles.logoView, {top: -5, height: 90, width: 90}]}>
-            <SvgUri
-              width={50}
-              height={50}
-              uri={data.icon}
-            />
+          <FastImage
+            style={{
+              width: 60,
+              height: 60,
+            }}
+            source={{
+              uri: data.icon,
+              priority: FastImage.priority.high,
+            }}
+            resizeMode={FastImage.resizeMode.cover}
+          />
         </View>
-          <View style={syncNowStyles.cardContainer}>
-          <Background style={{paddingVertical: 10, borderRadius: 10, elevation: 5, alignItems: 'flex-end'}} startColor={'#161616'} endColor={'#4A364E'}>
-            <View style={[syncNowStyles.contentView, {height: 60, justifyContent: 'center', elevation: 100, paddingLeft: 35}]}>
-              <View style={{ flexDirection: 'row', marginTop: -3 }}>
+        <View style={syncNowStyles.cardContainer}>
+          <Background
+            style={{
+              paddingVertical: 10,
+              borderRadius: 10,
+              elevation: 5,
+              alignItems: 'flex-end',
+            }}
+            startColor={'#161616'}
+            endColor={'#4A364E'}>
+            <View
+              style={[
+                syncNowStyles.contentView,
+                {
+                  height: 60,
+                  justifyContent: 'center',
+                  elevation: 100,
+                  paddingLeft: 35,
+                },
+              ]}>
+              <View style={{flexDirection: 'row', marginTop: -3}}>
                 <View>
-                    <Text20 text={data.brand} textColor={Colors.GREY_LIGHT} />
+                  <Text20
+                    text={data.display_name}
+                    textColor={Colors.GREY_LIGHT}
+                  />
                 </View>
               </View>
-              <View style={{flexDirection: 'row', alignItems: 'center' }}>
+              <View style={{flexDirection: 'row', alignItems: 'center'}}>
                 <View style={{justifyContent: 'center'}}>
                   <Text12Normal
                     text={data.connected ? 'Connected' : 'Not Connected'}
                     textColor={'#ddd'}
                   />
-                </View> 
+                </View>
                 <View
-                style={{
-                  marginTop: 4,
-                  marginLeft: 8,
-                  justifyContent: 'flex-end',
-                  alignItems: 'flex-start',
-                }}>
-                {data.connected ? (
-                  <Icon
+                  style={{
+                    marginTop: 4,
+                    marginLeft: 8,
+                    justifyContent: 'flex-end',
+                    alignItems: 'flex-start',
+                  }}>
+                  {data.connected ? (
+                    <Icon
                       name="checkmark-circle-outline"
                       type="ionicon"
                       size={14}
-                      color={Colors.INFO_GREEN} tvParallaxProperties={undefined}                  />
-                ) : (
-                  <Icon
-                        name="close-circle-outline"
-                        type="ionicon"
-                        size={14}
-                        color={Colors.POPUP_RED} tvParallaxProperties={undefined}                  />
-                )}
-              </View>           
+                      color={Colors.INFO_GREEN}
+                      tvParallaxProperties={undefined}
+                    />
+                  ) : (
+                    <Icon
+                      name="close-circle-outline"
+                      type="ionicon"
+                      size={14}
+                      color={Colors.POPUP_RED}
+                      tvParallaxProperties={undefined}
+                    />
+                  )}
+                </View>
               </View>
             </View>
           </Background>
-          </View>
+        </View>
       </TouchableOpacity>
     </View>
   );

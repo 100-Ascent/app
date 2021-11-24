@@ -10,7 +10,6 @@ import Text12Normal from '../Text/Text12Normal';
 import Text20 from '../Text/Text20';
 
 const SyncNowButton = ({ data, token}) => {
-  console.log(data);
     return  <View
     style={{
       marginTop: 15,
