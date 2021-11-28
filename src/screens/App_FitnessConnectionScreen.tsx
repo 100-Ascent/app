@@ -38,7 +38,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
   const callToPostAccessToken = async accessToken => {
     const postData = {
       type: data.type,
-      access_token: accessToken,
+      refresh_token: accessToken,
     };
 
     await axios
@@ -67,15 +67,20 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleFitnessDisconnection = async () => {
-    // try {
-    //   const result = await revoke(GOOGLE_FIT_CONFIG, {
-    //     tokenToRevoke: "1//0gkcfiyqqaeaXCgYIARAAGBASNwF-L9Ir_27atq76bL7wz8oV6v9BR3gEsoWi5IwNlToBMDzpCRG4riPnMNnX8EvRztulRtPQVPk",
-    //     includeBasicAuth: true,
-    //     sendClientId: true,
-    //   });
-    // } catch (error) {
-    //   console.log(error);
-    // }
+    setLoading(true);
+    await axios
+      .delete(EXTERNAL_CONNECTIONS + "/" + data.type , {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(res => {
+        setLoading(false);
+        navigation.pop();
+      })
+      .catch(err => {
+        console.log(err);
+      });
   };
 
   //Component functions

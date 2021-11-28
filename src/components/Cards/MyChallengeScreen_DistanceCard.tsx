@@ -70,7 +70,9 @@ const DistanceCard = ({
   };
 
   const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity_id)[0];
-
+  if(data.raw_data === 10) {
+    console.log(data)
+  }
   return (
     <View style={{ flex: 1, borderRadius: 10 }}>
       <ViewShot
@@ -207,7 +209,7 @@ const DistanceCard = ({
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <FitnessCard isGoogleFit={false} />
+              <FitnessCard stream={data.stream} />
               {/* <View style={{flex: 1}} /> */}
             </View>
           </View> 

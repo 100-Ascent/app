@@ -54,3 +54,9 @@ export const GOOGLE_FIT_CONFIG = {
     'https://www.googleapis.com/auth/fitness.activity.read',
 ]
 };
+
+
+export const STREAM = {
+  GOOGLE_FIT : "Google Fit",
+  MANUAL : "Manual"
+}
