@@ -8,7 +8,7 @@ import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
 import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
 
-const CalMinStepsCard = ({calminsteps, getCalMinSteps, isDistance, value}) => {
+const CalMinStepsCard = ({calminsteps, getCalMinSteps, isDistance, value, disabled}) => {
   return (
     <View
       style={{
@@ -31,9 +31,9 @@ const CalMinStepsCard = ({calminsteps, getCalMinSteps, isDistance, value}) => {
             marginTop: 10,
             paddingBottom: 15,
           }}>
-          {inputCard('cal', <CaloriesIcon />, calminsteps.cal, getCalMinSteps, isDistance, value)}
-          {inputCard('min', <DistanceIcon />, calminsteps.min, getCalMinSteps, isDistance, value)}
-          {inputCard('steps', <StepsIcon />, calminsteps.steps, getCalMinSteps, isDistance, value)}
+          {inputCard('cal', <CaloriesIcon />, calminsteps.cal, getCalMinSteps, isDistance, value, disabled)}
+          {inputCard('min', <DistanceIcon />, calminsteps.min, getCalMinSteps, isDistance, value, disabled)}
+          {inputCard('steps', <StepsIcon />, calminsteps.steps, getCalMinSteps, isDistance, value, disabled)}
         </View>
       </View>
     </View>
@@ -49,6 +49,7 @@ const inputCard = (
   getCalMinSteps: (arg0: string, arg1: string) => void,
   isDistance : boolean,
   value: any,
+  disabled: boolean
 ) => {
   return (
     <View style={{flex: 1, flexDirection: 'row', marginHorizontal: 3}}>
@@ -69,6 +70,7 @@ const inputCard = (
         }}>
           { !(type==='min' && !isDistance) ? 
             <TextInput
+                editable={!disabled}
                 keyboardType="numeric"
                 maxLength={6}
                 value={ type==='min' && !isDistance ? value.toString() : calminsteps}

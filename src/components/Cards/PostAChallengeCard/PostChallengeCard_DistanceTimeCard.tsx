@@ -15,6 +15,7 @@ const DistanceTimeCard = ({
   setValue,
   klicks,
   setKlicks,
+  disabled
 }) => {
   const option = ['Distance', 'Time'];
 
@@ -38,7 +39,7 @@ const DistanceTimeCard = ({
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={toggle}
-          disabled={!selectedItem.is_distance || defaultOption === idx}
+          disabled={  disabled || !selectedItem.is_distance || defaultOption === idx}
           style={{
             width: '100%',
             borderRadius: 10,
@@ -93,6 +94,7 @@ const DistanceTimeCard = ({
               elevation: 3,
             }}>
             <TextInput
+              editable = {!disabled}
               value={value.toString()}
               keyboardType="numeric"
               maxLength={5}

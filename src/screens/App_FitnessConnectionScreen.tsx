@@ -179,7 +179,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
                 ) : null}
 
                 <View style={{padding: 20}} />
-                <NotesCard />
+                <NotesCard notes={data.notes} />
               </View>
             </ScrollView>
           )}

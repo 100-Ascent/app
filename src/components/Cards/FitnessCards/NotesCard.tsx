@@ -6,16 +6,13 @@ import Text14 from '../../Text/Text14';
 import Text16Bold from '../../Text/Text16Bold';
 import Text16Normal from '../../Text/Text16Normal';
 
-interface Props {}
+interface Props {
+  notes: any;
+}
 
-const NotesCard: React.FC<Props> = ({}) => {
+const NotesCard: React.FC<Props> = ({notes}) => {
   //State variables
-  const notes = [
-      'Your Google Fit data will accumulate throughout the day and automatically post once per day, or when you manually post them from the Add an Acitivity page.', 
-      'The connection with Google Fit is new and we are continuing to work on improving it',
-      'Your Google Fit data will accumulate throughout the day and automatically post once per day, or when you manually post them from the Add an Acitivity page.', 
-      'The connection with Google Fit is new and we are continuing to work on improving it',
-     ];
+
   //Async functions
 
   //Component functions

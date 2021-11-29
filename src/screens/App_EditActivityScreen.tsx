@@ -30,6 +30,7 @@ import Text12Bold from '../components/Text/Text12Bold';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
+import { STREAM } from '../utils/constants/constants';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -40,6 +41,7 @@ interface Props {
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
 
   const routeData = route.params.data;
+  const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = routeData.date.split('/');
 
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
@@ -214,6 +216,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                   }}>
                   <TouchableOpacity
                     onPress={showDatepicker}
+                    disabled={!isEditable}
                     activeOpacity={1}
                     style={{
                       backgroundColor: Colors.TEXT,
@@ -342,6 +345,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     <RNSearchablePicker
                       onSelect={selectHandler}
                       data={dropdownData}
+                      disabled={!isEditable}
                       placeholder="Choose an item"
                       defaultValue={
                         dropdownData[
@@ -361,13 +365,14 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     defaultOption={defaultOption}
                     selectedItem={selected}
                     toggleHandler={() => {
-                      setDefaultOption(1 - defaultOption);
+                       setDefaultOption(1 - defaultOption);
                     }}
                     getData={getDistanceTimeData}
                     value={value}
                     setValue={setValue}
                     klicks={klicks}
                     setKlicks={setKlicks}
+                    disabled = {!isEditable}
                   />
                 </View>
                 <View style={{marginTop: 20, marginHorizontal: -20}}>
@@ -376,6 +381,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     getCalMinSteps={getCalMinStepsData}
                     isDistance={defaultOption===0}
                     value={value}
+                    disabled={!isEditable}
                   />
                 </View>
 

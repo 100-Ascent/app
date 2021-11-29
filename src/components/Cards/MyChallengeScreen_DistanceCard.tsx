@@ -73,6 +73,7 @@ const DistanceCard = ({
   if(data.raw_data === 10) {
     console.log(data)
   }
+  console.log(data.calories);
   return (
     <View style={{ flex: 1, borderRadius: 10 }}>
       <ViewShot
@@ -125,7 +126,7 @@ const DistanceCard = ({
               <View style={{flex: 1, flexDirection: 'row', paddingLeft: 20}}>
                 <View style={{justifyContent: 'center'}}>
                   <Text28
-                    text={data.klicks + ' '}
+                    text={data.klicks.toFixed(2) + ' '}
                     textColor={Colors.YELLOW}
                   />
                 </View>
