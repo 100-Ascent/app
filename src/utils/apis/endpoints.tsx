@@ -10,3 +10,4 @@ export const ADD_ACTIVITY_DATA = "/api/user/data";
 export const UPDATE_ACTIVITY_DATA = "/api/user/data/";
 
 export const EXTERNAL_CONNECTIONS = "/api/external/connections";
+export const GOOGLE_FITNESS_SYNC = "/api/google_fit/user/sync";

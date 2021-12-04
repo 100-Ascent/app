@@ -2,7 +2,7 @@ import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
+import {KeyboardAvoidingView, Platform, ScrollView, ToastAndroid, View} from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -38,6 +38,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
       })
       .then(async res => {
         setData(res.data.data);
+        console.log(res.data.data);
         setLoading(false);
       })
       .catch(err => {
@@ -141,7 +142,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                       />
                     </View>
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                      <StyledButton text="Submit" onPress={() => {}} />
+                      <StyledButton text="Submit" onPress={() => ToastAndroid.show("We are actively working on adding this connection!",ToastAndroid.SHORT)} />
                     </View>
                   </View>
                 </View>

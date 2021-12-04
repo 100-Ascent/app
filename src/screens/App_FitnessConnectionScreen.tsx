@@ -1,4 +1,5 @@
 import axios from 'axios';
+import moment from 'moment';
 import React, {useState} from 'react';
 import {
   KeyboardAvoidingView,
@@ -148,7 +149,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
                           text={
                             data.last_sync_date.length === 0
                               ? 'No data synced yet'
-                              : data.last_sync_date
+                              : moment(data.last_sync_date).format('LLL')
                           }
                           textColor={Colors.TEXTDARK}
                         />

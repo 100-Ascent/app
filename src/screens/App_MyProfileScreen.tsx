@@ -20,6 +20,7 @@ import Text28 from '../components/Text/Text28';
 import Text16Normal from '../components/Text/Text16Normal';
 
 import {
+  GOOGLE_FITNESS_SYNC,
   UPDATE_EMAIL,
   USER_ACTIVITY_DATA,
   USER_DETAILS,
@@ -29,11 +30,11 @@ import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {setEmailVerifiedData} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
-import {BASEURL, ProfileInputFieldTypes} from '../utils/constants/constants';
+import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
-import {Link, useIsFocused} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import parsePhoneNumber from 'libphonenumber-js';
 import Text12Bold from '../components/Text/Text12Bold';
 import FloatingActionButton from '../components/Button/FloatingActionButton';
@@ -44,7 +45,6 @@ import EmptyState from '../../assets/icons/empty_state.svg';
 import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
-import { authorize, refresh } from 'react-native-app-auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import moment from 'moment';
 
@@ -53,16 +53,10 @@ interface Props {
   route: RootNavRouteProps<'MyProfileScreen'>;
 }
 
-const preferredConnection = {
-  icon: "https://upload.wikimedia.org/wikipedia/commons/d/dc/Google_Fit_icon_%282018%29.svg",
-  brand: 'Google Fit',
-  connected: true,
-  date: moment(new Date()).format('llll'),
-};
-
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
+  const [preferredConnection, setPreferredConnection] = useState({});
   const [token, setToken] = useState('');
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
   const [activityData, setActivityData] = useState([]);
@@ -98,6 +92,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
+        setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);
         getToken();
@@ -189,6 +184,35 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         console.log(err);
       });
   };
+
+  const handleSyncData = async () => {
+    if(preferredConnection['sync_count'] === 0 ){
+      ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+    }else{
+      ToastAndroid.show("Syncing data", ToastAndroid.LONG);
+      await axios
+      .get(GOOGLE_FITNESS_SYNC, {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+          if(res.data.success){
+            callToGetUserDetails();
+          }else{
+            ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+          }
+      })
+      .catch(err => {
+        ToastAndroid.show("Error syncing the data", ToastAndroid.SHORT);
+        console.log('Error in syncing');
+        console.log(err);
+      });
+    }
+    
+  }
+
+  const handleRedirectToConnect = () => navigation.navigate('FitnessIntegrationScreen');
 
   navigation.setOptions({
     headerTitle: 'My Profile',
@@ -370,8 +394,14 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
                   </TouchableOpacity>
                 </View>
-                <View style={{marginTop: 20 }}/>
-                <SyncNowButton data={preferredConnection} token={token}/>
+                <View style={{marginTop: 20 }}/>              
+                <SyncNowButton 
+                    data={preferredConnection} 
+                    token={token} 
+                    handleRedirectToConnect={handleRedirectToConnect} 
+                    handleSyncData={handleSyncData}
+                    isConnected = {Object.keys(preferredConnection).length !== 0 }
+                  />                
 
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
