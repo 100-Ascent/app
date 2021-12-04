@@ -85,13 +85,15 @@ const DistanceTimeCard = ({
             flex: 4,
             flexDirection: 'row',
             margin: 5,
+            marginBottom: 10,
           }}>
           <View
             style={{
               flex: 3,
-              backgroundColor: Colors.TEXT,
+              backgroundColor: !disabled ? Colors.TEXT : Colors.GREY_LIGHT,
               borderRadius: 5,
               elevation: 3,
+              marginLeft: 5,              
             }}>
             <TextInput
               editable = {!disabled}
@@ -115,7 +117,7 @@ const DistanceTimeCard = ({
               style={{
                 paddingVertical: 5,
                 paddingLeft: 15,
-                color: Colors.TEXTDARK,
+                color: !disabled ? Colors.TEXTDARK : Colors.BLACK6
               }}
             />
           </View>

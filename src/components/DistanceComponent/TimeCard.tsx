@@ -15,7 +15,7 @@ const TimeCard = ({time}) => {
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>
         <Text14
-          text={hrs === 0 ? `${min.toFixed(2)} min` : `${hrs} hrs ${min} min`}
+          text={hrs === 0 ? min ===0 ? `${min.toFixed(0)} min` : `${min.toFixed(2)} min` : `${hrs} hrs ${min.toFixed(0)} min`}
           textColor={Colors.TEXTDARK}
         />
       </View>

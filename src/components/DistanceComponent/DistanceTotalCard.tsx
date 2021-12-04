@@ -12,7 +12,7 @@ const DistanceTotalCard = ({data, isDistance}) => {
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>
         <Text14
-          text={`${data.toFixed(3)} ${isDistance ? 'km' : 'min'}`}
+          text={`${data.toFixed(2)} ${isDistance ? 'km' : 'min'}`}
           textColor={Colors.TEXTDARK}
         />
       </View>

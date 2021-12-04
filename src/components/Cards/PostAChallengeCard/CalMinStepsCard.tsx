@@ -66,7 +66,8 @@ const inputCard = (
           flex: 5,
           borderWidth: 1,
           borderRadius: 10,
-          borderColor: '#777'
+          borderColor: !disabled ? '#777' : '#ccc',
+          backgroundColor : !disabled ? Colors.TEXT : Colors.GREY_LIGHT
         }}>
           { !(type==='min' && !isDistance) ? 
             <TextInput
@@ -79,7 +80,7 @@ const inputCard = (
                 placeholderTextColor={Colors.BLACK3}
                 style={{
                   paddingVertical: 5,
-                  color: Colors.TEXTDARK,
+                  color: !disabled ? Colors.TEXTDARK : Colors.BLACK6,
                   fontSize: 16,
                   textAlign: 'center',
                   fontFamily: 'Quicksand-Regular'

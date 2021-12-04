@@ -228,7 +228,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                         padding: 10,
                         borderRadius: 10,
                         borderColor: Colors.TRANSPARENT,
-                        backgroundColor: Colors.TEXT,
+                        backgroundColor: isEditable ? Colors.TEXT : Colors.BLACK5,
                         shadowColor: Colors.BLACK1,
                         shadowOffset: {
                           width: 0,
@@ -242,7 +242,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                       <View style={{flex: 5}}>
                         <Text
                           style={{
-                            color: Colors.TEXTDARK,
+                            color: isEditable ? Colors.TEXTDARK : Colors.BLACK6,
                             fontWeight: 'normal',
                           }}>
                           {selectedDate === null
@@ -356,7 +356,11 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                       }
                       containerStyles={{marginHorizontal: 20}}
                       listStyles={{maxHeight: 120}}
-                      inputStyles={{paddingLeft: 15}}
+                      inputStyles={{
+                        paddingLeft: 15, 
+                        backgroundColor: isEditable ? Colors.TEXT : Colors.GREY_LIGHT,
+                        color: isEditable ? Colors.TEXTDARK : Colors.BLACK6 
+                      }}
                     />
                   </View>
                 </View>
@@ -372,7 +376,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     setValue={setValue}
                     klicks={klicks}
                     setKlicks={setKlicks}
-                    disabled = {!isEditable}
+                    disabled = {!isEditable}                    
                   />
                 </View>
                 <View style={{marginTop: 20, marginHorizontal: -20}}>
