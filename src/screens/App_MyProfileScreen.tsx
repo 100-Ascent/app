@@ -189,23 +189,22 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
 
     let date_now = new Date();
     let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
-
     if(preferredConnection['sync_count'] === 0 ){
       ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
     }else{
       ToastAndroid.show("Syncing data", ToastAndroid.LONG);
       await axios
       .get(GOOGLE_FITNESS_SYNC, {
-        params : {
+        params : preferredConnection['last_sync_date'] === null ? {
           start_date: date_now_adjusted
-        }, headers: {
+        } : {}, headers: {
           'X-CONTEXT-ID': contextId,
         },
       })
       .then(async res => {
           if(res.data.success){
             callToGetUserDetails();
-            ToastAndroid.show("1 activity data added", ToastAndroid.SHORT);
+            ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
           }else{
             ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
           }
