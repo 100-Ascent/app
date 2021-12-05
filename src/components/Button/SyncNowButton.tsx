@@ -10,6 +10,7 @@ import Text12Normal from '../Text/Text12Normal';
 import Text20 from '../Text/Text20';
 
 const SyncNowButton = ({ data, token, handleRedirectToConnect, handleSyncData, isConnected }) => {
+  
     return  <View
     style={{
       marginTop: 15,
@@ -45,7 +46,7 @@ const SyncNowButton = ({ data, token, handleRedirectToConnect, handleSyncData, i
                 <Text12Normal
                   text={ !isConnected ? 
                     "Connect Now to sync your fitness data" : 
-                    "Last Sync: " + ( data.last_sync_date ? moment(data.last_sync_date).format('LLL') : "No data synced yet" )}
+                    "Last Sync: " + ( data.last_sync_date ? new Date(data.last_sync_date).toLocaleString() : "No data synced yet" )}
                   textColor={'#ddd'}
                 />
               </View>            

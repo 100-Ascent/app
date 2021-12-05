@@ -6,7 +6,19 @@ import Text16Normal from '../../Text/Text16Normal';
 import Text24 from '../../Text/Text24';
 import KlicksTooltip from '../../Tooltip/KlicksTooltip';
 
-const DistanceTimeCard = ({
+interface Props  {
+  defaultOption: any,
+  selectedItem: any,
+  toggleHandler: any,
+  getData: any,
+  value: any,
+  setValue: any,
+  klicks: any,
+  setKlicks: any,
+  disabled?: any
+}
+
+const DistanceTimeCard: React.FC<Props> = ({
   defaultOption,
   selectedItem,
   toggleHandler,

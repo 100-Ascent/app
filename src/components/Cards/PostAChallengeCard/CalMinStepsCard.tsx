@@ -8,7 +8,10 @@ import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
 import { Tooltip } from 'react-native-elements/dist/tooltip/Tooltip';
 
-const CalMinStepsCard = ({calminsteps, getCalMinSteps, isDistance, value, disabled}) => {
+interface Props {
+  calminsteps: any, getCalMinSteps: any, isDistance: any, value: any, disabled?: any
+}
+const CalMinStepsCard :React.FC<Props> = ({calminsteps, getCalMinSteps, isDistance, value, disabled}) => {
   return (
     <View
       style={{

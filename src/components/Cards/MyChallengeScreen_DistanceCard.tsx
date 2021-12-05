@@ -73,7 +73,7 @@ const DistanceCard = ({
   if(data.raw_data === 10) {
     console.log(data)
   }
-  console.log(data.calories);
+  
   return (
     <View style={{ flex: 1, borderRadius: 10 }}>
       <ViewShot

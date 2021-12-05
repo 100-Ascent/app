@@ -38,19 +38,20 @@ interface Props {
   route: RootNavRouteProps<'EditActivityScreen'>;
 }
 
+
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
 
   const routeData = route.params.data;
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
-  const routeDate = routeData.date.split('/');
-
+  const routeDate = new Date(routeData.date);
+  
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
 
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState(new Date(routeDate[2], routeDate[1] - 1, routeDate[0]));
-  const [date, setDate] = useState(new Date(routeDate[2], routeDate[1] - 1, routeDate[0]));
+  const [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
+  const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
   
   const [dropdownData, setDropdownData] = useState([]);
   const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity_id)[0];
@@ -247,7 +248,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                           }}>
                           {selectedDate === null
                             ? 'Select Date'
-                            : moment(date).format('lll')}
+                            : moment(date).format('MMM DD, YYYY')}
                         </Text>
                       </View>
                       <View style={{flex: 1, alignItems: 'center'}}>
