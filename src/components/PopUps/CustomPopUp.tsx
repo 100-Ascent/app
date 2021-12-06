@@ -11,13 +11,14 @@ interface Props {
   description?: string;
   header?: string;
   isCancelable?: boolean;
-  onCancel: () => void;
+  onCancel?: () => void;
   onOk: () => void;
   oKText?: string;
   visible: boolean;
   icon: any,
   isCloseButton?: boolean;
-  closeButtonPress?: ()=>void
+  closeButtonPress?: ()=>void;
+  isDescriptionLong?: boolean;
 }
 
 const CustomPopUp: React.FC<Props> = ({
@@ -31,7 +32,8 @@ const CustomPopUp: React.FC<Props> = ({
   visible,
   icon,
   isCloseButton,
-  closeButtonPress
+  closeButtonPress,
+  isDescriptionLong = false
 }) => {
   return (
     <Modal
@@ -56,7 +58,8 @@ const CustomPopUp: React.FC<Props> = ({
           <View style={{flex: 2, alignItems: 'center', paddingTop: 30}}>
             <Text20 text={header} textColor={Colors.TEXTDARK} />
             <View style={{marginTop: 5, paddingHorizontal: 10 }}>
-              <Text14 text={description} textStyle={{ textAlign: 'center' }} textColor={Colors.TEXTDARK} />
+              { !isDescriptionLong ? <Text16Normal text={description} textStyle={{ textAlign: 'center' }} textColor={Colors.TEXTDARK} /> :
+              <Text14 text={description} textStyle={{ textAlign: 'center' }} textColor={Colors.TEXTDARK} /> } 
             </View>
           </View>
           <View style={{flex: 2, alignItems: 'center'}}>

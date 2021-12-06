@@ -38,7 +38,6 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
       })
       .then(async res => {
         setData(res.data.data);
-        console.log(res.data.data);
         setLoading(false);
       })
       .catch(err => {

@@ -3,12 +3,14 @@ import {
   ContextIdType,
   CurrentValueType,
   EmailVerifiedType,
+  HeartBeatConfigType,
   JourneyIndexType,
   NotificationType,
   SetActivitDataActionTypes,
   SetContextIdActionTypes,
   SetCurrentValueActionTypes,
   SetEmailVerifiedActionTypes,
+  SetHeartBeatConfigTypes,
   SetJourneyIndexActionTypes,
   SetNotifyTokenActionTypes,
   SetUserActionTypes,
@@ -16,6 +18,7 @@ import {
   SET_CONTEXTID,
   SET_CURRENT_VALUES,
   SET_EMAIL_VERIFIED,
+  SET_HEART_BEAT_CONFIG,
   SET_JOURNEY_INDEX,
   SET_NOTIFYTOKEN,
   SET_USER,
@@ -68,3 +71,10 @@ export const setEmailVerifiedData = (
   type: SET_EMAIL_VERIFIED,
   payload,
 });
+
+export const setHeartBeatConfig = (
+  payload: HeartBeatConfigType | null,
+) : SetHeartBeatConfigTypes => ({
+  type: SET_HEART_BEAT_CONFIG,
+  payload,
+})

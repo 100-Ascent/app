@@ -431,7 +431,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   activityData.length < 1 ? (
                     <View style={{marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                       <EmptyState />
-                      <Text16Bold text={'No Activity Found!'} textColor={''} textStyle={{marginTop: -30}} />
+                      <Text16Bold text={'No Activity Found!'} textColor={Colors.TEXTDARK} textStyle={{marginTop: -30}} />
                       <Text12Bold text={'Click on + icon to add your first activity'} textColor={'grey'} />
                     </View>
                   ) : (

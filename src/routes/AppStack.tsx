@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
@@ -16,9 +16,14 @@ import Text24 from '../components/Text/Text24';
 
 import AllChallenges from './ScreenStacks/AllChallenges';
 import Fitness from './ScreenStacks/Fitness';
+import { useSelector } from 'react-redux';
+import { AppState } from '../redux';
+import axios from 'axios';
+import { HEARTBEAT } from '../utils/apis/endpoints';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
+
 
 export const NavigationDrawerStructure = props => {
   const toggleDrawer = () => {
@@ -145,6 +150,10 @@ const CustomDrawerContent = ({...rest}) => {
 };
 
 const AppStack = () => {
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const heart_beat_timeout = useSelector((state: AppState) => state.rootStore.heartBeatConfig.heart_beat_timeout)
+  const heart_beat_toggle = useSelector((state: AppState) => state.rootStore.heartBeatConfig.heart_beat_toggle)
+
   const [progress, setProgress] = useState(new Animated.Value(0));
 
   const scale = Animated.interpolateNode(progress, {
@@ -158,6 +167,25 @@ const AppStack = () => {
   });
 
   const animatedStyle = {borderRadius, transform: [{scale}]};
+
+  const heartBeat = async () => {
+    
+    axios
+      .get(HEARTBEAT + contextId, {})
+      .then(res => { console.log(res.data)})
+      .catch(err => {
+        console.log('Heartbeat Failure');
+        console.log(err);
+      });
+  }
+
+  useEffect(()=>{
+    if(heart_beat_toggle && contextId !==null){
+      heartBeat();
+     let timer = setInterval(()=> heartBeat(), heart_beat_timeout * 1000)
+    }
+    
+  },[]);
 
   return (
     <Drawer.Navigator

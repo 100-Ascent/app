@@ -42,6 +42,7 @@ const RNSearchablePicker: React.FC<Props> = ({
   const [inputValue, setInputValue] = useState(defaultValue);
   const [listVisibility, setListVisibility] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
+  const predefinedPickerValue = defaultValue;
 
   const onChange = val => {
     setListVisibility(true);
@@ -79,7 +80,12 @@ const RNSearchablePicker: React.FC<Props> = ({
         {  disabled ? <></> : Platform.OS === 'android' ? (
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple(null, true)}
-            onPress={() => setListVisibility(!listVisibility)}>
+            onPress={() =>{
+
+              let value = !listVisibility ? '' : predefinedPickerValue;
+              setInputValue(value);
+              setListVisibility(!listVisibility)
+              }}>
             {listVisibility ? (
               <View
                 style={{

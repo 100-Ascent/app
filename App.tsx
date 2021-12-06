@@ -20,6 +20,7 @@ import {
   requestTrackingPermission,
   TrackingStatus,
 } from 'react-native-tracking-transparency';
+import { HEARTBEAT } from './src/utils/apis/endpoints';
 
 axios.defaults.baseURL = BASEURL;
 
@@ -30,6 +31,7 @@ axios.interceptors.request.use(async request => {
 
 LogBox.ignoreLogs(['Warning: ...']);
 LogBox.ignoreAllLogs();
+
 
 const App = () => {
 

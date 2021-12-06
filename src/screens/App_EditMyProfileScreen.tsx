@@ -99,7 +99,6 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
             },
           },
         ).then((res)=>{
-          console.log(res.data);
           ToastAndroid.show('Updated profile picture', ToastAndroid.SHORT);
         }).catch(err => {
           console.log(err)
