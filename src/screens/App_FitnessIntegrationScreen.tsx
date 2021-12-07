@@ -13,7 +13,7 @@ import RNLoader from '../components/Loader/RNLoader';
 import Text16Bold from '../components/Text/Text16Bold';
 import {AppState} from '../redux';
 import {RootNavProp} from '../routes/RootStackParamList';
-import {EXTERNAL_CONNECTIONS} from '../utils/apis/endpoints';
+import {EXTERNAL_CONNECTIONS, REQUEST_NEW_CONNECTION} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 
 interface Props {
@@ -24,6 +24,8 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
   //State variables
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const [data, setData] = useState([]);
+  const [newConnection, setNewConnection] = useState("");
+  const [error, setError] = useState(false);
   const [loading, setLoading] = useState(true);
   const isFocused = useIsFocused();
 
@@ -49,7 +51,33 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
 
   useEffect(() => {
     getConnectionData();
+    setError(false);
+    setNewConnection('');
   }, [isFocused]);
+
+
+  const handleNewConnection = async () => {
+    setError(false);
+    if(newConnection.length === 0){
+      ToastAndroid.show('Please enter a valid connection value',ToastAndroid.SHORT);
+      setError(true);
+    }else{
+      setError(false);
+      await axios.post(REQUEST_NEW_CONNECTION, { 
+        connection: newConnection 
+      })
+      .then(res=>{
+        ToastAndroid.show("We heard you! Our super fast team will be working on onboarding " + newConnection + " soon. Stay tuned ...", ToastAndroid.LONG);
+        setNewConnection('');
+        console.log(res.data);
+      })
+      .catch(err=>{
+        console.log("Error");
+        setNewConnection('');
+      })
+    }
+  }
+
 
   //Component functions
   navigation.setOptions({
@@ -126,6 +154,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                     }}>
                     <View style={{flex: 2}}>
                       <TextInput
+                        value={newConnection}
                         placeholder={'e.g. Garmin '}
                         placeholderTextColor={'#A3A3A3'}
                         style={{
@@ -137,11 +166,15 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                           marginRight: 10,
                           paddingVertical: 5,
                           borderWidth: 1,
+                          borderColor: error ? Colors.RED : Colors.TEXTDARK ,
                         }}
+                        onChangeText={(text)=>{
+                          setError(false);
+                          setNewConnection(text)}}
                       />
                     </View>
                     <View style={{flex: 1, justifyContent: 'center'}}>
-                      <StyledButton text="Submit" onPress={() => ToastAndroid.show("We are actively working on adding this connection!",ToastAndroid.SHORT)} />
+                      <StyledButton text="Submit" onPress={handleNewConnection}/>
                     </View>
                   </View>
                 </View>

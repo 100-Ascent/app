@@ -20,12 +20,14 @@ import {
   requestTrackingPermission,
   TrackingStatus,
 } from 'react-native-tracking-transparency';
-import { HEARTBEAT } from './src/utils/apis/endpoints';
+import VersionNumber from 'react-native-version-number';
 
 axios.defaults.baseURL = BASEURL;
 
 axios.interceptors.request.use(async request => {
   request.headers.Authorization = await auth().currentUser.getIdToken();
+  request.headers.appVersion = VersionNumber.appVersion; 
+  request.headers.platform = Platform.OS;
   return request;
 });
 

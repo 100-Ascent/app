@@ -13,3 +13,4 @@ export const EXTERNAL_CONNECTIONS = "/api/external/connections";
 export const GOOGLE_FITNESS_SYNC = "/api/google_fit/user/sync";
 
 export const HEARTBEAT = "/api/app/heartbeat/";
+export const REQUEST_NEW_CONNECTION = "/api/request/connection";
