@@ -3,11 +3,12 @@ import {View} from 'react-native';
 import Text14 from '../Text/Text14';
 import Calendar from '../../../assets/icons/calendar.svg';
 import {Colors} from '../../utils/colors';
+import { STREAM } from '../../utils/constants/constants';
 
-const DateCard = ({date}) => {
-  var st = date;
-  var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
-  var dt = new Date(st.replace(pattern,'$3-$2-$1'));
+const DateCard = ({date, stream}) => {
+  // var st = date;
+  // var pattern = /(\d{2})\/(\d{2})\/(\d{4})/;
+  // var dt = new Date(st.replace(pattern,'$3-$2-$1'));
   return (
     <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', justifyContent: 'flex-start'}}>
       <View style={{flex: 1, width: 30, height: 25, marginLeft: -3}}>
@@ -15,7 +16,7 @@ const DateCard = ({date}) => {
       </View>
       <View style={{flex: 7, justifyContent: 'flex-start'}}>
         <Text14
-          text={new Date(dt).toDateString()}
+          text={ stream.toLowerCase() === STREAM.MANUAL.toLowerCase() ? new Date(date).toLocaleDateString(): new Date(date).toLocaleString()}
           textColor={Colors.TEXTDARK}
         />
       </View>

@@ -7,6 +7,7 @@ import {
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
+  Button,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -19,6 +20,7 @@ import Text28 from '../components/Text/Text28';
 import Text16Normal from '../components/Text/Text16Normal';
 
 import {
+  GOOGLE_FITNESS_SYNC,
   UPDATE_EMAIL,
   USER_ACTIVITY_DATA,
   USER_DETAILS,
@@ -28,11 +30,11 @@ import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {setEmailVerifiedData} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
-import {BASEURL, ProfileInputFieldTypes} from '../utils/constants/constants';
+import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
-import {Link, useIsFocused} from '@react-navigation/native';
+import {useIsFocused} from '@react-navigation/native';
 import parsePhoneNumber from 'libphonenumber-js';
 import Text12Bold from '../components/Text/Text12Bold';
 import FloatingActionButton from '../components/Button/FloatingActionButton';
@@ -43,6 +45,8 @@ import EmptyState from '../../assets/icons/empty_state.svg';
 import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
+import SyncNowButton from '../components/Button/SyncNowButton';
+import moment from 'moment';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -52,6 +56,7 @@ interface Props {
 const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [userData, setUserData] = useState({});
+  const [preferredConnection, setPreferredConnection] = useState({});
   const [token, setToken] = useState('');
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
   const [activityData, setActivityData] = useState([]);
@@ -87,6 +92,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
+        setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);
         getToken();
@@ -179,11 +185,45 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       });
   };
 
+  const handleSyncData = async () => {
+
+    let date_now = new Date();
+    let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
+    if(preferredConnection['sync_count'] === 0 ){
+      ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+    }else{
+      ToastAndroid.show("Syncing data", ToastAndroid.LONG);
+      await axios
+      .get(GOOGLE_FITNESS_SYNC, {
+        params : preferredConnection['last_sync_date'] === null ? {
+          start_date: date_now_adjusted
+        } : {}, headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+          if(res.data.success){
+            callToGetUserDetails();
+            ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
+          }else{
+            ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+          }
+      })
+      .catch(err => {
+        ToastAndroid.show("Error syncing the data", ToastAndroid.SHORT);
+        console.log('Error in syncing');
+        console.log(err);
+      });
+    }
+    
+  }
+
+  const handleRedirectToConnect = () => navigation.navigate('FitnessIntegrationScreen');
+
   navigation.setOptions({
     headerTitle: 'My Profile',
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
-    headerLeft: () => <View style={{marginLeft: 10}} />,
     headerRight: () => (
       <View style={{marginRight: 15}}>
         <Icon
@@ -195,6 +235,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       </View>
     ),
   });
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -346,6 +387,28 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
+
+
+
+                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
+                  <View style={{flex: 1}}>
+                    <Text16Bold
+                        text="Sync Now"
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
+                  </View>
+                  <TouchableOpacity onPress={() => {navigation.navigate('FitnessIntegrationScreen')}}>
+                    <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
+                  </TouchableOpacity>
+                </View>
+                <View style={{marginTop: 20 }}/>              
+                <SyncNowButton 
+                    data={preferredConnection} 
+                    token={token} 
+                    handleRedirectToConnect={handleRedirectToConnect} 
+                    handleSyncData={handleSyncData}
+                    isConnected = {Object.keys(preferredConnection).length !== 0 }
+                  />                
+
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -356,6 +419,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{marginTop: 20 }}>
                  <StatsCard streak={streak} isToday={isToday} />
                 </View>
+
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -367,7 +431,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   activityData.length < 1 ? (
                     <View style={{marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
                       <EmptyState />
-                      <Text16Bold text={'No Activity Found!'} textColor={''} textStyle={{marginTop: -30}} />
+                      <Text16Bold text={'No Activity Found!'} textColor={Colors.TEXTDARK} textStyle={{marginTop: -30}} />
                       <Text12Bold text={'Click on + icon to add your first activity'} textColor={'grey'} />
                     </View>
                   ) : (

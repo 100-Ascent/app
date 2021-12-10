@@ -70,7 +70,6 @@ const DistanceCard = ({
   };
 
   const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity_id)[0];
-
   return (
     <View style={{ flex: 1, borderRadius: 10 }}>
       <ViewShot
@@ -123,7 +122,7 @@ const DistanceCard = ({
               <View style={{flex: 1, flexDirection: 'row', paddingLeft: 20}}>
                 <View style={{justifyContent: 'center'}}>
                   <Text28
-                    text={data.klicks + ' '}
+                    text={data.klicks.toFixed(2) + ' '}
                     textColor={Colors.YELLOW}
                   />
                 </View>
@@ -177,17 +176,17 @@ const DistanceCard = ({
                   </TouchableOpacity>
                 </View>
               </View> */}
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
+              { mask ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onShare()}>
                   <Icon name="share" color={Colors.POPUP_GREY} size={24} />
                 </TouchableOpacity>
-              </View>
+              </View>}
             </View>
           </View>
           <View style={{padding: 5}} />
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <DateCard date={data.date} />
+              <DateCard date={data.date} stream={data.stream} />
             </View>
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
@@ -207,7 +206,7 @@ const DistanceCard = ({
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <FitnessCard isGoogleFit={false} />
+              <FitnessCard stream={data.stream} />
               {/* <View style={{flex: 1}} /> */}
             </View>
           </View> 
@@ -216,7 +215,7 @@ const DistanceCard = ({
               <CommentCard comment={data.comment} />
             </View>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <View
+              { mask ? null : <View
                   style={{
                     flex: 1,
                     flexDirection: 'row',
@@ -245,7 +244,7 @@ const DistanceCard = ({
                       />
                     </TouchableOpacity>
                   </View>
-                </View>
+                </View>}
             </View>
           </View>                   
         </View>

@@ -14,7 +14,7 @@ const WeeklyStreakCard: React.FC<Props> = ({ streak }) => {
         return <View style={{
             flex: 1,
             justifyContent: 'center', alignItems: 'center',            
-        }}>
+        }} key={idx}>
             <View style={[styles.circular , { borderColor: streak === 0 ? "#232323" : streak <= idx ? "#232323" : "#886300",  borderWidth: 2, }]}>
                 <Text14 text={val} textColor={Colors.WHITE} />       
             </View>

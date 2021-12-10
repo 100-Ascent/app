@@ -6,7 +6,19 @@ import Text16Normal from '../../Text/Text16Normal';
 import Text24 from '../../Text/Text24';
 import KlicksTooltip from '../../Tooltip/KlicksTooltip';
 
-const DistanceTimeCard = ({
+interface Props  {
+  defaultOption: any,
+  selectedItem: any,
+  toggleHandler: any,
+  getData: any,
+  value: any,
+  setValue: any,
+  klicks: any,
+  setKlicks: any,
+  disabled?: any
+}
+
+const DistanceTimeCard: React.FC<Props> = ({
   defaultOption,
   selectedItem,
   toggleHandler,
@@ -15,6 +27,7 @@ const DistanceTimeCard = ({
   setValue,
   klicks,
   setKlicks,
+  disabled
 }) => {
   const option = ['Distance', 'Time'];
 
@@ -38,7 +51,7 @@ const DistanceTimeCard = ({
         <TouchableOpacity
           activeOpacity={0.8}
           onPress={toggle}
-          disabled={!selectedItem.is_distance || defaultOption === idx}
+          disabled={  disabled || !selectedItem.is_distance || defaultOption === idx}
           style={{
             width: '100%',
             borderRadius: 10,
@@ -84,15 +97,18 @@ const DistanceTimeCard = ({
             flex: 4,
             flexDirection: 'row',
             margin: 5,
+            marginBottom: 10,
           }}>
           <View
             style={{
               flex: 3,
-              backgroundColor: Colors.TEXT,
+              backgroundColor: !disabled ? Colors.TEXT : Colors.GREY_LIGHT,
               borderRadius: 5,
               elevation: 3,
+              marginLeft: 5,              
             }}>
             <TextInput
+              editable = {!disabled}
               value={value.toString()}
               keyboardType="numeric"
               maxLength={5}
@@ -113,7 +129,7 @@ const DistanceTimeCard = ({
               style={{
                 paddingVertical: 5,
                 paddingLeft: 15,
-                color: Colors.TEXTDARK,
+                color: !disabled ? Colors.TEXTDARK : Colors.BLACK6
               }}
             />
           </View>

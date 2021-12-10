@@ -11,7 +11,7 @@ const CalorieCard = ({calorie}) => {
         <CalorieIcon />
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>
-        <Text14 text={`${calorie / 1000} kCal.`} textColor={Colors.TEXTDARK} />
+        <Text14 text={`${(calorie / 1000).toFixed(2)} kCal.`} textColor={Colors.TEXTDARK} />
       </View>
     </View>
   );

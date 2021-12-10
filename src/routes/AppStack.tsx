@@ -1,11 +1,10 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {createStackNavigator} from '@react-navigation/stack';
 import {
   createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItem,
 } from '@react-navigation/drawer';
-import BottomTabStack from './BottomTabStack';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import {Colors} from '../utils/colors';
 import {View, StyleSheet, TouchableOpacity} from 'react-native';
@@ -14,11 +13,17 @@ import {RootStackParamList} from './RootStackParamList';
 import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
 import Text24 from '../components/Text/Text24';
-import AllChallenges from './BottomTabStackScreens/AllChallenges';
-import {AMSTERDAM} from '../utils/constants/versions';
+
+import AllChallenges from './ScreenStacks/AllChallenges';
+import Fitness from './ScreenStacks/Fitness';
+import { useSelector } from 'react-redux';
+import { AppState } from '../redux';
+import axios from 'axios';
+import { HEARTBEAT } from '../utils/apis/endpoints';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
+
 
 export const NavigationDrawerStructure = props => {
   const toggleDrawer = () => {
@@ -38,7 +43,6 @@ const HomeStack = ({navigation, style}) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
       <Stack.Navigator initialRouteName="HomeStack">
-        {AMSTERDAM ? (
           <Stack.Screen
             name="AllChallengesScreen"
             component={AllChallenges}
@@ -46,15 +50,29 @@ const HomeStack = ({navigation, style}) => {
               header: () => null,
             })}
           />
-        ) : (
-          <Stack.Screen
+          {/* <Stack.Screen
             name="BottomTabStack"
             component={BottomTabStack}
             options={({route}) => ({
               header: () => null,
             })}
+          /> */}
+      </Stack.Navigator>
+    </Animated.View>
+  );
+};
+
+const FitnessStack = ({navigation, style}) => {
+  return (
+    <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
+      <Stack.Navigator initialRouteName="FitnessStack">
+          <Stack.Screen
+            name="FitnessStack"
+            component={Fitness}
+            options={({route}) => ({
+              header: () => null,
+            })}
           />
-        )}
       </Stack.Navigator>
     </Animated.View>
   );
@@ -108,9 +126,10 @@ const CustomDrawerContent = ({...rest}) => {
               size={size}
             />
           )}
-          label="Connections"
+          label="3rd Party Sync"
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
+            rest.navigation.navigate('FitnessStack')
             rest.navigation.closeDrawer();
           }}
         />
@@ -131,6 +150,10 @@ const CustomDrawerContent = ({...rest}) => {
 };
 
 const AppStack = () => {
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const heart_beat_timeout = useSelector((state: AppState) => state.rootStore.heartBeatConfig.heart_beat_timeout)
+  const heart_beat_toggle = useSelector((state: AppState) => state.rootStore.heartBeatConfig.heart_beat_toggle)
+
   const [progress, setProgress] = useState(new Animated.Value(0));
 
   const scale = Animated.interpolateNode(progress, {
@@ -144,6 +167,25 @@ const AppStack = () => {
   });
 
   const animatedStyle = {borderRadius, transform: [{scale}]};
+
+  const heartBeat = async () => {
+    
+    axios
+      .get(HEARTBEAT + contextId, {})
+      .then(res => { console.log(res.data)})
+      .catch(err => {
+        console.log('Heartbeat Failure');
+        console.log(err);
+      });
+  }
+
+  useEffect(()=>{
+    if(heart_beat_toggle && contextId !==null){
+      heartBeat();
+     let timer = setInterval(()=> heartBeat(), heart_beat_timeout * 1000)
+    }
+    
+  },[]);
 
   return (
     <Drawer.Navigator
@@ -161,6 +203,9 @@ const AppStack = () => {
       }}>
       <Drawer.Screen name="HomeStack">
         {props => <HomeStack {...props} style={animatedStyle} />}
+      </Drawer.Screen>
+      <Drawer.Screen name="FitnessStack">
+        {props => <FitnessStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
     </Drawer.Navigator>
   );

@@ -16,6 +16,7 @@ interface Props {
   placeholder?: any;
   emptyMessage?: any;
   defaultValue?: any;
+  disabled?: boolean;
   data?: any;
   onSelect?: any;
   inputStyles?: any;
@@ -29,6 +30,7 @@ const RNSearchablePicker: React.FC<Props> = ({
   placeholder,
   emptyMessage,
   defaultValue = '',
+  disabled,
   data,
   onSelect,
   inputStyles,
@@ -40,6 +42,7 @@ const RNSearchablePicker: React.FC<Props> = ({
   const [inputValue, setInputValue] = useState(defaultValue);
   const [listVisibility, setListVisibility] = useState(false);
   const [filteredData, setFilteredData] = useState(data);
+  const predefinedPickerValue = defaultValue;
 
   const onChange = val => {
     setListVisibility(true);
@@ -67,16 +70,22 @@ const RNSearchablePicker: React.FC<Props> = ({
         }}>
         <TextInput
           value={inputValue}
+          editable={!disabled}
           onChangeText={onChange}
           placeholder={placeholder}
           style={{flex: 1, color: Colors.TEXTDARK, ...inputStyles}}
           onFocus={() => setListVisibility(true)}
           onPressOut={() => setListVisibility(false)}
         />
-        {Platform.OS === 'android' ? (
+        {  disabled ? <></> : Platform.OS === 'android' ? (
           <TouchableNativeFeedback
             background={TouchableNativeFeedback.Ripple(null, true)}
-            onPress={() => setListVisibility(!listVisibility)}>
+            onPress={() =>{
+
+              let value = !listVisibility ? '' : predefinedPickerValue;
+              setInputValue(value);
+              setListVisibility(!listVisibility)
+              }}>
             {listVisibility ? (
               <View
                 style={{

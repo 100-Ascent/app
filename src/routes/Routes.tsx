@@ -1,5 +1,5 @@
 import React, {useState, useEffect} from 'react';
-import {View, Platform} from 'react-native';
+import { Platform} from 'react-native';
 
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
@@ -15,10 +15,12 @@ import VersionNumber from 'react-native-version-number';
 import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
 import OnboardingScreen from '../screens/App_OnBoarding';
-import {setContextId, setEmailVerifiedData} from '../redux/action';
+import {setContextId, setEmailVerifiedData, setHeartBeatConfig} from '../redux/action';
 import uninterceptedAxiosInstance from '../utils/services/uninterceptedAxiosInstance';
 import {LOGIN, USER_CHECKIN, VERSION_CHECK} from '../utils/apis/endpoints';
 import {LOGIN_TYPE, VERSION_CHECK_TYPE} from '../utils/apis/endpointType';
+import ForceUpdateScreen from '../screens/App_ForceUpdate';
+import UnderMaintenanceScreen from '../screens/App_UnderMaintenance';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
@@ -69,6 +71,7 @@ const callToCreateUser = async (
 };
 
 const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
+  console.log("Calling User checkin ")
   await axios
     .get(USER_CHECKIN)
     .then(async res => {
@@ -83,12 +86,13 @@ const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
 };
 
 const Routes = () => {
-  const [isValidAppVersion, setIsValidAppVersion] = useState(false);
+  const [isValidAppVersion, setIsValidAppVersion] = useState(true);
   const [loading, setLoading] = useState(false);
   const [user, setUser] = useState();
   const [isEmailEntered, setEmailEntered] = useState(false);
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
   const [initializing, setInitializing] = useState(true);
+  const [killSwitch, setKillSwitch] = useState(false);
   const dispatch = useDispatch();
 
   const onAuthStateChanged = user => {
@@ -97,14 +101,13 @@ const Routes = () => {
       getFcmToken()
         .then(async notifyToken => {
           const isValidUser = await AsyncStorage.getItem('user');
-
           if (isValidUser === null) {
-            callToCreateUser(notifyToken, setLoading, setEmailEntered, dispatch);
-            callToUserCheckIn(setLoading, dispatch);
+            await callToCreateUser(notifyToken, setLoading, setEmailEntered, dispatch);
+            await callToUserCheckIn(setLoading, dispatch);
             setUser(user);
           } else {
             setEmailEntered(true);
-            callToUserCheckIn(setLoading, dispatch);
+            await callToUserCheckIn(setLoading, dispatch);
             setLoading(false);
             setUser(user);
           }
@@ -124,16 +127,18 @@ const Routes = () => {
   };
 
   // Check app version
-  const checkAppVersion = () => {
+  const checkAppVersion = async () => {
     const data: VERSION_CHECK_TYPE = {
       appVersion: VersionNumber.appVersion,
       os: Platform.OS,
     };
 
-    uninterceptedAxiosInstance
+    await uninterceptedAxiosInstance
       .post(VERSION_CHECK, data)
       .then(res => {
-        setIsValidAppVersion(res.data.data.success);
+        setIsValidAppVersion(res.data.data.is_version_allowed);
+        setKillSwitch(res.data.data.kill_switch);
+        dispatch( setHeartBeatConfig({ heart_beat_timeout: res.data.data.heart_beat_timeout, heart_beat_toggle: res.data.data.heart_beat_toggle }) )
       })
       .catch(err => {
         console.log('check app version failed');
@@ -148,12 +153,17 @@ const Routes = () => {
 
   // Second called
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    
+    if(isValidAppVersion && !killSwitch ){
+      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+      return subscriber;
+    }
+    
   }, []);
 
   // Third called
   useEffect(() => {
+    if(isValidAppVersion && !killSwitch ){
     AsyncStorage.getItem('alreadyLaunched').then(value => {
       if (value == null) {
         setIsFirstLaunch(true);
@@ -161,11 +171,12 @@ const Routes = () => {
         setIsFirstLaunch(false);
       }
     });
+  }
   }, []);
 
   return (
     <NavigationContainer>
-      {isValidAppVersion ? (
+      { killSwitch ? <UnderMaintenanceScreen/> : isValidAppVersion ? (
         loading ? (
           <RNLoader />
         ) : isFirstLaunch ? (
@@ -182,7 +193,7 @@ const Routes = () => {
           <AuthStack />
         )
       ) : (
-        <View></View>
+       <ForceUpdateScreen/>
       )}
     </NavigationContainer>
   );

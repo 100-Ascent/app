@@ -30,6 +30,7 @@ import Text12Bold from '../components/Text/Text12Bold';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
+import { STREAM } from '../utils/constants/constants';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -37,18 +38,20 @@ interface Props {
   route: RootNavRouteProps<'EditActivityScreen'>;
 }
 
+
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
 
   const routeData = route.params.data;
-  const routeDate = routeData.date.split('/');
-
+  const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
+  const routeDate = new Date(routeData.date);
+  
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
 
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
 
-  const [selectedDate, setSelectedDate] = useState(new Date(routeDate[2], routeDate[1] - 1, routeDate[0]));
-  const [date, setDate] = useState(new Date(routeDate[2], routeDate[1] - 1, routeDate[0]));
+  const [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
+  const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
   
   const [dropdownData, setDropdownData] = useState([]);
   const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity_id)[0];
@@ -72,11 +75,11 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   const handleUpdateData = async () => {
     const data = {
       activity_id: selected.id,
-      date: moment(selectedDate).format('DD/MM/YYYY'),
+      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
       count: parseFloat(distanceTimeData),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
-      min: calminsteps.min,
+      min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment,
     };
@@ -214,6 +217,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                   }}>
                   <TouchableOpacity
                     onPress={showDatepicker}
+                    disabled={!isEditable}
                     activeOpacity={1}
                     style={{
                       backgroundColor: Colors.TEXT,
@@ -225,7 +229,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                         padding: 10,
                         borderRadius: 10,
                         borderColor: Colors.TRANSPARENT,
-                        backgroundColor: Colors.TEXT,
+                        backgroundColor: isEditable ? Colors.TEXT : Colors.BLACK5,
                         shadowColor: Colors.BLACK1,
                         shadowOffset: {
                           width: 0,
@@ -239,12 +243,12 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                       <View style={{flex: 5}}>
                         <Text
                           style={{
-                            color: Colors.TEXTDARK,
+                            color: isEditable ? Colors.TEXTDARK : Colors.BLACK6,
                             fontWeight: 'normal',
                           }}>
                           {selectedDate === null
                             ? 'Select Date'
-                            : moment(date).format('lll')}
+                            : moment(date).format('MMM DD, YYYY')}
                         </Text>
                       </View>
                       <View style={{flex: 1, alignItems: 'center'}}>
@@ -342,6 +346,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     <RNSearchablePicker
                       onSelect={selectHandler}
                       data={dropdownData}
+                      disabled={!isEditable}
                       placeholder="Choose an item"
                       defaultValue={
                         dropdownData[
@@ -352,7 +357,11 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                       }
                       containerStyles={{marginHorizontal: 20}}
                       listStyles={{maxHeight: 120}}
-                      inputStyles={{paddingLeft: 15}}
+                      inputStyles={{
+                        paddingLeft: 15, 
+                        backgroundColor: isEditable ? Colors.TEXT : Colors.GREY_LIGHT,
+                        color: isEditable ? Colors.TEXTDARK : Colors.BLACK6 
+                      }}
                     />
                   </View>
                 </View>
@@ -361,19 +370,23 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     defaultOption={defaultOption}
                     selectedItem={selected}
                     toggleHandler={() => {
-                      setDefaultOption(1 - defaultOption);
+                       setDefaultOption(1 - defaultOption);
                     }}
                     getData={getDistanceTimeData}
                     value={value}
                     setValue={setValue}
                     klicks={klicks}
                     setKlicks={setKlicks}
+                    disabled = {!isEditable}                    
                   />
                 </View>
                 <View style={{marginTop: 20, marginHorizontal: -20}}>
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
+                    isDistance={defaultOption===0}
+                    value={value}
+                    disabled={!isEditable}
                   />
                 </View>
 

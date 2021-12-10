@@ -74,14 +74,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     const data = {
       count: parseFloat(distanceTimeData),
       activity_id: selected['id'],
-      date: moment.utc(selectedDate).format('DD/MM/YYYY'),
+      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
-      min: calminsteps.min,
+      min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment
     };
-    
+
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
@@ -235,7 +235,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                         <Text style={{color: Colors.TEXTDARK, fontWeight: 'normal'}}>
                           {selectedDate === null
                             ? 'Select Date'
-                            : moment(date).format('MMM DD, YYYY - hh:mm:ss A')}
+                            : moment(date).format('MMM DD, YYYY')}
                         </Text>
                       </View>
                       <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -368,6 +368,9 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
+                    isDistance={defaultOption===0}
+                    value={value}
+
                   />
                 </View>
                 {/* <View style={{marginTop: 20}}>
