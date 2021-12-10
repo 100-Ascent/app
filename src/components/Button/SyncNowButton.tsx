@@ -42,10 +42,10 @@ const SyncNowButton = ({ data, token, handleRedirectToConnect, handleSyncData, i
               </View> */}
             </View>
             <View style={{flexDirection: 'row' }}>
-              <View style={{justifyContent: 'center'}}>
+              <View style={{justifyContent: 'center', paddingTop: 5}}>
                 <Text12Normal
                   text={ !isConnected ? 
-                    "Connect Now to sync your fitness data" : 
+                    "Click to connect & sync your fitness data" : 
                     "Last Sync: " + ( data.last_sync_date ? new Date(data.last_sync_date).toLocaleString() : "No data synced yet" )}
                   textColor={'#ddd'}
                 />

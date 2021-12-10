@@ -123,7 +123,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
               keyboardShouldPersistTaps="handled">
               <View style={{flex: 1, paddingHorizontal: 20}}>
                 <ConnectionCard data={data} />
-                <View style={{paddingTop: 15, marginTop: 30}} />
+                <View style={{paddingTop: 15, marginTop: 25}} />
 
                 {data.connected ? (
                   <View style={{}}>
@@ -179,8 +179,9 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
                   />
                 ) : null}
 
-                <View style={{padding: 20}} />
+                <View style={{padding: 15}} />
                 <NotesCard notes={data.notes} />
+                <View style={{padding: 30}} />
               </View>
             </ScrollView>
           )}

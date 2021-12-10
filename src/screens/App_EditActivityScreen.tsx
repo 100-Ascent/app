@@ -75,7 +75,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   const handleUpdateData = async () => {
     const data = {
       activity_id: selected.id,
-      date: moment(selectedDate).format('DD/MM/YYYY'),
+      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
       count: parseFloat(distanceTimeData),
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,

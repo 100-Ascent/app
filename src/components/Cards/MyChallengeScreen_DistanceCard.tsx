@@ -186,7 +186,7 @@ const DistanceCard = ({
           <View style={{padding: 5}} />
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <DateCard date={data.date} />
+              <DateCard date={data.date} stream={data.stream} />
             </View>
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
