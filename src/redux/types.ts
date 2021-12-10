@@ -8,6 +8,7 @@ export const SET_CURRENT_VALUES = 'SET_CURRENT_VALUES';
 export const SET_JOURNEY_INDEX = 'SET_JOURNEY_INDEX';
 export const SET_ACTIVITIES = 'SET_ACTIVITIES';
 export const SET_EMAIL_VERIFIED = "SET_EMAIL_VERIFIED";
+export const SET_HEART_BEAT_CONFIG = "SET_HEART_BEAT_CONFIG";
 
 export interface UserType {
   user: any;
@@ -38,6 +39,11 @@ export interface EmailVerifiedType {
   isEmailVerified: any;
 }
 
+export interface HeartBeatConfigType {
+  heart_beat_timeout: number;
+  heart_beat_toggle: boolean;
+}
+
 export interface ReduxState {
   user: UserType | null;
   notifyToken: NotificationType | null;
@@ -45,7 +51,8 @@ export interface ReduxState {
   currentValue: CurrentValueType;
   journeyIndex: JourneyIndexType;
   activityData: ActivitiesDataType;
-  email: EmailVerifiedType
+  email: EmailVerifiedType;
+  heartBeatConfig : HeartBeatConfigType; 
 }
 
 export interface SetUserActionTypes {
@@ -84,6 +91,11 @@ export interface SetEmailVerifiedActionTypes {
   payload: EmailVerifiedType | null;
 }
 
+export interface SetHeartBeatConfigTypes {
+  type: typeof SET_HEART_BEAT_CONFIG;
+  payload : HeartBeatConfigType | null
+}
+
 export type AppActionsType =
   | SetUserActionTypes
   | SetNotifyTokenActionTypes
@@ -91,7 +103,8 @@ export type AppActionsType =
   | SetCurrentValueActionTypes
   | SetJourneyIndexActionTypes
   | SetActivitDataActionTypes
-  | SetEmailVerifiedActionTypes;
+  | SetEmailVerifiedActionTypes
+  | SetHeartBeatConfigTypes;
 
 export type MyThunkAction<R, T = any> = ThunkAction<
   R,

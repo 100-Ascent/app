@@ -7,6 +7,7 @@ import {
   SET_CURRENT_VALUES,
   SET_ACTIVITIES,
   SET_EMAIL_VERIFIED,
+  SET_HEART_BEAT_CONFIG,
 } from './types';
 
 const initialState: ReduxState = {
@@ -17,6 +18,7 @@ const initialState: ReduxState = {
   journeyIndex: {index: '0-0'},
   activityData: {data: null},
   email: {isEmailVerified: false},
+  heartBeatConfig : { heart_beat_timeout: 100000, heart_beat_toggle: false },
 };
 
 export default (state = initialState, action: AppActionsType): ReduxState => {
@@ -42,6 +44,8 @@ export default (state = initialState, action: AppActionsType): ReduxState => {
     case SET_EMAIL_VERIFIED:
         return {...state, email: action.payload};
 
+    case SET_HEART_BEAT_CONFIG:
+        return {...state, heartBeatConfig: action.payload};   
     default:
       return state;
   }
