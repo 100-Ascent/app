@@ -45,3 +45,18 @@ export enum ProfileInputFieldTypes {
   DOB = "dob",
   GENDER = "gender",
 }
+
+export const GOOGLE_FIT_CONFIG = {
+  issuer: 'https://accounts.google.com',
+  clientId: '730727502414-urev3kc18jh61qc41r3slea7pkltmvk5.apps.googleusercontent.com',
+  redirectUrl: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5:/oauth2redirect/google',
+  scopes: [ 
+    'https://www.googleapis.com/auth/fitness.activity.read',
+]
+};
+
+
+export const STREAM = {
+  GOOGLE_FIT : "Google Fit",
+  MANUAL : "Manual"
+}
