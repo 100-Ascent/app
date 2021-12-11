@@ -46,16 +46,17 @@ const CustomPopUp: React.FC<Props> = ({
         <View
           style={{
             position: 'relative',
-            flex: 4,
+            flex: !isCancelable && !isCloseButton ? 3 : 4,
             backgroundColor: Colors.WHITE,
             marginHorizontal: 30,
             borderRadius: 20,
+            paddingBottom: !isCancelable && !isCloseButton ? 10 : 0
           }}>
           <View style={{position: 'absolute', left: 40, top: -80}}>
             {icon}
           </View>
           <View style={{flex: 4}}></View>
-          <View style={{flex: 2, alignItems: 'center', paddingTop: 30}}>
+          <View style={{flex: description.length === 0 ? 1 : 2, alignItems: 'center', paddingTop: 30}}>
             <Text20 text={header} textColor={Colors.TEXTDARK} />
             <View style={{marginTop: 5, paddingHorizontal: 10 }}>
               { !isDescriptionLong ? <Text16Normal text={description} textStyle={{ textAlign: 'center' }} textColor={Colors.TEXTDARK} /> :

@@ -6,7 +6,7 @@ import AppStack from './AppStack';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import messaging from '@react-native-firebase/messaging';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
 import {NavigationContainer} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import uuid from 'react-native-uuid';
@@ -21,11 +21,14 @@ import {LOGIN, USER_CHECKIN, VERSION_CHECK} from '../utils/apis/endpoints';
 import {LOGIN_TYPE, VERSION_CHECK_TYPE} from '../utils/apis/endpointType';
 import ForceUpdateScreen from '../screens/App_ForceUpdate';
 import UnderMaintenanceScreen from '../screens/App_UnderMaintenance';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
   if (fcmToken) {
     await messaging().subscribeToTopic('all');
+    console.log(fcmToken)
     return fcmToken;
   } else {
     return '';
@@ -93,6 +96,7 @@ const Routes = () => {
   const [isFirstLaunch, setIsFirstLaunch] = useState(null);
   const [initializing, setInitializing] = useState(true);
   const [killSwitch, setKillSwitch] = useState(false);
+  const [notification, setNotification] = useState<FirebaseMessagingTypes.RemoteMessage>();
   const dispatch = useDispatch();
 
   const onAuthStateChanged = user => {
@@ -146,6 +150,30 @@ const Routes = () => {
       });
   };
 
+
+  useEffect(() => {
+    // requestUserPermission();
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      return await setNotification(remoteMessage)          
+    });
+     
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      console.log('Message handled in the background!', remoteMessage);
+    });
+
+    return unsubscribe;
+  }, []);
+
+  // const requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  //   if (enabled) {
+  //     getFcmToken()
+  //   }
+  // }
+
   // First called
   useEffect(() => {
     checkAppVersion();
@@ -195,6 +223,19 @@ const Routes = () => {
       ) : (
        <ForceUpdateScreen/>
       )}
+       {
+        notification !== undefined ? 
+        <CustomPopUp
+          icon={<NotificationIcon/>}
+          visible={true}
+          onOk={() => setNotification(undefined)}
+          isCancelable={false}
+          oKText={'OKAY'}
+          header={notification.notification.title}
+          description={notification.notification.body}
+          isCloseButton={false}   
+          isDescriptionLong={false} 
+      /> :  <></> }
     </NavigationContainer>
   );
 };

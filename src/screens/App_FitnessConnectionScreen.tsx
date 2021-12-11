@@ -12,6 +12,7 @@ import {authorize, revoke} from 'react-native-app-auth';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import {useSelector} from 'react-redux';
 import Background from '../components/Background/StyledBackground';
+import GoogleSignInButton from '../components/Button/GoogleSignInButton';
 import StyledButton from '../components/Button/StyledButton';
 import ConnectionCard from '../components/Cards/FitnessCards/ConnectionCard';
 import NotesCard from '../components/Cards/FitnessCards/NotesCard';
@@ -22,7 +23,7 @@ import {AppState} from '../redux';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {EXTERNAL_CONNECTIONS} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
-import {GOOGLE_FIT_CONFIG} from '../utils/constants/constants';
+import {GOOGLE_FIT_CONFIG, STREAM} from '../utils/constants/constants';
 
 interface Props {
   navigation: RootNavProp<'FitnessConnectionScreen'>;
@@ -101,7 +102,7 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
       </View>
     ),
   });
-
+  
   return (
     <View style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -158,15 +159,18 @@ const FitnessConnectionScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                 ) : (
                   <View style={{marginHorizontal: 10}}>
-                    <StyledButton
-                      text={'Connect with ' + data.display_name}
-                      buttonStyle={{backgroundColor: Colors.TEXTDARK}}
-                      onPress={handleFitnessConnection}
-                    />
+                    {
+                      data.type === "GOOGLE_FIT" ? <GoogleSignInButton onPress={handleFitnessConnection}/>
+                      : <StyledButton
+                        text={'Connect with ' + data.display_name}
+                        buttonStyle={{backgroundColor: Colors.TEXTDARK}}
+                        onPress={handleFitnessConnection}
+                      />
+                    }
                   </View>
                 )}
 
-                <View style={{padding: 20}} />
+                <View style={{padding: 10 }} />
 
                 {data.connected ? (
                   <StyledButton

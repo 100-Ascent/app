@@ -3,11 +3,9 @@ import {
   SafeAreaView,
   ScrollView,
   View,
-  ImageBackground,
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,6 +16,8 @@ import Background from '../components/Background/StyledBackground';
 import ProfileInput from '../components/Input/ProfileInput';
 import Text28 from '../components/Text/Text28';
 import Text16Normal from '../components/Text/Text16Normal';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
 
 import {
   GOOGLE_FITNESS_SYNC,
@@ -47,6 +47,7 @@ import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import moment from 'moment';
+import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -62,6 +63,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [activityData, setActivityData] = useState([]);
   const [streak, setStreak] = useState(0);
   const [isToday,setIsToday] = useState(false);
+  const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
+  const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
+  const [popUpMessage, setPopUpMessage]= useState("");
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -190,7 +194,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     let date_now = new Date();
     let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
     if(preferredConnection['sync_count'] === 0 ){
-      ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+      setPopUpAfterSyncData(true);
+      setPopUpMessage("No syncs available")
+      setPopUpIconSuccess(false);      
     }else{
       ToastAndroid.show("Syncing data", ToastAndroid.LONG);
       await axios
@@ -204,9 +210,13 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       .then(async res => {
           if(res.data.success){
             callToGetUserDetails();
-            ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
+            setPopUpMessage(res.data.message);    
+            setPopUpIconSuccess(true);
+            setPopUpAfterSyncData(true);
           }else{
-            ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+            setPopUpIconSuccess(false);
+            setPopUpMessage(res.data.message);  
+            setPopUpAfterSyncData(true);
           }
       })
       .catch(err => {
@@ -387,7 +397,10 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
-
+                
+                <View style={{ marginTop: 20 }}>
+                  <PreferredTimePickerCard/>
+                </View>
 
 
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
@@ -408,6 +421,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     handleSyncData={handleSyncData}
                     isConnected = {Object.keys(preferredConnection).length !== 0 }
                   />                
+
 
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
@@ -479,6 +493,17 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               }}
             />
           </View>
+          <CustomPopUp
+            icon={ isSyncSuccess ? <NotificationIcon/> : <ErrorIcon/>}
+            visible={isSyncDataDone}
+            onOk={() => setPopUpAfterSyncData(false)}
+            isCancelable={false}
+            oKText={'OKAY'}
+            header={popUpMessage}
+            description={""}
+            isCloseButton={false}   
+            isDescriptionLong={false} 
+            />
         </>
       </Background>
     </SafeAreaView>

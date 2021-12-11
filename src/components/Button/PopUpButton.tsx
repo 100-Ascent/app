@@ -38,7 +38,7 @@ const PopUpButton: React.FC<Props> = ({
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={{marginLeft: 20}}>
+        <View style={{marginLeft: isCancelable ? 20: 0 }}>
           <TouchableOpacity
             activeOpacity={0.9}
             style={{borderRadius: 20, elevation: 2}}
