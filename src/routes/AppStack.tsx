@@ -100,7 +100,7 @@ const CustomDrawerContent = ({...rest}) => {
     <View style={{flex: 1, marginVertical: 50}}>
       <View
         style={{justifyContent: 'center', alignItems: 'center', padding: 20}}>
-        <Text24 text={'100Ascent'} textColor={Colors.WHITE} />
+        <Text24 text={'100 Ascent'} textColor={Colors.WHITE} />
       </View>
       <DrawerContentScrollView {...rest}>
         <DrawerItem
@@ -111,27 +111,6 @@ const CustomDrawerContent = ({...rest}) => {
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
             rest.navigation.navigate('SettingsStack')
-            rest.navigation.closeDrawer();
-          }}
-        />
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="call" color={Colors.WHITE} size={size} />
-          )}
-          label="Contact Us"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
-            rest.navigation.closeDrawer();
-          }}
-        />
-
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="support" color={Colors.WHITE} size={size} />
-          )}
-          label="Help"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
             rest.navigation.closeDrawer();
           }}
         />

@@ -74,9 +74,11 @@ const callToCreateUser = async (
 };
 
 const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
-  console.log("Calling User checkin ")
+  console.log("Calling User checkin ");
   await axios
-    .get(USER_CHECKIN)
+    .post(USER_CHECKIN, {
+      timezone_offset_mins : new Date().getTimezoneOffset()
+    })
     .then(async res => {
       dispatch(setContextId(res.data.data.code));
       setLoading(false);
@@ -158,7 +160,7 @@ const Routes = () => {
     });
      
     messaging().setBackgroundMessageHandler(async remoteMessage => {
-      console.log('Message handled in the background!', remoteMessage);
+      console.log('Message handled in the background!', remoteMessage);      
     });
 
     return unsubscribe;

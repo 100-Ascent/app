@@ -46,8 +46,8 @@ import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
-import moment from 'moment';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
+import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -397,9 +397,14 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   )}
                 </View>
-                
+
+                <View style={{flex: 1, marginHorizontal: 15, marginTop: 25 }}>
+                    <Text16Bold
+                        text="My preferred workout time"
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
+                  </View>
                 <View style={{ marginTop: 20 }}>
-                  <PreferredTimePickerCard/>
+                  <PreferredTimePickerCard prefer_time={userData['prefer_time']}/>
                 </View>
 
 
@@ -440,6 +445,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                         text="All Activities"
                         textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
+                  <ActivitiesToolTip color={Colors.INFO_GREY} iconSize={28} />
                 </View>
                 {
                   activityData.length < 1 ? (
@@ -477,9 +483,8 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 cancelText={'Edit Email'}
                 header={'Verify E-Mail'}
                 description={
-                  'Please verify your email by clicking on the link sent to ' +
-                  userData['email']
-                }
+                  'Please verify your email by clicking on the link sent to'}
+                descriptionOptional={userData['email']}
                 isCloseButton={true}
                 closeButtonPress={() => setVerifyEmailPopUp(false)}
               />
@@ -494,7 +499,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
             />
           </View>
           <CustomPopUp
-            icon={ isSyncSuccess ? <NotificationIcon/> : <ErrorIcon/>}
+            icon={ isSyncSuccess ? <NotificationIcon /> : <ErrorIcon/>}
             visible={isSyncDataDone}
             onOk={() => setPopUpAfterSyncData(false)}
             isCancelable={false}

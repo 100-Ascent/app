@@ -9,7 +9,7 @@ import ToggleSettingScreen from '../../screens/App_ToggleSettingScreen';
 const SettingStack = createStackNavigator<RootStackParamList>();
 
 const Settings = ({navigation}) => {
-
+  
   return (
     <SettingStack.Navigator
       initialRouteName="SettingsStack"

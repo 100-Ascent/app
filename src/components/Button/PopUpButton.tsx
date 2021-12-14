@@ -18,7 +18,7 @@ const PopUpButton: React.FC<Props> = ({
   onCancel,
 }) => {
   return (
-    <View style={{flex: 1, justifyContent: 'center'}}>
+    <View style={{ justifyContent: 'center'}}>
       <View style={{flexDirection: 'row',  }}>
         {isCancelable ? (
           <View>
@@ -28,9 +28,11 @@ const PopUpButton: React.FC<Props> = ({
               onPress={onCancel}>
               <View
                 style={{
-                  paddingVertical: 15,
+                  paddingVertical: 10,
                   paddingHorizontal: 25,
                   backgroundColor: Colors.POPUP_GREY,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   borderRadius: 20,
                 }}>
                 <Text16Normal text={cancelText} textColor={Colors.TEXT} />
@@ -45,9 +47,11 @@ const PopUpButton: React.FC<Props> = ({
             onPress={onOk}>
             <View
               style={{
-                paddingVertical: 15,
+                paddingVertical: 10,
                 paddingHorizontal: 25,
                 backgroundColor: Colors.POPUP_RED,
+                justifyContent: 'center',
+                alignItems: 'center',
                 borderRadius: 20,
               }}>
               <Text16Normal text={text} textColor={Colors.TEXT} />
