@@ -35,8 +35,8 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time }) => {
     
         if(minutes>=60){
             minutes = minutes % 60;
-            hours= hours + 1;        
-            hours = hours >= 12 ? timeAMorPM === "PM" && hours !== 12  ?  hours%12 : hours ===12 ? hours%12 : hours : hours; 
+            hours= hours + 1;
+            hours = hours >= 12 ? timeAMorPM === "PM" && hours === 12  ? hours : hours%12 : hours; 
         }
         return hours < 10 ? "0" + hours + ":" + (minutes< 10 ? "0" + minutes: minutes) : hours + ":" + (minutes< 10 ? "0" + minutes: minutes);
     }
@@ -48,16 +48,26 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time }) => {
         var offset = new Date().getTimezoneOffset();
         const hour_offset = Math.floor(offset/-60)
         const minute_offset = -( offset % 60 );
-    
+
         hours = hours + hour_offset;
+        hours = hours%24;
         minutes = minutes + minute_offset;
-        
+        console.log(hours);
+        console.log(minutes);
+
         if(minutes>=60){
-            minutes = minutes % 60;
-            hours= hours + 1;
-            hours = hours === 24 ? hours%24 : hours>12 ? hours % 12 :  hours; 
+            minutes = minutes % 60;            
+            if(hours!==24){
+                hours= hours + 1;
+            }                               
+            hours = hours === 24 ? hours%24 : hours; 
         }
-        return hours < 10 ? "0" + hours + ":" + (minutes< 10 ? "0" + minutes: minutes) : hours + ":" + (minutes< 10 ? "0" + minutes: minutes);
+        if(hours ===24){
+            hours = hours%24; 
+        }
+        let timeStamp = hours < 10 ? "0" + hours + ":" + (minutes< 10 ? "0" + minutes: minutes) : hours + ":" + (minutes< 10 ? "0" + minutes: minutes);
+        console.log(timeStamp);
+        return timeStamp;
     }
 
 

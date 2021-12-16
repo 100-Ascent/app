@@ -30,6 +30,7 @@ import BackgroundVector from '../components/Background/BackgroundVector';
 import { UPDATE_EMAIL } from '../utils/apis/endpoints';
 import { Icon } from 'react-native-elements';
 import Text12Bold from '../components/Text/Text12Bold';
+import moment from 'moment';
 
 const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [email, setEmail] = useState('');
@@ -67,13 +68,14 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
       setError(true);
       isEverythingOk = false;
     }
-
+    
     if (isEverythingOk) {
       axios
         .post(UPDATE_EMAIL, {
           email: email,
           first_name: firstName,
           last_name: lastName,
+          prefer_time : moment.utc(new Date(new Date().getFullYear(),new Date().getMonth(),new Date().getDate(), 7, 0, 0)).toISOString().slice(11,16)
         })
         .then(async res => {
           if (res.data.data.success) {
