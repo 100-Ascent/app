@@ -156,7 +156,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                     <View style={{flex: 2}}>
                       <TextInput
                         value={newConnection}
-                        placeholder={'e.g. Garmin '}
+                        placeholder={'App Name (e.g. Garmin) '}
                         placeholderTextColor={'#A3A3A3'}
                         style={{
                           backgroundColor: Colors.BLACK5,

@@ -432,7 +432,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
-                        text="Streak Data"
+                        text="My Streak"
                         textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
                 </View>
