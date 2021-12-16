@@ -145,7 +145,7 @@ android {
         versionName "1.2.0"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
-            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5'
+            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e'
         ]
     }
     splits {
