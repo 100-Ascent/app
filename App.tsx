@@ -100,7 +100,7 @@ const App = () => {
   return (
     <SafeAreaView style={backgroundStyle}>
       <Provider store={store}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
+        <StatusBar barStyle={isDarkMode ? 'light-content' : 'light-content'} />
         <NavigationProviders />
       </Provider>
     </SafeAreaView>

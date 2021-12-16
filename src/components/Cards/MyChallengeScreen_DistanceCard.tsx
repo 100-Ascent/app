@@ -22,10 +22,18 @@ import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
 import CommentCard from '../DistanceComponent/CommentCard';
 import DateCard from '../DistanceComponent/DateCard';
 
-const DistanceCard = ({
+
+interface Props {
+  data: any;
+  editPressed: (value)=>void
+  handleDelete: (value)=>void
+  showAllActivities?: boolean
+}
+const DistanceCard: React.FC<Props> = ({
   data,
   editPressed,
   handleDelete,
+  showAllActivities
 }) => {
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
@@ -43,6 +51,7 @@ const DistanceCard = ({
   const handleCancel = () => {
     setVisible(false);
   };
+  
   const onShare = () => {
     setMask(true);
     const temp = setTimeout(captureScreenshot, 500);
@@ -186,7 +195,7 @@ const DistanceCard = ({
           <View style={{padding: 5}} />
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <DateCard date={data.date} stream={data.stream} />
+              {showAllActivities ? null : <DateCard date={data.date} stream={data.stream} /> }
             </View>
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>

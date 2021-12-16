@@ -20,6 +20,7 @@ import { useSelector } from 'react-redux';
 import { AppState } from '../redux';
 import axios from 'axios';
 import { HEARTBEAT } from '../utils/apis/endpoints';
+import Settings from './ScreenStacks/Settings';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -78,12 +79,28 @@ const FitnessStack = ({navigation, style}) => {
   );
 };
 
+const SettingsStack = ({navigation, style}) => {
+  return (
+    <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
+      <Stack.Navigator initialRouteName="SettingsStack">
+          <Stack.Screen
+            name="SettingsStack"
+            component={Settings}
+            options={({route}) => ({
+              header: () => null,
+            })}
+          />
+      </Stack.Navigator>
+    </Animated.View>
+  );
+};
+
 const CustomDrawerContent = ({...rest}) => {
   return (
     <View style={{flex: 1, marginVertical: 50}}>
       <View
         style={{justifyContent: 'center', alignItems: 'center', padding: 20}}>
-        <Text24 text={'100Ascent'} textColor={Colors.WHITE} />
+        <Text24 text={'100 Ascent'} textColor={Colors.WHITE} />
       </View>
       <DrawerContentScrollView {...rest}>
         <DrawerItem
@@ -93,27 +110,7 @@ const CustomDrawerContent = ({...rest}) => {
           label="Settings"
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
-            rest.navigation.closeDrawer();
-          }}
-        />
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="call" color={Colors.WHITE} size={size} />
-          )}
-          label="Contact Us"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
-            rest.navigation.closeDrawer();
-          }}
-        />
-
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="support" color={Colors.WHITE} size={size} />
-          )}
-          label="Help"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
+            rest.navigation.navigate('SettingsStack')
             rest.navigation.closeDrawer();
           }}
         />
@@ -207,6 +204,10 @@ const AppStack = () => {
       <Drawer.Screen name="FitnessStack">
         {props => <FitnessStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
+      <Drawer.Screen name="SettingsStack">
+        {props => <SettingsStack {...props} style={animatedStyle} />}
+      </Drawer.Screen>
+      
     </Drawer.Navigator>
   );
 };

@@ -139,18 +139,19 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                     paddingHorizontal: 15,
                     borderRadius: 10,
                     backgroundColor: '#f8f8f8',
-                    elevation: 10,
+                    elevation: 10                       
                   }}>
-                  <View style={{flex: 1, paddingVertical: 10}}>
+                  <View style={{flex: 1, paddingTop: 10 }}>
                     <Text16Bold
-                      text={'Request a new connection'}
+                      text={"Didn't find your preferred fitness app/band for connecting? Suggest One!"}
                       textColor={Colors.TEXTDARK}
+                      textStyle={{ textAlign: 'justify' }}
                     />
                   </View>
                   <View
                     style={{
                       flexDirection: 'row',
-                      marginTop: 10,
+                      marginTop: 0,
                     }}>
                     <View style={{flex: 2}}>
                       <TextInput

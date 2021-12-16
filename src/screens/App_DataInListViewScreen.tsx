@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import { SafeAreaView, ScrollView, View } from 'react-native';
+import {SafeAreaView, ScrollView, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import Background from '../components/Background/StyledBackground';
 import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
@@ -12,7 +12,6 @@ interface Props {
 }
 
 const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
-
   //State variables
   const data = route.params.data;
 
@@ -47,7 +46,15 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
           contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, paddingHorizontal: 15}}>
             <View style={{marginHorizontal: 10}}>
-              <DistanceComponent setRefreshing={() => {}} setActivityData={() => {}} setLoading={() => {}} distanceData={data} />
+              <DistanceComponent
+                showAllActivities={true}
+                distanceData={data}
+                setRefreshing={() => {}}
+                setActivityData={() => {}}
+                setLoading={() => {}}
+                setStreak={undefined}
+                setIsToday={undefined}
+              />
             </View>
           </View>
           <View style={{padding: 50}} />

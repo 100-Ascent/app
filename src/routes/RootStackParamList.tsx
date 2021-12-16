@@ -13,6 +13,10 @@ export type RootStackParamList = {
 
   HomeStack: undefined;
   FitnessStack: undefined;
+  SettingsStack: undefined;
+
+  SettingScreen: undefined;
+  ToggleSettingScreen: { data:any };
   
   BottomTabStack: undefined;
 

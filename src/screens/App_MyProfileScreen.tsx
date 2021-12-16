@@ -3,11 +3,9 @@ import {
   SafeAreaView,
   ScrollView,
   View,
-  ImageBackground,
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
-  Button,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -18,6 +16,8 @@ import Background from '../components/Background/StyledBackground';
 import ProfileInput from '../components/Input/ProfileInput';
 import Text28 from '../components/Text/Text28';
 import Text16Normal from '../components/Text/Text16Normal';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
 
 import {
   GOOGLE_FITNESS_SYNC,
@@ -46,7 +46,8 @@ import StatsCard from '../components/Cards/StatsCard';
 import FastImage from 'react-native-fast-image';
 import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
-import moment from 'moment';
+import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
+import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -62,6 +63,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [activityData, setActivityData] = useState([]);
   const [streak, setStreak] = useState(0);
   const [isToday,setIsToday] = useState(false);
+  const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
+  const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
+  const [popUpMessage, setPopUpMessage]= useState("");
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -92,6 +96,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
+        console.log(data);
         setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);
@@ -190,7 +195,9 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     let date_now = new Date();
     let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
     if(preferredConnection['sync_count'] === 0 ){
-      ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+      setPopUpAfterSyncData(true);
+      setPopUpMessage("No syncs available")
+      setPopUpIconSuccess(false);      
     }else{
       ToastAndroid.show("Syncing data", ToastAndroid.LONG);
       await axios
@@ -204,9 +211,13 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       .then(async res => {
           if(res.data.success){
             callToGetUserDetails();
-            ToastAndroid.show(res.data.message, ToastAndroid.SHORT);
+            setPopUpMessage(res.data.message);    
+            setPopUpIconSuccess(true);
+            setPopUpAfterSyncData(true);
           }else{
-            ToastAndroid.show("No available syncs", ToastAndroid.SHORT);
+            setPopUpIconSuccess(false);
+            setPopUpMessage(res.data.message);  
+            setPopUpAfterSyncData(true);
           }
       })
       .catch(err => {
@@ -310,7 +321,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                   <Text16Normal
                     text={
-                      'Member since ' + new Date(userData['created_at']).toLocaleString().substring(3, 6) + ' ' +
+                      'Member since ' + new Date(userData['created_at']).toLocaleString().substring(0, 6) + ', ' +
                       new Date(userData['created_at']).getFullYear()
                     }
                     textColor={Colors.TEXTDARK}
@@ -388,6 +399,14 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   )}
                 </View>
 
+                <View style={{flex: 1, marginHorizontal: 15, marginTop: 25 }}>
+                    <Text16Bold
+                        text="My preferred workout time"
+                        textColor={Colors.TEXTDARK} textStyle={undefined} />
+                  </View>
+                <View style={{ marginTop: 20 }}>
+                  <PreferredTimePickerCard prefer_time={userData['prefer_time']}/>
+                </View>
 
 
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
@@ -409,6 +428,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     isConnected = {Object.keys(preferredConnection).length !== 0 }
                   />                
 
+
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -426,6 +446,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                         text="All Activities"
                         textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
+                  <ActivitiesToolTip color={Colors.INFO_GREY} iconSize={28} />
                 </View>
                 {
                   activityData.length < 1 ? (
@@ -463,9 +484,8 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 cancelText={'Edit Email'}
                 header={'Verify E-Mail'}
                 description={
-                  'Please verify your email by clicking on the link sent to ' +
-                  userData['email']
-                }
+                  'Please verify your email by clicking on the link sent to'}
+                descriptionOptional={userData['email']}
                 isCloseButton={true}
                 closeButtonPress={() => setVerifyEmailPopUp(false)}
               />
@@ -479,6 +499,17 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               }}
             />
           </View>
+          <CustomPopUp
+            icon={ isSyncSuccess ? <NotificationIcon /> : <ErrorIcon/>}
+            visible={isSyncDataDone}
+            onOk={() => setPopUpAfterSyncData(false)}
+            isCancelable={false}
+            oKText={'OKAY'}
+            header={popUpMessage}
+            description={""}
+            isCloseButton={false}   
+            isDescriptionLong={false} 
+            />
         </>
       </Background>
     </SafeAreaView>
