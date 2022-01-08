@@ -70,9 +70,15 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleDateOfBirth = dob => {
+    
+    const year = new Date(dob).getFullYear();
+    const month = new Date(dob).getMonth()+1;
+    const date = new Date(dob).getDate();
+    const dateOfBirthServerFormat =  year+ "-" +  (month < 10 ? "0" + month : month) + "-" + (date < 10 ? "0" + date : date) + "T00:00:00Z";
+
     setData(prevState => ({
       ...prevState,
-      ['dob']: moment(new Date(dob)).format('DD/MM/YYYY'),
+      ['dob']: dateOfBirthServerFormat,
     }));
   };
 
@@ -147,6 +153,10 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       });
   };
 
+  const handleCallToCheckUsername = () => {
+    
+  }
+
   navigation.setOptions({
     headerLeft: () => (
       <View style={{marginLeft: 10}}>
@@ -219,6 +229,14 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 onChangeText={handleInput}
               />
               <EditProfileInput
+                label={'Username'}
+                keyName={'username'}
+                isUsername={true}
+                value={data['username']}
+                onChangeText={handleInput}  
+                handleUserNameBlurEvent={handleCallToCheckUsername}              
+              />
+              <EditProfileInput
                 label={'Phone Number'}
                 keyName={'phoneNumber'}
                 isPhone={true}
@@ -229,8 +247,8 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 keyName={'dob'}
                 value={
                   data['dob'].length === 0
-                    ? moment(new Date()).format('DD/MM/YYYY')
-                    : data['dob']
+                    ? moment(new Date()).toISOString()
+                    : moment(new Date(data['dob'])).toISOString()
                 }
                 handleDateOfBirth={handleDateOfBirth}
               />

@@ -1,3 +1,4 @@
 <resources>
     <string name="app_name">100 Ascent</string>
+    <string name="default_notification_channel_id">all</string>
 </resources>

@@ -19,9 +19,10 @@ interface Props {
   onInfoPressed?: any;
   isPhone?: boolean;
   isDOBFilled?: boolean;
+  isUsername?: boolean;
 }
 
-const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled}) => {
+const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled, isUsername}) => {
 
   const getIconColor = (type: any, isEmailVerified: boolean,isAddressFilled : boolean, isDOBFilled: boolean) => {
     switch(type){
@@ -72,6 +73,10 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
     } else if (type == ProfileInputFieldTypes.ADDRESS) {
       return (
         <Text style={{fontSize: 20}}>🏡</Text>
+      )
+    } else if (type == ProfileInputFieldTypes.USERNAME) {
+      return (
+        <Text style={{fontSize: 20}}>🧑</Text>
       )
     } else {
       return (

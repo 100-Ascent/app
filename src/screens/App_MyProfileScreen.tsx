@@ -66,6 +66,8 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
   const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
   const [popUpMessage, setPopUpMessage]= useState("");
+  const [settings, setSettings] = useState([]);
+
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -149,16 +151,31 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         if(res.data.success){
           setIsToday(isToday);
           setStreak(data);
+          callToGetSettingData();
         }else{
           setStreak(0);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.log('failed in Streakkk data yohoooooooo');
         console.log(err);
       });
   }
+
+  const callToGetSettingData = async () => {
+    await axios
+      .get('/api/user/settings')
+      .then(res=>{
+        let data = res.data.data;
+        setSettings(data);
+        setLoading(false);
+      })
+      .catch(err=>{
+        console.log(err);
+        setLoading(false);
+      })
+  }
+
 
   useEffect(() => {
     callToGetUserDetails(false);
@@ -247,7 +264,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     ),
   });
 
-
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -326,8 +342,14 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     }
                     textColor={Colors.TEXTDARK}
                   />
-                </View>
+                </View>                
                 <View style={myProfileStyles.menuWrapper}>
+                  <ProfileInput
+                      type={ProfileInputFieldTypes.USERNAME}
+                      iconName="red"
+                      isUsername={userData['username']?.length !== 0}
+                      textField={userData['username']}
+                    />
                   <ProfileInput
                     type={ProfileInputFieldTypes.EMAIL}
                     iconName="email"
@@ -396,7 +418,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                           : userData['dob']
                       }
                     />
-                  )}
+                  )}                  
                 </View>
 
                 <View style={{flex: 1, marginHorizontal: 15, marginTop: 25 }}>
@@ -405,7 +427,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                         textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
                 <View style={{ marginTop: 20 }}>
-                  <PreferredTimePickerCard prefer_time={userData['prefer_time']}/>
+                  <PreferredTimePickerCard
+                    isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false } 
+                    prefer_time={userData['prefer_time']}
+                    handleGoToSettings={() => navigation.navigate('SettingScreen') }
+                    />
                 </View>
 
 

@@ -10,10 +10,13 @@ export type RootStackParamList = {
   DataInListViewScreen: {data: any};
   FitnessIntegrationScreen : undefined;
   FitnessConnectionScreen: { data: any };
+  LeaderboardScreen: undefined;
+
 
   HomeStack: undefined;
   FitnessStack: undefined;
   SettingsStack: undefined;
+  LeaderboardStack: undefined;
 
   SettingScreen: undefined;
   ToggleSettingScreen: { data:any };

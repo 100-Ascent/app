@@ -21,6 +21,7 @@ import { AppState } from '../redux';
 import axios from 'axios';
 import { HEARTBEAT } from '../utils/apis/endpoints';
 import Settings from './ScreenStacks/Settings';
+import Leaderboard from './ScreenStacks/Leaderboard';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -95,6 +96,22 @@ const SettingsStack = ({navigation, style}) => {
   );
 };
 
+const LeaderboardStack = ({navigation, style}) => {
+  return (
+    <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
+      <Stack.Navigator initialRouteName="LeaderboardStack">
+          <Stack.Screen
+            name="LeaderboardStack"
+            component={Leaderboard}
+            options={({route}) => ({
+              header: () => null,
+            })}
+          />
+      </Stack.Navigator>
+    </Animated.View>
+  );
+};
+
 const CustomDrawerContent = ({...rest}) => {
   return (
     <View style={{flex: 1, marginVertical: 50}}>
@@ -127,6 +144,22 @@ const CustomDrawerContent = ({...rest}) => {
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
             rest.navigation.navigate('FitnessStack')
+            rest.navigation.closeDrawer();
+          }}
+        />
+        <DrawerItem
+          icon={({color, size}) => (
+            <Icon
+              name="leaderboard"
+              type="material-icons"
+              color={Colors.WHITE}
+              size={size}
+            />
+          )}
+          label="Leaderboard"
+          labelStyle={{color: Colors.WHITE, fontSize: 16}}
+          onPress={() => {
+            rest.navigation.navigate('LeaderboardStack')
             rest.navigation.closeDrawer();
           }}
         />
@@ -169,7 +202,7 @@ const AppStack = () => {
     
     axios
       .get(HEARTBEAT + contextId, {})
-      .then(res => { console.log(res.data)})
+      .then(res => { })
       .catch(err => {
         console.log('Heartbeat Failure');
         console.log(err);
@@ -206,6 +239,10 @@ const AppStack = () => {
       </Drawer.Screen>
       <Drawer.Screen name="SettingsStack">
         {props => <SettingsStack {...props} style={animatedStyle} />}
+      </Drawer.Screen>
+
+      <Drawer.Screen name="LeaderboardStack">
+        {props => <LeaderboardStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
       
     </Drawer.Navigator>
