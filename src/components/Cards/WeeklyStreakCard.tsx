@@ -23,8 +23,8 @@ const WeeklyStreakCard: React.FC<Props> = ({ streak, textStyle, borderStyle, val
             <View style={[styles.circular, { borderColor: streak === 0 ? "#232323" : streak <= idx ? "#232323" : "#886300",  borderWidth: 2 }, borderStyle]}>
                 <Text14 text={val} textColor={Colors.WHITE} textStyle={textStyle} />       
             </View>
-            { subValueArray ? <View style={{ width: "100%", justifyContent: 'center', alignItems: 'center' }}>
-                <Text12Normal text={subValueArray[idx]} textColor={Colors.WHITE} textStyle={{ color: Colors.TEXTDARK }} />       
+            { subValueArray ? <View style={{ width: "100%", justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
+                <Text12Normal text={subValueArray[idx] < 0 ? "-": subValueArray[idx]} textColor={Colors.WHITE} textStyle={{ color: Colors.TEXTDARK }} />       
             </View> : null }
         </View>
     })

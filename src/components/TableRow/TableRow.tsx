@@ -1,13 +1,9 @@
-import React, {useState} from 'react';
+import React from 'react';
 import {Text, TouchableOpacity, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../utils/colors';
 import {FONTS} from '../../utils/constants/fonts';
-import WeeklyStreakCard from '../Cards/WeeklyStreakCard';
 import Text14 from '../Text/Text14';
-import FormulaSVG from '../../../assets/formula/formula.svg';
-import Text28 from '../Text/Text28';
-import Text12Normal from '../Text/Text12Normal';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 
 interface Props {
@@ -15,20 +11,16 @@ interface Props {
   handlePress?: any;
   expandedRowIndex?: any;
   isExpanded?: any;
+  rank?: any
 }
 
 const TableRow: React.FC<Props> = ({
   item,
   handlePress,
+  rank,
   expandedRowIndex,
   isExpanded,
 }) => {
-  //State variables
-
-  const [touchedRow, setTouchedRow] = useState(-1);
-  //Async functions
-
-  //Component functions
 
   return (
     <View>
@@ -41,7 +33,7 @@ const TableRow: React.FC<Props> = ({
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
             <Text14
-              text={item.rank}
+              text={rank}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
@@ -52,36 +44,40 @@ const TableRow: React.FC<Props> = ({
                 width: 50,
                 height: 50,
                 borderRadius: 50,
+                borderWidth: 0.5
               }}
               source={{
-                uri: item.icon,
+                uri: item.image_id,
                 priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
-          <View style={{width: '40%'}}>
+          <View style={{width: '45%'}}>
             <Text14
               text={item.username}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '15%', justifyContent: 'center' }}>
+          <View style={{width: '7%', justifyContent: 'center' }}>
             <Text14
-              text={item.xp + ' XP'}
+              text={item.global_points + item.lp }
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '15%', alignItems: 'center', flexDirection: 'row', marginTop: 1 }}>
-            <Icon 
-                type="ionicon" 
-                name= { item.isDecreased ? "caret-down" : "caret-up"} 
-                color={ item.isDecreased ? Colors.POPUP_RED : Colors.INFO_GREEN} 
+          <View style={{width: '18%', alignItems: 'center', marginTop: 1 }}>
+            {/* <Icon 
+                type= { item.lp > 0 ? "ionicon" : "entypo"} 
+                name= { item.lp > 0 ? "caret-up" : "minus"} 
+                color={ item.lp > 0 ? Colors.INFO_GREEN: Colors.TEXTDARK } 
                 size={10} 
                 style={{ marginTop: 2, paddingRight: 2 }}
-            />
+            /> */}
+            <Text
+              style={[{ color: Colors.TEXTDARK, fontSize: 10 },FONTS.SEMIBOLD]}
+            >{item.global_points + ' XP'}</Text>
             <Text
               style={[{ color: Colors.TEXTDARK, fontSize: 10 },FONTS.SEMIBOLD]}
             >{item.lp + ' LP'}</Text>

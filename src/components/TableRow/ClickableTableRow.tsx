@@ -13,6 +13,7 @@ interface Props {
   handlePress?: any;
   expandedRowIndex?: any;
   isExpanded?: any;
+  rank?: any;
 }
 
 const ClickableTableRow: React.FC<Props> = ({
@@ -20,12 +21,22 @@ const ClickableTableRow: React.FC<Props> = ({
   handlePress,
   expandedRowIndex,
   isExpanded,
+  rank
 }) => {
   //State variables
 
   const [touchedRow, setTouchedRow] = useState(-1);
   //Async functions
-
+  let data = [];
+  for(let i=0; i < 7; i++) {
+    if( i < item.values.length  && item.values[i] >= 0 ){
+      data.push(item.values[i]);
+    }else if(i < item.values.length  && item.values[i] < 0){
+      data.push(0);
+    }else {
+      data.push(-1);
+    }
+  }
   //Component functions
 
   return (
@@ -37,11 +48,11 @@ const ClickableTableRow: React.FC<Props> = ({
             alignItems: 'center',
             paddingVertical: 10,
             backgroundColor:
-              item.rank === 2 ? Colors.PROMOTED : Colors.TRANSPARENT,
+             rank === 2 ? Colors.PROMOTED : Colors.TRANSPARENT,
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
             <Text14
-              text={item.rank}
+              text={rank}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
@@ -52,9 +63,10 @@ const ClickableTableRow: React.FC<Props> = ({
                 width: 50,
                 height: 50,
                 borderRadius: 50,
+                borderWidth: 0.5
               }}
               source={{
-                uri: item.icon,
+                uri: item.image_id,
                 priority: FastImage.priority.high,
               }}
               resizeMode={FastImage.resizeMode.cover}
@@ -69,15 +81,15 @@ const ClickableTableRow: React.FC<Props> = ({
           </View>
           <View style={{width: '20%'}}>
             <Text14
-              text={item.xp + ' XP'}
+              text={item.lp + ' LP'}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
         </View>
       </TouchableOpacity>
-      {isExpanded && expandedRowIndex === item.rank - 1 ? (
-        <View style={{ backgroundColor: item.rank === 2 ? Colors.PROMOTED_LIGHT : Colors.TRANSPARENT, paddingVertical: 10,}}>
+      {isExpanded && expandedRowIndex === rank - 1 ? (
+        <View style={{ backgroundColor: rank === 2 ? Colors.PROMOTED_LIGHT : Colors.TRANSPARENT, paddingVertical: 10,}}>
           <View
             style={{
               flexDirection: 'row',
@@ -88,12 +100,12 @@ const ClickableTableRow: React.FC<Props> = ({
               textStyle={[{color: Colors.TEXTDARK, fontSize: 10 }, FONTS.SEMIBOLD]}
               borderStyle={{borderColor: Colors.BLACK2, borderWidth: 1, width: 25, height: 25, borderRadius: 25,}}
               valueArray = {['S', 'M', 'T', 'W', 'T', 'F', 'S']}
-              subValueArray = {["26.42", "32.12","26.42", "32.12","26.42", "32.12","26.42"]}
+              subValueArray = {data}
             />
           </View>
           <View style={{flexDirection: 'row', paddingVertical: 15}}>
-            {InfoCard('Active Days', '6/7')}
-            {InfoCard('Median Klicks','17.85')}
+            {InfoCard('Active Days', item.values.length + '/7')}
+            {InfoCard('Median Klicks',item.median_klicks)}
             {InfoCard('Total Klicks', '69')}
           </View>
           <View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>

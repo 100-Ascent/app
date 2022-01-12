@@ -8,19 +8,19 @@ import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
   notes: any;
+  showHeader?: any;
 }
 
-const NotesCard: React.FC<Props> = ({notes}) => {
+const NotesCard: React.FC<Props> = ({notes, showHeader=true}) => {
   //State variables
 
   //Async functions
 
   //Component functions
-
   return (
     <View>
       <View style={{marginBottom: 0}}>
-        <Text16Bold text={'Notes : '} textColor={Colors.TEXTDARK} />
+        <Text16Bold text={showHeader ? 'Notes : ': ""} textColor={Colors.TEXTDARK} />
       </View>
       {notes.map(val => {
         return (

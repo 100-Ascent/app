@@ -98,7 +98,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
-        console.log(data);
         setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         setUserData(data);

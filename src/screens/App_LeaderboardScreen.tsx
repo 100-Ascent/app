@@ -1,9 +1,12 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FlatList, View } from 'react-native';
+import { FlatList, TextInput, View } from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
-import { useSelector } from 'react-redux';
+import { useSelector, useStore } from 'react-redux';
+import NotesCard from '../components/Cards/FitnessCards/NotesCard';
 import LeagueListCard from '../components/Cards/Leaderboard/LeagueListCard';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import SimpleDropdown from '../components/SearchablePicker/SimpleDropdown';
 import CustomSwitchComponent from '../components/SwitchComponent/SwitchComponent';
 import ClickableTableRow from '../components/TableRow/ClickableTableRow';
 import TableRow from '../components/TableRow/TableRow';
@@ -57,15 +60,23 @@ const data = [{
 },];
 
 const options = ["Weekly", "All Time", "Rules"];
+const [loading, setLoading] = useState(true);
 const [ currentSwitch, setCurrentSwitch ] = useState(0);
 const [expandedRowIndex, setExpandedRowIndex] = useState(-1);
 const [isExpanded, setIsExpanded] = useState(false);
 const [isFetching, setFetching] = useState(false); 
+const [leaderboardData, setLeaderboardData] = useState([]);
+const [leagueData, setLeagueData] = useState([]);
+const [allTimeData, setAllTimeLeaderboardData] = useState([]);
+const [weeklyData, setWeeklyLeaderboardData] = useState([]);
+const [rulesData, setRulesData] = useState([]);
+const [query, setQuery] = useState('');
+const [fullData, setFullData] = useState([]);
+
 //Async functions
 const contextId = useSelector((state: AppState) => state.rootStore.contextId);
 
 const onRefresh = () => {
-
 }
 
 const callToGetLeaderboards = async () => { 
@@ -76,38 +87,92 @@ const callToGetLeaderboards = async () => {
         },
       })
       .then(async res => {
-        const data = res.data;
-        console.log(data);
+        const data = res.data.data;
+        setLeaderboardData(data);
+        setLeagueData(res.data['league-data'])
+        callToGetRules();
+        callToGetWeeklyData(data[0]['id']);
       })
       .catch(err => {
         console.log('failed in Streakkk data yohoooooooo');
         console.log(err);
+        setLoading(false);
       });
 }
 
-const callToGetAllTimeData = async () => {
+const callToGetRules = async () => { 
   await axios
-      .get("/api/leader/boards/all_time/" + "fe45ec6a-7083-11ec-90d6-0242ac120003", {
+       .get("/api/leader/boards/rules" , {
+         headers: {
+           'X-CONTEXT-ID': contextId,
+         },
+       })
+       .then(async res => {
+         const data = res.data.rules;
+         setRulesData(data);      
+       })
+       .catch(err => {
+         console.log('failed in Rules api data yohoooooooo');
+         console.log(err);
+         setLoading(false);
+       });
+ }
+
+const callToGetWeeklyData = async (id: any = leaderboardData[0]['id']) => {
+  await axios
+    .get("/api/leader/boards/weekly/" + id  , {
+      headers: {
+        'X-CONTEXT-ID': contextId,
+      },
+    })
+    .then(async res => {
+      const data = res.data.data;
+      setWeeklyLeaderboardData(data);
+      callToGetAllTimeData(id);
+    })
+    .catch(err => {
+      console.log('failed in Rules api data yohoooooooo');
+      console.log(err);
+      setLoading(false);
+    });
+}
+
+const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
+  await axios
+      .get("/api/leader/boards/all_time/" + id, {
         headers: {
           'X-CONTEXT-ID': contextId,
         },
       })
       .then(async res => {
-        const data = res.data;
-        console.log(data);
+        const data = res.data.data;
+        setAllTimeLeaderboardData(data);
+        setFullData(data);
+        setLoading(false);
       })
       .catch(err => {
         console.log('failed in Streakkk data yohoooooooo');
         console.log(err);
+        setLoading(false);
       });
 }
 
 useEffect(()=>{
+  setLoading(true);
   callToGetLeaderboards();
-  callToGetAllTimeData();
 },[]);
 
+const handleSearch = text => {
+  const formattedQuery = text.toLowerCase();
+  const filteredData = fullData.filter(obj => obj.username.includes(formattedQuery) )
+  setAllTimeLeaderboardData(filteredData);
+  setQuery(text);
+};
+
 //Component functions
+const handleSelectOption = (id) => {
+  callToGetAllTimeData(id);
+}
 
 navigation.setOptions({
     headerTitle: 'Leaderboard',
@@ -126,24 +191,27 @@ navigation.setOptions({
     ),
   });
 
-return <FlatList
-    data={data}
-    keyExtractor={( item, index ) => 'key'+index}
-    onRefresh={() => onRefresh()}
-    refreshing={isFetching}
-    renderItem={({ item, index })=>{
-        return <View style={{flex: 1}}>
-            { currentSwitch === 0 ? <ClickableTableRow item={item} handlePress={()=>{
-                setExpandedRowIndex(index)
-                setIsExpanded(!isExpanded)
+return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> :
+  <FlatList
+      data={currentSwitch === 0 ? weeklyData : currentSwitch === 1 ? allTimeData : rulesData}
+      keyExtractor={( item, index ) => 'key'+index}
+      onRefresh={() => onRefresh()}
+      refreshing={isFetching}
+      renderItem={({ item, index })=>{
+          return <View style={{ flex: 1 }}>
+              { currentSwitch === 0 ? <ClickableTableRow item={item} rank={index+1} handlePress={()=>{
+                  setExpandedRowIndex(index)
+                  setIsExpanded(!isExpanded)
               }} expandedRowIndex={expandedRowIndex} isExpanded={isExpanded}/> : 
-               currentSwitch === 1 ? <TableRow item={item}/> : null }
+                  currentSwitch === 1 ? <TableRow item={item} rank={index+1}/> : index === 0 ? <NotesCard showHeader={false} notes={rulesData} /> : null }
         </View>;        
     }}
     ListHeaderComponent={
         <View>
-            <LeagueListCard />
-            <View style={{ marginHorizontal: 50 }}>
+            <View style={{ padding: 10 }}/>
+            <SimpleDropdown data={leaderboardData} handleSelect={handleSelectOption} />
+            <LeagueListCard data={leagueData} />
+            <View style={{ marginHorizontal: 50, marginTop: 10 }}>
               {applyBoldStyleToPartOfString(info)}
             </View>
             <View style={{ marginHorizontal: 50, marginTop: 5 }}>
@@ -153,11 +221,38 @@ return <FlatList
                 textStyle={[{ textAlign: 'center' }, FONTS.SEMIBOLD]}
               />
             </View>
+            <View style={{ padding: 10 }} />
             <CustomSwitchComponent options={options} current={currentSwitch} handleSwitch={(idx)=> setCurrentSwitch(idx) } />
             <View style={{ marginTop: 10, borderWidth: 1, borderColor: Colors.BLACK3 }} />
+            { currentSwitch === 1 ? 
+              <View style={{ 
+                marginHorizontal: 20, 
+                borderRadius: 10, 
+                marginVertical: 10, 
+                elevation: 1, 
+                flexDirection: 'row', 
+                backgroundColor: Colors.TEXT, 
+                alignItems: 'center' 
+                }}>
+                <View style={{ paddingLeft: 10}}>
+                  <Icon name="search" type="ionicon" color={Colors.BLACK4}  />
+                </View> 
+                <TextInput
+                  autoCapitalize="none"
+                  autoCorrect={false}
+                  clearButtonMode="always"
+                  value={query}
+                  onChangeText={queryText => handleSearch(queryText)}
+                  placeholder="Type name / username"
+                  placeholderTextColor={Colors.BLACK4} 
+                  secureTextEntry={false}                                   
+                  style={[ FONTS.REGULAR, { flex:1, borderRadius: 10, paddingHorizontal: 10, color: Colors.TEXTDARK }]}                                    
+                />
+                </View> 
+                  : null }
         </View>
     }
-/>;
+/>
 }
 
 export default LeaderboardScreen;
