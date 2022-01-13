@@ -131,10 +131,10 @@ return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, border
         <Text24 text={timeAMorPM} textColor={Colors.TEXTDARK}/>
         </View>        
     </View>
-    <View style={{ alignItems: 'center', paddingLeft: 10 }}>
-        <Text12Normal text={ isWorkoutNotification ? "We'll remind you 15 minutes prior" : "Turn on the workout notification now"} textColor={Colors.BLACK2}/> 
+    <View style={{ paddingTop: 5, alignItems: 'center', paddingLeft: 10 }}>
+        <Text12Normal text={ !isWorkoutNotification ? "We'll remind you 15 minutes prior" : "Your workout notifications are OFF"} textColor={Colors.BLACK2}/> 
         <TouchableOpacity onPress={handleGoToSettings}>    
-        { !isWorkoutNotification ? <Text12Normal text={"Go to Settings"} textColor={Colors.BLUE} textStyle={{ fontFamily: 'Quicksand-SemiBold' }}/> : null }
+        { isWorkoutNotification ? <Text12Normal text={"Turn on now!"} textColor={Colors.POPUP_RED} textStyle={{ fontFamily: 'Quicksand-SemiBold' }}/> : null }
         </TouchableOpacity>
     </View>
     <View style={{ position: 'relative', left: -160, bottom: 80, opacity: 0.6 }}>
