@@ -31,6 +31,7 @@ import {AppState} from '../redux';
 import {BASEURL} from '../utils/constants/constants';
 import auth from '@react-native-firebase/auth';
 import FastImage from 'react-native-fast-image';
+import Text12Normal from '../components/Text/Text12Normal';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -43,7 +44,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [data, setData] = useState(userData);
   const [image, setImage] = useState(null);
   const [token, setToken] = useState('');
-
+  const [usernameError, setUsernameError] = useState(false);
   const genderOptions = [
     {id: 'male', value: 'Male'},
     {id: 'female', value: 'Female'},
@@ -154,7 +155,19 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleCallToCheckUsername = () => {
-    
+    axios
+      .post(USER_DETAILS_UPDATE, data)
+      .then(async res => {
+        if(res.data.success){
+          setUsernameError(false);
+        }else{
+          setUsernameError(true);
+        }
+      })
+      .catch(err => {
+        console.log('failed');
+        console.log(err);
+      });
   }
 
   navigation.setOptions({
@@ -214,13 +227,26 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <Text20 text={'Personal Info'} textColor={Colors.TEXTDARK} />
               </View>
 
-              <EditProfileInput
-                label={'Name'}
-                keyName={'first_name'}
-                isName={true}
-                value={data['first_name'] + ' ' + data['last_name']}
-                onChangeText={handleInput}
-              />
+              <View style={{ flexDirection: 'row'}}>
+                <View style={{ flex: 1}}>
+                  <EditProfileInput
+                    label={'First Name'}
+                    keyName={'first_name'}
+                    isName={false}
+                    value={data['first_name'] }
+                    onChangeText={handleInput}
+                  />
+                </View>
+                <View style={{ flex: 1}}>
+                  <EditProfileInput
+                    label={'Last Name'}
+                    keyName={'last_name'}
+                    isName={false}
+                    value={data['last_name'] }
+                    onChangeText={handleInput}
+                  />
+                </View>
+              </View>
               <EditProfileInput
                 label={'E-Mail ID'}
                 keyName={'email'}
@@ -236,6 +262,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 onChangeText={handleInput}  
                 handleUserNameBlurEvent={handleCallToCheckUsername}              
               />
+              {usernameError ? <View style={{ paddingLeft: 10 }}><Text12Normal text={"This username is already taken"} textColor={Colors.RED}/></View> : null }
               <EditProfileInput
                 label={'Phone Number'}
                 keyName={'phoneNumber'}

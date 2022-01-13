@@ -14,6 +14,7 @@ interface Props {
   expandedRowIndex?: any;
   isExpanded?: any;
   rank?: any;
+  username:any;
 }
 
 const ClickableTableRow: React.FC<Props> = ({
@@ -21,11 +22,9 @@ const ClickableTableRow: React.FC<Props> = ({
   handlePress,
   expandedRowIndex,
   isExpanded,
-  rank
+  rank,
+  username,
 }) => {
-  //State variables
-
-  const [touchedRow, setTouchedRow] = useState(-1);
   //Async functions
   let data = [];
   for(let i=0; i < 7; i++) {
@@ -37,7 +36,6 @@ const ClickableTableRow: React.FC<Props> = ({
       data.push(-1);
     }
   }
-  //Component functions
 
   return (
     <View>
@@ -48,7 +46,8 @@ const ClickableTableRow: React.FC<Props> = ({
             alignItems: 'center',
             paddingVertical: 10,
             backgroundColor:
-             rank === 2 ? Colors.PROMOTED : Colors.TRANSPARENT,
+             item.username === username ? rank <= 10 ? Colors.PROMOTED : rank>10 && rank<=25 ? Colors.CURRENT : 
+             Colors.DEMOTED : Colors.TRANSPARENT,
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
             <Text14
@@ -89,7 +88,9 @@ const ClickableTableRow: React.FC<Props> = ({
         </View>
       </TouchableOpacity>
       {isExpanded && expandedRowIndex === rank - 1 ? (
-        <View style={{ backgroundColor: rank === 2 ? Colors.PROMOTED_LIGHT : Colors.TRANSPARENT, paddingVertical: 10,}}>
+        <View style={{ backgroundColor:  item.username === username ?
+          rank <= 10 ? Colors.PROMOTED_LIGHT : rank>10 && rank<=25 ? Colors.CURRENT_LIGHT : 
+         Colors.DEMOTED_LIGHT : "rgba(220,220,220,0.2)", paddingVertical: 10,}}>
           <View
             style={{
               flexDirection: 'row',
@@ -98,7 +99,7 @@ const ClickableTableRow: React.FC<Props> = ({
             <WeeklyStreakCard
               streak={1}
               textStyle={[{color: Colors.TEXTDARK, fontSize: 10 }, FONTS.SEMIBOLD]}
-              borderStyle={{borderColor: Colors.BLACK2, borderWidth: 1, width: 25, height: 25, borderRadius: 25,}}
+              borderStyle={ {borderColor: Colors.BLACK2, borderWidth: 1, width: 25, height: 25, borderRadius: 25,}}
               valueArray = {['S', 'M', 'T', 'W', 'T', 'F', 'S']}
               subValueArray = {data}
             />
@@ -106,7 +107,7 @@ const ClickableTableRow: React.FC<Props> = ({
           <View style={{flexDirection: 'row', paddingVertical: 15}}>
             {InfoCard('Active Days', item.values.length + '/7')}
             {InfoCard('Median Klicks',item.median_klicks)}
-            {InfoCard('Total Klicks', '69')}
+            {InfoCard('Total Klicks', item.total_klicks)}
           </View>
           <View style={{ justifyContent: 'center', alignItems: 'center', paddingVertical: 10 }}>
             <FormulaSVG/>

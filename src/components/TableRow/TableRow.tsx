@@ -5,6 +5,9 @@ import {Colors} from '../../utils/colors';
 import {FONTS} from '../../utils/constants/fonts';
 import Text14 from '../Text/Text14';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
+import Text16Normal from '../Text/Text16Normal';
+import Text18 from '../Text/Text18';
+import Text20 from '../Text/Text20';
 
 interface Props {
   item: any;
@@ -60,14 +63,14 @@ const TableRow: React.FC<Props> = ({
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '7%', justifyContent: 'center' }}>
-            <Text14
-              text={item.global_points + item.lp }
+          <View style={{width: '10%', justifyContent: 'center' }}>
+            <Text18
+              text={(item.global_points + item.lp) }
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '18%', alignItems: 'center', marginTop: 1 }}>
+          <View style={{width: '15%', alignItems: 'center', marginTop: 1 }}>
             {/* <Icon 
                 type= { item.lp > 0 ? "ionicon" : "entypo"} 
                 name= { item.lp > 0 ? "caret-up" : "minus"} 
@@ -75,12 +78,10 @@ const TableRow: React.FC<Props> = ({
                 size={10} 
                 style={{ marginTop: 2, paddingRight: 2 }}
             /> */}
-            <Text
-              style={[{ color: Colors.TEXTDARK, fontSize: 10 },FONTS.SEMIBOLD]}
-            >{item.global_points + ' XP'}</Text>
-            <Text
-              style={[{ color: Colors.TEXTDARK, fontSize: 10 },FONTS.SEMIBOLD]}
-            >{item.lp + ' LP'}</Text>
+            <View style={{ paddingLeft: 5 }}>
+              <Text style={[{ color: Colors.DEMOTED, fontSize: 10, textAlign: 'right'},FONTS.SEMIBOLD]}>{item.global_points + ' XP'}</Text>
+            </View>
+            <Text style={[{ color: Colors.GREEN, fontSize: 8, textAlign: 'right' },FONTS.SEMIBOLD]}>{"+ " + item.lp + ' LP'}</Text>
           </View>
         </View>
       </TouchableOpacity>      

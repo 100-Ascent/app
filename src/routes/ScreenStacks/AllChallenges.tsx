@@ -14,6 +14,7 @@ import EditActivityScreen from '../../screens/App_EditActivityScreen';
 import { NavigationDrawerStructure } from '../AppStack';
 import FitnessIntegrationScreen from '../../screens/App_FitnessIntegrationScreen';
 import FitnessConnectionScreen from '../../screens/App_FitnessConnectionScreen';
+import LeaderboardScreen from '../../screens/App_LeaderboardScreen';
 
 const AllChallengeStack = createStackNavigator<RootStackParamList>();
 
@@ -139,6 +140,20 @@ const AllChallenges = ({navigation}) => {
       <AllChallengeStack.Screen
         component={FitnessConnectionScreen}
         name={'FitnessConnectionScreen'}
+        options={({route}) => ({
+          headerTitle: null,
+          headerLeft: () => null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <AllChallengeStack.Screen
+        component={LeaderboardScreen}
+        name={'LeaderboardScreen'}
         options={({route}) => ({
           headerTitle: null,
           headerLeft: () => null,

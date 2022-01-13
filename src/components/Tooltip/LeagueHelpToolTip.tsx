@@ -17,8 +17,8 @@ const LeagueHelpToolTip = ({color}) => {
             textColor={Colors.TEXTDARK}
           />
         }
-        width={200}
-        height={60}
+        width={250}
+        height={50}
         backgroundColor={Colors.TEXT}
         pointerColor={Colors.TEXT}
         containerStyle={{elevation: 5, padding:0}}

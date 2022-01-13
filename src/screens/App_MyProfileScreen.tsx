@@ -28,7 +28,7 @@ import {
 } from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
-import {setEmailVerifiedData} from '../redux/action';
+import {setData, setEmailVerifiedData} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
 import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -100,6 +100,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
+        dispatch(setData(data));
         setUserData(data);
         getToken();
         callToGetUserActivityData();
@@ -252,14 +253,28 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
     headerRight: () => (
-      <View style={{marginRight: 15}}>
-        <Icon
-          name="edit"
-          onPress={() =>
-            navigation.navigate('EditMyProfileScreen', {data: userData})
-          }
-        />
+      <View style={{marginRight: 15, flexDirection: 'row'}}>
+        <TouchableOpacity>
+          <Icon
+            name="leaderboard"
+            type="material-icons"
+            onPress={() =>
+              navigation.navigate('LeaderboardScreen')            
+            }
+          />
+        </TouchableOpacity>
+        
+        <View style={{padding: 5}}/>
+        <TouchableOpacity>
+          <Icon
+            name="edit"
+            onPress={() =>
+              navigation.navigate('EditMyProfileScreen', {data: userData})
+            }
+          />
+        </TouchableOpacity>
       </View>
+      
     ),
   });
 

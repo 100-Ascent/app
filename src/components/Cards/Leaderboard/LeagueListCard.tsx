@@ -48,7 +48,7 @@ const LeagueListCard: React.FC<Props> = ({data}) => {
       />
       <View style={{ paddingTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <Text24
-          text={data['all-leagues'][index]}
+          text={data['all-leagues'][index] + " League"}
           textColor={Colors.TEXTDARK}
           textStyle={{textAlign: 'center'}}
         />
