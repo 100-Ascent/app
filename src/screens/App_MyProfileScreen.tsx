@@ -6,6 +6,8 @@ import {
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
+  Image,
+  Dimensions,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -48,6 +50,7 @@ import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
+
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -254,13 +257,13 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitleContainerStyle: {alignItems: 'center'},
     headerRight: () => (
       <View style={{marginRight: 15, flexDirection: 'row'}}>
-        <TouchableOpacity>
-          <Icon
-            name="leaderboard"
-            type="material-icons"
-            onPress={() =>
-              navigation.navigate('LeaderboardScreen')            
-            }
+        <TouchableOpacity onPress={()=>navigation.navigate('LeaderboardScreen')}> 
+          <Image
+            source={require('../../assets/icons/leaderboard/podium.png')}
+            style={{
+              width: 25,
+              height: 25,
+            }}
           />
         </TouchableOpacity>
         
@@ -268,6 +271,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         <TouchableOpacity>
           <Icon
             name="edit"
+            size={25}
             onPress={() =>
               navigation.navigate('EditMyProfileScreen', {data: userData})
             }

@@ -6,10 +6,11 @@ import Text16Normal from '../Text/Text16Normal';
 
 interface Props {
   data: any;
+  selected: any;
   handleSelect?: (id: any) => void
 }
 
-const SimpleDropdown: React.FC<Props> = ({data, handleSelect}) => {
+const SimpleDropdown: React.FC<Props> = ({data, selected, handleSelect}) => {
 
   //State variables
   const [isExpanded, setIsExpanded] = useState(false);
@@ -31,7 +32,7 @@ const SimpleDropdown: React.FC<Props> = ({data, handleSelect}) => {
       <TouchableOpacity activeOpacity={0.5} onPress={handlePress}>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', }}>
           <View style={{flex: 7, paddingLeft: 10}}>
-            <Text16Normal text={data[0].name} textColor={Colors.TEXTDARK} />
+            <Text16Normal text={selected.name} textColor={Colors.TEXTDARK} />
           </View>
           <View style={{flex: 1}}>
             <Icon name={ isExpanded ? "chevron-up" : "chevron-forward-outline"} type="ionicon" />
@@ -42,8 +43,8 @@ const SimpleDropdown: React.FC<Props> = ({data, handleSelect}) => {
         <ScrollView>
           {data.map(( val, id )=>{
             return <TouchableOpacity onPress={()=>{
-              handleSelect(val.id);
               setIsExpanded(!isExpanded)
+              handleSelect(val);
             }}>
               <View style={{flex: 1, paddingLeft: 10, paddingVertical: 5}}>
                 <Text16Normal text={val.name} textColor={Colors.TEXTDARK} />

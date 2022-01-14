@@ -36,11 +36,14 @@ const LeaderboardScreen: React.FC<Props> = ({navigation}) => {
 
 const options = ["Weekly", "All Time", "Rules"];
 const [loading, setLoading] = useState(true);
+const [isLeaderboardLoading,setLeaderboardLoading] = useState(true);
+
 const [ currentSwitch, setCurrentSwitch ] = useState(0);
 const [expandedRowIndex, setExpandedRowIndex] = useState(-1);
 const [isExpanded, setIsExpanded] = useState(false);
 const [isFetching, setFetching] = useState(false); 
 const [leaderboardData, setLeaderboardData] = useState([]);
+const [selectedLeaderboard, setSelectedLeaderboard] = useState({});
 const [leagueData, setLeagueData] = useState([]);
 const [allTimeData, setAllTimeLeaderboardData] = useState([]);
 const [weeklyData, setWeeklyLeaderboardData] = useState([]);
@@ -54,10 +57,13 @@ const isFocused = useIsFocused();
 //Async functions
 const contextId = useSelector((state: AppState) => state.rootStore.contextId);
 const user = useSelector((state: AppState) => state.rootStore.user);
+// const myStatsInAllTime = allTimeData.find(obj=>obj.username.includes(user['username']));
+// const myRank =  allTimeData.findIndex( obj=> obj.username === user['username']);
 
-const onRefresh = () => {
+const onRefresh = async () => {
   setFetching(true);
-  callToGetLeaderboards();
+  setLeaderboardLoading(true);
+  await callToGetLeaderboards();
   setFetching(false);
 }
 
@@ -70,10 +76,17 @@ const callToGetLeaderboards = async () => {
       })
       .then(async res => {
         const data = res.data.data;
-        setLeaderboardData(data);
-        setLeagueData(res.data['league-data'])
-        callToGetRules();
-        callToGetWeeklyData(data[0]['id']);
+        if(res.data.success){
+          setLeaderboardData(data);       
+          let defaultLB = data.filter(obj=> obj.default)
+          setSelectedLeaderboard(defaultLB[0]);
+          setLeagueData(res.data['league-data']);
+          callToGetRules();
+          callToGetWeeklyData(data[0]['id']);
+        }else{
+          console.log("Success false in leaderboard data")
+        }
+        
       })
       .catch(err => {
         console.log('failed in leadferboard data yohoooooooo');
@@ -132,6 +145,7 @@ const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
         setAllTimeLeaderboardData(data);
         setFullData(data);
         setLoading(false);
+        setLeaderboardLoading(false);
       })
       .catch(err => {
         console.log('failed in all time data yohoooooooo');
@@ -155,8 +169,16 @@ const handleSearch = text => {
 };
 
 //Component functions
-const handleSelectOption = (id) => {
-  callToGetAllTimeData(id);
+const handleSelectOption = async (val) => {
+  setSelectedLeaderboard(val);
+  setLeaderboardLoading(true);
+  if(val.default){
+    await callToGetAllTimeData(val.id);
+  }else{
+    // Call to new api to get all data
+  }
+  
+  setLeaderboardLoading(false);
 }
 
 const getDateTimeString = () => {
@@ -196,7 +218,8 @@ navigation.setOptions({
     ),
   });
 
-return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> : 
+  
+return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
   <FlatList
       data={currentSwitch === 0 ? weeklyData : currentSwitch === 1 ? allTimeData : rulesData}
       keyExtractor={( item, index ) => 'key'+index}
@@ -204,8 +227,7 @@ return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> :
       refreshing={isFetching}
       keyboardShouldPersistTaps={"handled"}
       renderItem={({ item, index })=>{
-          return (
-            currentSwitch === 0 && weeklyData.length === 0 && index === 0 ? 
+          return  currentSwitch === 0 && weeklyData.length === 0 && index === 0 ? 
             <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', marginBottom: 50, paddingHorizontal: 10 }}>
               <EmptyState />
               <Text16Bold text={'Your league will start soon!'} textColor={Colors.TEXTDARK} textStyle={{marginTop: -30}} />
@@ -214,18 +236,18 @@ return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> :
                 textColor={'grey'}  
                 textStyle={{ textAlign: 'center'}}
               />
-            </View> :      
+            </View> : 
+            isLeaderboardLoading ? index === 0 ? <View style={{marginTop: 30}}><RNLoaderSimple/></View> : null :     
             <View>
                 <View style={{ flex: 1 }}>
                     { currentSwitch === 0 ? <ClickableTableRow item={item} username={user['username']} rank={index+1} handlePress={()=>{ setExpandedRowIndex(index); setIsExpanded(!isExpanded)}} expandedRowIndex={expandedRowIndex} isExpanded={isExpanded}/> 
                     : currentSwitch === 1 ? <TableRow item={item} rank={index+1}/> 
-                    : index === 0 ? <NotesCard showHeader={false} notes={rulesData} /> : null }
+                    : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ?  index === 9 && leagueData['league-index'] < leagueData["all-leagues"].length ? 
                     <PromotedSeparator league={leagueData["all-leagues"][leagueData['league-index']+1]} /> 
                     : index === 24 && leagueData['league-index'] !== 0  ? <DemotedSeparator league={leagueData["all-leagues"][leagueData['league-index']-1]} /> : null : null } 
-            </View>
-        )        
+            </View>      
     }}    
     ListFooterComponent={<View style={{ padding: 40 }}/>}
     ListHeaderComponent={
@@ -244,7 +266,7 @@ return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> :
                 />
               </View>
               <View style={{ padding: 10 }}/> 
-              <SimpleDropdown data={leaderboardData} handleSelect={handleSelectOption} />
+              <SimpleDropdown data={leaderboardData} selected={selectedLeaderboard} handleSelect={handleSelectOption} />
               <View style={{ padding: 10 }} />
             </View>
             </TouchableWithoutFeedback>        
@@ -279,6 +301,10 @@ return loading || leaderboardData.length === 0 ? <RNLoaderSimple/> :
         </View>
     }
 />
+{/* { currentSwitch === 1 && myStatsInAllTime !== undefined ?  <View style={{position: 'absolute', bottom: 0}}>
+    <TableRow item={myStatsInAllTime} rank={(myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT }} isFixedRow={true}/>
+</View> : null } */}
+</>
 }
 
 export default LeaderboardScreen;
