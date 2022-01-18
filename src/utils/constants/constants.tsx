@@ -1,7 +1,7 @@
 import {Dimensions} from 'react-native';
 
-export const BASEURL = 'https://team-100-ascent.herokuapp.com';
-// export const BASEURL = 'https://pre-prod.100ascent.com';
+// export const BASEURL = 'https://team-100-ascent.herokuapp.com';
+export const BASEURL = 'https://pre-prod.100ascent.com';
 // export const BASEURL = 'https://api.100ascent.com';
 
 export const AWAITINGOTP = 'Waiting for OTP';

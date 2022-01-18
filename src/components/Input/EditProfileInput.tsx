@@ -114,7 +114,7 @@ const EditProfileInput: React.FC<Props> = ({
             onBlur={ isUsername? handleUserNameBlurEvent: ()=> { }}
             defaultValue={value}
             editable={!(isName || isEmail || isPhone)}
-            selectTextOnFocus={!(isName || isEmail || isPhone)}
+            // selectTextOnFocus={!(isName || isEmail || isPhone)}
           />
         )}
 

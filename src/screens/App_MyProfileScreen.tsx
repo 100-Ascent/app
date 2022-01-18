@@ -50,6 +50,7 @@ import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
+import moment from 'moment';
 
 
 interface Props {
@@ -106,7 +107,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         dispatch(setData(data));
         setUserData(data);
         getToken();
-        callToGetUserActivityData();
+        await callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
       .catch(err => {
@@ -128,11 +129,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         if (res.data.success) {          
           setActivityData(data);
-          callToGetStreakData();
+          await callToGetStreakData();
         } else {
           setActivityData([]);
+          setLoading(false);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.log('failed in activity data yohoooooooo');
@@ -154,9 +155,10 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         if(res.data.success){
           setIsToday(isToday);
           setStreak(data);
-          callToGetSettingData();
+          await callToGetSettingData();
         }else{
           setStreak(0);
+          setLoading(false);
         }
       })
       .catch(err => {
@@ -355,8 +357,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                   <Text16Normal
                     text={
-                      'Member since ' + new Date(userData['created_at']).toLocaleString().substring(0, 6) + ', ' +
-                      new Date(userData['created_at']).getFullYear()
+                      'Member since ' + moment(new Date(userData['created_at'])).format('ll')
                     }
                     textColor={Colors.TEXTDARK}
                   />

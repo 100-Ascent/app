@@ -133,9 +133,13 @@ return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, border
     </View>
     <View style={{ paddingTop: 5, alignItems: 'center', paddingLeft: 10 }}>
         <Text12Normal text={ isWorkoutNotification ? "We'll remind you 15 minutes prior" : "Your workout notifications are OFF"} textColor={Colors.BLACK2}/> 
-        <TouchableOpacity onPress={handleGoToSettings}>    
-        { !isWorkoutNotification ? <Text12Normal text={"Turn on now!"} textColor={Colors.POPUP_RED} textStyle={{ fontFamily: 'Quicksand-SemiBold' }}/> : null }
-        </TouchableOpacity>
+        <View style={{ width: '80%'}}>
+            <TouchableOpacity onPress={handleGoToSettings}>    
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                { !isWorkoutNotification ? <Text12Normal text={"Turn on now!"} textColor={Colors.POPUP_RED} textStyle={{ fontFamily: 'Quicksand-SemiBold' }}/> : null }
+                </View>
+            </TouchableOpacity>
+        </View>
     </View>
     <View style={{ position: 'relative', left: -160, bottom: 80, opacity: 0.6 }}>
         <PreferredTimeIcon/>

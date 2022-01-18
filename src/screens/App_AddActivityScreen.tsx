@@ -81,7 +81,6 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       steps: calminsteps.steps,
       comment: comment
     };
-
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         

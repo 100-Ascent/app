@@ -7,6 +7,9 @@ import WeeklyStreakCard from '../Cards/WeeklyStreakCard';
 import Text14 from '../Text/Text14';
 import FormulaSVG from '../../../assets/formula/formula.svg';
 import Text28 from '../Text/Text28';
+import RankOne from '../../../assets/icons/leaderboard/rank-one.svg';
+import RankTwo from '../../../assets/icons/leaderboard/rank-two.svg';
+import RankThree from '../../../assets/icons/leaderboard/rank-three.svg';
 
 interface Props {
   item: any;
@@ -15,6 +18,7 @@ interface Props {
   isExpanded?: any;
   rank?: any;
   username:any;
+  activeDays:any;
 }
 
 const ClickableTableRow: React.FC<Props> = ({
@@ -24,6 +28,7 @@ const ClickableTableRow: React.FC<Props> = ({
   isExpanded,
   rank,
   username,
+  activeDays
 }) => {
   //Async functions
   let data = [];
@@ -50,11 +55,11 @@ const ClickableTableRow: React.FC<Props> = ({
              Colors.DEMOTED : Colors.TRANSPARENT,
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
-            <Text14
+            { rank === 1 ? <RankOne/> : rank === 2? <RankTwo/> : rank === 3 ? <RankThree/> : <Text14
               text={rank}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
-            />
+            />}
           </View>
           <View style={{width: '20%', borderRadius: 50, height: 50}}>
             <FastImage
@@ -71,14 +76,14 @@ const ClickableTableRow: React.FC<Props> = ({
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
-          <View style={{width: '50%'}}>
+          <View style={{width: '35%'}}>
             <Text14
               text={item.username}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '20%'}}>
+          <View style={{width: '25%', alignItems: 'flex-end'}}>
             <Text14
               text={item.lp + ' LP'}
               textColor={Colors.TEXTDARK}
@@ -105,7 +110,7 @@ const ClickableTableRow: React.FC<Props> = ({
             />
           </View>
           <View style={{flexDirection: 'row', paddingVertical: 15}}>
-            {InfoCard('Active Days', item.values.length + '/7')}
+            {InfoCard('Active Days', item.values.length + "/" + activeDays)}
             {InfoCard('Median Klicks',item.median_klicks)}
             {InfoCard('Total Klicks', item.total_klicks)}
           </View>

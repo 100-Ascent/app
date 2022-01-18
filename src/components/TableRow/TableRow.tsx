@@ -4,10 +4,11 @@ import FastImage from 'react-native-fast-image';
 import {Colors} from '../../utils/colors';
 import {FONTS} from '../../utils/constants/fonts';
 import Text14 from '../Text/Text14';
-import { Icon } from 'react-native-elements/dist/icons/Icon';
-import Text16Normal from '../Text/Text16Normal';
 import Text18 from '../Text/Text18';
-import Text20 from '../Text/Text20';
+import RankOne from '../../../assets/icons/leaderboard/rank-one.svg';
+import RankTwo from '../../../assets/icons/leaderboard/rank-two.svg';
+import RankThree from '../../../assets/icons/leaderboard/rank-three.svg';
+import { truncate } from '../../utils/services/text-utils';
 
 interface Props {
   item: any;
@@ -28,9 +29,8 @@ const TableRow: React.FC<Props> = ({
   tableRowStyle,
   isFixedRow = false
 }) => {
-
   return (
-    <View>
+    <View style={{  }}>
       <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>
         <View
           style={[{
@@ -39,11 +39,12 @@ const TableRow: React.FC<Props> = ({
             paddingVertical: 10,
           },tableRowStyle]}>
           <View style={{width: '10%', alignItems: 'center',}}>
-            <Text14
+          { rank === 1 ? <RankOne/> : rank === 2? <RankTwo/> : rank === 3 ? <RankThree/> :  <Text14
               text={ rank === 1000 ? "1K" : rank > 1000 ? Math.floor( rank/1000 ) + "K" : rank }
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
-            />
+            />}
+           
           </View>
           <View style={{width: '20%', borderRadius: 50, height: 50}}>
             <FastImage
@@ -60,9 +61,9 @@ const TableRow: React.FC<Props> = ({
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
-          <View style={{width: '20%'}}>
+          <View style={{width: '35%'}}>
             <Text14
-              text={item.username}
+              text={truncate(item.username)}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
@@ -74,14 +75,14 @@ const TableRow: React.FC<Props> = ({
               /> : null
             }
           </View>
-          <View style={{width: '25%', alignItems: 'center' }}>
+          <View style={{width: '18%', alignItems: 'center' }}>
             <Text18
-              text={((item.global_points) + item.lp) }
+              text={((item.global_points) + item.lp)}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '25%', alignItems: 'flex-end', marginTop: 1, paddingRight: 15 }}>            
+          <View style={{width: '17%', alignItems: 'flex-end', marginTop: 1, paddingRight: 15 }}>            
             <View style={{ paddingLeft: 5 }}>
               <Text style={[{ color: isFixedRow ? Colors.TEXTDARK : Colors.DEMOTED, fontSize: 10, textAlign: 'right'},FONTS.SEMIBOLD]}>{item.global_points + ' XP'}</Text>
             </View>

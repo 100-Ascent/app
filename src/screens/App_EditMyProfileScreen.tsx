@@ -142,6 +142,12 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     );
   });
 
+  const validateEmail = email => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+  };
+
   const handleSavePress = () => {
     axios
       .post(USER_DETAILS_UPDATE, data)
@@ -156,8 +162,9 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
 
   const handleCallToCheckUsername = () => {
     axios
-      .post(USER_DETAILS_UPDATE, data)
+      .post("/api/check/username", { username: data.username })
       .then(async res => {
+        console.log(res.data)
         if(res.data.success){
           setUsernameError(false);
         }else{
@@ -328,6 +335,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 text={'SAVE'}
                 onPress={handleSavePress}
                 buttonStyle={{marginHorizontal: 10}}
+                disabled={usernameError || !validateEmail(data['email']) ||data['username'].length === 0 }
               />
             </View>
           </View>
