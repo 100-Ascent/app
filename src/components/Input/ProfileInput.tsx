@@ -19,9 +19,10 @@ interface Props {
   onInfoPressed?: any;
   isPhone?: boolean;
   isDOBFilled?: boolean;
+  isUsername?: boolean;
 }
 
-const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled}) => {
+const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled, isUsername}) => {
 
   const getIconColor = (type: any, isEmailVerified: boolean,isAddressFilled : boolean, isDOBFilled: boolean) => {
     switch(type){
@@ -73,6 +74,10 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
       return (
         <Text style={{fontSize: 20}}>🏡</Text>
       )
+    } else if (type == ProfileInputFieldTypes.USERNAME) {
+      return (
+        <Text style={{fontSize: 20}}>🧑</Text>
+      )
     } else {
       return (
         <Text style={{fontSize: 20}}>🪴</Text>
@@ -93,13 +98,14 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
                 paddingLeft: 5,                
                 borderBottomWidth: editToggle? 1 : 0,  
                 fontFamily: 'Quicksand-SemiBold',       
-                width: '90%'
+                width: '90%',
             }} 
             placeholder={ type === ProfileInputFieldTypes.DOB ? textField.charAt(10) !== 'T' ? textField : moment(new Date(textField)).format("DD/MM/YYYY") : textField}            
             placeholderTextColor={Colors.BLACK2}
             editable={false} 
             selectTextOnFocus={false}
             multiline={true}
+            numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 1 }
         />
       </View>
       <TouchableOpacity activeOpacity={0.5}>
@@ -124,9 +130,8 @@ export default ProfileInput;
 
 const styles = StyleSheet.create({
   menuItem: {
-    flex: 1, 
     flexDirection: 'row',
-    paddingVertical: 10,
+    marginVertical: 10,
     paddingHorizontal: 10,
   },
   menuItemText: {

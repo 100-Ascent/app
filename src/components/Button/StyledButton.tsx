@@ -1,6 +1,7 @@
 import React from 'react';
-import {ViewStyle} from 'react-native';
+import {ActivityIndicator, ViewStyle} from 'react-native';
 import {TouchableOpacity, View} from 'react-native';
+import { Icon } from 'react-native-elements/dist/icons/Icon';
 import {Colors} from '../../utils/colors';
 import Text16Normal from '../Text/Text16Normal';
 
@@ -10,6 +11,7 @@ interface Props {
   buttonStyle?: ViewStyle;
   textStyle?: any;
   disabled?: boolean;
+  loading?: boolean;
 }
 
 const StyledButton: React.FC<Props> = ({
@@ -18,6 +20,7 @@ const StyledButton: React.FC<Props> = ({
   buttonStyle,
   disabled = false,
   textStyle,
+  loading = false,
 }) => {
   return (
     <View>
@@ -36,11 +39,11 @@ const StyledButton: React.FC<Props> = ({
             },
             buttonStyle,
           ]}>
-          <Text16Normal
+          {loading ? <ActivityIndicator size="small" color={Colors.TEXT} /> : <Text16Normal
             text={text}
             textColor={Colors.TEXT}
             textStyle={textStyle}
-          />
+          />}
         </View>
       </TouchableOpacity>
     </View>

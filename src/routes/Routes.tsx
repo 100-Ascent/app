@@ -155,11 +155,12 @@ const Routes = () => {
 
   useEffect(() => {
     // requestUserPermission();
+
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       return await setNotification(remoteMessage)          
     });
      
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {      
       console.log('Message handled in the background!', remoteMessage);      
     });
 

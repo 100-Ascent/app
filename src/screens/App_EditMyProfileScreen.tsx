@@ -31,6 +31,7 @@ import {AppState} from '../redux';
 import {BASEURL} from '../utils/constants/constants';
 import auth from '@react-native-firebase/auth';
 import FastImage from 'react-native-fast-image';
+import Text12Normal from '../components/Text/Text12Normal';
 
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
@@ -43,7 +44,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [data, setData] = useState(userData);
   const [image, setImage] = useState(null);
   const [token, setToken] = useState('');
-
+  const [usernameError, setUsernameError] = useState(false);
   const genderOptions = [
     {id: 'male', value: 'Male'},
     {id: 'female', value: 'Female'},
@@ -70,9 +71,15 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleDateOfBirth = dob => {
+    
+    const year = new Date(dob).getFullYear();
+    const month = new Date(dob).getMonth()+1;
+    const date = new Date(dob).getDate();
+    const dateOfBirthServerFormat =  year+ "-" +  (month < 10 ? "0" + month : month) + "-" + (date < 10 ? "0" + date : date) + "T00:00:00Z";
+
     setData(prevState => ({
       ...prevState,
-      ['dob']: moment(new Date(dob)).format('DD/MM/YYYY'),
+      ['dob']: dateOfBirthServerFormat,
     }));
   };
 
@@ -135,6 +142,12 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     );
   });
 
+  const validateEmail = email => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+      return re.test(String(email).toLowerCase());
+  };
+
   const handleSavePress = () => {
     axios
       .post(USER_DETAILS_UPDATE, data)
@@ -146,6 +159,23 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         console.log(err);
       });
   };
+
+  const handleCallToCheckUsername = () => {
+    axios
+      .post("/api/check/username", { username: data.username })
+      .then(async res => {
+        console.log(res.data)
+        if(res.data.success){
+          setUsernameError(false);
+        }else{
+          setUsernameError(true);
+        }
+      })
+      .catch(err => {
+        console.log('failed');
+        console.log(err);
+      });
+  }
 
   navigation.setOptions({
     headerLeft: () => (
@@ -204,13 +234,26 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 <Text20 text={'Personal Info'} textColor={Colors.TEXTDARK} />
               </View>
 
-              <EditProfileInput
-                label={'Name'}
-                keyName={'first_name'}
-                isName={true}
-                value={data['first_name'] + ' ' + data['last_name']}
-                onChangeText={handleInput}
-              />
+              <View style={{ flexDirection: 'row'}}>
+                <View style={{ flex: 1}}>
+                  <EditProfileInput
+                    label={'First Name'}
+                    keyName={'first_name'}
+                    isName={false}
+                    value={data['first_name'] }
+                    onChangeText={handleInput}
+                  />
+                </View>
+                <View style={{ flex: 1}}>
+                  <EditProfileInput
+                    label={'Last Name'}
+                    keyName={'last_name'}
+                    isName={false}
+                    value={data['last_name'] }
+                    onChangeText={handleInput}
+                  />
+                </View>
+              </View>
               <EditProfileInput
                 label={'E-Mail ID'}
                 keyName={'email'}
@@ -218,6 +261,15 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 value={data['email']}
                 onChangeText={handleInput}
               />
+              <EditProfileInput
+                label={'Username'}
+                keyName={'username'}
+                isUsername={true}
+                value={data['username']}
+                onChangeText={handleInput}  
+                handleUserNameBlurEvent={handleCallToCheckUsername}              
+              />
+              {usernameError ? <View style={{ paddingLeft: 10 }}><Text12Normal text={"This username is already taken"} textColor={Colors.RED}/></View> : null }
               <EditProfileInput
                 label={'Phone Number'}
                 keyName={'phoneNumber'}
@@ -229,8 +281,8 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 keyName={'dob'}
                 value={
                   data['dob'].length === 0
-                    ? moment(new Date()).format('DD/MM/YYYY')
-                    : data['dob']
+                    ? moment(new Date()).toISOString()
+                    : moment(new Date(data['dob'])).toISOString()
                 }
                 handleDateOfBirth={handleDateOfBirth}
               />
@@ -283,6 +335,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 text={'SAVE'}
                 onPress={handleSavePress}
                 buttonStyle={{marginHorizontal: 10}}
+                disabled={usernameError || !validateEmail(data['email']) ||data['username'].length === 0 }
               />
             </View>
           </View>

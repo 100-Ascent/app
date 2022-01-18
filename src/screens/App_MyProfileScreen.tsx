@@ -6,6 +6,8 @@ import {
   ToastAndroid,
   RefreshControl,
   TouchableOpacity,
+  Image,
+  Dimensions,
 } from 'react-native';
 import axios from 'axios';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,7 +30,7 @@ import {
 } from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
-import {setEmailVerifiedData} from '../redux/action';
+import {setData, setEmailVerifiedData} from '../redux/action';
 import RNLoader from '../components/Loader/RNLoader';
 import {ProfileInputFieldTypes} from '../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -48,6 +50,8 @@ import auth from '@react-native-firebase/auth';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
+import moment from 'moment';
+
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -66,6 +70,8 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
   const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
   const [popUpMessage, setPopUpMessage]= useState("");
+  const [settings, setSettings] = useState([]);
+
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
   const isFocused = useIsFocused();
@@ -96,12 +102,12 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
-        console.log(data);
         setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
+        dispatch(setData(data));
         setUserData(data);
         getToken();
-        callToGetUserActivityData();
+        await callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
       .catch(err => {
@@ -123,11 +129,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         const data = res.data.data;
         if (res.data.success) {          
           setActivityData(data);
-          callToGetStreakData();
+          await callToGetStreakData();
         } else {
           setActivityData([]);
+          setLoading(false);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.log('failed in activity data yohoooooooo');
@@ -149,16 +155,32 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         if(res.data.success){
           setIsToday(isToday);
           setStreak(data);
+          await callToGetSettingData();
         }else{
           setStreak(0);
+          setLoading(false);
         }
-        setLoading(false);
       })
       .catch(err => {
         console.log('failed in Streakkk data yohoooooooo');
         console.log(err);
       });
   }
+
+  const callToGetSettingData = async () => {
+    await axios
+      .get('/api/user/settings')
+      .then(res=>{
+        let data = res.data.data;
+        setSettings(data);
+        setLoading(false);
+      })
+      .catch(err=>{
+        console.log(err);
+        setLoading(false);
+      })
+  }
+
 
   useEffect(() => {
     callToGetUserDetails(false);
@@ -236,17 +258,31 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
     headerRight: () => (
-      <View style={{marginRight: 15}}>
-        <Icon
-          name="edit"
-          onPress={() =>
-            navigation.navigate('EditMyProfileScreen', {data: userData})
-          }
-        />
+      <View style={{marginRight: 15, flexDirection: 'row'}}>
+        <TouchableOpacity onPress={()=>navigation.navigate('LeaderboardScreen')}> 
+          <Image
+            source={require('../../assets/icons/leaderboard/podium.png')}
+            style={{
+              width: 25,
+              height: 25,
+            }}
+          />
+        </TouchableOpacity>
+        
+        <View style={{padding: 5}}/>
+        <TouchableOpacity>
+          <Icon
+            name="edit"
+            size={25}
+            onPress={() =>
+              navigation.navigate('EditMyProfileScreen', {data: userData})
+            }
+          />
+        </TouchableOpacity>
       </View>
+      
     ),
   });
-
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -321,13 +357,18 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   </View>
                   <Text16Normal
                     text={
-                      'Member since ' + new Date(userData['created_at']).toLocaleString().substring(0, 6) + ', ' +
-                      new Date(userData['created_at']).getFullYear()
+                      'Member since ' + moment(new Date(userData['created_at'])).format('ll')
                     }
                     textColor={Colors.TEXTDARK}
                   />
-                </View>
+                </View>                
                 <View style={myProfileStyles.menuWrapper}>
+                  <ProfileInput
+                      type={ProfileInputFieldTypes.USERNAME}
+                      iconName="red"
+                      isUsername={userData['username']?.length !== 0}
+                      textField={userData['username']}
+                    />
                   <ProfileInput
                     type={ProfileInputFieldTypes.EMAIL}
                     iconName="email"
@@ -396,7 +437,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                           : userData['dob']
                       }
                     />
-                  )}
+                  )}                  
                 </View>
 
                 <View style={{flex: 1, marginHorizontal: 15, marginTop: 25 }}>
@@ -405,7 +446,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                         textColor={Colors.TEXTDARK} textStyle={undefined} />
                   </View>
                 <View style={{ marginTop: 20 }}>
-                  <PreferredTimePickerCard prefer_time={userData['prefer_time']}/>
+                  <PreferredTimePickerCard
+                    isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false } 
+                    prefer_time={userData['prefer_time']}
+                    handleGoToSettings={() => navigation.navigate('SettingScreen') }
+                    />
                 </View>
 
 

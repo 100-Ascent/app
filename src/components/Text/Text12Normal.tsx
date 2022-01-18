@@ -4,7 +4,7 @@ import {Text, TextStyle, View} from 'react-native';
 interface Props {
   text: string;
   textColor: string;
-  textStyle?: TextStyle;
+  textStyle?: any;
 }
 
 const Text12Normal: React.FC<Props> = ({text, textColor, textStyle}) => {

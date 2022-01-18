@@ -44,14 +44,13 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   const routeData = route.params.data;
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = new Date(routeData.date);
-  
+
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
 
   const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
-
-  const [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
-  const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate()));
+  const [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
+  const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
   
   const [dropdownData, setDropdownData] = useState([]);
   const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity_id)[0];
@@ -70,19 +69,26 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
     
   const [comment, setComment] = useState(routeData.comment);
   const [isAllowPost, setDisablePost] = useState(false);
-
   // API call to update
   const handleUpdateData = async () => {
-    const data = {
-      activity_id: selected.id,
-      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
-      count: parseFloat(distanceTimeData),
-      is_distance: defaultOption === 0,
-      calories: calminsteps.cal,
-      min: defaultOption === 0 ? calminsteps.min : value,
-      steps: calminsteps.steps,
-      comment: comment,
-    };
+    const timeNow = new Date(
+      parseInt(selectedDate.toISOString().substring(0,4)), 
+      parseInt(selectedDate.toISOString().substring(5,7))-1, parseInt(selectedDate.toISOString().substring(8,10)), 
+      new Date().getHours(), 
+      new Date().getMinutes(), 
+      new Date().getSeconds());
+     
+      const data = {
+        activity_id: selected.id,
+        date: selectedDate.toISOString().substring(0,10) + "T" + timeNow.toISOString().substring(11,19) + "Z",
+        count: parseFloat(distanceTimeData),
+        is_distance: defaultOption === 0,
+        calories: calminsteps.cal,
+        min: defaultOption === 0 ? calminsteps.min : value,
+        steps: calminsteps.steps,
+        comment: comment,
+      };
+      
 
     await axios
       .put( UPDATE_ACTIVITY_DATA + route.params.data.id, data)

@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-  package="com.tym.tym_100ascent">
+  package="com.tym.tym_100ascent" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
    
@@ -14,7 +14,13 @@
       <meta-data
      android:name="com.google.android.geo.API_KEY"
      android:value="AIzaSyA-XpBR3AidlvcRMULWto9h7VcoX1u_iJc"/>
-
+      <meta-data  android:name="com.google.firebase.messaging.default_notification_icon" android:resource="@mipmap/tym_100ascent_notification" />
+      <meta-data
+    android:name="com.google.firebase.messaging.default_notification_color" tools:replace="android:resource"
+    android:resource="@color/maroon" />
+    <meta-data
+      android:name="com.google.firebase.messaging.default_notification_channel_id" tools:replace="android:value"
+      android:value="@string/default_notification_channel_id"/>
    <!-- You will also only need to add this uses-library tag -->
    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity

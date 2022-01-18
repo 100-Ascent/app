@@ -33,7 +33,7 @@ const StatsCard = ({streak, isToday}) => {
           </View>
 
           <View style={{flex: 1, alignItems: 'center', marginTop: 20}}>
-            <WeeklyStreakCard streak={streak} />
+            <WeeklyStreakCard valueArray = {['1', '2', '3', '4', '5', '6', '7']} streak={streak} />
           </View>
           <View
             style={{

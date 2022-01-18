@@ -14,11 +14,13 @@ import { USER_DETAILS_UPDATE } from '../../../utils/apis/endpoints';
 
 interface Props{
     prefer_time: string;
+    isWorkoutNotification?: boolean;
+    handleGoToSettings?: ()=>void
 }
 
 export type AndroidMode = 'date' | 'time';
 
-const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time }) => {
+const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time, isWorkoutNotification, handleGoToSettings }) => {
 
     const getTime = (timeToShow : string) => {
         let time = timeToShow;
@@ -52,8 +54,6 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time }) => {
         hours = hours + hour_offset;
         hours = hours%24;
         minutes = minutes + minute_offset;
-        console.log(hours);
-        console.log(minutes);
 
         if(minutes>=60){
             minutes = minutes % 60;            
@@ -66,7 +66,6 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time }) => {
             hours = hours%24; 
         }
         let timeStamp = hours < 10 ? "0" + hours + ":" + (minutes< 10 ? "0" + minutes: minutes) : hours + ":" + (minutes< 10 ? "0" + minutes: minutes);
-        console.log(timeStamp);
         return timeStamp;
     }
 
@@ -101,11 +100,9 @@ const handleEditPreferredTime = async (timeToSend) => {
     const data = {
         prefer_time : timeToSend
     }
-    console.log(data.prefer_time);
     await axios
         .post(USER_DETAILS_UPDATE, data)
         .then(async res => {
-        console.log(res.data);
         })
         .catch(err => {
         console.log('failed');
@@ -134,8 +131,15 @@ return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, border
         <Text24 text={timeAMorPM} textColor={Colors.TEXTDARK}/>
         </View>        
     </View>
-    <View style={{ alignItems: 'center', paddingLeft: 10 }}>
-        <Text12Normal text={"We'll remind you 15 minutes prior"} textColor={Colors.BLACK2}/>        
+    <View style={{ paddingTop: 5, alignItems: 'center', paddingLeft: 10 }}>
+        <Text12Normal text={ isWorkoutNotification ? "We'll remind you 15 minutes prior" : "Your workout notifications are OFF"} textColor={Colors.BLACK2}/> 
+        <View style={{ width: '80%'}}>
+            <TouchableOpacity onPress={handleGoToSettings}>    
+                <View style={{ width: '100%', alignItems: 'center' }}>
+                { !isWorkoutNotification ? <Text12Normal text={"Turn on now!"} textColor={Colors.POPUP_RED} textStyle={{ fontFamily: 'Quicksand-SemiBold' }}/> : null }
+                </View>
+            </TouchableOpacity>
+        </View>
     </View>
     <View style={{ position: 'relative', left: -160, bottom: 80, opacity: 0.6 }}>
         <PreferredTimeIcon/>

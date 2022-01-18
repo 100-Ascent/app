@@ -13,10 +13,12 @@ interface Props {
   isEmail?: boolean;
   isPhone?: boolean;
   isName?: boolean;
+  isUsername?: boolean;
   isNumeric?: boolean;
   keyName: any;
   onChangeText?: (name, value) => void;
   handleDateOfBirth?: (dob)=> void;
+  handleUserNameBlurEvent?: ()=> void
 }
 
 const EditProfileInput: React.FC<Props> = ({
@@ -26,25 +28,26 @@ const EditProfileInput: React.FC<Props> = ({
   isEmail,
   isPhone,
   isName,
+  isUsername,
   isNumeric,
   keyName,
-  handleDateOfBirth
+  handleDateOfBirth,
+  handleUserNameBlurEvent
 }) => {
 
     let day, month, year;
     if(keyName==="dob"){
-        const dateValue = moment(value, 'DD/MM/YYYY');
-        month = dateValue.format('M');
-        year = dateValue.format('Y');
-        day = dateValue.format('D');
-    
+        const dateValue = moment(new Date(value), 'DD/MM/YYYY');
+        month = parseInt(dateValue.format('M'));
+        year = parseInt(dateValue.format('Y'));
+        day = parseInt(dateValue.format('D'));
     }
 
   //State variables
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(year,month-1,day));
   //Async functions
-
+  
   //Component functions
   const onChange = (event, selectedDateValue) => {
     const currentDate = selectedDateValue;
@@ -84,7 +87,7 @@ const EditProfileInput: React.FC<Props> = ({
                 <Text style={{color: Colors.TEXTDARK}}>
                   {date === null
                     ? 'Select Date'
-                    : moment(date).format('DD-MM-YYYY')}
+                    : moment(new Date(value)).format('DD-MM-YYYY')}
                 </Text>
               </View>
               <View style={{flex: 1, alignItems: 'flex-end'}}/>
@@ -108,9 +111,10 @@ const EditProfileInput: React.FC<Props> = ({
             }}
             value={value}
             onChangeText={val => onChangeText(keyName, val)}
+            onBlur={ isUsername? handleUserNameBlurEvent: ()=> { }}
             defaultValue={value}
             editable={!(isName || isEmail || isPhone)}
-            selectTextOnFocus={!(isName || isEmail || isPhone)}
+            // selectTextOnFocus={!(isName || isEmail || isPhone)}
           />
         )}
 

@@ -41,6 +41,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [error, setError] = useState(false);
   const [resendOTPDisabled, setResendOTPDisabled] = useState(true);
   const [startTimeMS, setStartTimeMS] = useState(0);
+  const [loading, setLoading] = useState(false);
 
   const countdown = () => {
     var seconds = 20;
@@ -64,6 +65,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
 
   const callToVerifyEmail = () => {
     let isEverythingOk = true;
+    setLoading(true);
     if (!validateEmail(email)) {
       setError(true);
       isEverythingOk = false;
@@ -80,6 +82,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
         .then(async res => {
           if (res.data.data.success) {
             setProceedDisabled(false);
+            setLoading(false);
             setEmailSentMessage(true);
             setResendOTPDisabled(true);
             countdown();
@@ -249,44 +252,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                             />
                           </View>
                         </View>
-                      </View>
-                      <View
-                        style={{
-                          backgroundColor: '#F9EEA0',
-                          borderRadius: 10,
-                          // width: '100%',
-                          marginBottom: 20,
-                          marginTop: 5,
-                          display: 'flex',
-                          flexDirection: 'row',
-                          alignItems: 'center',
-                          justifyContent: 'flex-start',
-                          paddingVertical: 7,
-                          paddingHorizontal: 15,
-                          shadowColor: Colors.BLACK1,
-                          shadowOffset: {
-                            width: 0,
-                            height: 1,
-                          },
-                          shadowOpacity: 0.22,
-                          shadowRadius: 2.22,
-                          elevation: 3,
-                          marginHorizontal: 30
-                        }}>
-                        <Icon
-                            name="warning"
-                            size={14}
-                            color={Colors.ORANGE}
-                            style={{ marginRight: 10 }} 
-                            tvParallaxProperties={undefined}                        />
-                        <View>
-                          <Text12Bold
-                            text="Note: Kindly enter the correct name. Name cannot be edited later"
-                            textColor={Colors.TEXTDARK}
-                            textStyle={{textDecorationLine: 'none'}}
-                          />
-                        </View>
-                      </View>
+                      </View>                      
                       <View style={{flex: 1, marginHorizontal: 30}}>
                         <View style={{flex: 1, justifyContent: 'center'}}>
                           <Text16Normal
@@ -352,7 +318,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                       <View style={{flex: 3}}>
                         <StyledButton
                           buttonStyle={{
-                            backgroundColor: isProceedDisabled
+                            backgroundColor: isProceedDisabled || loading
                               ? Colors.BLACK6
                               : Colors.POPUP_RED,
                             shadowColor: Colors.POPUP_RED,
@@ -369,7 +335,8 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                               ? setIsEmailVerifiedToTrue()
                               : callToVerifyEmail()
                           }
-                          disabled={isProceedDisabled}
+                          disabled={isProceedDisabled || loading}
+                          loading={loading}
                         />
                       </View>
                       <View style={{flex: 1}} />
