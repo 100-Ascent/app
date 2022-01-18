@@ -297,18 +297,16 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <View style={{marginHorizontal: 10, marginTop: 25}}>
                 <Text18 text={'Address'} textColor={Colors.TEXTDARK} />
               </View>
-
               <EditProfileInput
-                label={'PIN Code/ ZIP Code'}
-                keyName={'pincode'}
-                value={data['pincode']}
-                isNumeric={true}
+                label={'Address Line 1'}
+                keyName={'address'}
+                value={data['address']}
                 onChangeText={handleInput}
-              />
-              <EditProfileInput
-                label={'Country'}
-                keyName={'country'}
-                value={data['country']}
+              />              
+               <EditProfileInput
+                label={'City'}
+                keyName={'city'}
+                value={data['city']}
                 onChangeText={handleInput}
               />
               <EditProfileInput
@@ -318,15 +316,16 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 onChangeText={handleInput}
               />
               <EditProfileInput
-                label={'City'}
-                keyName={'city'}
-                value={data['city']}
+                label={'Country'}
+                keyName={'country'}
+                value={data['country']}
                 onChangeText={handleInput}
-              />
+              />                           
               <EditProfileInput
-                label={'Address Line 1'}
-                keyName={'address'}
-                value={data['address']}
+                label={'PIN Code/ ZIP Code'}
+                keyName={'pincode'}
+                value={data['pincode']}
+                isNumeric={true}
                 onChangeText={handleInput}
               />
             </View>
