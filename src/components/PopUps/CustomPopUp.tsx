@@ -1,5 +1,6 @@
 import React from 'react';
-import {Modal, TouchableOpacity, View} from 'react-native';
+import {Modal, TouchableOpacity, View, StyleSheet} from 'react-native';
+
 import {Colors} from '../../utils/colors';
 import Text16Normal from '../Text/Text16Normal';
 import PopUpButton from '../Button/PopUpButton';
@@ -43,45 +44,30 @@ const CustomPopUp: React.FC<Props> = ({
       visible={visible}
       onRequestClose={onCancel}
       transparent>
-      <View
-        style={{
-          flex: 1,
-          backgroundColor: '#000000aa',
-          justifyContent: 'center',
-          alignItems: 'center',
-        }}>
+      <View style={styles.container}>
         <View
-          style={{
-            backgroundColor: Colors.WHITE,
-            width: '85%',
-            borderRadius: 20,
-            paddingBottom: !isCancelable && !isCloseButton ? 10 : 0,
-          }}>
-          <View
-            style={{
-              zIndex: 10,
-              marginTop: -60,
-              borderWidth: 0,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
+          style={[
+            styles.visiblePopup,
+            {paddingBottom: !isCancelable && !isCloseButton ? 10 : 0},
+          ]}>
+          <View style={styles.contentContainer}>
             {icon}
-            <View style={{alignItems: 'center'}}>
-              <View style={{marginTop: 20}}>
+            <View style={styles.content}>
+              <View style={styles.heading}>
                 <Text20 text={header} textColor={Colors.TEXTDARK} />
               </View>
 
-              <View style={{ marginTop: 5, paddingHorizontal: 10 }}>
+              <View style={{marginTop: 5, paddingHorizontal: 10}}>
                 {!isDescriptionLong ? (
                   <Text16Normal
                     text={description}
-                    textStyle={{textAlign: 'center'}}
+                    textStyle={styles.centeredText}
                     textColor={Colors.TEXTDARK}
                   />
                 ) : (
                   <Text14
                     text={description}
-                    textStyle={{textAlign: 'center'}}
+                    textStyle={styles.centeredText}
                     textColor={Colors.TEXTDARK}
                   />
                 )}
@@ -94,23 +80,25 @@ const CustomPopUp: React.FC<Props> = ({
                 0 ? null : isDescriptionLong ? (
                   <Text14
                     text={descriptionOptional}
-                    textStyle={{textAlign: 'center'}}
+                    textStyle={styles.centeredText}
                     textColor={Colors.TEXTDARK}
                   />
                 ) : (
                   <Text16Normal
                     text={descriptionOptional}
-                    textStyle={{
-                      textAlign: 'center',
-                      fontFamily: 'Quicksand-SemiBold',
-                    }}
+                    textStyle={[
+                      styles.centeredText,
+                      {
+                        fontFamily: 'Quicksand-SemiBold',
+                      },
+                    ]}
                     textColor={Colors.TEXTDARK}
                   />
                 )}
               </View>
             </View>
 
-            <View style={{alignItems: 'center', marginTop: 20 }}>
+            <View style={{alignItems: 'center', marginTop: 20}}>
               <PopUpButton
                 text={oKText}
                 isCancelable={isCancelable}
@@ -121,8 +109,7 @@ const CustomPopUp: React.FC<Props> = ({
             </View>
 
             {isCloseButton ? (
-              <View
-                style={{alignItems: 'center', marginTop: 10, marginBottom: 10}}>
+              <View style={{alignItems: 'center', marginVertical: 10}}>
                 <TouchableOpacity
                   activeOpacity={0.3}
                   onPress={closeButtonPress}>
@@ -143,5 +130,29 @@ const CustomPopUp: React.FC<Props> = ({
     </Modal>
   );
 };
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#000000aa',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  visiblePopup: {
+    backgroundColor: Colors.WHITE,
+    width: '85%',
+    borderRadius: 20,
+  },
+  contentContainer: {
+    zIndex: 10,
+    marginTop: -60,
+    borderWidth: 0,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  content: {alignItems: 'center'},
+  heading: {marginTop: 20},
+  centeredText: {textAlign: 'center'},
+});
 
 export default CustomPopUp;
