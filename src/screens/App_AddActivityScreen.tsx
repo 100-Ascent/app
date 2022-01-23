@@ -299,7 +299,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     value={date}
                     mode={'date'}
                     is24Hour={true}
-                    display="calendar"
+                    display={ Platform.OS === "ios" ? "default" : "calendar" }
                     onChange={onChange}
                     minimumDate={
                       new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)

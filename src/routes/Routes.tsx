@@ -154,7 +154,7 @@ const Routes = () => {
 
 
   useEffect(() => {
-    // requestUserPermission();
+    requestUserPermission();
 
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       return await setNotification(remoteMessage)          
@@ -167,15 +167,15 @@ const Routes = () => {
     return unsubscribe;
   }, []);
 
-  // const requestUserPermission = async () => {
-  //   const authStatus = await messaging().requestPermission();
-  //   const enabled =
-  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
-  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
-  //   if (enabled) {
-  //     getFcmToken()
-  //   }
-  // }
+  const requestUserPermission = async () => {
+    const authStatus = await messaging().requestPermission();
+    const enabled =
+      authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+      authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+    if (enabled) {
+      getFcmToken()
+    }
+  }
 
   // First called
   useEffect(() => {
@@ -204,7 +204,7 @@ const Routes = () => {
     });
   }
   }, []);
-
+  
   return (
     <NavigationContainer>
       { killSwitch ? <UnderMaintenanceScreen/> : isValidAppVersion ? (
