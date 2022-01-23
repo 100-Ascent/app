@@ -5,7 +5,7 @@ import {Colors} from '../../utils/colors';
 interface Props {
   text: string;
   textColor: string;
-  textStyle?: TextStyle;
+  textStyle?: any;
 }
 
 const Text14: React.FC<Props> = ({text, textColor, textStyle}) => {
@@ -17,7 +17,7 @@ const Text14: React.FC<Props> = ({text, textColor, textStyle}) => {
             fontSize: 14,
             color: textColor,
             textAlign: 'left',
-            fontFamily: 'Quicksand',
+            fontFamily: 'Quicksand-Light',
           },
           textStyle,
         ]}>

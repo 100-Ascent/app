@@ -12,12 +12,12 @@ const KlicksTooltip = ({color}) => {
       <Tooltip
         popover={
           <Text14
-            text={'1 Klick is equivalent to 1 km of walk'}
+            text={'1 Klick is equivalent to 1 km of walking in terms of calories burnt. e.g. 1 km of cycling burns same number of calories as 0.35 km (klicks) of walking.'}
             textColor={Colors.TEXTDARK}
           />
         }
-        width={200}
-        height={50}
+        width={280}
+        height={100}
         backgroundColor={Colors.BLACK5}
         pointerColor={Colors.BLACK5}
         containerStyle={{elevation: 5, paddingVertical: 0}}

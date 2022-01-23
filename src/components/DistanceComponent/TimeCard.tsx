@@ -9,13 +9,13 @@ const TimeCard = ({time}) => {
   const min = time % 60;
 
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center',}}>
       <View style={{flex: 1}}>
         <TimeIcon />
       </View>
       <View style={{flex: 3, justifyContent: 'center'}}>
         <Text14
-          text={hrs === 0 ? `${min} min` : `${hrs} hrs ${min} min`}
+          text={hrs === 0 ? min ===0 ? `${min.toFixed(0)} min` : `${min.toFixed(2)} min` : `${hrs} hrs ${min.toFixed(0)} min`}
           textColor={Colors.TEXTDARK}
         />
       </View>

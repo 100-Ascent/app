@@ -14,7 +14,15 @@
       },
       "oauth_client": [
         {
-          "client_id": "730727502414-2rkcdpc2o4e3cvdu5kipruf2bufk2dpi.apps.googleusercontent.com",
+          "client_id": "730727502414-6m6lsn9d45vh56qa01hmg4n82lncial4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.tym.tym_100ascent",
+            "certificate_hash": "1854bbaed64b62bfcd5ce645f401e9ed3354e352"
+          }
+        },
+        {
+          "client_id": "730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tym.tym_100ascent",
@@ -22,11 +30,11 @@
           }
         },
         {
-          "client_id": "730727502414-enooj7pjenlm7hon35iua07k2v34qjv0.apps.googleusercontent.com",
+          "client_id": "730727502414-urev3kc18jh61qc41r3slea7pkltmvk5.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
             "package_name": "com.tym.tym_100ascent",
-            "certificate_hash": "6b7dd2a04cc538f20578b1d17ff9397830391ddc"
+            "certificate_hash": "c0ebfeeba76b74e73016fa7219614a5b3ae4eeda"
           }
         },
         {
@@ -45,6 +53,13 @@
             {
               "client_id": "730727502414-3jb5i3fan0vajo3vqp3vpm79nmuhm2lt.apps.googleusercontent.com",
               "client_type": 3
+            },
+            {
+              "client_id": "730727502414-mod835eeflbdpf3s3v7d289h08fb76ec.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "org.tym.TYM-100Ascent"
+              }
             }
           ]
         }

@@ -1,30 +1,38 @@
 import React from 'react';
 import {KeyboardAvoidingView, Platform, ScrollView, View} from 'react-native';
-import Background from '../components/Background/StyledBackground';
-import StyledButton from '../components/Button/StyledButton';
-import PhoneInput from 'react-native-phone-number-input';
-import {Colors} from '../utils/colors';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
-import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
-import Text14 from '../components/Text/Text14';
-import {NUMBER_ERROR, PROCEED, SIGNIN_PHONE} from '../utils/constants';
-import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import PhoneInput from 'react-native-phone-number-input';
+
+import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
+import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import StyledButton from '../components/Button/StyledButton';
+import Text14 from '../components/Text/Text14';
+import Text16Normal from '../components/Text/Text16Normal';
+
+import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
+import {Colors} from '../utils/colors';
+import {
+  NUMBER_ERROR,
+  PROCEED,
+  SIGNIN_PHONE,
+} from '../utils/constants/constants';
+
+import globalStyles from '../styles/Global/styles';
+import styles from '../styles/SignInScreen/styles';
 
 interface Props {
-  phoneInput: any;
-  value: any;
-  onChangeText: (text: string) => void;
-  onChangeFormattedText: (text: string) => void;
-  onChangeCountry: any;
-  onSubmit: () => void;
   error: boolean;
+  phoneInput: any;
   setError: any;
+  onChangeCountry: (text: string) => void;
+  onChangeFormattedText: (text: string) => void;
+  onChangeText: (text: string) => void;
+  onSubmit: () => void;
 }
 
 const SignInScreen: React.FC<Props> = ({
   phoneInput,
-  value,
   onChangeText,
   onChangeFormattedText,
   onChangeCountry,
@@ -33,41 +41,34 @@ const SignInScreen: React.FC<Props> = ({
   setError,
 }) => {
   return (
-    <View style={{flex: 1}}>
+    <View style={globalStyles.flex}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
-        <View style={{flex: 1}}>
+        <View style={globalStyles.flex}>
           <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : 65}
             enabled={Platform.OS === 'ios' ? true : false}
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
+            style={[globalStyles.flex, globalStyles.flexColumnJustifyCenter]}>
             <ScrollView
-              style={{flex: 1}}
+              style={globalStyles.flex}
               contentContainerStyle={{flexGrow: 1}}
               keyboardShouldPersistTaps="handled">
-              <View style={{flex: 1}}>
+              <View style={globalStyles.flex}>
                 <BackgroundVector />
                 <View
-                  style={{
-                    flex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    zIndex: 1,
-                  }}>
+                  style={[
+                    globalStyles.flex,
+                    globalStyles.flexAllCenter,
+                    {zIndex: 1},
+                  ]}>
                   <AppIcon100Ascent />
                 </View>
-                <View
-                  style={{
-                    flex: 3,
-                    alignItems: 'center',
-                    paddingTop: 30,
-                  }}>
+                <View style={styles.phoneInput}>
                   <View style={{marginBottom: 10}}>
-                    <Text14 textColor={Colors.TEXTDARK} text={SIGNIN_PHONE} />
+                    <Text16Normal
+                      textColor={Colors.TEXTDARK}
+                      text={SIGNIN_PHONE}
+                    />
                   </View>
                   <PhoneInput
                     ref={phoneInput}
@@ -84,7 +85,7 @@ const SignInScreen: React.FC<Props> = ({
                         phoneInput.current?.getCountryCode() || '',
                       );
                     }}
-                    //   withDarkTheme
+                    // withDarkTheme
                     containerStyle={{
                       borderRadius: 20,
                       borderWidth: 1,
@@ -103,6 +104,11 @@ const SignInScreen: React.FC<Props> = ({
                       fontSize: 18,
                       color: Colors.TEXTDARK,
                       paddingHorizontal: 0,
+                      paddingVertical: 0,
+                      borderLeftWidth: 1,
+                      marginVertical: 8,
+                      borderLeftColor: Colors.BLACK3,
+                      paddingLeft: 10,
                     }}
                     textInputProps={{
                       selectionColor: Colors.TEXTDARK,
@@ -146,7 +152,7 @@ const SignInScreen: React.FC<Props> = ({
                   <RNStepIndicator stepCount={3} currentStep={1} />
                 </View>
                 <View style={{flex: 1, flexDirection: 'row'}}>
-                  <View style={{flex: 1}} />
+                  <View style={globalStyles.flex} />
                   <View style={{flex: 2}}>
                     <StyledButton
                       buttonStyle={{
@@ -163,7 +169,7 @@ const SignInScreen: React.FC<Props> = ({
                       onPress={onSubmit}
                     />
                   </View>
-                  <View style={{flex: 1}} />
+                  <View style={globalStyles.flex} />
                 </View>
               </View>
             </ScrollView>

@@ -18,8 +18,8 @@ const PopUpButton: React.FC<Props> = ({
   onCancel,
 }) => {
   return (
-    <View style={{flex: 1}}>
-      <View style={{flexDirection: 'row'}}>
+    <View style={{ justifyContent: 'center'}}>
+      <View style={{flexDirection: 'row',  }}>
         {isCancelable ? (
           <View>
             <TouchableOpacity
@@ -28,9 +28,11 @@ const PopUpButton: React.FC<Props> = ({
               onPress={onCancel}>
               <View
                 style={{
-                  paddingVertical: 15,
-                  paddingHorizontal: 50,
+                  paddingVertical: 10,
+                  paddingHorizontal: 25,
                   backgroundColor: Colors.POPUP_GREY,
+                  justifyContent: 'center',
+                  alignItems: 'center',
                   borderRadius: 20,
                 }}>
                 <Text16Normal text={cancelText} textColor={Colors.TEXT} />
@@ -38,16 +40,18 @@ const PopUpButton: React.FC<Props> = ({
             </TouchableOpacity>
           </View>
         ) : null}
-        <View style={{marginLeft: 20}}>
+        <View style={{marginLeft: isCancelable ? 20: 0 }}>
           <TouchableOpacity
             activeOpacity={0.9}
             style={{borderRadius: 20, elevation: 2}}
             onPress={onOk}>
             <View
               style={{
-                paddingVertical: 15,
+                paddingVertical: 10,
                 paddingHorizontal: 25,
                 backgroundColor: Colors.POPUP_RED,
+                justifyContent: 'center',
+                alignItems: 'center',
                 borderRadius: 20,
               }}>
               <Text16Normal text={text} textColor={Colors.TEXT} />

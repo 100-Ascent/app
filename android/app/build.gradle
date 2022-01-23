@@ -103,7 +103,7 @@ def enableSeparateBuildPerCPUArchitecture = false
 /**
  * Run Proguard to shrink the Java bytecode in release builds.
  */
-def enableProguardInReleaseBuilds = false
+def enableProguardInReleaseBuilds = true
 
 /**
  * The preferred build flavor of JavaScriptCore.
@@ -141,8 +141,12 @@ android {
         applicationId "com.tym.tym_100ascent"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 1
-        versionName "1.0"
+        versionCode 8
+        versionName "1.3.0"
+        vectorDrawables.useSupportLibrary = true
+        manifestPlaceholders = [
+            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e'
+        ]
     }
     splits {
         abi {
@@ -160,10 +164,12 @@ android {
             keyPassword 'android'
         }
         release {
-            storeFile file('temp_keystore.keystore')
-            storePassword 'Qwrt@3244'
-            keyAlias 'temp'
-            keyPassword 'Qwrt@3244'
+            if (project.hasProperty('MYAPP_UPLOAD_STORE_FILE')) {
+                storeFile file(MYAPP_UPLOAD_STORE_FILE)
+                storePassword MYAPP_UPLOAD_STORE_PASSWORD
+                keyAlias MYAPP_UPLOAD_KEY_ALIAS
+                keyPassword MYAPP_UPLOAD_KEY_PASSWORD
+            }
         }
     }
     buildTypes {

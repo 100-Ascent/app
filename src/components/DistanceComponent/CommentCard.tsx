@@ -7,7 +7,7 @@ import GalleryIcon from '../../../assets/icons/gallery.svg';
 
 const CommentCard = ({comment}) => {
   return (
-    <View style={{flex: 1, flexDirection: 'row'}}>
+    <View style={{flex: 1, flexDirection: 'row', alignItems: 'center'}}>
       <View style={{flex: 1}}>
         <MessageIcon />
       </View>
@@ -18,7 +18,7 @@ const CommentCard = ({comment}) => {
         />
       </View>
       <View style={{flex: 1, alignItems: 'flex-end'}}>
-        <GalleryIcon />
+        {/* <GalleryIcon /> */}
       </View>
     </View>
   );

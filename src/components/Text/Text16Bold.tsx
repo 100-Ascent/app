@@ -1,24 +1,23 @@
 import React from 'react';
 import {Text, View} from 'react-native';
-import {Colors} from '../../utils/colors';
 
 interface Props {
   text: string;
   textColor: string;
+  textStyle?: object;
 }
 
-const Text16Bold: React.FC<Props> = ({text, textColor}) => {
+const Text16Bold: React.FC<Props> = ({text, textColor, textStyle = {}}) => {
   return (
     <View>
       <Text
-        style={[
-          {
+        style={
+          [{
             fontSize: 16,
-            fontWeight: 'bold',
             color: textColor,
-            fontFamily: 'Quicksand',
-          },
-        ]}>
+            fontFamily: 'Quicksand-Bold',
+          }, textStyle]
+        }>
         {text}
       </Text>
     </View>

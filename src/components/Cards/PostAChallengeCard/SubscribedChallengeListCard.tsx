@@ -4,7 +4,7 @@ import {Text, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../../utils/colors';
-import {SUBSCRIBE_TO_CHALLENGE} from '../../../utils/constants';
+import {SUBSCRIBE_TO_CHALLENGE} from '../../../utils/constants/constants';
 import StyledButton from '../../Button/StyledButton';
 import Text16Bold from '../../Text/Text16Bold';
 import Text16Normal from '../../Text/Text16Normal';

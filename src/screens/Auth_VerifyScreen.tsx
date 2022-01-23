@@ -1,74 +1,74 @@
-import React, {useState} from 'react';
-import {useEffect} from 'react';
+import React, {useEffect} from 'react';
 import {
   KeyboardAvoidingView,
   Platform,
   ScrollView,
-  Text,
   TouchableOpacity,
   View,
 } from 'react-native';
+
 import Background from '../components/Background/StyledBackground';
-import StyledButton from '../components/Button/StyledButton';
-import Text16Normal from '../components/Text/Text16Normal';
-import {Colors} from '../utils/colors';
-import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
-import Text16Bold from '../components/Text/Text16Bold';
-import OTPCard from '../components/Cards/AuthScreen/VerifyScreen_OTPCard';
-import {AWAITINGOTP, RESEND_OTP, VERIFY} from '../utils/constants';
-import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
-import Text14 from '../components/Text/Text14';
 import BackgroundVector from '../components/Background/BackgroundVector';
+import OTPCard from '../components/Cards/AuthScreen/VerifyScreen_OTPCard';
+import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import StyledButton from '../components/Button/StyledButton';
+import Text14 from '../components/Text/Text14';
+import Text16Bold from '../components/Text/Text16Bold';
+import Text16Normal from '../components/Text/Text16Normal';
+
+import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
+import {AWAITINGOTP, RESEND_OTP, VERIFY} from '../utils/constants/constants';
+import {Colors} from '../utils/colors';
+import globalStyles from '../styles/Global/styles';
 
 interface Props {
-  phoneNumber: string;
-  onVerify: () => void;
-  onSignInClicked: (phoneNumber: any) => Promise<void>;
-  otpArray: string[];
   handleSetOtpArray: (array: string[]) => void;
   isVerifyDisabled: boolean;
+  phoneNumber: string;
   onGoBack: () => void;
+  onSignInClicked: (phoneNumber: any) => Promise<void>;
+  onVerify: () => void;
+  otpArray: string[];
+  resendDisabled: boolean;
+  startTimeMS: number;
 }
 
 const VerifyScreen: React.FC<Props> = ({
-  phoneNumber,
-  onVerify,
-  onSignInClicked,
-  otpArray,
   handleSetOtpArray,
   isVerifyDisabled,
+  phoneNumber,
+  resendDisabled,
   onGoBack,
+  onSignInClicked,
+  onVerify,
+  otpArray,
+  startTimeMS,
 }) => {
   useEffect(() => {
     onSignInClicked(phoneNumber);
   }, []);
 
   return (
-    <View style={{flex: 1}}>
+    <View style={globalStyles.flex}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
-        <View style={{flex: 1}}>
+        <View style={globalStyles.flex}>
           <KeyboardAvoidingView
             behavior={Platform.OS == 'ios' ? 'padding' : 'height'}
             keyboardVerticalOffset={Platform.OS == 'ios' ? 0 : 65}
             enabled={Platform.OS === 'ios' ? true : false}
-            style={{
-              flex: 1,
-              flexDirection: 'column',
-              justifyContent: 'center',
-            }}>
+            style={[globalStyles.flex, globalStyles.flexColumnJustifyCenter]}>
             <ScrollView
-              style={{flex: 1}}
+              style={globalStyles.flex}
               contentContainerStyle={{flexGrow: 1}}
               keyboardShouldPersistTaps="handled">
-              <View style={{flex: 1}}>
+              <View style={globalStyles.flex}>
                 <BackgroundVector />
                 <View
-                  style={{
-                    flex: 1,
-                    zIndex: 1,
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}>
+                  style={[
+                    globalStyles.flex,
+                    globalStyles.flexAllCenter,
+                    {zIndex: 1},
+                  ]}>
                   <AppIcon100Ascent />
                 </View>
                 <View
@@ -80,17 +80,17 @@ const VerifyScreen: React.FC<Props> = ({
                   <View style={{}}>
                     <View style={{alignItems: 'center'}}>
                       <Text16Normal
-                        text={`AN OTP HAS BEEN SENT TO THE`}
+                        text={`An OTP has been sent to the`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{alignItems: 'center', paddingTop: 5}}>
                       <Text16Normal
-                        text={`MOBILE NUMBER`}
+                        text={`following number`}
                         textColor={Colors.TEXTDARK}
                       />
                     </View>
-                    <View style={{alignItems: 'center'}}>
+                    <View style={{alignItems: 'center', paddingTop: 10}}>
                       <Text16Bold
                         text={`${phoneNumber}`}
                         textColor={Colors.TEXTDARK}
@@ -111,10 +111,15 @@ const VerifyScreen: React.FC<Props> = ({
                       paddingTop: 20,
                     }}>
                     <TouchableOpacity
-                      onPress={() => onSignInClicked(phoneNumber)}>
+                      onPress={() => onSignInClicked(phoneNumber)}
+                      disabled={resendDisabled}>
                       <View>
                         <Text14
-                          text={RESEND_OTP}
+                          text={
+                            resendDisabled
+                              ? 'Resend OTP in ' + startTimeMS + ' sec'
+                              : RESEND_OTP
+                          }
                           textColor={Colors.TEXT2}
                           textStyle={{
                             borderBottomWidth: 1,

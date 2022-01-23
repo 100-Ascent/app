@@ -1,166 +1,244 @@
-import React, {useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
-import AppStack from './AppStack';
+import React, {useState, useEffect} from 'react';
+import { Platform} from 'react-native';
+
 import AuthStack from './AuthStack';
-import {useEffect} from 'react';
-import auth from '@react-native-firebase/auth';
-import messaging from '@react-native-firebase/messaging';
+import AppStack from './AppStack';
 import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
 import axios from 'axios';
-import {Platform} from 'react-native';
-import VersionNumber from 'react-native-version-number';
-import uuid from 'react-native-uuid';
-import {View} from 'react-native';
-import {Text} from 'react-native-elements';
-import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
+import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
+import {NavigationContainer} from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
-import {setContextId} from '../redux/action';
+import uuid from 'react-native-uuid';
+import VersionNumber from 'react-native-version-number';
+
+import EmailVerifyScreen from '../screens/App_EmailVerifyScreen';
 import RNLoader from '../components/Loader/RNLoader';
+import OnboardingScreen from '../screens/App_OnBoarding';
+import {setContextId, setEmailVerifiedData, setHeartBeatConfig} from '../redux/action';
+import uninterceptedAxiosInstance from '../utils/services/uninterceptedAxiosInstance';
+import {LOGIN, USER_CHECKIN, VERSION_CHECK} from '../utils/apis/endpoints';
+import {LOGIN_TYPE, VERSION_CHECK_TYPE} from '../utils/apis/endpointType';
+import ForceUpdateScreen from '../screens/App_ForceUpdate';
+import UnderMaintenanceScreen from '../screens/App_UnderMaintenance';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
   if (fcmToken) {
     await messaging().subscribeToTopic('all');
+    console.log(fcmToken)
     return fcmToken;
   } else {
     return '';
   }
 };
 
-const callToCreateUser = (
+const callToCreateUser = async (
   notifyToken: string,
-  setLoading: React.Dispatch<React.SetStateAction<boolean>>,
-  setEmailVerified: {
-    (value: React.SetStateAction<boolean>): void;
-    (arg0: boolean): void;
-  },
+  setLoading: any,
+  setEmailEntered: any,
+  dispatch: any,
 ) => {
-  const data = {
+  const data: LOGIN_TYPE = {
     notifyToken: notifyToken,
     os: Platform.OS,
     appVersion: VersionNumber.appVersion,
     deviceId: uuid.v4().toString(),
   };
-
-  console.log('creating user');
-  console.log(data);
-
-  axios
-    .post('/login', data)
+  
+  await axios
+    .post(LOGIN, data)
     .then(async res => {
-      console.log(res.data.status);
       if (res.data.status.code !== undefined) {
+        dispatch(setEmailVerifiedData({isEmailVerified: false}));
         if (res.data.status.code === '101') {
-          setEmailVerified(false);
+          setEmailEntered(false);
+        } else if (res.data.status.code === '102') {
+          setEmailEntered(true);
+        } else {
+          setEmailEntered(true);
         }
       } else {
-        setEmailVerified(true);
+        setEmailEntered(true);
       }
       await AsyncStorage.setItem('user', 'true');
-      setLoading(false);
     })
     .catch(err => {
-      console.log('failed');
+      console.log('failed in login api');
       console.log(err);
+      setEmailEntered(true);
       setLoading(false);
     });
 };
 
-const callToUserCheckIn = (
-  setLoading: {
-    (value: React.SetStateAction<boolean>): void;
-    (arg0: boolean): void;
-  },
-  dispatch,
-) => {
-  axios
-    .get('/api/userCheckIn')
+const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
+  console.log("Calling User checkin ");
+  await axios
+    .post(USER_CHECKIN, {
+      timezone_offset_mins : new Date().getTimezoneOffset()
+    })
     .then(async res => {
       dispatch(setContextId(res.data.data.code));
       setLoading(false);
     })
     .catch(err => {
-      console.log('failed');
+      console.log('user checkin failed');
       console.log(err);
       setLoading(false);
     });
 };
 
 const Routes = () => {
+  const [isValidAppVersion, setIsValidAppVersion] = useState(true);
   const [loading, setLoading] = useState(false);
-  const [initializing, setInitializing] = useState(true);
   const [user, setUser] = useState();
-  const [isValidAppVersion, setIsValidAppVersion] = useState(false);
-  const [isEmailVerified, setEmailVerified] = useState(false);
+  const [isEmailEntered, setEmailEntered] = useState(false);
+  const [isFirstLaunch, setIsFirstLaunch] = useState(null);
+  const [initializing, setInitializing] = useState(true);
+  const [killSwitch, setKillSwitch] = useState(false);
+  const [notification, setNotification] = useState<FirebaseMessagingTypes.RemoteMessage>();
   const dispatch = useDispatch();
 
-  function onAuthStateChanged(user) {
+  const onAuthStateChanged = user => {
     if (user) {
       setLoading(true);
-      getFcmToken().then(async notifyToken => {
-        const isValidUser = await AsyncStorage.getItem('user');
-
-        if (isValidUser === null) {
-          callToCreateUser(notifyToken, setLoading, setEmailVerified);
-          callToUserCheckIn(setLoading, dispatch);
-          setUser(user);
-        } else {
-          console.log('existing user');
-          callToUserCheckIn(setLoading, dispatch);
-          setEmailVerified(true);
-          setLoading(false);
-          setUser(user);
-        }
-      });
+      getFcmToken()
+        .then(async notifyToken => {
+          const isValidUser = await AsyncStorage.getItem('user');
+          if (isValidUser === null) {
+            await callToCreateUser(notifyToken, setLoading, setEmailEntered, dispatch);
+            await callToUserCheckIn(setLoading, dispatch);
+            setUser(user);
+          } else {
+            setEmailEntered(true);
+            await callToUserCheckIn(setLoading, dispatch);
+            setLoading(false);
+            setUser(user);
+          }
+        })
+        .catch(err => {
+          console.log('Error getting FCM token' + err);
+        });
     } else {
       setUser(null);
     }
     if (initializing) setInitializing(false);
-  }
+  };
+
+  const showAppStack = () => {
+    AsyncStorage.setItem('alreadyLaunched', 'true');
+    setIsFirstLaunch(false);
+  };
 
   // Check app version
-  useEffect(() => {
-    console.log('check app version');
-    const uninterceptedAxiosInstance = axios.create();
-    uninterceptedAxiosInstance
-      .post('/versionCheck', {
-        appVersion: VersionNumber.appVersion,
-        os: Platform.OS,
-      })
+  const checkAppVersion = async () => {
+    const data: VERSION_CHECK_TYPE = {
+      appVersion: VersionNumber.appVersion,
+      os: Platform.OS,
+    };
+
+    await uninterceptedAxiosInstance
+      .post(VERSION_CHECK, data)
       .then(res => {
-        console.log('Checking version');
-        setIsValidAppVersion(res.data.data.success);
+        setIsValidAppVersion(res.data.data.is_version_allowed);
+        setKillSwitch(res.data.data.kill_switch);
+        dispatch( setHeartBeatConfig({ heart_beat_timeout: res.data.data.heart_beat_timeout, heart_beat_toggle: res.data.data.heart_beat_toggle }) )
       })
       .catch(err => {
-        console.log('failed');
+        console.log('check app version failed');
         console.log(err);
       });
-  }, []);
+  };
+
 
   useEffect(() => {
-    const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
-    return subscriber;
+    // requestUserPermission();
+
+    const unsubscribe = messaging().onMessage(async remoteMessage => {
+      return await setNotification(remoteMessage)          
+    });
+     
+    messaging().setBackgroundMessageHandler(async remoteMessage => {      
+      console.log('Message handled in the background!', remoteMessage);      
+    });
+
+    return unsubscribe;
+  }, []);
+
+  // const requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission();
+  //   const enabled =
+  //     authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //     authStatus === messaging.AuthorizationStatus.PROVISIONAL;
+  //   if (enabled) {
+  //     getFcmToken()
+  //   }
+  // }
+
+  // First called
+  useEffect(() => {
+    checkAppVersion();
+  }, []);
+
+  // Second called
+  useEffect(() => {
+    
+    if(isValidAppVersion && !killSwitch ){
+      const subscriber = auth().onAuthStateChanged(onAuthStateChanged);
+      return subscriber;
+    }
+    
+  }, []);
+
+  // Third called
+  useEffect(() => {
+    if(isValidAppVersion && !killSwitch ){
+    AsyncStorage.getItem('alreadyLaunched').then(value => {
+      if (value == null) {
+        setIsFirstLaunch(true);
+      } else {
+        setIsFirstLaunch(false);
+      }
+    });
+  }
   }, []);
 
   return (
     <NavigationContainer>
-      {isValidAppVersion ? (
+      { killSwitch ? <UnderMaintenanceScreen/> : isValidAppVersion ? (
         loading ? (
           <RNLoader />
+        ) : isFirstLaunch ? (
+          <OnboardingScreen showAppStack={showAppStack} />
         ) : user ? (
-          isEmailVerified ? (
+          isEmailEntered ? (
             <AppStack />
           ) : (
             <EmailVerifyScreen
-              setIsEmailVerifiedToTrue={() => setEmailVerified(true)}
+              setIsEmailVerifiedToTrue={() => setEmailEntered(true)}
             />
           )
         ) : (
           <AuthStack />
         )
       ) : (
-        <View></View>
+       <ForceUpdateScreen/>
       )}
+       {
+        notification !== undefined ? 
+        <CustomPopUp
+          icon={<NotificationIcon/>}
+          visible={true}
+          onOk={() => setNotification(undefined)}
+          isCancelable={false}
+          oKText={'OKAY'}
+          header={notification.notification.title}
+          description={notification.notification.body}
+          isCloseButton={false}   
+          isDescriptionLong={false} 
+      /> :  <></> }
     </NavigationContainer>
   );
 };

@@ -3,14 +3,12 @@ import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import FastImage from 'react-native-fast-image';
 import Text28 from '../Text/Text28';
-import Text16Bold from '../Text/Text16Bold';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import CalorieCard from '../DistanceComponent/CalorieCard';
 import TimeCard from '../DistanceComponent/TimeCard';
 import FootCard from '../DistanceComponent/FootCard';
 import DistanceTotalCard from '../DistanceComponent/DistanceTotalCard';
 import FitnessCard from '../DistanceComponent/FitnessCard';
-import CommentCard from '../DistanceComponent/CommentCard';
 import Text16Normal from '../Text/Text16Normal';
 import KlicksTooltip from '../Tooltip/KlicksTooltip';
 import Text14 from '../Text/Text14';
@@ -18,19 +16,42 @@ import CustomPopUp from '../PopUps/CustomPopUp';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
 import ViewShot from 'react-native-view-shot';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../redux';
+import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
+import CommentCard from '../DistanceComponent/CommentCard';
+import DateCard from '../DistanceComponent/DateCard';
 
-const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
+
+interface Props {
+  data: any;
+  editPressed: (value)=>void
+  handleDelete: (value)=>void
+  showAllActivities?: boolean
+}
+const DistanceCard: React.FC<Props> = ({
+  data,
+  editPressed,
+  handleDelete,
+  showAllActivities
+}) => {
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
+  const [toDeleteId, setToDeleteId ] = useState(0);
   const [mask, setMask] = useState(false);
-
+  const activityData = useSelector(
+    (state: AppState) => state.rootStore.activityData.data,
+  );
+  
   const handleOk = () => {
+    handleDelete(toDeleteId);
     setVisible(false);
   };
 
   const handleCancel = () => {
     setVisible(false);
   };
+  
   const onShare = () => {
     setMask(true);
     const temp = setTimeout(captureScreenshot, 500);
@@ -41,42 +62,40 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
       RNFS.readFile(uri, 'base64').then(res => {
         let urlString = 'data:image/jpeg;base64,' + res;
         let options = {
-          title: '100Ascent',
-          message: '100Ascent travel your way to fitness',
+          title: '100 Ascent',
+          message: 'Hi, checkout my recent activity on 100 Ascent app (https://100ascent.com)',
           url: urlString,
           type: 'image/jpeg',
         };
         Share.open(options)
           .then(res => {
             setMask(false);
-            // console.log(res);
           })
           .catch(err => {
             setMask(false);
-            // err && console.log(err);
           });
       });
     });
   };
 
+  const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity_id)[0];
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1, borderRadius: 10 }}>
       <ViewShot
-        style={{backgroundColor: Colors.TEXT}}
+        style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
         ref={ref}
         options={{format: 'jpg', quality: 0.9}}>
         <View
           style={{
             flex: 1,
-            marginHorizontal: 20,
             borderRadius: 10,
             backgroundColor: Colors.TEXT,
             paddingHorizontal: 20,
-            paddingVertical: 10,
-            elevation: 10,
+            paddingVertical: 20,
+            elevation: 2,
           }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
-            <View style={{flex: 1}}>
+            <View style={{flex: 2}}>
               <View
                 style={{
                   justifyContent: 'center',
@@ -84,20 +103,23 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
                 }}>
                 <View
                   style={{
-                    borderRadius: 80,
+                    borderRadius: 40,
+                    width: 80,
+                    height: 80,
+                    padding: 15,
                     justifyContent: 'center',
                     alignItems: 'center',
+                    borderWidth: 2,
+                    borderColor: Colors.POPUP_GREY,
                   }}>
                   <FastImage
                     style={{
-                      width: 80,
-                      height: 80,
-                      borderRadius: 80,
-                      borderWidth: 2,
-                      borderColor: Colors.POPUP_GREY,
+                      width: 65,
+                      height: 65,
+                      borderRadius: 25,
                     }}
                     source={{
-                      uri: data.activity.icon,
+                      uri: selectedActivity.icon,
                       priority: FastImage.priority.high,
                     }}
                     resizeMode={FastImage.resizeMode.cover}
@@ -105,11 +127,11 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
                 </View>
               </View>
             </View>
-            <View style={{flex: 3, paddingLeft: 10}}>
+            <View style={{flex: 5, paddingLeft: 10}}>
               <View style={{flex: 1, flexDirection: 'row', paddingLeft: 20}}>
                 <View style={{justifyContent: 'center'}}>
                   <Text28
-                    text={data.distance + ' '}
+                    text={data.klicks.toFixed(2) + ' '}
                     textColor={Colors.YELLOW}
                   />
                 </View>
@@ -129,21 +151,25 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
                 <View style={{justifyContent: 'center'}}>
                   <Text14
                     textStyle={{fontWeight: 'bold'}}
-                    text={data.activity.name}
+                    text={selectedActivity.name}
                     textColor={Colors.TEXTDARK}
                   />
                 </View>
               </View>
             </View>
             <View style={{flex: 1}}>
-              <View
+              {/* <View
                 style={{
                   flex: 1,
                   flexDirection: 'row',
                   justifyContent: 'flex-end',
                 }}>
                 <View style={{}}>
-                  <Icon name="edit" type="material-icons" />
+                  <Icon
+                    name="edit"
+                    type="material-icons"
+                    onPress={editPressed}
+                  />
                 </View>
                 <View style={{}}>
                   <TouchableOpacity>
@@ -151,22 +177,30 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
                       name="delete"
                       type="MaterialIcons"
                       color={'#AF3F34'}
-                      onPress={() => setVisible(true)}
+                      onPress={() => {
+                        setToDeleteId(data.id);
+                        setVisible(true)
+                      }}
                     />
                   </TouchableOpacity>
                 </View>
-              </View>
-              <View style={{flex: 1, alignItems: 'flex-end'}}>
+              </View> */}
+              { mask ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onShare()}>
-                  <Icon name="share" />
+                  <Icon name="share" color={Colors.POPUP_GREY} size={24} />
                 </TouchableOpacity>
-              </View>
+              </View>}
             </View>
           </View>
-          <View style={{padding: 15}} />
+          <View style={{padding: 5}} />
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <CalorieCard calorie={data.calorie} />
+              {showAllActivities ? null : <DateCard date={data.date} stream={data.stream} /> }
+            </View>
+          </View>
+          <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              <CalorieCard calorie={data.calories} />
               <TimeCard time={data.min} />
             </View>
           </View>
@@ -174,71 +208,67 @@ const DistanceCard = ({data, onRightPress, onLeftPress, current, total}) => {
             <View style={{flex: 1, flexDirection: 'row'}}>
               <FootCard steps={data.steps} />
               <DistanceTotalCard
-                data={data.data}
+                data={data.raw_data}
                 isDistance={data.is_distance}
               />
             </View>
           </View>
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
-              <FitnessCard isGoogleFit={false} />
-              <View style={{flex: 1}} />
+              <FitnessCard stream={data.stream} />
+              {/* <View style={{flex: 1}} /> */}
             </View>
-          </View>
-          <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
-            <CommentCard comment={data.comment} />
-          </View>
-          <View
-            style={{
-              flex: 1,
-              marginHorizontal: 10,
-              marginVertical: 10,
-              justifyContent: 'center',
-              alignItems: 'center',
-            }}>
-            {mask ? null : (
-              <View style={{flex: 1, flexDirection: 'row'}}>
-                <TouchableOpacity
-                  disabled={current === 0}
-                  onPress={onLeftPress}>
-                  <View style={{justifyContent: 'center'}}>
-                    <Icon
-                      name="chevron-thin-left"
-                      type="entypo"
-                      color={current === 0 ? Colors.BLACK5 : '#333333'}
-                    />
-                  </View>
-                </TouchableOpacity>
-                <View
+          </View> 
+          <View style={{flex: 1, marginHorizontal: 10, marginVertical: 10, marginBottom: -5, marginRight: -5, flexDirection: 'row'}}>
+            <View style={{flex: 7, flexDirection: 'row'}}>
+              <CommentCard comment={data.comment} />
+            </View>
+            <View style={{flex: 1, flexDirection: 'row'}}>
+              { mask ? null : <View
                   style={{
+                    flex: 1,
                     flexDirection: 'row',
-                    alignItems: 'center',
-                    marginHorizontal: 10,
+                    justifyContent: 'flex-end',
                   }}>
-                  <Text16Normal
-                    text={current + 1}
-                    textColor={Colors.TEXTDARK}
-                  />
-                  <Text16Normal text={'/'} textColor={Colors.TEXTDARK} />
-                  <Text16Normal text={total} textColor={Colors.TEXTDARK} />
-                </View>
-                <TouchableOpacity
-                  disabled={current === total - 1}
-                  onPress={onRightPress}>
-                  <View style={{justifyContent: 'center'}}>
+                  <View style={{marginRight: 10}}>
                     <Icon
-                      name="chevron-thin-right"
-                      type="entypo"
-                      color={current === total - 1 ? Colors.BLACK5 : '#333333'}
+                      name="edit"
+                      type="material-icons"
+                      onPress={()=> editPressed(data.id)}
+                      size={24}
+                      color={Colors.POPUP_GREY}
                     />
                   </View>
-                </TouchableOpacity>
-              </View>
-            )}
-          </View>
+                  <View style={{}}>
+                    <TouchableOpacity>
+                      <Icon
+                        name="delete"
+                        type="MaterialIcons"
+                        color={Colors.POPUP_GREY}
+                        size={24}
+                        onPress={() => {
+                          setToDeleteId(data.id);
+                          setVisible(true)
+                        }}
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </View>}
+            </View>
+          </View>                   
         </View>
       </ViewShot>
-      <CustomPopUp visible={visible} onOk={handleOk} onCancel={handleCancel} />
+      <CustomPopUp
+        visible={visible}
+        onOk={handleOk}
+        isCancelable={true}
+        onCancel={handleCancel}
+        oKText={'Delete'}
+        cancelText={'Cancel'}
+        header={'Confirm Delete'}
+        description={'Do you really want to delete?'} 
+        icon={<DeleteModalIcon/>} 
+        />
     </View>
   );
 };

@@ -13,7 +13,7 @@ const Text24: React.FC<Props> = ({text, textColor, textStyle}) => {
     <View>
       <Text
         style={[
-          {fontSize: 24, color: textColor, fontFamily: 'Quicksand'},
+          {fontSize: 24, color: textColor, fontFamily: 'Quicksand-Medium'},
           textStyle,
         ]}>
         {text}
