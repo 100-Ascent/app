@@ -8,7 +8,14 @@ import {RootStackParamList} from './RootStackParamList';
 
 import {WIDTH} from '../utils/constants/constants';
 import {Colors} from '../utils/colors';
-import AllChallenges from './ScreenStacks/AllChallenges';
+import Leaderboard from './ScreenStacks/Leaderboard';
+import Fitness from './ScreenStacks/Fitness';
+import Profile from './ScreenStacks/Profile';
+import AddActivityScreen from '../screens/App_AddActivityScreen';
+import CustomTabBarButton from '../components/Button/CustomTabBarButton';
+import Home from './ScreenStacks/Home';
+import DataInListViewScreen from '../screens/App_DataInListViewScreen';
+import Activity from './ScreenStacks/Activity';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -23,7 +30,7 @@ const BottomTabStack = ({navigation}) => {
   return (
     <>
       <Tab.Navigator
-        initialRouteName="AllChallengesScreen"
+        initialRouteName="HomeScreen"
         tabBarOptions={{
           showLabel: false,
           style: {
@@ -45,8 +52,35 @@ const BottomTabStack = ({navigation}) => {
           },
         }}>
         <Tab.Screen
-          name="AllChallengesScreen"
-          component={AllChallenges}
+          name="HomeScreen"
+          component={Home}
+          options={{
+            tabBarLabel: '4',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View style={{position: 'absolute', top: 15}}>
+                <Icon
+                  name="home"
+                  type="ionicon"
+                  size={30}
+                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                />
+              </View>
+            ),
+          }}
+          listeners={({navigation, route}) => ({
+            // Onpress Update....
+            tabPress: e => {
+              Animated.spring(tabOffsetValue, {
+                toValue: 0,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        />        
+        <Tab.Screen
+          name="DataInListViewScreen"
+          component={Activity}
           options={{
             tabBarLabel: '4',
             unmountOnBlur: true,
@@ -65,13 +99,94 @@ const BottomTabStack = ({navigation}) => {
             // Onpress Update....
             tabPress: e => {
               Animated.spring(tabOffsetValue, {
+                toValue: getWidth(),
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        />
+        <Tab.Screen
+          name="AddActivityScreen"
+          component={AddActivityScreen}
+          options={{
+            tabBarLabel: '3',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View>
+                <Icon
+                  name="plus"
+                  type="ant-design"
+                  size={30}
+                  color={Colors.WHITE}
+                />
+              </View>
+            ),
+            tabBarButton: props => (
+              <CustomTabBarButton
+                onPress={() => navigation.navigate('PostDataScreen')}
+                {...props}
+              />
+            ),
+          }}
+        />
+
+        <Tab.Screen
+          name="LeaderboardScreen"
+          component={Leaderboard}
+          options={{
+            tabBarLabel: '4',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View style={{position: 'absolute', top: 15}}>
+                <Icon
+                  name="leaderboard"
+                  type="MaterialIcons"
+                  size={30}
+                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                />
+              </View>
+            ),
+          }}
+          listeners={({navigation, route}) => ({
+            // Onpress Update....
+            tabPress: e => {
+              Animated.spring(tabOffsetValue, {
                 toValue: getWidth() * 3,
                 useNativeDriver: true,
               }).start();
             },
           })}
         />
+        
+        <Tab.Screen
+          name="MyProfileScreen"
+          component={Profile}
+          options={{
+            tabBarLabel: '4',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View style={{position: 'absolute', top: 15}}>
+                <Icon
+                  name="trophy"
+                  type="ionicon"
+                  size={30}
+                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                />
+              </View>
+            ),
+          }}
+          listeners={({navigation, route}) => ({
+            // Onpress Update....
+            tabPress: e => {
+              Animated.spring(tabOffsetValue, {
+                toValue: getWidth() * 4,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        />
       </Tab.Navigator>
+      
       <Animated.View
         style={{
           width: getWidth() - 20,

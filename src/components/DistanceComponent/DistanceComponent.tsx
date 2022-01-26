@@ -14,7 +14,6 @@ import Text16Normal from '../Text/Text16Normal';
 import { Colors } from '../../utils/colors';
 
 interface Props {
-  setRefreshing?: any;
   distanceData?: any;
   setLoading?: any;
   setActivityData?: any;
@@ -23,7 +22,7 @@ interface Props {
   showAllActivities?: boolean
 }
 
-const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLoading, setActivityData, setStreak, setIsToday, showAllActivities = false}) => {
+const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActivityData, setStreak, setIsToday, showAllActivities = false}) => {
   
   let dataMap = new Map();
   const callToGetUserActivityData = async () => {

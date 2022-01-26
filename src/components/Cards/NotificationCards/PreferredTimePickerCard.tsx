@@ -110,7 +110,7 @@ const handleEditPreferredTime = async (timeToSend) => {
         });
 }
 
-return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
+return <View style={{ flex:1,  backgroundColor: Colors.TEXT, elevation: 5, borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
     <View style={{ flex:1, justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 10, paddingTop: 10 }}>
         <TouchableOpacity onPress={()=>setShow(true)}>
             <View style={{ flexDirection: 'row' }}>

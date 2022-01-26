@@ -266,17 +266,7 @@ navigation.setOptions({
     headerTitle: 'Leaderboard',
     headerTitleContainerStyle: {alignItems: 'center'},
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-    headerRight: () => <View style={{marginLeft: 0}} />,
-    headerLeft: () => (
-      <View style={{marginLeft: 10}}>
-        <Icon
-          name="arrow-back"
-          type="ionicons"
-          size={30}
-          onPress={() => navigation.navigate('MyProfileScreen')}
-        />
-      </View>
-    ),
+    headerRight: () => <View style={{marginLeft: 0}} />,        
   });
 
 return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>

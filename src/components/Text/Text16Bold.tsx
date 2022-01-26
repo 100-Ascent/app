@@ -5,11 +5,12 @@ interface Props {
   text: string;
   textColor: string;
   textStyle?: object;
+  containerStyle?: object;
 }
 
-const Text16Bold: React.FC<Props> = ({text, textColor, textStyle = {}}) => {
+const Text16Bold: React.FC<Props> = ({text, textColor, textStyle = {}, containerStyle = {}}) => {
   return (
-    <View>
+    <View style={[containerStyle]}>
       <Text
         style={
           [{

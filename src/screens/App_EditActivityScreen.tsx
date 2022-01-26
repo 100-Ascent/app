@@ -40,7 +40,7 @@ interface Props {
 
 
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
-
+  console.log("EditActivityScreen")
   const routeData = route.params.data;
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = new Date(routeData.date);
