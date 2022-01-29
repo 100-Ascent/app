@@ -180,7 +180,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   }, []);
 
   var dateDifference = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))/ (1000 * 60 * 60 * 24));
-
+  console.log("Sddsd")
   return (
     <View style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>

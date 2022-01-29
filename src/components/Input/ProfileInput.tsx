@@ -20,9 +20,10 @@ interface Props {
   isPhone?: boolean;
   isDOBFilled?: boolean;
   isUsername?: boolean;
+  flexValue?: number;
 }
 
-const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled, isUsername}) => {
+const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, type, isAddressFilled, iconType, editToggle, onInfoPressed, isPhone, isDOBFilled, isUsername, flexValue = 8}) => {
 
   const getIconColor = (type: any, isEmailVerified: boolean,isAddressFilled : boolean, isDOBFilled: boolean) => {
     switch(type){
@@ -90,7 +91,7 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
       <View style={[globalStyles.flex, globalStyles.flexRowAlignCenter]}>
         {renderIcon()}
       </View>
-      <View style={{flex: 8}}>
+      <View style={{flex: flexValue}}>
         <TextInput 
             style={{                  
                 color: Colors.WHITE,

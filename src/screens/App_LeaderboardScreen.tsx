@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FlatList, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, Image, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import { useSelector, useStore } from 'react-redux';
 import NotesCard from '../components/Cards/FitnessCards/NotesCard';
@@ -23,6 +23,9 @@ import Text12Bold from '../components/Text/Text12Bold';
 import Text16Bold from '../components/Text/Text16Bold';
 import { useIsFocused } from '@react-navigation/native';
 import Text14 from '../components/Text/Text14';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
+import Background from '../components/Background/StyledBackground';
 
 interface Props{
 navigation:RootNavProp<'LeaderboardScreen'>;
@@ -55,6 +58,8 @@ const [query, setQuery] = useState('');
 const [fullData, setFullData] = useState([]);
 const [timer, setTimer] = useState("");
 const [leagueEndTime, setLeagueEndTime] = useState("");
+const [showRankPopUp, setShowRankPopUp] = useState(false);
+
 const isFocused = useIsFocused();
 const [lastLeagueRank, setLastLeagueRank ] = useState("0");
 const [ currentData, setCurrentUserData ] = useState({ myStatsInAllTime: {}, myRank: 0});
@@ -278,10 +283,21 @@ navigation.setOptions({
     headerTitle: 'Leaderboard',
     headerTitleContainerStyle: {alignItems: 'center'},
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-    headerRight: () => <View style={{marginLeft: 0}} />,        
+    headerRight: () => <View style={{ marginRight: 15 }} >
+      <TouchableOpacity onPress={()=> setShowRankPopUp(!showRankPopUp)}>
+        <Image
+            source={require('../../assets/icons/leaderboard/monster.png')}
+            style={{
+              width: 25,
+              height: 25,
+            }}
+          />
+      </TouchableOpacity>
+    </View>,        
   });
 
-return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
+return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
+  <>
   <LeagueListCard data={leagueData} />
   <FlatList
       data={currentSwitch === 0 ? weeklyData : currentSwitch === 1 ? allTimeData : rulesData}
@@ -325,7 +341,7 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
                     : index === 24 && leagueData['league_index'] !== 0  ? <DemotedSeparator league={leagueData["all_leagues"][leagueData['league_index']-1]} /> : null : null } 
             </View>      
     }}    
-    ListFooterComponent={<View style={{ padding: 40 }}/>}
+    ListFooterComponent={<View style={{ padding: 50 }}/>}
     ListHeaderComponent={
         <View>   
           <TouchableWithoutFeedback onPress={() => console.log('Pressed!')}>
@@ -390,10 +406,22 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
         </View>
     }
 />
-{/* { isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{ position: 'absolute', bottom: 0 }}>
-    <TableRow item={currentData.myStatsInAllTime} rank={(currentData.myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT, elevation: 1 }} isFixedRow={true}/>
-</View> : null } */}
+  {/* { isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{ position: 'absolute', bottom: 0 }}>
+      <TableRow item={currentData.myStatsInAllTime} rank={(currentData.myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT, elevation: 1 }} isFixedRow={true}/>
+  </View> : null } */}
+  { showRankPopUp ? 
+    <LeaderboardPopUp 
+        userData={user} 
+        currentData={currentData}
+        selectedLeaderboard= {selectedLeaderboard}
+        leagueData={leagueData} 
+        visible={showRankPopUp}
+        weeklyData={weeklyData.filter(obj=>obj.username === user['username'])}
+        allTimeData={allTimeData.filter(obj=>obj.username === user['username'])}
+        onCancel={()=>setShowRankPopUp(!showRankPopUp)}
+      /> : null }
 </>
+</Background >
 }
 
 export default LeaderboardScreen;

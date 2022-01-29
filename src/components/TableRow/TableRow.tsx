@@ -9,6 +9,7 @@ import RankOne from '../../../assets/icons/leaderboard/rank-one.svg';
 import RankTwo from '../../../assets/icons/leaderboard/rank-two.svg';
 import RankThree from '../../../assets/icons/leaderboard/rank-three.svg';
 import { truncate } from '../../utils/services/text-utils';
+import Text12Normal from '../Text/Text12Normal';
 
 interface Props {
   item: any;
@@ -67,13 +68,15 @@ const TableRow: React.FC<Props> = ({
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
-            {
-              isFixedRow ? <Text14
+            { item.show_name ? <Text12Normal
+              text={item.name}
+              textColor={Colors.TEXTDARK}              
+            /> : null}
+            {isFixedRow ? <Text14
                 text={"Rank " + item.rank}
                 textColor={Colors.TEXTDARK}
                 textStyle={FONTS.REGULAR}
-              /> : null
-            }
+              /> : null}
           </View>
           <View style={{width: '18%', alignItems: 'center' }}>
             <Text18

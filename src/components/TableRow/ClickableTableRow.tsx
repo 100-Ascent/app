@@ -87,7 +87,7 @@ const ClickableTableRow: React.FC<Props> = ({
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
-            {isCustomLeaderboard ? <Text12Normal
+            {item.show_name ? <Text12Normal
               text={item.name}
               textColor={Colors.TEXTDARK}              
             /> : null }

@@ -6,6 +6,7 @@ import {RootStackParamList} from '../RootStackParamList';
 import DataInListViewScreen from '../../screens/App_DataInListViewScreen';
 import {NavigationDrawerStructure} from '../AppStack';
 import EditActivityScreen from '../../screens/App_EditActivityScreen';
+import AddActivityScreen from '../../screens/App_AddActivityScreen';
 
 const ActivityStack = createStackNavigator<RootStackParamList>();
 
@@ -44,6 +45,7 @@ const Activity = ({navigation}) => {
           },
         })}
       />
+      
     </ActivityStack.Navigator>
   );
 };
