@@ -14,8 +14,6 @@ import Profile from './ScreenStacks/Profile';
 import AddActivityScreen from '../screens/App_AddActivityScreen';
 import CustomTabBarButton from '../components/Button/CustomTabBarButton';
 import Home from './ScreenStacks/Home';
-import DataInListViewScreen from '../screens/App_DataInListViewScreen';
-import Activity from './ScreenStacks/Activity';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -80,7 +78,7 @@ const BottomTabStack = ({navigation}) => {
         />        
         <Tab.Screen
           name="DataInListViewScreen"
-          component={Activity}
+          component={Fitness}
           options={{
             tabBarLabel: '4',
             unmountOnBlur: true,

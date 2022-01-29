@@ -81,8 +81,7 @@ const callToGetLeaderboards = async () => {
       .then(async res => {
         const data = res.data.data;
         if(res.data.success){
-          setLeaderboardData(data);    
-          console.log(res.data);   
+          setLeaderboardData(data);       
           let defaultLB = data.filter(obj=> obj.default)
           setSelectedLeaderboard(defaultLB[0]);
           setLeagueData(res.data['league-data']);
@@ -129,11 +128,11 @@ const callToGetWeeklyData = async (id: any) => {
     .then(async res => {
       let data = res.data.data; 
       if(res.data.success){
-        console.log(res.data);
         setLeagueEndTime(res.data.league_end_time);
+        data = callToAddRankToLeaderboardData(data);
         setWeeklyLeaderboardData(data);
         setFullWeeklyData(data);
-        setActiveDays(res.data.active_days);
+        setActiveDays(res.data.active_days);        
         callToGetAllTimeData(id);
       }else{
         console.log("hi I am here")
@@ -153,11 +152,11 @@ const callToGetWeeklyData = async (id: any) => {
 
 const setWeeklyCustomLeaderBoardData = (data) => {
   data.sort((a,b) => (a.lp > b.lp) ? -1 : ((b.lp > a.lp) ? 1 : 0))
-  setWeeklyLeaderboardData(data);
+  let newData = callToAddRankToLeaderboardData(data);
+  setWeeklyLeaderboardData(newData);
 }
 
 const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
-  console.log(id);
   await axios
       .get("/api/leader/boards/all_time/" + id, {
         headers: {
@@ -166,8 +165,9 @@ const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
       })
       .then(async res => {
         let data = res.data.data;    
+        data = callToAddRankToLeaderboardData(data);
         setAllTimeLeaderboardData(data);
-        setFullData(data);
+        setFullData(data);      
         const myStatsInAllTime = res.data.data.find(obj=>obj.username.includes(user['username']));
         const myRank =  res.data.data.findIndex( obj=> obj.username === user['username']);
         setCurrentUserData({
@@ -193,11 +193,15 @@ const callToGetCustomLeaderboardsData = async (id: any) => {
        })
        .then(async res => {
          const data = res.data;   
-         console.log(res.data);
-         setAllTimeLeaderboardData(res.data.data);
-         setActiveDays(res.data.active_days);
-         setLeagueEndTime(res.data.league_end_time)
-         setWeeklyCustomLeaderBoardData(res.data.data); 
+         setAllTimeLeaderboardData(data.data);
+         setActiveDays(data.active_days);
+         setLeagueEndTime(data.league_end_time)
+         setWeeklyCustomLeaderBoardData(data.data);
+         const myStatsInAllTime = res.data.data.find(obj=>obj.username.includes(user['username']));
+         const myRank =  res.data.data.findIndex( obj=> obj.username === user['username']);
+         setCurrentUserData({
+           myStatsInAllTime, myRank
+         })
          setLeaderboardLoading(false);
        })
        .catch(err => {
@@ -212,6 +216,14 @@ useEffect(()=>{
   setLoading(true);
   callToGetLeaderboards();
 },[isFocused]);
+
+const callToAddRankToLeaderboardData = (data) => {
+  for(let idx=0; idx<data.length; idx++) {
+    data[idx].rank = idx+1;
+  }
+
+  return data;
+}
 
 const handleSearch = text => {
   const formattedQuery = text.toLowerCase();
@@ -294,8 +306,18 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
             isLeaderboardLoading ? index === 0 ? <View style={{marginTop: 30}}><RNLoaderSimple/></View> : null :     
             <View>
                 <View style={{ flex: 1 }}>
-                    { currentSwitch === 0 ? <ClickableTableRow activeDays={activeDays} item={item} username={user['username']} rank={index+1} handlePress={()=>{ setExpandedRowIndex(index); setIsExpanded(!isExpanded)}} expandedRowIndex={expandedRowIndex} isExpanded={isExpanded}/> 
-                    : currentSwitch === 1 ? <TableRow item={item} rank={index+1}/> 
+                    { currentSwitch === 0 ? 
+                    <ClickableTableRow 
+                      activeDays={activeDays} 
+                      item={item} 
+                      username={user['username']} 
+                      handlePress={()=>{ setExpandedRowIndex(index); setIsExpanded(!isExpanded)}} 
+                      expandedRowIndex={expandedRowIndex} 
+                      isExpanded={isExpanded}
+                      isCustomLeaderboard = {!selectedLeaderboard['default']}
+                    /> 
+
+                    : currentSwitch === 1 ? <TableRow item={item} /> 
                     : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ? !selectedLeaderboard['default'] ? null : index === 9 && leagueData['league_index'] < leagueData["all_leagues"].length ? 
@@ -368,9 +390,9 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
         </View>
     }
 />
-{ isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{position: 'absolute', bottom: 0 }}>
+{/* { isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{ position: 'absolute', bottom: 0 }}>
     <TableRow item={currentData.myStatsInAllTime} rank={(currentData.myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT, elevation: 1 }} isFixedRow={true}/>
-</View> : null }
+</View> : null } */}
 </>
 }
 

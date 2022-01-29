@@ -39,8 +39,8 @@ const TableRow: React.FC<Props> = ({
             paddingVertical: 10,
           },tableRowStyle]}>
           <View style={{width: '10%', alignItems: 'center',}}>
-          { rank === 1 ? <RankOne/> : rank === 2? <RankTwo/> : rank === 3 ? <RankThree/> :  <Text14
-              text={ rank === 1000 ? "1K" : rank > 1000 ? Math.floor( rank/1000 ) + "K" : rank }
+          { item.rank === 1 ? <RankOne/> : item.rank === 2? <RankTwo/> : item.rank === 3 ? <RankThree/> :  <Text14
+              text={ item.rank === 1000 ? "1K" : item.rank > 1000 ? Math.floor( item.rank/1000 ) + "K" : item.rank }
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />}
@@ -69,7 +69,7 @@ const TableRow: React.FC<Props> = ({
             />
             {
               isFixedRow ? <Text14
-                text={"Rank " + rank}
+                text={"Rank " + item.rank}
                 textColor={Colors.TEXTDARK}
                 textStyle={FONTS.REGULAR}
               /> : null

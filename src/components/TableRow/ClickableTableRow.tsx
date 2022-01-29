@@ -10,6 +10,7 @@ import Text28 from '../Text/Text28';
 import RankOne from '../../../assets/icons/leaderboard/rank-one.svg';
 import RankTwo from '../../../assets/icons/leaderboard/rank-two.svg';
 import RankThree from '../../../assets/icons/leaderboard/rank-three.svg';
+import Text12Normal from '../Text/Text12Normal';
 
 interface Props {
   item: any;
@@ -19,6 +20,7 @@ interface Props {
   rank?: any;
   username:any;
   activeDays:any;
+  isCustomLeaderboard?: any;
 }
 
 const ClickableTableRow: React.FC<Props> = ({
@@ -28,20 +30,22 @@ const ClickableTableRow: React.FC<Props> = ({
   isExpanded,
   rank,
   username,
-  activeDays
+  activeDays,
+  isCustomLeaderboard
 }) => {
   //Async functions
   let data = [];
+  let actualActiveDays = 0;
   for(let i=0; i < 7; i++) {
     if( i < item.values.length  && item.values[i] >= 0 ){
       data.push(item.values[i]);
+      actualActiveDays+=1;
     }else if(i < item.values.length  && item.values[i] < 0){
       data.push(0);
     }else {
       data.push(-1);
     }
   }
-
   return (
     <View>
       <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>
@@ -51,12 +55,13 @@ const ClickableTableRow: React.FC<Props> = ({
             alignItems: 'center',
             paddingVertical: 10,
             backgroundColor:
-             item.username === username ? rank <= 10 ? Colors.PROMOTED : rank>10 && rank<=25 ? Colors.CURRENT : 
+             item.username === username ? item.rank <= 10 ? Colors.PROMOTED : item.rank>10 && item.rank<=25 ? Colors.CURRENT : 
              Colors.DEMOTED : Colors.TRANSPARENT,
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
-            { rank === 1 ? <RankOne/> : rank === 2? <RankTwo/> : rank === 3 ? <RankThree/> : <Text14
-              text={rank}
+            { item.rank === 1 ? <RankOne/> : item.rank === 2? <RankTwo/> : item.rank === 3 ? <RankThree/> : 
+            <Text14
+              text={item.rank}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />}
@@ -82,6 +87,10 @@ const ClickableTableRow: React.FC<Props> = ({
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
+            {isCustomLeaderboard ? <Text12Normal
+              text={item.name}
+              textColor={Colors.TEXTDARK}              
+            /> : null }
           </View>
           <View style={{width: '25%', alignItems: 'flex-end'}}>
             <Text14
@@ -92,9 +101,9 @@ const ClickableTableRow: React.FC<Props> = ({
           </View>
         </View>
       </TouchableOpacity>
-      {isExpanded && expandedRowIndex === rank - 1 ? (
+      {isExpanded && expandedRowIndex === item.rank - 1 ? (
         <View style={{ backgroundColor:  item.username === username ?
-          rank <= 10 ? Colors.PROMOTED_LIGHT : rank>10 && rank<=25 ? Colors.CURRENT_LIGHT : 
+          item.rank <= 10 ? Colors.PROMOTED_LIGHT : item.rank>10 && item.rank<=25 ? Colors.CURRENT_LIGHT : 
          Colors.DEMOTED_LIGHT : "rgba(220,220,220,0.2)", paddingVertical: 10,}}>
           <View
             style={{
@@ -110,7 +119,7 @@ const ClickableTableRow: React.FC<Props> = ({
             />
           </View>
           <View style={{flexDirection: 'row', paddingVertical: 15}}>
-            {InfoCard('Active Days', item.values.length + "/" + activeDays)}
+            {InfoCard('Active Days', actualActiveDays + "/" + activeDays)}
             {InfoCard('Median Klicks',item.median_klicks)}
             {InfoCard('Total Klicks', item.total_klicks)}
           </View>
