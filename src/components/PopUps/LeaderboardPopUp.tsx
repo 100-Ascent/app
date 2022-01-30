@@ -52,7 +52,15 @@ const LeaderboardPopUp: React.FC<Props> = ({
       <View style={styles.container}>
         <View style={styles.visiblePopup}>          
           <View style={styles.contentContainer}>
-            <View style={styles.content}>         
+            <View style={styles.content}>
+              <View style={{backgroundColor: '#f8f8f8', width: '100%', paddingTop: 20}}>
+                <Text18
+                    text='Your Leaderboard Stats'
+                    textColor={Colors.BLACK1}
+                    textStyle={[FONTS.BOLD, { textAlign: 'center' }]}
+                    containerStyle={[styles.centeredText, { marginBottom: 15, paddingHorizontal: 10}]}
+                  />     
+              </View>
               <View style={[styles.heading]}>
                 <View style={[styles.flexRow, { marginVertical: 10 }]}>
                   <View style={styles.image}>
@@ -81,15 +89,16 @@ const LeaderboardPopUp: React.FC<Props> = ({
                         containerStyle={{ paddingLeft: 5 }}
                       />
                     </View>
-                    <View style={[styles.flexRow, { marginTop: 5 }]}>
-                      <Text style={{fontSize: 14}}>📛</Text>
+                    <View style={[styles.flexRow, { marginTop: 10 }]}>
+                      <Text style={{fontSize: 14}}>🆔</Text>
                       <Text14
                         text={userData['username']}
                         textColor={Colors.TEXTDARK}
+                        textStyle={FONTS.SEMIBOLD}
                         containerStyle={{ paddingLeft: 10 }}
                       />
                     </View>
-                    <View style={[styles.flexRow, { marginTop: 5 }]}>
+                    <View style={[styles.flexRow, { marginTop: 10 }]}>
                       <View style={{ justifyContent: 'center' }}>
                         <FastImage
                           style={{
@@ -108,20 +117,21 @@ const LeaderboardPopUp: React.FC<Props> = ({
                       <Text14
                         text={ leagueData['all_leagues'][leagueData['league_index']] + " League"}
                         textColor={Colors.TEXTDARK}
-                        containerStyle={{ paddingLeft: 10 }}
+                        textStyle={FONTS.SEMIBOLD}
+                        containerStyle={{ paddingLeft: 10}}
                       />
                     </View>                                                    
                   </View>
                 </View>
               </View>
               
-              <View style={styles.separator} />
+              {/* <View style={styles.separator} /> */}
 
               <View style={styles.body}>                        
                 <Text18
-                  text={selectedLeaderboard.name.toUpperCase()}
-                  textColor={Colors.TEXTDARK}
-                  textStyle={[FONTS.SEMIBOLD, { textAlign: 'center' }]}
+                  text={selectedLeaderboard.name}
+                  textColor={Colors.RED}
+                  textStyle={[FONTS.BOLD, { textAlign: 'center' }]}
                   containerStyle={[styles.centeredText, { marginBottom: 10, paddingHorizontal: 10 }]}
                 />
                 
@@ -156,7 +166,7 @@ const LeaderboardPopUp: React.FC<Props> = ({
                     />
                   </View>
                 </View>
-                <View style={styles.flexRow}>
+                <View style={[styles.flexRow, {marginTop: 10}]}>
                   <View style={styles.flexColumnWidth50}>
                   <View style={{paddingTop: 7}} />
                     <Text12Normal
@@ -198,9 +208,9 @@ const LeaderboardPopUp: React.FC<Props> = ({
                 </View>
 
               </View>
-              <View style={styles.footer}>
+              <View style={[styles.footer, {marginTop: -10}]}>
                 <TouchableOpacity onPress={onCancel}>
-                  <Text16Underline text='Close' textColor={Colors.INFO_GREY} />
+                  <Text16Normal text='Close' textColor={Colors.DARK_LINEARGRADIENT1} />
                 </TouchableOpacity>                
               </View>
             </View>
@@ -216,11 +226,11 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000aa',
     justifyContent: 'center',
-    alignItems: 'center',
+    alignItems: 'center'
 
   },
   visiblePopup: {
-    backgroundColor: Colors.WHITE,
+    backgroundColor: '#fff',
     width: '85%',
     borderRadius: 20,
     elevation: 5
@@ -231,17 +241,20 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: Colors.WHITE,
-    marginVertical: 20
+    backgroundColor: '#fff',
+    marginBottom: 20,
+    marginTop: 20
   },
   content: { alignItems: 'center', width: '100%'},
   // heading: {marginTop: -35, flexDirection: 'row'},
-  heading: { marginTop: 5, flexDirection: 'row' },
-  image: {flexDirection: 'column', marginLeft: 30 },
+  heading: { marginTop: 0, flexDirection: 'row', backgroundColor: '#f8f8f8', paddingBottom: 20 },
+  image: {flexDirection: 'column', marginLeft: 30, borderWidth: 3, borderRadius: 100, padding: 4, borderColor: Colors.RED  },
   separator: {
     borderWidth: 1,
-    width: '90%',
-    borderColor: "#E4E4E4",
+    borderRadius: 5,
+    borderStyle: 'dashed',
+    width: '20%',
+    borderColor: "#444",
     marginVertical: 10,
   },
   body: { width: '100%', alignItems: 'center', marginVertical: 10 },
