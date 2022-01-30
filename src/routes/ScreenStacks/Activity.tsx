@@ -33,10 +33,7 @@ const Activity = ({navigation}) => {
       <ActivityStack.Screen
         name={'EditActivityScreen'}
         component={EditActivityScreen}
-        options={({route}) => ({
-          headerLeft: () => (
-            navigation.pop()
-          ),
+        options={({route}) => ({ 
           headerStyle: {
             backgroundColor: Colors.WHITE,
             elevation: 0,

@@ -124,17 +124,7 @@ const CustomDrawerContent = ({...rest}) => {
         <Text24 text={'100 Ascent'} textColor={Colors.WHITE} />
       </View>
       <DrawerContentScrollView {...rest}>
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="settings" color={Colors.WHITE} size={size} />
-          )}
-          label="Settings"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
-            rest.navigation.navigate('SettingsStack')
-            rest.navigation.closeDrawer();
-          }}
-        />
+        
         <DrawerItem
           icon={({color, size}) => (
             <Icon
@@ -148,6 +138,17 @@ const CustomDrawerContent = ({...rest}) => {
           labelStyle={{color: Colors.WHITE, fontSize: 16}}
           onPress={() => {
             rest.navigation.navigate('FitnessStack')
+            rest.navigation.closeDrawer();
+          }}
+        />
+        <DrawerItem
+          icon={({color, size}) => (
+            <Icon name="settings" color={Colors.WHITE} size={size} />
+          )}
+          label="Settings"
+          labelStyle={{color: Colors.WHITE, fontSize: 16}}
+          onPress={() => {
+            rest.navigation.navigate('SettingsStack')
             rest.navigation.closeDrawer();
           }}
         />

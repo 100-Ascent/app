@@ -59,12 +59,17 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitleContainerStyle: {alignItems: 'center'},
       headerRight: () => <View style={{marginLeft: 10}} />,
     });
-  }, []);
+  }, [])
 
+  const handleEditActivity = (data) => {  
+    navigation.replace('EditActivityScreen', { data });
+  }
+  
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
-        { loading? <RNLoaderSimple/> : <ScrollView
+        { loading? <RNLoaderSimple/> : 
+        <ScrollView
           scrollEnabled
           style={{flexGrow: 1}}
           contentContainerStyle={{flexGrow: 1}}>
@@ -72,7 +77,9 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
             <View style={{marginHorizontal: 10}}>
               <DistanceComponent
                 showAllActivities={true}
-                distanceData={data}                                
+                distanceData={data} 
+                handleEditActivity={handleEditActivity}  
+                callToGetUserActivityData={callToGetUserActivityData}                             
               />
             </View>
           </View>

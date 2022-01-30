@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { View, SafeAreaView, ScrollView, TouchableOpacity, RefreshControl } from 'react-native';
+import { View, SafeAreaView, ScrollView, TouchableOpacity, RefreshControl, ToastAndroid } from 'react-native';
 import Text20 from '../components/Text/Text20';
 import Text16Bold from '../components/Text/Text16Bold';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
@@ -8,38 +8,66 @@ import Background from '../components/Background/StyledBackground';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import axios from 'axios';
 import { Colors } from '../utils/colors';
-import { USER_SETTINGS, USER_STREAK_DATA } from '../utils/apis/endpoints';
+import { GOOGLE_FITNESS_SYNC, USER_DETAILS, USER_SETTINGS, USER_STREAK_DATA } from '../utils/apis/endpoints';
 import { RootNavProp } from '../routes/RootStackParamList';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import SyncNowButton from '../components/Button/SyncNowButton';
 import StatsCard from '../components/Cards/StatsCard';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux';
 import auth from '@react-native-firebase/auth';
-
+import Text18 from '../components/Text/Text18';
+import { FONTS } from '../utils/constants/fonts';
+import RNLoader from '../components/Loader/RNLoader';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';import CustomPopUp from '../components/PopUps/CustomPopUp';
+import { setData, setEmailVerifiedData } from '../redux/action';
+import Text24 from '../components/Text/Text24';
+module
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
 }
 
 const HomeScreen: React.FC<Props> = ({navigation}) => {
 
-  const user = useSelector((state: AppState) => state.rootStore.user);
+  const user = useSelector((state: AppState) => state.rootStore.user);  
   const [loading, setLoading] = useState(true);
   const [settings, setSettings] = useState([]);
   const [streak, setStreak] = useState(0);
   const [isToday,setIsToday] = useState(false);
-  const [preferredConnection, setPreferredConnection] = useState(user['preferred_connection']);
   const [token, setToken] = useState('');
+
+
+  const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
+  const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
+  const [popUpMessage, setPopUpMessage]= useState("");
 
   const isFocused = useIsFocused();
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const PREFERRED_WORKOUT_TIME_HEADING = "My preferred workout time";
   const SYNC_NOW = "Sync Now";
   const MY_STREAK = "My Streak";
-  
+  const dispatch = useDispatch();
+
   const getToken = async () => {
     const token = await auth().currentUser.getIdToken();
     setToken(token);
+  };
+
+  const callToGetUserDetails = async () => {
+    const headers = { 'X-CONTEXT-ID': contextId };
+    await axios
+      .get(USER_DETAILS, { headers })
+      .then(async res => {
+        const { data } = res.data;
+        setPreferredConnection(data['preferred_connection'])
+        dispatch(setEmailVerifiedData(data['is_verified_email']));
+        dispatch(setData(data));
+      })
+      .catch(err => {
+        console.log('failed in user data');
+        console.log(err);
+      });
   };
 
   const callToGetSettingData = async () => {
@@ -80,13 +108,63 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   }
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: 'Quick Actions',
+      headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
+      headerTitleContainerStyle: {alignItems: 'center'},
+      headerRight: () => <View style={{marginLeft: 10}} />,
+    });
+    setLoading(true);
+    callToGetUserDetails();
     getToken();
     callToGetSettingData();
   }, [isFocused]);
 
+  const [preferredConnection, setPreferredConnection] = useState(user? user['preferred_connection'] : {});
   const handleRedirectToConnect = () => navigation.navigate('FitnessIntegrationScreen');
 
-  
+  const handleSyncData = async () => {
+
+    let date_now = new Date();
+    let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
+    if(preferredConnection['sync_count'] === 0 ){
+      setPopUpAfterSyncData(true);
+      setPopUpMessage("No syncs available")
+      setPopUpIconSuccess(false);      
+    }else{
+      ToastAndroid.show("Syncing data", ToastAndroid.LONG);
+      await axios
+      .get(GOOGLE_FITNESS_SYNC, {
+        params : preferredConnection['last_sync_date'] === null ? {
+          start_date: date_now_adjusted
+        } : {}, headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(async res => {
+          if(res.data.success){                 
+            setLoading(true);
+            getToken();
+            callToGetUserDetails();
+            callToGetSettingData();
+            setPopUpMessage(res.data.message);    
+            setPopUpIconSuccess(true);
+            setPopUpAfterSyncData(true);
+          }else{
+            setPopUpIconSuccess(false);
+            setPopUpMessage(res.data.message);  
+            setPopUpAfterSyncData(true);
+          }
+      })
+      .catch(err => {
+        ToastAndroid.show("Error syncing the data", ToastAndroid.SHORT);
+        console.log('Error in syncing');
+        console.log(err);
+      });
+    }
+    
+  }
+
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -98,8 +176,8 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
               contentContainerStyle={{flexGrow: 1}}>
               <View style={{flex: 1, paddingHorizontal: 15}}>
                 
-                <View style={{ paddingHorizontal: 0 }}>
-                  <Text20 text={"Hi " + user['first_name'] + ","} textColor={Colors.TEXTDARK} />
+                <View style={{ paddingHorizontal: 10, marginTop: 20 }}>
+                  <Text24 text={"Hi " + user['first_name'] + ","} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View>
 
                 {/* Stats card */}
@@ -137,20 +215,32 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                     <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
                   </TouchableOpacity>
                 </View>
-                <View style={{marginTop: 20 }}/>              
+                <View style={{marginTop: 10 }}/>              
                 <SyncNowButton 
                     data={preferredConnection} 
                     token={token} 
                     handleRedirectToConnect={handleRedirectToConnect} 
-                    handleSyncData={()=>{}}
+                    handleSyncData={handleSyncData}
                     isConnected = {Object.keys(preferredConnection).length !== 0 }
                   />     
                
                 
               </View>
               <View style={{ padding: 80 }} />
+              <CustomPopUp
+                icon={ isSyncSuccess ? <NotificationIcon /> : <ErrorIcon/>}
+                visible={isSyncDataDone}
+                onOk={() => setPopUpAfterSyncData(false)}
+                isCancelable={false}
+                oKText={'OKAY'}
+                header={popUpMessage}
+                description={""}
+                isCloseButton={false}   
+                isDescriptionLong={false} 
+                />
             </ScrollView>
           )}
+          
       </Background>
     </SafeAreaView>
   );

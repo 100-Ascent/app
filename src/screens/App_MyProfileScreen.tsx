@@ -51,6 +51,7 @@ import SyncNowButton from '../components/Button/SyncNowButton';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
 import moment from 'moment';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 
 
 interface Props {
@@ -113,10 +114,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       });
   };
-
-  
-
-
 
   useEffect(() => {
     callToGetUserDetails(false);
@@ -184,7 +181,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
         <>
           {loading ? (
-            <RNLoader />
+            <RNLoaderSimple/>
           ) : (
             <ScrollView
               scrollEnabled
