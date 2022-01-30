@@ -5,7 +5,7 @@ import {Colors} from '../../utils/colors';
 
 const RNLoaderSimple = () => {
   return (
-    <View style={{flex: 1}}>
+    <View style={{flex: 1, backgroundColor : Colors.WHITE}}>
       <View
         style={{
           flex: 1,

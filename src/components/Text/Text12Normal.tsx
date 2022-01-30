@@ -5,11 +5,12 @@ interface Props {
   text: string;
   textColor: string;
   textStyle?: any;
+  containerStyle?: any;
 }
 
-const Text12Normal: React.FC<Props> = ({text, textColor, textStyle}) => {
+const Text12Normal: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
   return (
-    <View>
+    <View style={[containerStyle]}>
       <Text
         style={[
           {

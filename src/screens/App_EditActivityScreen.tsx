@@ -31,6 +31,7 @@ import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 import { STREAM } from '../utils/constants/constants';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -40,8 +41,9 @@ interface Props {
 
 
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
-
+  console.log("EditActivityScreen")
   const routeData = route.params.data;
+  console.log(routeData)
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = new Date(routeData.date);
 
@@ -94,7 +96,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
       .put( UPDATE_ACTIVITY_DATA + route.params.data.id, data)
       .then(res => {
         ToastAndroid.show('Updated activity data',ToastAndroid.SHORT);
-        navigation.popToTop();
+        navigation.replace('DataInListViewScreen');
       })
       .catch(err => {
         console.log('error');
@@ -178,7 +180,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             name="arrow-back"
             type="ionicons"
             size={30}
-            onPress={() => navigation.pop()}
+            onPress={() => navigation.replace('DataInListViewScreen')}
           />
         </View>
       ),
@@ -214,7 +216,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             contentContainerStyle={{flexGrow: 1}}
             keyboardShouldPersistTaps="handled">
             {loading && dropdownData.length === 0 ? (
-              <RNLoader />
+              <RNLoaderSimple />
             ) : (
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View

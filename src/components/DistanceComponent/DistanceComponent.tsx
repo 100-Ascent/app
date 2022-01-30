@@ -12,72 +12,28 @@ import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
 import moment from 'moment';
 import Text16Normal from '../Text/Text16Normal';
 import { Colors } from '../../utils/colors';
+import Text16Bold from '../Text/Text16Bold';
+import Text12Bold from '../Text/Text12Bold';
+import EmptyState from '../../../assets/icons/empty_state.svg';
 
 interface Props {
-  setRefreshing?: any;
   distanceData?: any;
   setLoading?: any;
   setActivityData?: any;
   setStreak?: any;
   setIsToday?: any;
-  showAllActivities?: boolean
+  showAllActivities?: boolean;
+  handleEditActivity?: any;
+  callToGetUserActivityData?: any;
 }
 
-const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLoading, setActivityData, setStreak, setIsToday, showAllActivities = false}) => {
+const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActivityData, setStreak, setIsToday, showAllActivities = false, handleEditActivity, callToGetUserActivityData}) => {
   
   let dataMap = new Map();
-  const callToGetUserActivityData = async () => {
-    setLoading(true);
-    await axios
-      .get(USER_ACTIVITY_DATA, {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-        const data = res.data.data;
-        if (res.data.success) {
-          setActivityData(data);
-          callToGetStreakData();
-        } else {
-          setActivityData([]);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('failed in activity data yohoooooooo');
-        console.log(err);
-      });
-  };
-
-  const callToGetStreakData = async () => {
-    setLoading(true);
-    await axios
-      .get("/api/user/activity/streak", {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-        const data = res.data.data.streak;
-        const isToday = res.data.data.is_today;
-        if(res.data.success){
-          setIsToday(isToday);
-          setStreak(data);
-        }else{
-          setStreak(0);
-        }
-        setLoading(false);
-      })
-      .catch(err => {
-        console.log('failed in Streakkk data yohoooooooo');
-        console.log(err);
-      });
-  }
-
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  
+  
+  
   const callToDeleteDistance = async (id) => {
     await axios
       .delete('/api/user/data/' + id, {
@@ -87,8 +43,7 @@ const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLo
       })
       .then(res => {
         ToastAndroid.show('Activity Data Deleted',ToastAndroid.SHORT);
-        callToGetUserActivityData();
-        navigation.navigate('MyProfileScreen');
+        callToGetUserActivityData();        
       })
       .catch(err => {
         console.log('error123');
@@ -97,8 +52,8 @@ const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLo
   };
 
   const handleEditPressed = (id: any ) => {     
-    const index = distanceData.findIndex( obj => obj.id === id );    
-    navigation.navigate('EditActivityScreen', { data: distanceData[index] });
+    const index = distanceData.findIndex( obj => obj.id === id );  
+    handleEditActivity(distanceData[index])  
   };
 
   for(let i=0;i<distanceData.length;i++){
@@ -147,7 +102,6 @@ const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLo
         </View>
         })
       }
-      
     </View>
   });
   
@@ -155,7 +109,14 @@ const DistanceComponent : React.FC<Props> = ({setRefreshing, distanceData, setLo
     <View style={{marginTop: 20}}>
       {distanceData.length > 0 ? (
         showAllActivities ? cardWithHeader : card
-      ) : null}
+      ) : 
+          <View style={{marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+            <EmptyState />
+            <Text16Bold text={'No Activity Found!'} textColor={Colors.TEXTDARK} textStyle={{marginTop: -30}} />
+            <Text12Bold text={'Click on + icon to add your first activity'} textColor={'grey'} />
+          </View>
+
+      }
     </View>
   );
 };

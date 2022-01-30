@@ -4,6 +4,8 @@ import {Dimensions} from 'react-native';
 // export const BASEURL = 'https://pre-prod.100ascent.com';
 export const BASEURL = 'https://api.100ascent.com';
 
+export const getCurrentEnvironmemnt = () => { return BASEURL; }
+
 export const AWAITINGOTP = 'Waiting for OTP';
 export const EMAIL = 'Email ID';
 export const FIRSTNAME = 'First Name';

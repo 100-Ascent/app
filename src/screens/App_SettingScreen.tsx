@@ -19,6 +19,7 @@ import {Colors} from '../utils/colors';
 import VersionNumber from 'react-native-version-number';
 import ToggleCard from '../components/Cards/NotificationCards/ToggleCard';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import { getCurrentEnvironmemnt } from '../utils/constants/constants';
 
 interface Props {
   navigation: RootNavProp<'SettingScreen'>;
@@ -86,7 +87,7 @@ const SettingScreen: React.FC<Props> = ({navigation}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.navigate('MyProfileScreen')}
+          onPress={() => navigation.navigate('HomeScreen')}
         />
       </View>
     ),
@@ -152,9 +153,13 @@ const SettingScreen: React.FC<Props> = ({navigation}) => {
               </View>
               <View style={{ justifyContent: 'center', alignItems: 'center' }}>
               <View style={{padding:20}}/>
-                <Text14 text={"Version " + VersionNumber.appVersion } textColor={Colors.TEXTDARK} textStyle={{ fontFamily: 'Quicksand-SemiBold'}}/>
+                <Text14 
+                  text={ ( getCurrentEnvironmemnt().includes('pre-prod') ? "Test " : "" ) + "Version " + VersionNumber.appVersion } 
+                  textColor={Colors.TEXTDARK} 
+                  textStyle={{ fontFamily: 'Quicksand-SemiBold'}}
+                />                
                 <View style={{padding:5}}/>
-            </View>
+              </View>
               <View style={{padding: 5}} />
             </ScrollView>
           )}

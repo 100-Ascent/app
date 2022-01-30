@@ -9,12 +9,12 @@ interface Props {
   containerStyle?: any;
 }
 
-const Text24: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
+const Text24Bold: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
   return (
     <View style={[containerStyle]}>
       <Text
         style={[
-          {fontSize: 24, color: textColor, fontFamily: 'Quicksand-Medium'},
+          {fontSize: 24, color: textColor, fontFamily: 'Quicksand-Bold'},
           textStyle,
         ]}>
         {text}
@@ -23,4 +23,4 @@ const Text24: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) =
   );
 };
 
-export default Text24;
+export default Text24Bold;

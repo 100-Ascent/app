@@ -5,12 +5,13 @@ import {Colors} from '../../utils/colors';
 interface Props {
   text: string;
   textColor: string;
-  textStyle?: any
+  textStyle?: any;
+  containerStyle?: any;
 }
 
-const Text18: React.FC<Props> = ({text, textColor, textStyle}) => {
+const Text18: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
   return (
-    <View>
+    <View style={[containerStyle]}>
       <Text style={[{fontSize: 18, color: textColor, fontFamily: 'Quicksand-Regular'}, textStyle]}>
         {text}
       </Text>

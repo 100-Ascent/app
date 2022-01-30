@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, View } from 'react-native';
+import { ToastAndroid, TouchableOpacity, View } from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { Colors } from '../../../utils/colors';
 import Text12Normal from '../../Text/Text12Normal';
@@ -87,6 +87,7 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time, isWorkoutNotifi
         setShow(false);
         setTimeToShow(timeToShow);
         handleEditPreferredTime(timeToSend);
+        ToastAndroid.show('Workout time set to ' + moment(selectedDateTime).format('hh:mm a') + ' everyday', ToastAndroid.SHORT);
     }else{
         setShow(false);
     }
@@ -110,7 +111,7 @@ const handleEditPreferredTime = async (timeToSend) => {
         });
 }
 
-return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
+return <View style={{ flex:1,  backgroundColor: Colors.TEXT, elevation: 5, borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
     <View style={{ flex:1, justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 10, paddingTop: 10 }}>
         <TouchableOpacity onPress={()=>setShow(true)}>
             <View style={{ flexDirection: 'row' }}>
