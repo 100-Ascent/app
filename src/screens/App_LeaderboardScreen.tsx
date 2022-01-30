@@ -1,6 +1,6 @@
 import axios from 'axios';
 import React, { useEffect, useState } from 'react'
-import { FlatList, TextInput, TouchableWithoutFeedback, View } from 'react-native';
+import { FlatList, Image, TextInput, TouchableWithoutFeedback, View } from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import { useSelector, useStore } from 'react-redux';
 import NotesCard from '../components/Cards/FitnessCards/NotesCard';
@@ -23,6 +23,9 @@ import Text12Bold from '../components/Text/Text12Bold';
 import Text16Bold from '../components/Text/Text16Bold';
 import { useIsFocused } from '@react-navigation/native';
 import Text14 from '../components/Text/Text14';
+import { TouchableOpacity } from 'react-native-gesture-handler';
+import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
+import Background from '../components/Background/StyledBackground';
 
 interface Props{
 navigation:RootNavProp<'LeaderboardScreen'>;
@@ -55,6 +58,8 @@ const [query, setQuery] = useState('');
 const [fullData, setFullData] = useState([]);
 const [timer, setTimer] = useState("");
 const [leagueEndTime, setLeagueEndTime] = useState("");
+const [showRankPopUp, setShowRankPopUp] = useState(false);
+
 const isFocused = useIsFocused();
 const [lastLeagueRank, setLastLeagueRank ] = useState("0");
 const [ currentData, setCurrentUserData ] = useState({ myStatsInAllTime: {}, myRank: 0});
@@ -81,8 +86,7 @@ const callToGetLeaderboards = async () => {
       .then(async res => {
         const data = res.data.data;
         if(res.data.success){
-          setLeaderboardData(data);    
-          console.log(res.data);   
+          setLeaderboardData(data);       
           let defaultLB = data.filter(obj=> obj.default)
           setSelectedLeaderboard(defaultLB[0]);
           setLeagueData(res.data['league-data']);
@@ -129,11 +133,11 @@ const callToGetWeeklyData = async (id: any) => {
     .then(async res => {
       let data = res.data.data; 
       if(res.data.success){
-        console.log(res.data);
         setLeagueEndTime(res.data.league_end_time);
+        data = callToAddRankToLeaderboardData(data);
         setWeeklyLeaderboardData(data);
         setFullWeeklyData(data);
-        setActiveDays(res.data.active_days);
+        setActiveDays(res.data.active_days);        
         callToGetAllTimeData(id);
       }else{
         console.log("hi I am here")
@@ -153,11 +157,11 @@ const callToGetWeeklyData = async (id: any) => {
 
 const setWeeklyCustomLeaderBoardData = (data) => {
   data.sort((a,b) => (a.lp > b.lp) ? -1 : ((b.lp > a.lp) ? 1 : 0))
-  setWeeklyLeaderboardData(data);
+  let newData = callToAddRankToLeaderboardData(data);
+  setWeeklyLeaderboardData(newData);
 }
 
 const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
-  console.log(id);
   await axios
       .get("/api/leader/boards/all_time/" + id, {
         headers: {
@@ -166,8 +170,9 @@ const callToGetAllTimeData = async (id: any = leaderboardData[0]['id']) => {
       })
       .then(async res => {
         let data = res.data.data;    
+        data = callToAddRankToLeaderboardData(data);
         setAllTimeLeaderboardData(data);
-        setFullData(data);
+        setFullData(data);      
         const myStatsInAllTime = res.data.data.find(obj=>obj.username.includes(user['username']));
         const myRank =  res.data.data.findIndex( obj=> obj.username === user['username']);
         setCurrentUserData({
@@ -193,11 +198,15 @@ const callToGetCustomLeaderboardsData = async (id: any) => {
        })
        .then(async res => {
          const data = res.data;   
-         console.log(res.data);
-         setAllTimeLeaderboardData(res.data.data);
-         setActiveDays(res.data.active_days);
-         setLeagueEndTime(res.data.league_end_time)
-         setWeeklyCustomLeaderBoardData(res.data.data); 
+         setAllTimeLeaderboardData(data.data);
+         setActiveDays(data.active_days);
+         setLeagueEndTime(data.league_end_time)
+         setWeeklyCustomLeaderBoardData(data.data);
+         const myStatsInAllTime = res.data.data.find(obj=>obj.username.includes(user['username']));
+         const myRank =  res.data.data.findIndex( obj=> obj.username === user['username']);
+         setCurrentUserData({
+           myStatsInAllTime, myRank
+         })
          setLeaderboardLoading(false);
        })
        .catch(err => {
@@ -212,6 +221,14 @@ useEffect(()=>{
   setLoading(true);
   callToGetLeaderboards();
 },[isFocused]);
+
+const callToAddRankToLeaderboardData = (data) => {
+  for(let idx=0; idx<data.length; idx++) {
+    data[idx].rank = idx+1;
+  }
+
+  return data;
+}
 
 const handleSearch = text => {
   const formattedQuery = text.toLowerCase();
@@ -266,10 +283,21 @@ navigation.setOptions({
     headerTitle: 'Leaderboard',
     headerTitleContainerStyle: {alignItems: 'center'},
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-    headerRight: () => <View style={{marginLeft: 0}} />,        
+    headerRight: () => <View style={{ marginRight: 15 }} >
+      <TouchableOpacity onPress={()=> setShowRankPopUp(!showRankPopUp)}>
+        <Image
+            source={require('../../assets/icons/leaderboard/monster.png')}
+            style={{
+              width: 25,
+              height: 25,
+            }}
+          />
+      </TouchableOpacity>
+    </View>,        
   });
 
-return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
+return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
+  <>
   <LeagueListCard data={leagueData} />
   <FlatList
       data={currentSwitch === 0 ? weeklyData : currentSwitch === 1 ? allTimeData : rulesData}
@@ -294,8 +322,18 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
             isLeaderboardLoading ? index === 0 ? <View style={{marginTop: 30}}><RNLoaderSimple/></View> : null :     
             <View>
                 <View style={{ flex: 1 }}>
-                    { currentSwitch === 0 ? <ClickableTableRow activeDays={activeDays} item={item} username={user['username']} rank={index+1} handlePress={()=>{ setExpandedRowIndex(index); setIsExpanded(!isExpanded)}} expandedRowIndex={expandedRowIndex} isExpanded={isExpanded}/> 
-                    : currentSwitch === 1 ? <TableRow item={item} rank={index+1}/> 
+                    { currentSwitch === 0 ? 
+                    <ClickableTableRow 
+                      activeDays={activeDays} 
+                      item={item} 
+                      username={user['username']} 
+                      handlePress={()=>{ setExpandedRowIndex(index); setIsExpanded(!isExpanded)}} 
+                      expandedRowIndex={expandedRowIndex} 
+                      isExpanded={isExpanded}
+                      isCustomLeaderboard = {!selectedLeaderboard['default']}
+                    /> 
+
+                    : currentSwitch === 1 ? <TableRow item={item} /> 
                     : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ? !selectedLeaderboard['default'] ? null : index === 9 && leagueData['league_index'] < leagueData["all_leagues"].length ? 
@@ -303,7 +341,7 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
                     : index === 24 && leagueData['league_index'] !== 0  ? <DemotedSeparator league={leagueData["all_leagues"][leagueData['league_index']-1]} /> : null : null } 
             </View>      
     }}    
-    ListFooterComponent={<View style={{ padding: 40 }}/>}
+    ListFooterComponent={<View style={{ padding: 50 }}/>}
     ListHeaderComponent={
         <View>   
           <TouchableWithoutFeedback onPress={() => console.log('Pressed!')}>
@@ -368,10 +406,22 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <>
         </View>
     }
 />
-{ isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{position: 'absolute', bottom: 0 }}>
-    <TableRow item={currentData.myStatsInAllTime} rank={(currentData.myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT, elevation: 1 }} isFixedRow={true}/>
-</View> : null }
+  {/* { isLeaderboardLoading ? null : currentSwitch === 1 && currentData.myStatsInAllTime !== {} ?  <View style={{ position: 'absolute', bottom: 0 }}>
+      <TableRow item={currentData.myStatsInAllTime} rank={(currentData.myRank+1)} tableRowStyle={{ backgroundColor: Colors.CURRENT, elevation: 1 }} isFixedRow={true}/>
+  </View> : null } */}
+  { showRankPopUp ? 
+    <LeaderboardPopUp 
+        userData={user} 
+        currentData={currentData}
+        selectedLeaderboard= {selectedLeaderboard}
+        leagueData={leagueData} 
+        visible={showRankPopUp}
+        weeklyData={weeklyData.filter(obj=>obj.username === user['username'])}
+        allTimeData={allTimeData.filter(obj=>obj.username === user['username'])}
+        onCancel={()=>setShowRankPopUp(!showRankPopUp)}
+      /> : null }
 </>
+</Background >
 }
 
 export default LeaderboardScreen;

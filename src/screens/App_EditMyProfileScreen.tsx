@@ -338,7 +338,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               />
             </View>
           </View>
-          <View style={{padding: 30}} />
+          <View style={{padding: 80}} />
         </ScrollView>
       </Background>
     </SafeAreaView>

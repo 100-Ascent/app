@@ -14,13 +14,13 @@ import Profile from './ScreenStacks/Profile';
 import AddActivityScreen from '../screens/App_AddActivityScreen';
 import CustomTabBarButton from '../components/Button/CustomTabBarButton';
 import Home from './ScreenStacks/Home';
-import DataInListViewScreen from '../screens/App_DataInListViewScreen';
 import Activity from './ScreenStacks/Activity';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
 const BottomTabStack = ({navigation}) => {
-  const tabOffsetValue = useRef(new Animated.Value(getWidth() * 3)).current;
+  
+  const tabOffsetValue = useRef(new Animated.Value(getWidth() * 0)).current;
   function getWidth() {
     let width = WIDTH - 20;
     width = width - 10;
@@ -80,7 +80,7 @@ const BottomTabStack = ({navigation}) => {
         />        
         <Tab.Screen
           name="DataInListViewScreen"
-          component={Activity}
+          component={Fitness}
           options={{
             tabBarLabel: '4',
             unmountOnBlur: true,
@@ -123,7 +123,7 @@ const BottomTabStack = ({navigation}) => {
             ),
             tabBarButton: props => (
               <CustomTabBarButton
-                onPress={() => navigation.navigate('PostDataScreen')}
+                onPress={() => navigation.navigate('AddActivityScreen')}
                 {...props}
               />
             ),
@@ -167,8 +167,8 @@ const BottomTabStack = ({navigation}) => {
             tabBarIcon: ({focused}) => (
               <View style={{position: 'absolute', top: 15}}>
                 <Icon
-                  name="trophy"
-                  type="ionicon"
+                  name="user"
+                  type="feather"
                   size={30}
                   color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
                 />
