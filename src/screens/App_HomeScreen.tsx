@@ -23,6 +23,8 @@ import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 import ErrorIcon from '../../assets/modal-icons/error-icon.svg';import CustomPopUp from '../components/PopUps/CustomPopUp';
 import { setData, setEmailVerifiedData } from '../redux/action';
 import Text24 from '../components/Text/Text24';
+import Text24Bold from '../components/Text/Text24Bold';
+import Text16Normal from '../components/Text/Text16Normal';
 module
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
@@ -45,6 +47,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const isFocused = useIsFocused();
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const PREFERRED_WORKOUT_TIME_HEADING = "My preferred workout time";
+  const ASCENT_TALKS = "Ascent Talks!";
   const SYNC_NOW = "Sync Now";
   const MY_STREAK = "My Streak";
   const dispatch = useDispatch();
@@ -176,9 +179,30 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
               contentContainerStyle={{flexGrow: 1}}>
               <View style={{flex: 1, paddingHorizontal: 15}}>
                 
-                <View style={{ paddingHorizontal: 10, marginTop: 20 }}>
-                  <Text24 text={"Hi " + user['first_name'] + ","} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
+                <View style={{ paddingHorizontal: 10, marginTop: 20, marginBottom: 10 }}>
+                  <Text24Bold text={"hello, " + user['first_name'] + " 👋🏻"} textColor={Colors.TEXTDARK} textStyle={FONTS.BOLD} />
+                  <Text16Normal text={"Here are some quick actions for you"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View>
+
+
+
+                {/* Sync Now */}
+                <View style={{ marginTop: 35, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
+                  <Text16Bold text={SYNC_NOW} textColor={Colors.TEXTDARK} containerStyle={{flex: 1}}/>
+                  <TouchableOpacity onPress={() => { navigation.navigate('FitnessIntegrationScreen') }}>
+                    <Icon name='info' type='feather' color={Colors.BUTTON_DARK} tvParallaxProperties={undefined}/>
+                  </TouchableOpacity>
+                </View>
+                <View style={{marginTop: 10 }}/>              
+                <SyncNowButton 
+                    data={preferredConnection} 
+                    token={token} 
+                    handleRedirectToConnect={handleRedirectToConnect} 
+                    handleSyncData={handleSyncData}
+                    isConnected = {Object.keys(preferredConnection).length !== 0 }
+                  />     
+               
+
 
                 {/* Stats card */}
                 <Text16Bold
@@ -191,8 +215,8 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
 
 
-                {/* Preferred Workout Time */}
-                <Text16Bold
+               {/* Preferred Workout Time */}
+               <Text16Bold
                   text={PREFERRED_WORKOUT_TIME_HEADING}
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
@@ -207,23 +231,6 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   />
                 </View>
 
-
-                {/* Sync Now */}
-                <View style={{ marginTop: 35, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
-                  <Text16Bold text={SYNC_NOW} textColor={Colors.TEXTDARK} containerStyle={{flex: 1}}/>
-                  <TouchableOpacity onPress={() => { navigation.navigate('FitnessIntegrationScreen') }}>
-                    <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
-                  </TouchableOpacity>
-                </View>
-                <View style={{marginTop: 10 }}/>              
-                <SyncNowButton 
-                    data={preferredConnection} 
-                    token={token} 
-                    handleRedirectToConnect={handleRedirectToConnect} 
-                    handleSyncData={handleSyncData}
-                    isConnected = {Object.keys(preferredConnection).length !== 0 }
-                  />     
-               
                 
               </View>
               <View style={{ padding: 80 }} />

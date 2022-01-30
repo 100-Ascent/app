@@ -166,6 +166,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           <Icon
             name="edit"
             size={25}
+            color={'#565656'}
             onPress={() =>
               navigation.navigate('EditMyProfileScreen', {data: userData})
             }

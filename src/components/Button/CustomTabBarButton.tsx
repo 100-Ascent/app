@@ -20,6 +20,8 @@ const CustomTabBarButton = ({onPress, children, isKeyboardVisible}) => {
           borderRadius: 32,
           backgroundColor: Colors.RED,
           elevation: 5,
+          borderWidth: 5,
+          borderColor: Colors.ORANGE
         }}>
         {children}
       </View>

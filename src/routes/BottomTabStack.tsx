@@ -89,8 +89,8 @@ const BottomTabStack = ({navigation}) => {
                 <Icon
                   name="home"
                   type="ionicon"
-                  size={30}
-                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                  size={28}
+                  color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
               </View>
             ),
@@ -123,7 +123,7 @@ const BottomTabStack = ({navigation}) => {
                   name="directions-run"
                   type="material-icons"
                   size={30}
-                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                  color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
               </View>
             ),
@@ -194,10 +194,10 @@ const BottomTabStack = ({navigation}) => {
             tabBarIcon: ({focused}) => (
               <View style={{position: 'absolute', top: 15}}>
                 <Icon
-                  name="leaderboard"
-                  type="MaterialIcons"
-                  size={30}
-                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                  name="trophy"
+                  type="font-awesome"
+                  size={28}
+                  color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
               </View>
             ),
@@ -228,10 +228,10 @@ const BottomTabStack = ({navigation}) => {
             tabBarIcon: ({focused}) => (
               <View style={{position: 'absolute', top: 15}}>
                 <Icon
-                  name="user"
-                  type="feather"
+                  name="face"
+                  type="material"
                   size={30}
-                  color={focused ? Colors.POPUP_RED : Colors.TEXTDARK}
+                  color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
               </View>
             ),
