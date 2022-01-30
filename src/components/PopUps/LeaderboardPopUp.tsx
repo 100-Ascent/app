@@ -39,7 +39,6 @@ const LeaderboardPopUp: React.FC<Props> = ({
 }) => {
 
   //Async functions
-
   //Component functions
 
   return (
@@ -53,7 +52,7 @@ const LeaderboardPopUp: React.FC<Props> = ({
         <View style={styles.visiblePopup}>          
           <View style={styles.contentContainer}>
             <View style={styles.content}>
-              <View style={{backgroundColor: '#f8f8f8', width: '100%', paddingTop: 20}}>
+              <View style={{backgroundColor: '#f8f8f8', width: '100%', paddingTop: 30, borderRadius: 20 }}>
                 <Text18
                     text='Your Leaderboard Stats'
                     textColor={Colors.BLACK1}
@@ -73,7 +72,7 @@ const LeaderboardPopUp: React.FC<Props> = ({
                         backgroundColor: Colors.WHITE,
                       }}
                       source={{
-                        uri: userData['image_id'],
+                        uri: weeklyData[0]['image_id'],
                         priority: FastImage.priority.high,
                       }}
                       resizeMode={FastImage.resizeMode.cover}
@@ -195,7 +194,7 @@ const LeaderboardPopUp: React.FC<Props> = ({
                         textStyle={FONTS.SEMIBOLD}
                         containerStyle={[styles.infoBody]}
                       />
-                      {allTimeData[0]['global_points'] !== 0 ?
+                      {weeklyData[0]['lp'] !== 0 ?
                         <Text10
                           text={' +' + weeklyData[0]['lp']}
                           textColor={Colors.GREEN}
@@ -233,17 +232,16 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     width: '85%',
     borderRadius: 20,
-    elevation: 5
+    elevation: 5,
+    paddingBottom: 20
   },
   contentContainer: {
     zIndex: 10,
     width: '100%',
-    borderRadius: 10,
+    borderRadius: 20,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#fff',
-    marginBottom: 20,
-    marginTop: 20
   },
   content: { alignItems: 'center', width: '100%'},
   // heading: {marginTop: -35, flexDirection: 'row'},
@@ -260,7 +258,7 @@ const styles = StyleSheet.create({
   body: { width: '100%', alignItems: 'center', marginVertical: 10 },
   footer: {marginVertical: 10},
   centeredText: {alignItems: 'center'},
-  infoHeader: {alignItems: 'center', marginLeft: 10 },
+  infoHeader: {alignItems: 'center' },
   infoBody: {alignItems: 'center' },
   flexRow: {flexDirection: 'row', width: '100%'},
   flexColumnWidth50: {flexDirection: 'column', width: '50%',},
