@@ -113,7 +113,7 @@ const BottomTabStack = ({navigation}) => {
         />        
         <Tab.Screen
           name="DataInListViewScreen"
-          component={Fitness}
+          component={Activity}
           options={{
             tabBarLabel: '4',
             unmountOnBlur: true,
