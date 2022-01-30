@@ -6,7 +6,7 @@ import globalStyles from '../styles/Global/styles';
 import LandingIcon from '../../assets/background-icons/no-active-challenge.svg';
 
 interface Props {
-  navigation: RootNavProp<'AllChallengesScreen'>;
+  navigation: RootNavProp<'HomeScreen'>;
 }
 
 const ViewAllChallenges: React.FC<Props> = ({navigation}) => {

@@ -14,3 +14,7 @@ export const GOOGLE_FITNESS_SYNC = "/api/google_fit/user/sync";
 
 export const HEARTBEAT = "/api/app/heartbeat/";
 export const REQUEST_NEW_CONNECTION = "/api/request/connection";
+
+export const USER_SETTINGS = '/api/user/settings';
+export const USER_STREAK_DATA = "/api/user/activity/streak"; 
+export const ACTIVITY_LIST = '/api/activities';

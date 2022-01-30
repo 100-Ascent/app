@@ -85,7 +85,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
         ToastAndroid.show('Added Data successfully!', ToastAndroid.SHORT);
-        navigation.navigate('MyProfileScreen');
+        navigation.navigate('DataInListViewScreen');
       })
       .catch(err => {
         console.log('error');
@@ -166,21 +166,13 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       headerTitleContainerStyle: {alignItems: 'center'},
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerRight: () => <View style={{marginLeft: 10}} />,
-      headerLeft: () => (
-        <View style={{marginLeft: 10}}>
-        <Icon
-          name="arrow-back"
-          type="ionicons"
-          size={30}
-          onPress={() => navigation.pop()}  />
-      </View>
-    ),
+      headerLeft: () => <View style={{marginLeft: 0}}/>
     });
     getDropdownActivities();
   }, []);
 
   var dateDifference = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))/ (1000 * 60 * 60 * 24));
-
+  
   return (
     <View style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>

@@ -91,7 +91,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.navigate('MyProfileScreen')}
+          onPress={() => navigation.navigate('HomeScreen')}
           tvParallaxProperties={undefined}
         />
       </View>

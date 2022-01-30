@@ -14,7 +14,7 @@ import auth from '@react-native-firebase/auth';
 import MenuIcon from '../../assets/icons/menu.svg';
 import Text24 from '../components/Text/Text24';
 
-import AllChallenges from './ScreenStacks/AllChallenges';
+import AllChallenges from './ScreenStacks/Home';
 import Fitness from './ScreenStacks/Fitness';
 import { useSelector } from 'react-redux';
 import { AppState } from '../redux';
@@ -22,6 +22,7 @@ import axios from 'axios';
 import { HEARTBEAT } from '../utils/apis/endpoints';
 import Settings from './ScreenStacks/Settings';
 import Leaderboard from './ScreenStacks/Leaderboard';
+import BottomTabStack from './BottomTabStack';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -44,21 +45,14 @@ export const NavigationDrawerStructure = props => {
 const HomeStack = ({navigation, style}) => {
   return (
     <Animated.View style={StyleSheet.flatten([styles.stack, style])}>
-      <Stack.Navigator initialRouteName="HomeStack">
+      <Stack.Navigator initialRouteName="BottomTabStack">
           <Stack.Screen
-            name="AllChallengesScreen"
-            component={AllChallenges}
-            options={({route}) => ({
-              header: () => null,
-            })}
-          />
-          {/* <Stack.Screen
             name="BottomTabStack"
             component={BottomTabStack}
             options={({route}) => ({
               header: () => null,
             })}
-          /> */}
+          />
       </Stack.Navigator>
     </Animated.View>
   );
@@ -105,6 +99,16 @@ const LeaderboardStack = ({navigation, style}) => {
             component={Leaderboard}
             options={({route}) => ({
               header: () => null,
+              headerLeft: () => (
+                <View style={{marginLeft: 10}}>
+                  <Icon
+                    name="arrow-back"
+                    type="ionicons"
+                    size={30}
+                    onPress={() => navigation.pop()}
+                  />
+                </View>
+              ),
             })}
           />
       </Stack.Navigator>
@@ -120,17 +124,7 @@ const CustomDrawerContent = ({...rest}) => {
         <Text24 text={'100 Ascent'} textColor={Colors.WHITE} />
       </View>
       <DrawerContentScrollView {...rest}>
-        <DrawerItem
-          icon={({color, size}) => (
-            <Icon name="settings" color={Colors.WHITE} size={size} />
-          )}
-          label="Settings"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
-            rest.navigation.navigate('SettingsStack')
-            rest.navigation.closeDrawer();
-          }}
-        />
+        
         <DrawerItem
           icon={({color, size}) => (
             <Icon
@@ -149,6 +143,17 @@ const CustomDrawerContent = ({...rest}) => {
         />
         <DrawerItem
           icon={({color, size}) => (
+            <Icon name="settings" color={Colors.WHITE} size={size} />
+          )}
+          label="Settings"
+          labelStyle={{color: Colors.WHITE, fontSize: 16}}
+          onPress={() => {
+            rest.navigation.navigate('SettingsStack')
+            rest.navigation.closeDrawer();
+          }}
+        />
+        {/* <DrawerItem
+          icon={({color, size}) => (
             <Icon
               name="leaderboard"
               type="material-icons"
@@ -162,7 +167,7 @@ const CustomDrawerContent = ({...rest}) => {
             rest.navigation.navigate('LeaderboardStack')
             rest.navigation.closeDrawer();
           }}
-        />
+        /> */}
       </DrawerContentScrollView>
       <DrawerItem
         icon={({color, size}) => (
@@ -234,7 +239,8 @@ const AppStack = () => {
       <Drawer.Screen name="HomeStack">
         {props => <HomeStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
-      <Drawer.Screen name="FitnessStack">
+ 
+       <Drawer.Screen name="FitnessStack">
         {props => <FitnessStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
       <Drawer.Screen name="SettingsStack">

@@ -23,9 +23,9 @@ export type RootStackParamList = {
   
   BottomTabStack: undefined;
 
-
+  
   DataLoaderScreen: undefined;
-  AllChallengesScreen: undefined;
+  HomeScreen: undefined;
   ChallengeDescriptionScreen: {data: Object};
   OnboardingScreen: undefined;
   CommunityScreen: undefined;
