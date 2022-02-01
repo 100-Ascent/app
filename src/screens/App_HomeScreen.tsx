@@ -25,6 +25,7 @@ import { setData, setEmailVerifiedData } from '../redux/action';
 import Text24 from '../components/Text/Text24';
 import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
+import SessionCard from '../components/Cards/Sessions/SessionCard';
 module
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
@@ -38,7 +39,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   const [streak, setStreak] = useState(0);
   const [isToday,setIsToday] = useState(false);
   const [token, setToken] = useState('');
-
+  const [session, setSession] = useState({});
 
   const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
   const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
@@ -72,6 +73,20 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
         console.log(err);
       });
   };
+
+  const callToGetSessionData = async () => {
+    const headers = { 'X-CONTEXT-ID': contextId };
+    await axios
+      .get("/api/ascent/talks", { headers })
+      .then(async res => {
+        const { data } = res.data;
+        setSession(data[0]);
+      })
+      .catch(err => {
+        console.log('failed in session data');
+        console.log(err);
+      });
+  }
 
   const callToGetSettingData = async () => {
     await axios
@@ -119,6 +134,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     });
     setLoading(true);
     callToGetUserDetails();
+    callToGetSessionData();
     getToken();
     callToGetSettingData();
   }, [isFocused]);
@@ -144,18 +160,18 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
           'X-CONTEXT-ID': contextId,
         },
       })
-      .then(async res => {
+      .then(async res => {          
           if(res.data.success){                 
             setLoading(true);
             getToken();
             callToGetUserDetails();
             callToGetSettingData();
-            setPopUpMessage(res.data.message);    
+            setPopUpMessage(res.data.message);
             setPopUpIconSuccess(true);
             setPopUpAfterSyncData(true);
           }else{
             setPopUpIconSuccess(false);
-            setPopUpMessage(res.data.message);  
+            setPopUpMessage(res.data.message === undefined ? "Oops! Something Went Wrong" : res.data.message );  
             setPopUpAfterSyncData(true);
           }
       })
@@ -229,6 +245,10 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                       navigation.navigate('SettingScreen')
                     }
                   />
+                </View>
+                
+                <View style={{ paddingHorizontal: 15, marginTop: 25 }}>
+                  <SessionCard session={session}/>
                 </View>
 
                 
