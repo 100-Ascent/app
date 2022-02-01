@@ -14,7 +14,6 @@ const LeagueListCard: React.FC<Props> = ({data}) => {
   const ref = React.useRef<FlatList>(null);
   const [index, setIndex] = useState(data['league_index']);
   //Async functions
-  console.log(index);
   //Component functions
 
   return (

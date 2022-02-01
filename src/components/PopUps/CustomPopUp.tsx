@@ -57,8 +57,8 @@ const CustomPopUp: React.FC<Props> = ({
                 <Text20 text={header} textColor={Colors.TEXTDARK} />
               </View>
 
-              <View style={{marginTop: 5, paddingHorizontal: 10}}>
-                {!isDescriptionLong ? (
+              <View style={{marginTop: 5, paddingHorizontal: 10 }}>
+                {  description?.length === 0 ? null : !isDescriptionLong ? (
                   <Text16Normal
                     text={description}
                     textStyle={styles.centeredText}
@@ -151,7 +151,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   content: {alignItems: 'center'},
-  heading: {marginTop: 20},
+  heading: {marginTop: 20, paddingHorizontal: 10 },
   centeredText: {textAlign: 'center'},
 });
 

@@ -47,7 +47,7 @@ const TableRow: React.FC<Props> = ({
             />}
            
           </View>
-          <View style={{width: '20%', borderRadius: 50, height: 50}}>
+          <View style={{width: '19%', borderRadius: 50, height: 50}}>
             <FastImage
               style={{
                 width: 50,
@@ -79,13 +79,13 @@ const TableRow: React.FC<Props> = ({
               /> : null}
           </View>
           <View style={{width: '18%', alignItems: 'center' }}>
-            <Text18
-              text={((item.global_points) + item.lp)}
+            <Text18           
+              text={ (Math.round((parseFloat(item.global_points) + parseFloat(item.lp))*100)/100).toString() }             
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.SEMIBOLD}
             />
           </View>
-          <View style={{width: '17%', alignItems: 'flex-end', marginTop: 1, paddingRight: 15 }}>            
+          <View style={{width: '18%', alignItems: 'flex-end', marginTop: 1, paddingRight: 15 }}>            
             <View style={{ paddingLeft: 5 }}>
               <Text style={[{ color: isFixedRow ? Colors.TEXTDARK : Colors.DEMOTED, fontSize: 10, textAlign: 'right'},FONTS.SEMIBOLD]}>{item.global_points + ' XP'}</Text>
             </View>
