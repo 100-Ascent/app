@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { TouchableOpacity, View } from 'react-native';
+import { TouchableOpacity, View, Platform } from 'react-native';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import { Colors } from '../../../utils/colors';
 import Text12Normal from '../../Text/Text12Normal';
@@ -151,9 +151,10 @@ return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 5, border
           value={time}
           mode={mode}
           is24Hour={false}
-          display="clock"
+          display={Platform.OS === 'ios' ? "default": "clock"}
           onChange={onChange}
-          minuteInterval={15}          
+          minuteInterval={15}     
+          style={{borderColor:"red", borderWidth: 1}}     
         />
       )}
 </View>;
