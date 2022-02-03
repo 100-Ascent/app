@@ -454,7 +454,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
 
 
-                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
                         text="Sync Now"
