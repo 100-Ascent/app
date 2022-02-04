@@ -329,7 +329,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                             shadowOpacity: 0.51,
                             shadowRadius: 13.16,
                           }}
-                          text={PROCEED}
+                          text={!isEmailSentMessage ? PROCEED : "Skip"}
                           onPress={() =>
                             isEmailSentMessage
                               ? setIsEmailVerifiedToTrue()

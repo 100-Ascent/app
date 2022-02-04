@@ -51,6 +51,7 @@ import SyncNowButton from '../components/Button/SyncNowButton';
 import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
 import moment from 'moment';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 
 
 interface Props {
@@ -64,13 +65,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [preferredConnection, setPreferredConnection] = useState({});
   const [token, setToken] = useState('');
   const [verifyEmailPopUpVisible, setVerifyEmailPopUp] = useState(false);
-  const [activityData, setActivityData] = useState([]);
-  const [streak, setStreak] = useState(0);
-  const [isToday,setIsToday] = useState(false);
+  
+
   const [isSyncDataDone,setPopUpAfterSyncData] = useState(false);
   const [ isSyncSuccess ,setPopUpIconSuccess] = useState(true);
   const [popUpMessage, setPopUpMessage]= useState("");
-  const [settings, setSettings] = useState([]);
 
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
@@ -107,7 +106,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         dispatch(setData(data));
         setUserData(data);
         getToken();
-        await callToGetUserActivityData();
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       })
       .catch(err => {
@@ -116,71 +114,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
         pullLoader === false ? setLoading(false) : setRefreshing(false);
       });
   };
-
-  const callToGetUserActivityData = async () => {
-    setLoading(true);
-    await axios
-      .get(USER_ACTIVITY_DATA, {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-        const data = res.data.data;
-        if (res.data.success) {          
-          setActivityData(data);
-          await callToGetStreakData();
-        } else {
-          setActivityData([]);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        console.log('failed in activity data yohoooooooo');
-        console.log(err);
-      });
-  };
-
-  const callToGetStreakData = async () => {
-    setLoading(true);
-    await axios
-      .get("/api/user/activity/streak", {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-        const data = res.data.data.streak;
-        const isToday = res.data.data.is_today;
-        if(res.data.success){
-          setIsToday(isToday);
-          setStreak(data);
-          await callToGetSettingData();
-        }else{
-          setStreak(0);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        console.log('failed in Streakkk data yohoooooooo');
-        console.log(err);
-      });
-  }
-
-  const callToGetSettingData = async () => {
-    await axios
-      .get('/api/user/settings')
-      .then(res=>{
-        let data = res.data.data;
-        setSettings(data);
-        setLoading(false);
-      })
-      .catch(err=>{
-        console.log(err);
-        setLoading(false);
-      })
-  }
-
 
   useEffect(() => {
     callToGetUserDetails(false);
@@ -212,47 +145,6 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       });
   };
 
-  const handleSyncData = async () => {
-
-    let date_now = new Date();
-    let date_now_adjusted = date_now.setHours(0,0,0,0)/1000;
-    if(preferredConnection['sync_count'] === 0 ){
-      setPopUpAfterSyncData(true);
-      setPopUpMessage("No syncs available")
-      setPopUpIconSuccess(false);      
-    }else{
-      ToastAndroid.show("Syncing data", ToastAndroid.LONG);
-      await axios
-      .get(GOOGLE_FITNESS_SYNC, {
-        params : preferredConnection['last_sync_date'] === null ? {
-          start_date: date_now_adjusted
-        } : {}, headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-          if(res.data.success){
-            callToGetUserDetails();
-            setPopUpMessage(res.data.message);    
-            setPopUpIconSuccess(true);
-            setPopUpAfterSyncData(true);
-          }else{
-            setPopUpIconSuccess(false);
-            setPopUpMessage(res.data.message);  
-            setPopUpAfterSyncData(true);
-          }
-      })
-      .catch(err => {
-        ToastAndroid.show("Error syncing the data", ToastAndroid.SHORT);
-        console.log('Error in syncing');
-        console.log(err);
-      });
-    }
-    
-  }
-
-  const handleRedirectToConnect = () => navigation.navigate('FitnessIntegrationScreen');
-
   navigation.setOptions({
     headerTitle: 'My Profile',
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
@@ -274,6 +166,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           <Icon
             name="edit"
             size={25}
+            color={'#565656'}
             onPress={() =>
               navigation.navigate('EditMyProfileScreen', {data: userData})
             }
@@ -289,7 +182,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
         <>
           {loading ? (
-            <RNLoader />
+            <RNLoaderSimple/>
           ) : (
             <ScrollView
               scrollEnabled
@@ -440,51 +333,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   )}                  
                 </View>
 
-                <View style={{flex: 1, marginHorizontal: 15, marginTop: 25 }}>
-                    <Text16Bold
-                        text="My preferred workout time"
-                        textColor={Colors.TEXTDARK} textStyle={undefined} />
-                  </View>
-                <View style={{ marginTop: 20 }}>
-                  <PreferredTimePickerCard
-                    isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false } 
-                    prefer_time={userData['prefer_time']}
-                    handleGoToSettings={() => navigation.navigate('SettingScreen') }
-                    />
-                </View>
-
-
-                <View style={{ marginTop: 35, marginHorizontal: 20, flexDirection: 'row', alignItems: 'center'}}>
-                  <View style={{flex: 1}}>
-                    <Text16Bold
-                        text="Sync Now"
-                        textColor={Colors.TEXTDARK} textStyle={undefined} />
-                  </View>
-                  <TouchableOpacity onPress={() => {navigation.navigate('FitnessIntegrationScreen')}}>
-                    <Icon name='info' type='feather' color={Colors.BUTTON_DARK}/>
-                  </TouchableOpacity>
-                </View>
-                <View style={{marginTop: 20 }}/>              
-                <SyncNowButton 
-                    data={preferredConnection} 
-                    token={token} 
-                    handleRedirectToConnect={handleRedirectToConnect} 
-                    handleSyncData={handleSyncData}
-                    isConnected = {Object.keys(preferredConnection).length !== 0 }
-                  />                
-
-
-                <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
-                  <View style={{flex: 1}}>
-                    <Text16Bold
-                        text="My Streak"
-                        textColor={Colors.TEXTDARK} textStyle={undefined} />
-                  </View>
-                </View>
-                <View style={{marginTop: 20 }}>
-                 <StatsCard streak={streak} isToday={isToday} />
-                </View>
-
+                {/*
                 <View style={{marginTop: 35, marginHorizontal: 20, flexDirection: 'row'}}>
                   <View style={{flex: 1}}>
                     <Text16Bold
@@ -514,7 +363,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                         text="See All Activities"
                         textColor={Colors.TEXTDARK} textStyle={{textDecorationLine: 'underline'}} />
                     </TouchableOpacity>
-                  </View> : null}
+                  </View> : null} */}
               </View>
               <CustomPopUp
                 icon={<VerifyEmailIcon />}
@@ -537,13 +386,13 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <View style={{padding: 50}} />
             </ScrollView>
           )}
-          <View style={{position: 'absolute', bottom: 20, right: 20}}>
+          {/* <View style={{position: 'absolute', bottom: 20, right: 20}}>
             <FloatingActionButton
               onPress={() => {
                 navigation.navigate('AddActivityScreen');
               }}
             />
-          </View>
+          </View> */}
           <CustomPopUp
             icon={ isSyncSuccess ? <NotificationIcon /> : <ErrorIcon/>}
             visible={isSyncDataDone}

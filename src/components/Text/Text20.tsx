@@ -6,11 +6,12 @@ interface Props {
   text: string;
   textColor: string;
   textStyle? :any;
+  containerStyle?: any;
 }
 
-const Text20: React.FC<Props> = ({text, textColor, textStyle}) => {
+const Text20: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
   return (
-    <View>
+    <View style={containerStyle}>
       <Text style={[{fontSize: 20, color: textColor, fontFamily: 'Quicksand-Medium'}, textStyle]}>
         {text}
       </Text>
