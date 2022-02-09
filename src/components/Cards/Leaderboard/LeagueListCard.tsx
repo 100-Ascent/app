@@ -19,6 +19,7 @@ const LeagueListCard: React.FC<Props> = ({data}) => {
   return (
     <View style={{ paddingBottom: 10 }}>
       <FlatList
+        ref={ref}
         data={data['league_images']}
         keyExtractor={(item, index) => 'key' + index}
         renderItem={({item, index}) => {
@@ -44,6 +45,17 @@ const LeagueListCard: React.FC<Props> = ({data}) => {
         horizontal
         showsHorizontalScrollIndicator={false}
         initialScrollIndex={index}
+        onScrollToIndexFailed={({
+          index,
+          averageItemLength,
+        }) => {
+          // Layout doesn't know the exact location of the requested element.
+          // Falling back to calculating the destination manually
+          ref.current?.scrollToOffset({
+            offset: 0,
+            animated: true,
+          });
+        }}
       />
       <View style={{ paddingTop: 5, flexDirection: 'row', alignItems: 'center', justifyContent: 'center' }}>
         <Text24

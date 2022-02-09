@@ -1,6 +1,7 @@
 import React from 'react';
 import {Modal, StyleSheet, Text, TouchableOpacity, TouchableWithoutFeedback, View} from 'react-native';
 import { Button } from 'react-native-elements/dist/buttons/Button';
+import { isIOS } from 'react-native-elements/dist/helpers';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../utils/colors';
@@ -101,8 +102,8 @@ const LeaderboardPopUp: React.FC<Props> = ({
                       <View style={{ justifyContent: 'center' }}>
                         <FastImage
                           style={{
-                            width: 16,
-                            height: 16,
+                            width: isIOS? 18 : 16,
+                            height: isIOS? 18 : 16,
                             borderRadius: 50,
                             
                           }}

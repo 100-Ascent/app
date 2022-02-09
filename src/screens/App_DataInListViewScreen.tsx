@@ -1,6 +1,7 @@
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, View} from 'react-native';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+import { isIOS } from 'react-native-elements/dist/helpers';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import { useSelector } from 'react-redux';
 import Background from '../components/Background/StyledBackground';
@@ -74,7 +75,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
           style={{flexGrow: 1}}
           contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, paddingHorizontal: 15}}>
-            <View style={{marginHorizontal: 10}}>
+            <View style={[{marginHorizontal: 10}, isIOS ? styles.shadow: {}]}>
               <DistanceComponent
                 showAllActivities={true}
                 distanceData={data} 
@@ -91,3 +92,15 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
 };
 
 export default DataInListViewScreen;
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  }
+})

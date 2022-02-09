@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   ToastAndroid,
+  StyleSheet,
 } from 'react-native';
 
 import axios from 'axios';
@@ -32,6 +33,7 @@ import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 import { STREAM } from '../utils/constants/constants';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -373,7 +375,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     />
                   </View>
                 </View>
-                <View style={{marginTop: 30, marginHorizontal: -20}}>
+                <View style={[{marginTop: 30, marginHorizontal: -20}, isIOS? styles.shadow : {} ]}>
                   <DistanceTimeCard
                     defaultOption={defaultOption}
                     selectedItem={selected}
@@ -388,7 +390,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     disabled = {!isEditable}                    
                   />
                 </View>
-                <View style={{marginTop: 20, marginHorizontal: -20}}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, isIOS? styles.shadow : {} ]}>
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
@@ -398,7 +400,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                   />
                 </View>
 
-                <View style={{marginTop: 20, marginHorizontal: -20}}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, isIOS? styles.shadow : {} ]}>
                   <AddCommentImageCard
                     comment={comment}
                     onCommentChange={onCommentChange}
@@ -422,6 +424,18 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
 };
 
 export default EditActivityScreen;
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+  }
+})
 
 /* <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard

@@ -3,6 +3,7 @@ import axios from 'axios';
 import moment from 'moment';
 import React, {useEffect, useState} from 'react';
 import {KeyboardAvoidingView, Platform, ScrollView, ToastAndroid, View} from 'react-native';
+import { isIOS } from 'react-native-elements/dist/helpers';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import {TextInput} from 'react-native-gesture-handler';
 import {useSelector} from 'react-redux';
@@ -13,6 +14,7 @@ import RNLoader from '../components/Loader/RNLoader';
 import Text16Bold from '../components/Text/Text16Bold';
 import {AppState} from '../redux';
 import {RootNavProp} from '../routes/RootStackParamList';
+import { styles } from '../styles/Global/styles';
 import {EXTERNAL_CONNECTIONS, REQUEST_NEW_CONNECTION} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 
@@ -133,14 +135,14 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                 <View style={{padding: 15}} />
 
                 <View
-                  style={{
+                  style={[{
                     marginHorizontal: 10,
                     paddingBottom: 15,
                     paddingHorizontal: 15,
                     borderRadius: 10,
                     backgroundColor: '#f8f8f8',
-                    elevation: 10                       
-                  }}>
+                    elevation: 10,                       
+                  }, styles.shadowElevation3 ]}>
                   <View style={{flex: 1, paddingTop: 10 }}>
                     <Text16Bold
                       text={"Didn't find your preferred fitness app/band for connecting? Suggest One!"}
@@ -151,7 +153,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                   <View
                     style={{
                       flexDirection: 'row',
-                      marginTop: 0,
+                      marginTop: isIOS? 10 : 0,
                     }}>
                     <View style={{flex: 2}}>
                       <TextInput

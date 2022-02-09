@@ -1,15 +1,13 @@
 import moment from 'moment';
 import React, {useCallback} from 'react';
-import {Image, Linking, StyleSheet, ToastAndroid, View} from 'react-native';
+import {Linking, StyleSheet, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Colors} from '../../../utils/colors';
-import {WIDTH} from '../../../utils/constants/constants';
 import {FONTS} from '../../../utils/constants/fonts';
 import StyledButton from '../../Button/StyledButton';
 import Text14 from '../../Text/Text14';
-import Text16Bold from '../../Text/Text16Bold';
 import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
@@ -120,6 +118,13 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     elevation: 5,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
   },
   cardTitle: {
     marginVertical: 15,

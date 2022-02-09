@@ -146,13 +146,13 @@ const VerifyScreen: React.FC<Props> = ({
                         backgroundColor: isVerifyDisabled
                           ? Colors.BLACK6
                           : Colors.POPUP_RED,
-                        shadowColor: Colors.POPUP_RED,
-                        shadowOffset: {
-                          width: 0,
-                          height: 5,
-                        },
-                        shadowOpacity: 0.21,
-                        shadowRadius: 10.16,
+                          shadowColor: "#000",
+                          shadowOffset: {
+                            width: 0,
+                            height: 1,
+                          },
+                          shadowOpacity: 0.20,
+                          shadowRadius: 1.41,
                       }}
                       text={isVerifyDisabled ? AWAITINGOTP : VERIFY}
                       onPress={onVerify}

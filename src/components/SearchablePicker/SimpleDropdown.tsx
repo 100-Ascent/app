@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import {ScrollView, TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import { styles } from '../../styles/Global/styles';
 import {Colors} from '../../utils/colors';
 import Text16Normal from '../Text/Text16Normal';
 
@@ -22,13 +23,13 @@ const SimpleDropdown: React.FC<Props> = ({data, selected, handleSelect}) => {
 
   return (
     <View
-      style={{
+      style={[{
         marginHorizontal: 30,
         paddingVertical: 5,
         borderRadius: 10,
         elevation: 4,
         backgroundColor: Colors.TEXT,
-      }}>
+      }, styles.shadowElevation3]}>
       <TouchableOpacity activeOpacity={0.5} onPress={handlePress}>
         <View style={{flex: 1, flexDirection: 'row', alignItems: 'center', }}>
           <View style={{flex: 7, paddingLeft: 10}}>

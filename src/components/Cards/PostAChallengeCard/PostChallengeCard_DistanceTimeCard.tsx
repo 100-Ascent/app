@@ -1,6 +1,7 @@
 import React from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
+import { styles } from '../../../styles/Global/styles';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import Text24 from '../../Text/Text24';
@@ -100,13 +101,13 @@ const DistanceTimeCard: React.FC<Props> = ({
             marginBottom: 10,
           }}>
           <View
-            style={{
+            style={[{
               flex: 3,
               backgroundColor: !disabled ? Colors.TEXT : Colors.GREY_LIGHT,
               borderRadius: 5,
               elevation: 3,
               marginLeft: 5,              
-            }}>
+            }, styles.shadowElevation3 ]}>
             <TextInput
               editable = {!disabled}
               value={value.toString()}
@@ -134,7 +135,7 @@ const DistanceTimeCard: React.FC<Props> = ({
             />
           </View>
           <View
-            style={{
+            style={[{
               flex: 1,
               justifyContent: 'center',
               alignItems: 'center',
@@ -142,7 +143,7 @@ const DistanceTimeCard: React.FC<Props> = ({
               borderRadius: 5,
               backgroundColor: Colors.TEXT,
               marginLeft: 2,
-            }}>
+            }, styles.shadowElevation3 ]}>
             <Text16Normal
               text={defaultOption === 0 ? 'km' : 'min'}
               textColor={Colors.TEXTDARK}
@@ -152,7 +153,7 @@ const DistanceTimeCard: React.FC<Props> = ({
         <View style={{flex: 0, justifyContent: 'center', marginRight: 5}}>
           <Text16Normal text="=" textColor={Colors.TEXTDARK} />
         </View>
-        <View style={{flex: 3, justifyContent: 'center'}}>
+        <View style={{flex: 3, paddingTop: 3 }}>
           <View style={{flexDirection: 'row'}}>
             <Text24
               text={klicks.toFixed(2).toString()}
@@ -164,7 +165,7 @@ const DistanceTimeCard: React.FC<Props> = ({
             <View
               style={{
                 justifyContent: 'center',
-                marginTop: 10,
+                marginTop: 3,
                 marginLeft: 5,
               }}>
               <KlicksTooltip color={Colors.TEXTDARK} />

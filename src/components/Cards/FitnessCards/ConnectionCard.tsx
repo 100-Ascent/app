@@ -3,6 +3,7 @@ import {TouchableOpacity, View} from 'react-native';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {SvgUri} from 'react-native-svg';
+import { styles } from '../../../styles/Global/styles';
 import syncNowStyles from '../../../styles/MyProfileScreen/SyncNowCard';
 import {Colors} from '../../../utils/colors';
 import Background from '../../Background/StyledBackground';
@@ -32,7 +33,7 @@ const ConnectionCard: React.FC<Props> = ({data, onPress}) => {
         style={{flexDirection: 'row', justifyContent: 'flex-end'}}
         activeOpacity={0.9}
         onPress={onPress}>
-        <View style={[syncNowStyles.logoView, {top: -5, height: 90, width: 90}]}>
+        <View style={[syncNowStyles.logoView, {top: -5, height: 90, width: 90}, styles.shadowElevation1 ]}>
           <FastImage
             style={{
               width: 60,

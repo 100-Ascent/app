@@ -93,7 +93,7 @@ const inputCard = (
                         popover={
                           <Text14
                             text={
-                              'Enter the message here. Cannot be edited'
+                              'Oops! This field cannot be edited'
                             }
                             textColor={Colors.TEXTDARK}
                           />
