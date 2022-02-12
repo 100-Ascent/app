@@ -7,6 +7,7 @@ import {
   ScrollView,
   Text,
   ToastAndroid,
+  StyleSheet,
 } from 'react-native';
 
 import axios from 'axios';
@@ -32,6 +33,8 @@ import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddComme
 import Text12Bold from '../components/Text/Text12Bold';
 
 import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
+import { isIOS } from 'react-native-elements/dist/helpers';
+import { styles } from '../styles/Global/styles';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -291,7 +294,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     value={date}
                     mode={'date'}
                     is24Hour={true}
-                    display="calendar"
+                    display={ Platform.OS === "ios" ? "default" : "calendar" }
                     onChange={onChange}
                     minimumDate={
                       new Date(new Date().getTime() - 7 * 24 * 60 * 60 * 1000)
@@ -341,7 +344,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     />
                   </View>
                 </View>
-                <View style={{marginTop: 30, marginHorizontal: -20}}>
+                <View style={[{marginTop: 30, marginHorizontal: -20}, styles.shadowElevation3]}>
                   <DistanceTimeCard
                     defaultOption={defaultOption}
                     selectedItem={selected}
@@ -355,7 +358,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     setKlicks={setKlicks}
                   />
                 </View>
-                <View style={{marginTop: 20, marginHorizontal: -20}}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
@@ -371,7 +374,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
                 </View> */}
-                <View style={{marginTop: 20, marginHorizontal: -20}}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
                   <AddCommentImageCard
                     comment={comment}
                     onCommentChange={onCommentChange}

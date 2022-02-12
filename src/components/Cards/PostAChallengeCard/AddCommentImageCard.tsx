@@ -1,5 +1,5 @@
 import React from 'react';
-import {TextInput, View} from 'react-native';
+import {Platform, TextInput, View} from 'react-native';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
@@ -32,6 +32,7 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
           flexDirection: 'row',
           justifyContent: 'space-between',
           alignItems: 'center',
+          
         }}>
         <TextInput
           value={comment}
@@ -41,6 +42,7 @@ const AddCommentImageCard = ({comment, onCommentChange}) => {
           style={{
             backgroundColor: Colors.BLACK5,
             paddingLeft: 10,
+            paddingVertical: 10,
             color: Colors.TEXTDARK,
             flex: 1,
             borderRadius: 10,

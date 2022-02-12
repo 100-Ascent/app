@@ -1,5 +1,5 @@
 import React from 'react';
-import {StyleSheet, View, TouchableOpacity} from 'react-native';
+import {StyleSheet, View, TouchableOpacity, Platform} from 'react-native';
 import Onboarding from 'react-native-onboarding-swiper';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 
@@ -75,9 +75,9 @@ const OnboardingScreen = ({showAppStack}) => {
           backgroundColor: SCREEN1_COLOR,
           image: (
             <View>
-              <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
-                <AppIconBW />
-              </View>
+              { Platform.OS !== "ios" ? <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
+                <AppIconBW /> 
+              </View> : null }
               <Screen1 />
             </View>
           ),
@@ -88,9 +88,9 @@ const OnboardingScreen = ({showAppStack}) => {
           backgroundColor: SCREEN2_COLOR,
           image: (
             <View>
-              <View style={[globalStyles.flexAllCenter, {paddingBottom: 50}]}>
-                <AppIconBW />
-              </View>
+              { Platform.OS !== "ios" ? <View style={[globalStyles.flexAllCenter, {paddingBottom: 50}]}>
+                <AppIconBW /> 
+              </View> : null }
               <Screen2 />
             </View>
           ),
@@ -101,9 +101,9 @@ const OnboardingScreen = ({showAppStack}) => {
           backgroundColor: SCREEN3_COLOR,
           image: (
             <View>
-              <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
+              { Platform.OS !== "ios" ? <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
                 <AppIconBW />
-              </View>
+              </View> : null }
               <Screen3 />
             </View>
           ),
@@ -114,9 +114,9 @@ const OnboardingScreen = ({showAppStack}) => {
           backgroundColor: SCREEN4_COLOR,
           image: (
             <View>
-              <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
+              { Platform.OS !== "ios" ? <View style={[globalStyles.flexAllCenter, {marginBottom: 50}]}>
                 <AppIconBW />
-              </View>
+              </View> : null }
               <Screen4 />
             </View>
           ),

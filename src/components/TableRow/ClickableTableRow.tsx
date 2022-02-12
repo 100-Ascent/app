@@ -21,6 +21,7 @@ interface Props {
   username:any;
   activeDays:any;
   isCustomLeaderboard?: any;
+  isFinalLeague?: boolean;
 }
 
 const ClickableTableRow: React.FC<Props> = ({
@@ -31,7 +32,8 @@ const ClickableTableRow: React.FC<Props> = ({
   rank,
   username,
   activeDays,
-  isCustomLeaderboard
+  isCustomLeaderboard,
+  isFinalLeague
 }) => {
   //Async functions
   let data = [];
@@ -46,6 +48,7 @@ const ClickableTableRow: React.FC<Props> = ({
       data.push(-1);
     }
   }
+  
   return (
     <View>
       <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>
@@ -55,7 +58,7 @@ const ClickableTableRow: React.FC<Props> = ({
             alignItems: 'center',
             paddingVertical: 10,
             backgroundColor:
-             item.username === username ? item.rank <= 10 ? Colors.PROMOTED : item.rank>10 && item.rank<=25 ? Colors.CURRENT : 
+             item.username === username ? isFinalLeague && item.rank<=25 ? Colors.CURRENT : item.rank <= 10 ? Colors.PROMOTED : item.rank>10 && item.rank<=25 ? Colors.CURRENT : 
              Colors.DEMOTED : Colors.TRANSPARENT,
           }}>
           <View style={{width: '10%', alignItems: 'center'}}>
@@ -102,7 +105,7 @@ const ClickableTableRow: React.FC<Props> = ({
         </View>
       </TouchableOpacity>
       {isExpanded && expandedRowIndex === item.rank - 1 ? (
-        <View style={{ backgroundColor:  item.username === username ?
+        <View style={{ backgroundColor:  item.username === username ? isFinalLeague && item.rank<=25 ? Colors.CURRENT_LIGHT :
           item.rank <= 10 ? Colors.PROMOTED_LIGHT : item.rank>10 && item.rank<=25 ? Colors.CURRENT_LIGHT : 
          Colors.DEMOTED_LIGHT : "rgba(220,220,220,0.2)", paddingVertical: 10,}}>
           <View

@@ -15,7 +15,7 @@ const syncNowStyles = StyleSheet.create({
         elevation: 20,
         left: 0,
         top: 10,
-        
+        zIndex: 20
     },
   
     cardContainer: {

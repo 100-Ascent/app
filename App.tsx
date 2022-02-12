@@ -6,6 +6,7 @@ import {
   SafeAreaView,
   StatusBar,
   useColorScheme,
+  View,
 } from 'react-native';
 import NavigationProviders from './src/routes';
 import axios from 'axios';
@@ -96,13 +97,13 @@ const App = () => {
   //     subscription.remove();
   //   };
   // }, []);
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <Provider store={store}>
-        <StatusBar barStyle={isDarkMode ? 'light-content' : 'light-content'} />
-        <NavigationProviders />
-      </Provider>
+  
+    return (
+      <SafeAreaView style={backgroundStyle}>      
+        <Provider store={store}>
+          <StatusBar />
+          <NavigationProviders />
+        </Provider>
     </SafeAreaView>
   );
 };

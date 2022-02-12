@@ -9,7 +9,7 @@ import {
   TouchableNativeFeedback,
 } from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {TouchableWithoutFeedback} from 'react-native-gesture-handler';
+import {TouchableOpacity, TouchableWithoutFeedback} from 'react-native-gesture-handler';
 import {Colors} from '../../utils/colors';
 
 interface Props {
@@ -73,7 +73,8 @@ const RNSearchablePicker: React.FC<Props> = ({
           editable={!disabled}
           onChangeText={onChange}
           placeholder={placeholder}
-          style={{flex: 1, color: Colors.TEXTDARK, ...inputStyles}}
+          style={[{flex: 1, color: Colors.TEXTDARK, ...inputStyles }, 
+            Platform.OS === "ios" ? { paddingVertical: 10 } : {} ]}
           onFocus={() => setListVisibility(true)}
           onPressOut={() => setListVisibility(false)}
         />
@@ -92,7 +93,7 @@ const RNSearchablePicker: React.FC<Props> = ({
                   paddingVertical: 5,
                   paddingHorizontal: 20,
                 }}>
-                <Icon name="chevron-down" type="ionicon" />
+                <Icon name="chevron-up" type="ionicon" />
               </View>
             ) : (
               <View
@@ -116,18 +117,37 @@ const RNSearchablePicker: React.FC<Props> = ({
             )}
           </TouchableNativeFeedback>
         ) : (
-          <TouchableHighlight
+          <TouchableOpacity activeOpacity={0.7}
             onPress={() => setListVisibility(!listVisibility)}>
             {listVisibility ? (
-              <View style={{padding: 10}}>
-                <Icon name="chevron-down" type="ionicon" />
-              </View>
+              <View
+              style={{
+                paddingVertical: 5,
+                paddingHorizontal: 20,
+              }}>
+              <Icon name="chevron-up" type="ionicon" />
+            </View>
             ) : (
-              <View style={{padding: 10}}>
-                <Icon name="chevron-up" type="ionicon" />
+              <View
+                style={{
+                  justifyContent: 'flex-end',
+                  alignItems: 'center',
+                  // flex: 1,
+                  flexDirection: 'row',
+                  paddingHorizontal: 15,
+                  paddingVertical: 5,
+                }}>
+                <Icon
+                  name="clear"
+                  type="MaterialIcons"
+                  size={18}
+                  color={Colors.INFO_GREY} 
+                  onPress={() => setInputValue('')}
+                />
+                <Icon name="search" size={18} color={Colors.INFO_GREY} type="ionicon" />
               </View>
             )}
-          </TouchableHighlight>
+          </TouchableOpacity>
         )}
       </View>
       {listVisibility ? (
@@ -167,7 +187,7 @@ const RNSearchablePicker: React.FC<Props> = ({
                     </Text>
                   </TouchableWithoutFeedback>
                 ) : (
-                  <TouchableHighlight
+                  <TouchableOpacity
                     onPress={() => {
                       onSelect(item);
                       setInputValue(item.name);
@@ -182,7 +202,7 @@ const RNSearchablePicker: React.FC<Props> = ({
                       }}>
                       {item.name}
                     </Text>
-                  </TouchableHighlight>
+                  </TouchableOpacity>
                 )
               }
             />

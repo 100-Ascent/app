@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useIsFocused } from '@react-navigation/native';
-import { View, SafeAreaView, ScrollView, TouchableOpacity, RefreshControl, ToastAndroid } from 'react-native';
+import { View, SafeAreaView, ScrollView, TouchableOpacity, RefreshControl, ToastAndroid, StyleSheet, Platform } from 'react-native';
 import Text20 from '../components/Text/Text20';
 import Text16Bold from '../components/Text/Text16Bold';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
@@ -26,6 +26,7 @@ import Text24 from '../components/Text/Text24';
 import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import SessionCard from '../components/Cards/Sessions/SessionCard';
+import { isIOS } from 'react-native-elements/dist/helpers';
 module
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
@@ -80,7 +81,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       .get("/api/ascent/talks", { headers })
       .then(async res => {
         const { data } = res.data;
-        setSession(data[0]);
+        setSession(data.length === 0 ? {} : data[0]);
       })
       .catch(err => {
         console.log('failed in session data');
@@ -237,7 +238,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                 />
-                <View style={{ marginTop: 15 }}>
+                <View style={[{ marginTop: 15}, Platform.OS==="ios" ? styles.shadow: {}]}>
                   <PreferredTimePickerCard
                     isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false }
                     prefer_time={user['prefer_time']}
@@ -247,8 +248,8 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   />
                 </View>
                 
-                <View style={{ paddingHorizontal: 15, marginTop: 25 }}>
-                  <SessionCard session={session}/>
+                <View style={{ paddingHorizontal: 15, marginTop: isIOS ? 30 : 25 }}>
+                  { Object.keys(session).length === 0 ? null :  <SessionCard session={session}/> }
                 </View>
 
                 
@@ -274,3 +275,15 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 };
 
 export default HomeScreen;
+
+const styles = StyleSheet.create({
+  shadow: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+  }
+})

@@ -31,6 +31,7 @@ import { UPDATE_EMAIL } from '../utils/apis/endpoints';
 import { Icon } from 'react-native-elements';
 import Text12Bold from '../components/Text/Text12Bold';
 import moment from 'moment';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [email, setEmail] = useState('');
@@ -216,6 +217,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                                 color: Colors.TEXTDARK,
                                 paddingLeft: 15,
                                 fontSize: 16,
+                                paddingVertical: isIOS ? 10 : 0,
                               }}
                             />
                           </View>
@@ -248,6 +250,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                                 color: Colors.TEXTDARK,
                                 paddingLeft: 15,
                                 fontSize: 16,
+                                paddingVertical: isIOS ? 10 : 0,
                               }}
                             />
                           </View>
@@ -280,6 +283,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                               color: Colors.TEXTDARK,
                               paddingLeft: 15,
                               fontSize: 16,
+                              paddingVertical: isIOS ? 10 : 0,
                             }}
                           />
                           {error ? (
@@ -321,13 +325,13 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                             backgroundColor: isProceedDisabled || loading
                               ? Colors.BLACK6
                               : Colors.POPUP_RED,
-                            shadowColor: Colors.POPUP_RED,
-                            shadowOffset: {
-                              width: 0,
-                              height: 10,
-                            },
-                            shadowOpacity: 0.51,
-                            shadowRadius: 13.16,
+                              shadowColor: "#000",
+                              shadowOffset: {
+                                width: 0,
+                                height: 1,
+                              },
+                              shadowOpacity: 0.20,
+                              shadowRadius: 1.41,
                           }}
                           text={!isEmailSentMessage ? PROCEED : "Skip"}
                           onPress={() =>

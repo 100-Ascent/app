@@ -26,7 +26,7 @@ const PromotedSeparator: React.FC<Props> = ({league}) => {
       <Icon name="arrow-up" type="entypo" color={'#58A700'} />
       <View style={{paddingHorizontal: 20}}>
         <Text16Normal
-          text={league.toUpperCase()+ ' LEAGUE'}
+          text={league?.toUpperCase()+ ' LEAGUE'}
           textColor={'#58A700'}
           textStyle={FONTS.SEMIBOLD}
         />

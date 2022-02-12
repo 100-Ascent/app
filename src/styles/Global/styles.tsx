@@ -33,3 +33,24 @@ export default StyleSheet.create({
     alignItems: 'center',
   },
 });
+
+export const styles = StyleSheet.create({
+  shadowElevation3 : {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+  },
+  shadowElevation1: {
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.18,
+    shadowRadius: 1.00,
+  }
+})

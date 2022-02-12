@@ -91,7 +91,8 @@ const OTPCard: React.FC<Props> = ({otpArray, handleSetOtpArray}) => {
           onKeyPress={onOtpKeyPress(idx)}
           maxLength={1}
           style={{
-            padding: 10,
+            paddingHorizontal: Platform.OS === 'ios' ? 15:10,
+            paddingVertical: 10,
             fontSize: 18,
             borderWidth: 1,
             alignItems: 'center',

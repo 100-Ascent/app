@@ -20,6 +20,7 @@ import VersionNumber from 'react-native-version-number';
 import ToggleCard from '../components/Cards/NotificationCards/ToggleCard';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import { getCurrentEnvironmemnt } from '../utils/constants/constants';
+import { styles } from '../styles/Global/styles';
 
 interface Props {
   navigation: RootNavProp<'SettingScreen'>;
@@ -87,8 +88,7 @@ const SettingScreen: React.FC<Props> = ({navigation}) => {
           name="arrow-back"
           type="ionicons"
           size={30}
-          onPress={() => navigation.navigate('HomeScreen')}
-        />
+          onPress={() => navigation.navigate('HomeScreen')} tvParallaxProperties={undefined}        />
       </View>
     ),
   });
@@ -128,7 +128,7 @@ const SettingScreen: React.FC<Props> = ({navigation}) => {
                       
 
                       {/* This is to be removed later */}
-                      <View style={{ paddingHorizontal: 15 }}>
+                      <View style={[{ marginHorizontal: 15}, styles.shadowElevation3]}>
                       <ToggleCard data={val.data} toggleSwitch={toggleSwitch} />
                       </View>
                       

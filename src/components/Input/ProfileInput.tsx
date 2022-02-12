@@ -109,19 +109,18 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
             numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 1 }
         />
       </View>
-      <TouchableOpacity activeOpacity={0.5}>
-      <View style={[globalStyles.flexRowJustifyCenter, globalStyles.flex]}>
+      <TouchableOpacity activeOpacity={ ProfileInputFieldTypes.EMAIL === type ? 0.5 : 1} onPress={ProfileInputFieldTypes.EMAIL === type ?
+                  () => onInfoPressed() : ProfileInputFieldTypes.ADDRESS === type ?
+                  () => { ToastAndroid.show("Please enter your address here!", ToastAndroid.SHORT); } :
+                  () => { ToastAndroid.show("Please update your date of birth!", ToastAndroid.CENTER); } }>
+      <View style={[globalStyles.flexRowJustifyCenter, globalStyles.flex,]}>
         { [ProfileInputFieldTypes.EMAIL, ProfileInputFieldTypes.PHONE, ProfileInputFieldTypes.ADDRESS , ProfileInputFieldTypes.DOB ].includes(type) ? 
             <Icon 
-              disabled={isEmailVerified || isAddressFilled || isPhone || isDOBFilled}
               name={getIcon(type, isEmailVerified, isAddressFilled, isDOBFilled)}
-              type={"material-icons"}
+              type={ "material-icons"}
               color={getIconColor(type, isEmailVerified, isAddressFilled, isDOBFilled)}
-              onPress={ProfileInputFieldTypes.EMAIL === type ?
-                () => onInfoPressed() : ProfileInputFieldTypes.ADDRESS === type ?
-                  () => { ToastAndroid.show("Please enter your address here!", ToastAndroid.SHORT); } :
-                  () => { ToastAndroid.show("Please update your date of birth!", ToastAndroid.CENTER); } }
-              size={25} tvParallaxProperties={undefined}              /> : null }        
+
+              size={25} tvParallaxProperties={undefined} activeOpacity={1} /> : null }        
       </View>
       </TouchableOpacity>
     </View>

@@ -23,15 +23,15 @@ const DemotedSeparator: React.FC<Props> = ({ league }) => {
         alignItems: 'center',
         paddingVertical: 10
       }}>
-      <Icon name="arrow-down" type="entypo" color={'#FF4B4C'} />
+      <Icon name="arrow-down" type="entypo" color={'#FF4B4C'} tvParallaxProperties={undefined} />
       <View style={{paddingHorizontal: 20}}>
         <Text16Normal
-          text={ league.toUpperCase() + ' LEAGUE'}
+          text={ league?.toUpperCase() + ' LEAGUE'}
           textColor={'#FF4B4C'}
           textStyle={FONTS.SEMIBOLD}
         />
       </View>
-      <Icon name="arrow-down" type="entypo" color={'#FF4B4C'} />
+      <Icon name="arrow-down" type="entypo" color={'#FF4B4C'} tvParallaxProperties={undefined} />
     </View>
   );
 };

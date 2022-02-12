@@ -16,6 +16,7 @@ import CustomTabBarButton from '../components/Button/CustomTabBarButton';
 import Home from './ScreenStacks/Home';
 import Activity from './ScreenStacks/Activity';
 import PostActivity from './ScreenStacks/PostActivity';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -70,12 +71,13 @@ const BottomTabStack = ({navigation}) => {
             borderRadius: 15,
             elevation: 10,
 
-            shadowColor: Colors.BLACK1,
-            shadowOpacity: 0.06,
+            shadowColor: "#000",
             shadowOffset: {
-              width: 10,
-              height: 10,
+              width: 0,
+              height: 4,
             },
+            shadowOpacity: 0.30,
+            shadowRadius: 4.65,
           },
         }}>
         <Tab.Screen
@@ -171,7 +173,7 @@ const BottomTabStack = ({navigation}) => {
           listeners={({navigation, route}) => ({
             focus: e => {
               Animated.spring(tabOffsetValue, {
-                toValue: getWidth() * 2,
+                toValue: isIOS ? getWidth() * 10 : getWidth() * 2,
                 useNativeDriver: true,
               }).start();
             },

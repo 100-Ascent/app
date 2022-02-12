@@ -26,6 +26,8 @@ import Text14 from '../components/Text/Text14';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
 import Background from '../components/Background/StyledBackground';
+import { isIOS } from 'react-native-elements/dist/helpers';
+import { styles } from '../styles/Global/styles';
 
 interface Props{
 navigation:RootNavProp<'LeaderboardScreen'>;
@@ -331,13 +333,14 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Backgroun
                       expandedRowIndex={expandedRowIndex} 
                       isExpanded={isExpanded}
                       isCustomLeaderboard = {!selectedLeaderboard['default']}
+                      isFinalLeague={leagueData["all_leagues"][leagueData['league_index']+1] === undefined}
                     /> 
 
                     : currentSwitch === 1 ? <TableRow item={item} /> 
                     : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ? !selectedLeaderboard['default'] ? null : index === 9 && leagueData['league_index'] < leagueData["all_leagues"].length ? 
-                    <PromotedSeparator league={leagueData["all_leagues"][leagueData['league_index']+1]} /> 
+                    leagueData["all_leagues"][leagueData['league_index']+1] === undefined ? null : <PromotedSeparator league={leagueData["all_leagues"][leagueData['league_index']+1]} /> 
                     : index === 24 && leagueData['league_index'] !== 0  ? <DemotedSeparator league={leagueData["all_leagues"][leagueData['league_index']-1]} /> : null : null } 
             </View>      
     }}    
@@ -378,15 +381,16 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Backgroun
             <CustomSwitchComponent options={options} current={currentSwitch} handleSwitch={(idx)=> { setQuery(""); setCurrentSwitch(idx)} } />
             <View style={{ marginTop: 10, borderWidth: 1, borderColor: Colors.BLACK3 }} />
             { currentSwitch === 1 || (currentSwitch === 0 && !selectedLeaderboard['name'].toLowerCase().includes("global") ) ? 
-              <View style={{ 
+              <View style={[{ 
                 marginHorizontal: 20, 
                 borderRadius: 10, 
                 marginVertical: 10, 
                 elevation: 1, 
+                paddingVertical: isIOS ? 10 : 0,
                 flexDirection: 'row', 
                 backgroundColor: Colors.TEXT, 
                 alignItems: 'center' 
-                }}>
+                }, styles.shadowElevation1 ]}>
                 <View style={{ paddingLeft: 10}}>
                   <Icon name="search" type="ionicon" color={Colors.BLACK4}  />
                 </View> 

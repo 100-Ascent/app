@@ -14,13 +14,13 @@ const StatsCard = ({streak, isToday}) => {
         flex: 1,
         marginHorizontal: 10,
         borderRadius: 20,
-        shadowColor: '#0E1320',
+        shadowColor: "#000",
         shadowOffset: {
           width: 0,
-          height: 5,
+          height: 4,
         },
-        shadowOpacity: 0.6,
-        shadowRadius: 20,
+        shadowOpacity: 0.30,
+        shadowRadius: 4.65,
         elevation: 11,
       }}>
       <Background

@@ -157,13 +157,13 @@ const SignInScreen: React.FC<Props> = ({
                     <StyledButton
                       buttonStyle={{
                         backgroundColor: Colors.POPUP_RED,
-                        shadowColor: Colors.POPUP_RED,
+                        shadowColor: "#000",
                         shadowOffset: {
                           width: 0,
-                          height: 10,
+                          height: 1,
                         },
-                        shadowOpacity: 0.51,
-                        shadowRadius: 13.16,
+                        shadowOpacity: 0.20,
+                        shadowRadius: 1.41,
                       }}
                       text={PROCEED}
                       onPress={onSubmit}
