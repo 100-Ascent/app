@@ -1,8 +1,8 @@
 import {Dimensions} from 'react-native';
 
 // export const BASEURL = 'https://team-100-ascent.herokuapp.com';
-export const BASEURL = 'https://pre-prod.100ascent.com';
-// export const BASEURL = 'https://api.100ascent.com';
+// export const BASEURL = 'https://pre-prod.100ascent.com';
+export const BASEURL = 'https://api.100ascent.com';
 
 export const getCurrentEnvironmemnt = () => { return BASEURL; }
 
@@ -51,8 +51,8 @@ export enum ProfileInputFieldTypes {
 
 export const GOOGLE_FIT_CONFIG = {
   issuer: 'https://accounts.google.com',
-  clientId: '730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com',
-  redirectUrl: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e:/oauth2redirect/google',
+  clientId: '730727502414-urev3kc18jh61qc41r3slea7pkltmvk5.apps.googleusercontent.com',
+  redirectUrl: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5:/oauth2redirect/google',
   scopes: [ 
     'https://www.googleapis.com/auth/fitness.activity.read',
 ]
