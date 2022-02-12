@@ -20,13 +20,14 @@ import Text18 from '../components/Text/Text18';
 import { FONTS } from '../utils/constants/fonts';
 import RNLoader from '../components/Loader/RNLoader';
 import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
-import ErrorIcon from '../../assets/modal-icons/error-icon.svg';import CustomPopUp from '../components/PopUps/CustomPopUp';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
 import { setData, setEmailVerifiedData } from '../redux/action';
 import Text24 from '../components/Text/Text24';
 import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import SessionCard from '../components/Cards/Sessions/SessionCard';
-module
+
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
 }
