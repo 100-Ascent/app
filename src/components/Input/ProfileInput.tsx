@@ -81,7 +81,7 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
       )
     }else if (type == ProfileInputFieldTypes.INSTITUTION) {
       return (
-        <Text style={{fontSize: 20}}>🏛️</Text>
+        <Text style={{fontSize: 20}}>🏢</Text>
       )
     } else {
       return (

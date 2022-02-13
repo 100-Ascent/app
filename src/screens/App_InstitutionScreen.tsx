@@ -77,7 +77,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
         DeviceEventEmitter.emit("event.testEvent", {institution}); 
         DeviceEventEmitter.removeAllListeners("event.testEvent");
         AsyncStorage.setItem('showIntitutionCard', "false");
-        navigation.pop();
+        navigation.navigate('LeaderboardScreen')
       })
       .catch(err => {
         console.log('failed in saving institution data');
@@ -91,7 +91,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
       callToSaveInstitution(institution);
     }else{
       DeviceEventEmitter.removeAllListeners("event.testEvent");
-      navigation.navigate('LeaderboardScreen');
+      navigation.pop();
     }
   }
 

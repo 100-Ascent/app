@@ -116,7 +116,7 @@ const Home = ({navigation, route}) => {
           },
         })}
       />
-      <HomeStack.Screen
+      {/* <HomeStack.Screen
         component={LeaderboardScreen}
         name={'LeaderboardScreen'}
         options={({route}) => ({
@@ -129,7 +129,7 @@ const Home = ({navigation, route}) => {
             borderColor: Colors.BLACK2,
           },
         })}
-      />
+      /> */}
       <HomeStack.Screen
         component={InstitutionScreen}
         name={'InstitutionScreen'}
