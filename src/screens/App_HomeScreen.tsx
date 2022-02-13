@@ -27,7 +27,10 @@ import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import SessionCard from '../components/Cards/Sessions/SessionCard';
 import { isIOS } from 'react-native-elements/dist/helpers';
-module
+import { styles } from '../styles/Global/styles';
+import JoinInstitutionCard from '../components/Cards/Institution/JoinInstitutionCard';
+import AsyncStorage from '@react-native-community/async-storage';
+
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
 }
@@ -48,6 +51,8 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
   const isFocused = useIsFocused();
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const [toShowInstituteCard, setToShowInstituteCard] = useState(false);
+
   const PREFERRED_WORKOUT_TIME_HEADING = "My preferred workout time";
   const ASCENT_TALKS = "Ascent Talks!";
   const SYNC_NOW = "Sync Now";
@@ -126,6 +131,15 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       });
   }
 
+  const callToSetInstitutionCard = async () => {
+    let toShowInstituteCard = await AsyncStorage.getItem('showIntitutionCard');
+    if(toShowInstituteCard === null){
+      setToShowInstituteCard(true);
+    }else{
+      setToShowInstituteCard(false);
+    }
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'Quick Actions',
@@ -134,6 +148,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       headerRight: () => <View style={{marginLeft: 10}} />,
     });
     setLoading(true);
+    callToSetInstitutionCard();
     callToGetUserDetails();
     callToGetSessionData();
     getToken();
@@ -185,6 +200,9 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     
   }
 
+  const handleInstitutionPress = async () => {
+    navigation.navigate('InstitutionScreen', { selectedId: -1 });
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -201,10 +219,13 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   <Text16Normal text={"Here are some quick actions for you"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View>
 
-
+                {/* Institution Card */}
+                { toShowInstituteCard ? user['college'] === undefined ? <View style={{ marginTop: 15 }}>
+                  <JoinInstitutionCard onPress={handleInstitutionPress} callToSetInstitutionCard={callToSetInstitutionCard}/>
+                  </View> : <View/> : <View/> }
 
                 {/* Sync Now */}
-                <View style={{ marginTop: 35, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ marginTop: 25, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
                   <Text16Bold text={SYNC_NOW} textColor={Colors.TEXTDARK} containerStyle={{flex: 1}}/>
                   <TouchableOpacity onPress={() => { navigation.navigate('FitnessIntegrationScreen') }}>
                     <Icon name='info' type='feather' color={Colors.BUTTON_DARK} tvParallaxProperties={undefined}/>
@@ -238,7 +259,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                 />
-                <View style={[{ marginTop: 15}, Platform.OS==="ios" ? styles.shadow: {}]}>
+                <View style={[{ marginTop: 15 }, Platform.OS==="ios" ? styles.shadowElevation3: {}]}>
                   <PreferredTimePickerCard
                     isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false }
                     prefer_time={user['prefer_time']}
@@ -275,15 +296,3 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  }
-})

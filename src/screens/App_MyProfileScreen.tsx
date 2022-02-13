@@ -1,26 +1,13 @@
-import React, {useEffect, useState} from 'react';
 import {
+  Dimensions,
+  Image,
+  RefreshControl,
   SafeAreaView,
   ScrollView,
-  View,
   ToastAndroid,
-  RefreshControl,
   TouchableOpacity,
-  Image,
-  Dimensions,
+  View,
 } from 'react-native';
-import axios from 'axios';
-import {useDispatch, useSelector} from 'react-redux';
-import {AppState} from '../redux';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import Background from '../components/Background/StyledBackground';
-import ProfileInput from '../components/Input/ProfileInput';
-import Text28 from '../components/Text/Text28';
-import Text16Normal from '../components/Text/Text16Normal';
-import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
-import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
-
 import {
   GOOGLE_FITNESS_SYNC,
   UPDATE_EMAIL,
@@ -28,31 +15,41 @@ import {
   USER_DETAILS,
   VERIFY_EMAIL,
 } from '../utils/apis/endpoints';
-import {Colors} from '../utils/colors';
-import myProfileStyles from '../styles/MyProfileScreen/myprofile';
+import React, {useEffect, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {setData, setEmailVerifiedData} from '../redux/action';
-import RNLoader from '../components/Loader/RNLoader';
-import {ProfileInputFieldTypes} from '../utils/constants/constants';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import CustomPopUp from '../components/PopUps/CustomPopUp';
-import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
-import {useIsFocused} from '@react-navigation/native';
-import parsePhoneNumber from 'libphonenumber-js';
-import Text12Bold from '../components/Text/Text12Bold';
-import FloatingActionButton from '../components/Button/FloatingActionButton';
-import Text16Bold from '../components/Text/Text16Bold';
-import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
+import {useDispatch, useSelector} from 'react-redux';
 
-import EmptyState from '../../assets/icons/empty_state.svg';
-import StatsCard from '../components/Cards/StatsCard';
-import FastImage from 'react-native-fast-image';
-import auth from '@react-native-firebase/auth';
-import SyncNowButton from '../components/Button/SyncNowButton';
-import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
 import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
-import moment from 'moment';
+import {AppState} from '../redux';
+import Background from '../components/Background/StyledBackground';
+import {Colors} from '../utils/colors';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
+import EmptyState from '../../assets/icons/empty_state.svg';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
+import FastImage from 'react-native-fast-image';
+import FloatingActionButton from '../components/Button/FloatingActionButton';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
+import PreferredTimePickerCard from '../components/Cards/NotificationCards/PreferredTimePickerCard';
+import ProfileInput from '../components/Input/ProfileInput';
+import {ProfileInputFieldTypes} from '../utils/constants/constants';
+import RNLoader from '../components/Loader/RNLoader';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
-
+import StatsCard from '../components/Cards/StatsCard';
+import SyncNowButton from '../components/Button/SyncNowButton';
+import Text12Bold from '../components/Text/Text12Bold';
+import Text16Bold from '../components/Text/Text16Bold';
+import Text16Normal from '../components/Text/Text16Normal';
+import Text28 from '../components/Text/Text28';
+import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
+import auth from '@react-native-firebase/auth';
+import axios from 'axios';
+import moment from 'moment';
+import myProfileStyles from '../styles/MyProfileScreen/myprofile';
+import parsePhoneNumber from 'libphonenumber-js';
+import {useIsFocused} from '@react-navigation/native';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -101,6 +98,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(async res => {
         const data = res.data.data;
+        console.log(data);
         setPreferredConnection(data.preferred_connection);
         dispatch(setEmailVerifiedData(data['is_verified_email']));
         dispatch(setData(data));
@@ -277,6 +275,11 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                       userData['phoneNumber'],
                     ).formatInternational()}
                   />
+                  { userData["college"] === undefined ? null : <ProfileInput
+                    type={ProfileInputFieldTypes.INSTITUTION}
+                    iconName="public"
+                    textField={ userData["college"]["name"] }  
+                  />}
                   <ProfileInput
                     type={ProfileInputFieldTypes.COUNTRY}
                     iconName="public"

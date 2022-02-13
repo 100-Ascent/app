@@ -217,7 +217,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                                 color: Colors.TEXTDARK,
                                 paddingLeft: 15,
                                 fontSize: 16,
-                                paddingVertical: isIOS ? 10 : 0,
+                                paddingVertical: isIOS ? 10 : 5,
                               }}
                             />
                           </View>
@@ -250,7 +250,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                                 color: Colors.TEXTDARK,
                                 paddingLeft: 15,
                                 fontSize: 16,
-                                paddingVertical: isIOS ? 10 : 0,
+                                paddingVertical: isIOS ? 10 : 5,
                               }}
                             />
                           </View>
@@ -283,7 +283,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                               color: Colors.TEXTDARK,
                               paddingLeft: 15,
                               fontSize: 16,
-                              paddingVertical: isIOS ? 10 : 0,
+                              paddingVertical: isIOS ? 10 : 5,
                             }}
                           />
                           {error ? (

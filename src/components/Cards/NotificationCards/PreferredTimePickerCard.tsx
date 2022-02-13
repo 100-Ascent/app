@@ -92,6 +92,21 @@ const PreferredTimePickerCard: React.FC<Props> = ({ prefer_time, isWorkoutNotifi
         !isIOS ? ToastAndroid.show('Workout time set to ' + moment(selectedDateTime).format('hh:mm a') + ' everyday', ToastAndroid.SHORT) : null
     }else{
         setShow(false);
+    }         
+  };
+
+  const onChangeAndroid = (e, selectedDateTime) => {
+    if(selectedDateTime!==undefined){
+        let timeToSend = moment.utc(selectedDateTime).format("HH:mm");
+        let timeToShow = moment.utc(selectedDateTime).format("HH:mm");
+        let timeAMorPM = parseInt(moment(selectedDateTime).format("HH:mm").split(":")[0]) >= 12 ? "PM" : "AM";
+        setTimeAMorPm(timeAMorPM);
+        setShow(false);
+        setTimeToShow(timeToShow);
+        handleEditPreferredTime(timeToSend);
+        !isIOS ? ToastAndroid.show('Workout time set to ' + moment(selectedDateTime).format('hh:mm a') + ' everyday', ToastAndroid.SHORT) : null
+    }else{
+        setShow(false);
     }
          
   };
@@ -113,7 +128,7 @@ const handleEditPreferredTime = async (timeToSend) => {
         });
 }
 
-return <View style={{ flex:1, backgroundColor: Colors.TEXT,  borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
+return <View style={{ flex:1, backgroundColor: Colors.TEXT, elevation: 3,  borderRadius: 10, paddingBottom: 20, marginHorizontal: 10, overflow: 'hidden' }}>
     <View style={{ flex:1,  justifyContent: 'flex-end', flexDirection: 'row', paddingRight: 10, paddingTop: 10 }}>
         <TouchableOpacity onPress={()=>setShow(true)}>
             <View style={{ flexDirection: 'row' }}>
@@ -155,9 +170,9 @@ return <View style={{ flex:1, backgroundColor: Colors.TEXT,  borderRadius: 10, p
           mode={mode}
           is24Hour={false}
           display={"clock"}
-          onChange={onChange}
+          onChange={onChangeAndroid}
           minuteInterval={15}     
-          style={{ }}     
+          style={{borderColor:"red", borderWidth: 1}}    
         /> : <DateTimePickerModal
             isVisible={show}
             mode="time"

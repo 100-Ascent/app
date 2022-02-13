@@ -1,26 +1,25 @@
-import React, {useEffect, useRef, useState} from 'react';
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-
 import {Animated, Keyboard, View} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {RootStackParamList} from './RootStackParamList';
+import React, {useEffect, useRef, useState} from 'react';
 
-
-import {WIDTH} from '../utils/constants/constants';
-import {Colors} from '../utils/colors';
-import Leaderboard from './ScreenStacks/Leaderboard';
-import Fitness from './ScreenStacks/Fitness';
-import Profile from './ScreenStacks/Profile';
-import AddActivityScreen from '../screens/App_AddActivityScreen';
-import CustomTabBarButton from '../components/Button/CustomTabBarButton';
-import Home from './ScreenStacks/Home';
 import Activity from './ScreenStacks/Activity';
+import AddActivityScreen from '../screens/App_AddActivityScreen';
+import {Colors} from '../utils/colors';
+import CustomTabBarButton from '../components/Button/CustomTabBarButton';
+import Fitness from './ScreenStacks/Fitness';
+import Home from './ScreenStacks/Home';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Leaderboard from './ScreenStacks/Leaderboard';
 import PostActivity from './ScreenStacks/PostActivity';
+import Profile from './ScreenStacks/Profile';
+import {RootStackParamList} from './RootStackParamList';
+import {WIDTH} from '../utils/constants/constants';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { isIOS } from 'react-native-elements/dist/helpers';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
-const BottomTabStack = ({navigation}) => {
+const BottomTabStack = ({navigation, route}) => {
   
   const getWidth = () => {
     let width = WIDTH - 20;
@@ -52,8 +51,6 @@ const BottomTabStack = ({navigation}) => {
     };
   }, []);
 
-  console.log(isKeyboardVisible);
-  
   return (
     <>
       <Tab.Navigator

@@ -47,6 +47,7 @@ export enum ProfileInputFieldTypes {
   DOB = "dob",
   GENDER = "gender",
   USERNAME = "username",
+  INSTITUTION = "institution",
 }
 
 export const GOOGLE_FIT_CONFIG = {

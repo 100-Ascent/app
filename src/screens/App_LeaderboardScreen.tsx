@@ -6,7 +6,7 @@ import { useSelector, useStore } from 'react-redux';
 import NotesCard from '../components/Cards/FitnessCards/NotesCard';
 import LeagueListCard from '../components/Cards/Leaderboard/LeagueListCard';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
-import SimpleDropdown from '../components/SearchablePicker/SimpleDropdown';
+import SimpleDropdown from '../components/Dropdown/SimpleDropdown';
 import CustomSwitchComponent from '../components/SwitchComponent/SwitchComponent';
 import ClickableTableRow from '../components/TableRow/ClickableTableRow';
 import DemotedSeparator from '../components/TableRow/DemotedSeparator';

@@ -1,12 +1,12 @@
-import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View} from 'react-native';
 
-import globalStyles from '../../styles/Global/styles';
 import { Colors } from '../../utils/colors';
 import { Countries } from '../../utils/countries';
+import {Icon} from 'react-native-elements';
 import { ProfileInputFieldTypes } from '../../utils/constants/constants';
+import globalStyles from '../../styles/Global/styles';
+import moment from 'moment';
 
 interface Props {
   iconName: string;
@@ -79,6 +79,10 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
       return (
         <Text style={{fontSize: 20}}>🧑</Text>
       )
+    }else if (type == ProfileInputFieldTypes.INSTITUTION) {
+      return (
+        <Text style={{fontSize: 20}}>🏛️</Text>
+      )
     } else {
       return (
         <Text style={{fontSize: 20}}>🪴</Text>
@@ -119,7 +123,6 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
               name={getIcon(type, isEmailVerified, isAddressFilled, isDOBFilled)}
               type={ "material-icons"}
               color={getIconColor(type, isEmailVerified, isAddressFilled, isDOBFilled)}
-
               size={25} tvParallaxProperties={undefined} activeOpacity={1} /> : null }        
       </View>
       </TouchableOpacity>

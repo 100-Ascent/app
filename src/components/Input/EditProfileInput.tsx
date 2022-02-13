@@ -1,11 +1,12 @@
-import React, {useState} from 'react';
-import moment from 'moment';
 import {Platform, Text, TextInput, TouchableOpacity, View} from 'react-native';
-import DateTimePicker from '@react-native-community/datetimepicker';
+import React, {useState} from 'react';
+
 import {Colors} from '../../utils/colors';
-import Text14 from '../Text/Text14';
+import DateTimePicker from '@react-native-community/datetimepicker';
 import HelpTooltip from '../Tooltip/HelpTooltip';
 import Icon from 'react-native-elements/dist/icons/Icon';
+import Text14 from '../Text/Text14';
+import moment from 'moment';
 
 interface Props {
   label: string;
@@ -16,9 +17,11 @@ interface Props {
   isUsername?: boolean;
   isNumeric?: boolean;
   keyName: any;
+  isInstitution?: boolean;
   onChangeText?: (name, value) => void;
   handleDateOfBirth?: (dob)=> void;
-  handleUserNameBlurEvent?: ()=> void
+  handleUserNameBlurEvent?: ()=> void;
+  handleInstitutionSelection?: ()=> void;
 }
 
 const EditProfileInput: React.FC<Props> = ({
@@ -30,9 +33,11 @@ const EditProfileInput: React.FC<Props> = ({
   isName,
   isUsername,
   isNumeric,
+  isInstitution,
   keyName,
   handleDateOfBirth,
-  handleUserNameBlurEvent
+  handleUserNameBlurEvent,
+  handleInstitutionSelection
 }) => {
 
     let day, month, year;
@@ -43,12 +48,9 @@ const EditProfileInput: React.FC<Props> = ({
         day = parseInt(dateValue.format('D'));
     }
 
-  //State variables
   const [show, setShow] = useState(false);
   const [date, setDate] = useState(new Date(year,month-1,day));
-  //Async functions
   
-  //Component functions
   const onChange = (event, selectedDateValue) => {
     const currentDate = selectedDateValue;
     setShow(Platform.OS === 'ios');
@@ -59,10 +61,11 @@ const EditProfileInput: React.FC<Props> = ({
   };
 
   return (
-    <View style={{marginTop: 20, marginHorizontal: 10}}>
+    <View style={{marginTop: 15, marginHorizontal: 10, }}>
       <View>
         <Text14 text={label} textColor={Colors.BLACK3} />
       </View>
+      
       <View style={{flexDirection: 'row'}}>
         {keyName === 'dob' ? (
           <TouchableOpacity
@@ -71,7 +74,7 @@ const EditProfileInput: React.FC<Props> = ({
             style={{
               backgroundColor: Colors.TRANSPARENT,
               flexDirection: 'row',
-              width: '98%',
+              width: '100%',
               borderBottomWidth: 1,
               paddingVertical: 5,
             }}>
@@ -97,10 +100,12 @@ const EditProfileInput: React.FC<Props> = ({
             </View>
           </TouchableOpacity>
         ) : (
+          !isInstitution ? 
+          
           <TextInput
             keyboardType={isNumeric ? 'number-pad' : 'default'}
             style={{
-              width: '90%',
+              width: isPhone ? '95%' :  '100%',
               color:
                 isName || isEmail || isPhone ? Colors.BLACK3 : Colors.TEXTDARK,
               padding: 0,
@@ -115,24 +120,42 @@ const EditProfileInput: React.FC<Props> = ({
             defaultValue={value}
             editable={!(isName || isEmail || isPhone)}
             // selectTextOnFocus={!(isName || isEmail || isPhone)}
-          />
+          /> : 
+          <TouchableOpacity
+            onPress={handleInstitutionSelection}
+            activeOpacity={1}
+            style={{
+              backgroundColor: Colors.TRANSPARENT,
+              flexDirection: 'row',
+              width: '100%',
+              borderBottomWidth: 1,
+              paddingVertical: 5,
+            }}>
+            <View
+              style={{
+                borderColor: Colors.TRANSPARENT,
+                width: '100%',
+                borderBottomColor: Colors.TRANSPARENT,
+                backgroundColor: Colors.TRANSPARENT,
+                flexDirection: 'row',
+              }}>
+              <View style={{ width: '90%' }}>
+                <Text style={{color: Colors.TEXTDARK}}>
+                  {value?.length > 55 ? value.substring(0,45) + "..." : value } 
+                </Text>
+              </View>
+              <View style={{ width: '10%', alignItems: 'flex-end'}}>
+                <Icon name="chevron-right" type="MaterialIcons" size={20} tvParallaxProperties={undefined} />
+              </View>
+            </View>
+          </TouchableOpacity>
         )}
 
-         
-         { keyName !== 'dob' ? <View
-            style={{
-              borderBottomWidth: 1,
-              borderBottomColor:
-                isName || isEmail || isPhone ? Colors.BLACK3 : Colors.TEXTDARK,
-            }}>
-            {isName || isEmail || isPhone ? (
-              <HelpTooltip color={Colors.INFO_GREY} />
-            ) : (
-              <View style={{padding: 10}} />
-            )}
-          </View> :  <View style={{padding: 10}} /> }
+        { isPhone ? <View style={{ borderBottomWidth: 1, borderBottomColor: Colors.BLACK3 }}>
+            <HelpTooltip color={Colors.INFO_GREY} />
+            </View> : null
+        }
         
-
         {show && (
           <DateTimePicker
             testID="dateTimePicker"
