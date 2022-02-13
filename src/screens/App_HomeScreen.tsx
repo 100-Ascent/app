@@ -20,14 +20,18 @@ import Text18 from '../components/Text/Text18';
 import { FONTS } from '../utils/constants/fonts';
 import RNLoader from '../components/Loader/RNLoader';
 import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
-import ErrorIcon from '../../assets/modal-icons/error-icon.svg';import CustomPopUp from '../components/PopUps/CustomPopUp';
+import ErrorIcon from '../../assets/modal-icons/error-icon.svg';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
 import { setData, setEmailVerifiedData } from '../redux/action';
 import Text24 from '../components/Text/Text24';
 import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import SessionCard from '../components/Cards/Sessions/SessionCard';
 import { isIOS } from 'react-native-elements/dist/helpers';
-module
+import { styles } from '../styles/Global/styles';
+import JoinInstitutionCard from '../components/Cards/Institution/JoinInstitutionCard';
+import AsyncStorage from '@react-native-community/async-storage';
+
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
 }
@@ -48,8 +52,11 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 
   const isFocused = useIsFocused();
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const [toShowInstituteCard, setToShowInstituteCard] = useState(false);
+
   const PREFERRED_WORKOUT_TIME_HEADING = "My preferred workout time";
   const ASCENT_TALKS = "Ascent Talks!";
+  const SELECT_INSTITUTE = "Select Institute";
   const SYNC_NOW = "Sync Now";
   const MY_STREAK = "My Streak";
   const dispatch = useDispatch();
@@ -126,6 +133,15 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       });
   }
 
+  const callToSetInstitutionCard = async () => {
+    let toShowInstituteCard = await AsyncStorage.getItem('showIntitutionCard');
+    if(toShowInstituteCard === null){
+      setToShowInstituteCard(true);
+    }else{
+      setToShowInstituteCard(false);
+    }
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'Quick Actions',
@@ -134,6 +150,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
       headerRight: () => <View style={{marginLeft: 10}} />,
     });
     setLoading(true);
+    callToSetInstitutionCard();
     callToGetUserDetails();
     callToGetSessionData();
     getToken();
@@ -185,6 +202,9 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
     
   }
 
+  const handleInstitutionPress = async () => {
+    navigation.navigate('InstitutionScreen', { selectedId: -1 });
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -201,16 +221,24 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   <Text16Normal text={"Here are some quick actions for you"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View>
 
-
+                {/* Institution Card */}
+                { toShowInstituteCard ? user['college'] === undefined ? <Text16Bold
+                    text={SELECT_INSTITUTE}
+                    textColor={Colors.TEXTDARK}
+                    containerStyle={{paddingHorizontal: 15, marginTop: 25}}
+                  /> : <View/> : <View/> }
+                { toShowInstituteCard ? user['college'] === undefined ? <View style={{ marginTop: 15 }}>
+                  <JoinInstitutionCard onPress={handleInstitutionPress} callToSetInstitutionCard={callToSetInstitutionCard}/>
+                  </View> : <View/> : <View/> }
 
                 {/* Sync Now */}
-                <View style={{ marginTop: 35, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
+                <View style={{ marginTop: 25, paddingHorizontal: 15, flexDirection: 'row', alignItems: 'center' }}>
                   <Text16Bold text={SYNC_NOW} textColor={Colors.TEXTDARK} containerStyle={{flex: 1}}/>
                   <TouchableOpacity onPress={() => { navigation.navigate('FitnessIntegrationScreen') }}>
                     <Icon name='info' type='feather' color={Colors.BUTTON_DARK} tvParallaxProperties={undefined}/>
                   </TouchableOpacity>
                 </View>
-                <View style={{marginTop: 10 }}/>              
+                <View style={{marginTop: 5 }}/>              
                 <SyncNowButton 
                     data={preferredConnection} 
                     token={token} 
@@ -227,7 +255,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                 />
-                <View style={{ marginTop: 20 }}/>
+                <View style={{ marginTop: 15 }}/>
                 <StatsCard streak={streak} isToday={isToday} />
 
 
@@ -238,7 +266,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                 />
-                <View style={[{ marginTop: 15}, Platform.OS==="ios" ? styles.shadow: {}]}>
+                <View style={[{ marginTop: 15 }, Platform.OS==="ios" ? styles.shadowElevation3: {}]}>
                   <PreferredTimePickerCard
                     isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false }
                     prefer_time={user['prefer_time']}
@@ -248,8 +276,15 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   />
                 </View>
                 
-                <View style={{ paddingHorizontal: 15, marginTop: isIOS ? 30 : 25 }}>
-                  { Object.keys(session).length === 0 ? null :  <SessionCard session={session}/> }
+                <View>
+                  { Object.keys(session).length === 0 ? null : <Text16Bold
+                    text={ASCENT_TALKS}
+                    textColor={Colors.TEXTDARK}
+                    containerStyle={{paddingHorizontal: 15, marginTop: 25}}
+                  /> }
+                  <View style={{ paddingHorizontal: 15, marginTop: isIOS ? 30 : 15 }}>
+                    { Object.keys(session).length === 0 ? null : <SessionCard session={session}/> }
+                  </View>
                 </View>
 
                 
@@ -275,15 +310,3 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
 };
 
 export default HomeScreen;
-
-const styles = StyleSheet.create({
-  shadow: {
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-  }
-})

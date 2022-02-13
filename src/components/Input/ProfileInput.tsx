@@ -1,12 +1,12 @@
-import moment from 'moment';
 import React, {useEffect, useState} from 'react';
-import {View, StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity} from 'react-native';
-import {Icon} from 'react-native-elements';
+import {StyleSheet, Text, TextInput, ToastAndroid, TouchableOpacity, View} from 'react-native';
 
-import globalStyles from '../../styles/Global/styles';
 import { Colors } from '../../utils/colors';
 import { Countries } from '../../utils/countries';
+import {Icon} from 'react-native-elements';
 import { ProfileInputFieldTypes } from '../../utils/constants/constants';
+import globalStyles from '../../styles/Global/styles';
+import moment from 'moment';
 
 interface Props {
   iconName: string;
@@ -79,6 +79,10 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
       return (
         <Text style={{fontSize: 20}}>🧑</Text>
       )
+    }else if (type == ProfileInputFieldTypes.INSTITUTION) {
+      return (
+        <Text style={{fontSize: 20}}>🏢</Text>
+      )
     } else {
       return (
         <Text style={{fontSize: 20}}>🪴</Text>
@@ -101,12 +105,14 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
                 fontFamily: 'Quicksand-SemiBold',       
                 width: '90%',
             }} 
-            placeholder={ type === ProfileInputFieldTypes.DOB ? textField.charAt(10) !== 'T' ? textField : moment(new Date(textField)).format("DD/MM/YYYY") : textField}            
+            placeholder={ type === ProfileInputFieldTypes.DOB ? textField.charAt(10) !== 'T' ? textField : moment(new Date(textField)).format("DD/MM/YYYY") 
+            : textField}            
             placeholderTextColor={Colors.BLACK2}
             editable={false} 
             selectTextOnFocus={false}
             multiline={true}
-            numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 1 }
+            numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 
+              type === ProfileInputFieldTypes.INSTITUTION ? textField.length > 40 ? 3 : 1 : 1 }
         />
       </View>
       <TouchableOpacity activeOpacity={ ProfileInputFieldTypes.EMAIL === type ? 0.5 : 1} onPress={ProfileInputFieldTypes.EMAIL === type ?
@@ -119,7 +125,6 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
               name={getIcon(type, isEmailVerified, isAddressFilled, isDOBFilled)}
               type={ "material-icons"}
               color={getIconColor(type, isEmailVerified, isAddressFilled, isDOBFilled)}
-
               size={25} tvParallaxProperties={undefined} activeOpacity={1} /> : null }        
       </View>
       </TouchableOpacity>

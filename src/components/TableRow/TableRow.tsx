@@ -19,6 +19,7 @@ interface Props {
   rank?: any;
   tableRowStyle?: any;
   isFixedRow?: boolean;
+  isCustomLeaderboard?: any;
 }
 
 const TableRow: React.FC<Props> = ({
@@ -28,8 +29,12 @@ const TableRow: React.FC<Props> = ({
   expandedRowIndex,
   isExpanded,
   tableRowStyle,
-  isFixedRow = false
+  isFixedRow = false,
+  isCustomLeaderboard = false,
 }) => {
+  if(isCustomLeaderboard){
+    item.rank = rank;
+  }
   return (
     <View style={{  }}>
       <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>

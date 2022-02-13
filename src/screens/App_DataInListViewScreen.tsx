@@ -58,7 +58,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitle: 'Activity Data',
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerTitleContainerStyle: {alignItems: 'center'},
-      headerRight: () => <View style={{marginLeft: 10}} />,
+      headerRight: () => <View style={{marginRight : 10}} />,
     });
   }, [])
 

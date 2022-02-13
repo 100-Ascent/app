@@ -23,6 +23,25 @@ export const applyBoldStyleToPartOfString = (text, klicks) => {
   );
 };
 
+export const applyBoldStyleToPartOfStringInPopup = (text, data) => {
+  let numberOfItemsAdded = 0;
+  const result = text.sentence.split(/\{\d+\}/);
+  text.boldText.forEach((boldText, i) =>
+    result.splice(
+      ++numberOfItemsAdded + i,
+      0,
+      <Text style={{fontWeight: 'bold', fontSize: 12, color: Colors.INFO_YELLOW}}>{data[i] + " " + boldText}</Text>,
+    ),
+  );
+  return (
+    <Text12Normal
+      text={result}
+      textColor={Colors.TEXTDARK}
+      textStyle={{textAlign: 'center'}}
+    />
+  );
+};
+
 export const applyBoldToRules= (text) => {
   let numberOfItemsAdded = 0;
   const result = text.sentence.split(/\{\d+\}/);

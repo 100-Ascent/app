@@ -1,4 +1,3 @@
-import React, {useEffect, useState} from 'react';
 import {
   ImageBackground,
   Platform,
@@ -7,32 +6,33 @@ import {
   ToastAndroid,
   View,
 } from 'react-native';
-
-import Background from '../components/Background/StyledBackground';
-import EditProfileInput from '../components/Input/EditProfileInput';
-import Text14 from '../components/Text/Text14';
-
-import Text18 from '../components/Text/Text18';
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import myProfileStyles from '../styles/MyProfileScreen/myprofile';
-import {Colors} from '../utils/colors';
-
-import Checkbox from '../components/Checkbox/Checkbox';
-import StyledButton from '../components/Button/StyledButton';
-import Icon from 'react-native-elements/dist/icons/Icon';
-import axios from 'axios';
-import {USER_DETAILS_UPDATE} from '../utils/apis/endpoints';
-import moment from 'moment';
-import Text20 from '../components/Text/Text20';
 import ImagePicker, { ImageOrVideo } from 'react-native-image-crop-picker';
-import {TouchableOpacity} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+
 import {AppState} from '../redux';
 import {BASEURL} from '../utils/constants/constants';
-import auth from '@react-native-firebase/auth';
+import Background from '../components/Background/StyledBackground';
+import Checkbox from '../components/Checkbox/Checkbox';
+import {Colors} from '../utils/colors';
+import EditProfileInput from '../components/Input/EditProfileInput';
 import FastImage from 'react-native-fast-image';
+import Icon from 'react-native-elements/dist/icons/Icon';
+import StyledButton from '../components/Button/StyledButton';
 import Text12Normal from '../components/Text/Text12Normal';
-
+import Text14 from '../components/Text/Text14';
+import Text18 from '../components/Text/Text18';
+import Text20 from '../components/Text/Text20';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {USER_DETAILS_UPDATE} from '../utils/apis/endpoints';
+import auth from '@react-native-firebase/auth';
+import axios from 'axios';
+import moment from 'moment';
+import myProfileStyles from '../styles/MyProfileScreen/myprofile';
+import {useSelector} from 'react-redux';
+import {DeviceEventEmitter} from "react-native"
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import DeleteModalIcon from '../../assets/modal-icons/delete-modal-icon.svg';
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
   route: RootNavRouteProps<'EditMyProfileScreen'>;
@@ -42,8 +42,10 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   //State variables
   const userData = route.params.data;
   const [data, setData] = useState(userData);
+  const [institution, setInstitution] = useState(userData["college"] === undefined ? {} : userData["college"]);
   const [image, setImage] = useState(null);
   const [token, setToken] = useState('');
+  const [ institutionPopUp, showInstitutionPopup ] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const genderOptions = [
     {id: 'male', value: 'Male'},
@@ -148,6 +150,17 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       return re.test(String(email).toLowerCase());
   };
 
+  const callBackToGetInsitutionData = (data) => {
+    setInstitution(data?.institution);
+    DeviceEventEmitter.removeAllListeners("event.testEvent")
+  }
+  
+  DeviceEventEmitter.addListener("event.testEvent", (eventData) => callBackToGetInsitutionData(eventData));
+
+  const handleInstitutionSelection = () => {
+    navigation.push('InstitutionScreen', { selectedId: Object.keys(institution).length > 0 ? institution['id'] : -1 });
+  }
+
   const handleSavePress = () => {
     axios
       .post(USER_DETAILS_UPDATE, data)
@@ -177,6 +190,28 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       });
   }
 
+  const handleRemoveInstitution = async () => {
+    await axios.delete('/api/college' , {
+      headers: {
+        'X-CONTEXT-ID': contextId,
+      },
+    })
+    .then(res => {
+       if(res.data.success){
+        setInstitution({});
+        showInstitutionPopup(false);     
+       }else{
+        showInstitutionPopup(false);     
+       }
+          
+    })
+    .catch(err => {
+      console.log('Error removing college');
+      console.log(err);
+      showInstitutionPopup(false);   
+    });   
+  }
+
   navigation.setOptions({
     headerLeft: () => (
       <View style={{marginLeft: 10}}>
@@ -194,7 +229,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
   });
-
+  console.log(Object.keys(institution).length);
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -235,7 +270,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               </View>
 
               <View style={{ flexDirection: 'row'}}>
-                <View style={{ flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <EditProfileInput
                     label={'First Name'}
                     keyName={'first_name'}
@@ -244,7 +279,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                     onChangeText={handleInput}
                   />
                 </View>
-                <View style={{ flex: 1}}>
+                <View style={{ flex: 1 }}>
                   <EditProfileInput
                     label={'Last Name'}
                     keyName={'last_name'}
@@ -254,6 +289,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   />
                 </View>
               </View>
+              
               <EditProfileInput
                 label={'E-Mail ID'}
                 keyName={'email'}
@@ -261,7 +297,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 value={data['email']}
                 onChangeText={handleInput}
               />
-              <EditProfileInput
+             <EditProfileInput
                 label={'Username'}
                 keyName={'username'}
                 isUsername={true}
@@ -270,11 +306,19 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 handleUserNameBlurEvent={handleCallToCheckUsername}              
               />
               {usernameError ? <View style={{ paddingLeft: 10 }}><Text12Normal text={"This username is already taken"} textColor={Colors.RED}/></View> : null }
-              <EditProfileInput
+             <EditProfileInput
                 label={'Phone Number'}
                 keyName={'phoneNumber'}
                 isPhone={true}
                 value={data['phoneNumber']}
+              />
+              <EditProfileInput
+                label={'Institution'}
+                keyName={'institution'}
+                isInstitution={true}
+                handleInstitutionRemovePress = {()=> showInstitutionPopup(true)} 
+                handleInstitutionSelection={handleInstitutionSelection}               
+                value={ Object.keys(institution).length > 0 ?  institution['name'] : "Select your Institution"}                
               />
               <EditProfileInput
                 label={'Date of Birth'}
@@ -338,6 +382,17 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               />
             </View>
           </View>
+          <CustomPopUp
+              visible={institutionPopUp}
+              onOk={handleRemoveInstitution}
+              isCancelable={true}
+              onCancel={()=> showInstitutionPopup(false)}
+              oKText={'Yes'}
+              cancelText={'No'}
+              header={'Confirm Remove'}
+              description={"If you choose yes, you will be removed from " + institution.name} 
+              icon={<DeleteModalIcon/>} 
+            />
           <View style={{padding: 80}} />
         </ScrollView>
       </Background>
