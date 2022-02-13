@@ -26,7 +26,7 @@ const InstitutionCard: React.FC<Props> = ({data, index, handlePress, selectedId}
         {
           marginRight: index % 2 == 0 ? 10 : 15,
           marginLeft: index % 2 != 0 ? 10 : 15,
-          backgroundColor: data.is_active ?  "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.3)", 
+          backgroundColor: data.is_active ?  "rgba(0,0,0,0.9)" : "rgba(0,0,0,0.3)",
         },
       ]}>
     <TouchableOpacity activeOpacity={0.8} 

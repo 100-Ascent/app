@@ -24,6 +24,7 @@ import { USER_DETAILS_UPDATE } from '../utils/apis/endpoints';
 import AsyncStorage from '@react-native-community/async-storage';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
+import EmptyState from '../../assets/icons/empty_state.svg';
 
 interface Props {
   navigation: RootNavProp<'InstitutionScreen'>;
@@ -166,6 +167,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                   return Object.keys(item).length > 0 ? <InstitutionCard data={item} index={index} handlePress={handlePress} selectedId ={selectedId} /> : 
                   <View style={{ width: '100%' }}>
                     <View style={{ alignItems: 'center', paddingVertical: 20, marginHorizontal: 15 }}>
+                        <EmptyState />
                         <Text16Normal text={"Oops! This institution doesn't exist!"} textColor={Colors.POPUP_RED} textStyle={FONTS.SEMIBOLD}/>
                     </View>
                   </View>
@@ -180,7 +182,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                           autoCorrect={false}
                           value={query}
                           onChangeText={queryText => handleSearch(queryText)}
-                          placeholder="Search your institution"
+                          placeholder="Search your Institution. Start Typing ..."
                           placeholderTextColor={Colors.BLACK4} 
                           secureTextEntry={false}                                   
                           style={[ FONTS.REGULAR, { 
@@ -207,7 +209,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                 isCancelable={false}
                 oKText={'Confirm'}
                 header={"You'll be added to " + currentSelectedInstitution["name"] + "'s Leaderboard"}
-                description={"Are you sure to select " + currentSelectedInstitution["name"] + ", " + currentSelectedInstitution["city"] + " as your institute?"}
+                // description={"Are you sure to select " + currentSelectedInstitution["name"] + ", " + currentSelectedInstitution["city"] + " as your institute?"}
                 isCloseButton={true}   
                 closeButtonPress={()=> { setShowConfirmation(false); }}
                 isDescriptionLong={false} 

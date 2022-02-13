@@ -7,6 +7,7 @@ import Text18 from '../../Text/Text18';
 import AsyncStorage from '@react-native-community/async-storage';
 import {FONTS} from '../../../utils/constants/fonts';
 import Text14 from '../../Text/Text14';
+import Text12Normal from '../../Text/Text12Normal';
 
 interface Props {
   onPress: () => void;
@@ -25,33 +26,37 @@ const JoinInstitutionCard: React.FC<Props> = ({
 
   return (
     <View style={styles.cardStyle}>
-      <TouchableOpacity
-        onPress={async () => {
-          await AsyncStorage.setItem('showIntitutionCard', 'false');
-          callToSetInstitutionCard();
-        }}>
-        <View style={{alignItems: 'flex-end', paddingRight: 10}}>
-          <Text14 text={'Hide'} textColor={Colors.INFO_GREY} />
-        </View>
-      </TouchableOpacity>
       <TouchableOpacity onPress={onPress}>
         <View
           style={{
             paddingHorizontal: 10,
-            paddingBottom: 20,
+            paddingTop: 10,
+            paddingBottom: 5,
             alignItems: 'center',
             flexDirection: 'row',
           }}>
-          <View style={{ paddingHorizontal: 10 }}>
-            <Text style={{fontSize: 40}}>🏛️</Text>
+          <View style={{ paddingHorizontal: 10, width: '25%' }}>
+            <Text style={{fontSize: 40}}>🏢</Text>
           </View>
-          <View style={{ paddingLeft: 10, justifyContent: 'center' }}>
+          <View style={{ paddingLeft: 10, justifyContent: 'center', width: '70%'}}>
             <Text18
               text={'Select your Institution'}
               textColor={Colors.TEXTDARK}
               textStyle={FONTS.BOLD}
             />
+            <View style={{marginTop: 5}}>
+              <Text12Normal containerStyle={{justifyContent: 'center'}} text={"You'll be automatically added to your institute's leaderboard."} textColor={Colors.BLACK2}/>
+            </View>
           </View>
+        </View>
+      </TouchableOpacity>
+      <TouchableOpacity
+        onPress={async () => {
+          await AsyncStorage.setItem('showIntitutionCard', 'false');
+          callToSetInstitutionCard();
+        }}>
+        <View style={{alignItems: 'flex-end', paddingRight: 15, paddingBottom: 5, paddingTop: 10}}>
+          <Text12Normal text={'Hide this Card'} textColor={Colors.INFO_GREY} />
         </View>
       </TouchableOpacity>
     </View>
