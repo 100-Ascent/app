@@ -277,13 +277,13 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                 </View>
                 
                 <View>
-                  <Text16Bold
+                  { Object.keys(session).length === 0 ? null : <Text16Bold
                     text={ASCENT_TALKS}
                     textColor={Colors.TEXTDARK}
                     containerStyle={{paddingHorizontal: 15, marginTop: 25}}
-                  />
+                  /> }
                   <View style={{ paddingHorizontal: 15, marginTop: isIOS ? 30 : 15 }}>
-                    { Object.keys(session).length === 0 ? null :  <SessionCard session={session}/> }
+                    { Object.keys(session).length === 0 ? null : <SessionCard session={session}/> }
                   </View>
                 </View>
 
