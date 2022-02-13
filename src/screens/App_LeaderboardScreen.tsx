@@ -158,8 +158,9 @@ const callToGetWeeklyData = async (id: any) => {
 }
 
 const setWeeklyCustomLeaderBoardData = (data) => {
-  data.sort((a,b) => (a.lp > b.lp) ? -1 : ((b.lp > a.lp) ? 1 : 0))
-  let newData = callToAddRankToLeaderboardData(data);
+  let temp = [...data]; 
+  temp.sort((a,b) => (a.lp > b.lp) ? -1 : ((b.lp > a.lp) ? 1 : 0))
+  let newData = callToAddRankToLeaderboardData(temp);
   setWeeklyLeaderboardData(newData);
 }
 
