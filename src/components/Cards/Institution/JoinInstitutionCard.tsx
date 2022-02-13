@@ -1,17 +1,22 @@
-import {StyleSheet, TouchableOpacity, View} from 'react-native';
+import {StyleSheet, Text, TouchableOpacity, View} from 'react-native';
 
 import {Colors} from '../../../utils/colors';
 import React from 'react';
 import Text16Normal from '../../Text/Text16Normal';
 import Text18 from '../../Text/Text18';
 import AsyncStorage from '@react-native-community/async-storage';
+import {FONTS} from '../../../utils/constants/fonts';
+import Text14 from '../../Text/Text14';
 
 interface Props {
   onPress: () => void;
-  callToSetInstitutionCard: ()=>void;
+  callToSetInstitutionCard: () => void;
 }
 
-const JoinInstitutionCard: React.FC<Props> = ({onPress, callToSetInstitutionCard}) => {
+const JoinInstitutionCard: React.FC<Props> = ({
+  onPress,
+  callToSetInstitutionCard,
+}) => {
   //State variables
 
   //Async functions
@@ -20,26 +25,33 @@ const JoinInstitutionCard: React.FC<Props> = ({onPress, callToSetInstitutionCard
 
   return (
     <View style={styles.cardStyle}>
-      <TouchableOpacity onPress={async ()=> {
-          await AsyncStorage.setItem('showIntitutionCard', "false");
-          callToSetInstitutionCard(); 
+      <TouchableOpacity
+        onPress={async () => {
+          await AsyncStorage.setItem('showIntitutionCard', 'false');
+          callToSetInstitutionCard();
         }}>
         <View style={{alignItems: 'flex-end', paddingRight: 10}}>
-          <Text18 text={'x'} textColor={Colors.TEXTDARK} />
+          <Text14 text={'Hide'} textColor={Colors.INFO_GREY} />
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={onPress}>
         <View
           style={{
             paddingHorizontal: 10,
-            paddingTop: 10,
-            paddingBottom: 30,
+            paddingBottom: 20,
             alignItems: 'center',
+            flexDirection: 'row',
           }}>
-          <Text18
-            text={'Select your Institution'}
-            textColor={Colors.TEXTDARK}
-          />
+          <View style={{ paddingHorizontal: 10 }}>
+            <Text style={{fontSize: 40}}>🏛️</Text>
+          </View>
+          <View style={{ paddingLeft: 10, justifyContent: 'center' }}>
+            <Text18
+              text={'Select your Institution'}
+              textColor={Colors.TEXTDARK}
+              textStyle={FONTS.BOLD}
+            />
+          </View>
         </View>
       </TouchableOpacity>
     </View>

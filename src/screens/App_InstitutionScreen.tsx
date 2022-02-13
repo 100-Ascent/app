@@ -2,7 +2,6 @@ import {
   DeviceEventEmitter,
   FlatList,
   SafeAreaView,
-  ScrollView,
   StyleSheet,
   TextInput,
   View,
@@ -18,12 +17,13 @@ import InstitutionCard from '../components/Cards/Institution/InstitutionCard';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import StyledButton from '../components/Button/StyledButton';
-import {Text} from 'react-native-elements';
 import Text16Normal from '../components/Text/Text16Normal';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
 import { USER_DETAILS_UPDATE } from '../utils/apis/endpoints';
 import AsyncStorage from '@react-native-community/async-storage';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 
 interface Props {
   navigation: RootNavProp<'InstitutionScreen'>;
@@ -36,7 +36,9 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [institution, setInstitution] = useState([]);
   const [allInstitution, setAllInstitution] = useState([]);
+  const [confirmationModal, setShowConfirmation] = useState(false);
   const [selectedId, setCurrentSelectedId] = useState(alreadySelectedId);
+  const [currentSelectedInstitution, setCurrentSelectedInstitution] = useState({});
   const [query, setQuery] = useState('');
 
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
@@ -90,23 +92,12 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
       DeviceEventEmitter.removeAllListeners("event.testEvent");
       navigation.pop();
     }
-   
-
   }
 
   const handlePress = (item) => {
-    console.log(item.id);
+    setCurrentSelectedInstitution(item);
     setCurrentSelectedId(item.id);
-    navigation.setOptions({
-      headerRight: () => ( <View style={{marginRight: 10}} >
-        <StyledButton text='Save' onPress={()=>handleSavePress(item.id)} buttonStyle={{ 
-          paddingHorizontal: 13,
-          backgroundColor: Colors.POPUP_RED, 
-          paddingTop: 4,
-          paddingBottom: 7
-        }}/>
-      </View> ),
-    })
+    setShowConfirmation(true);
   }
 
   const handleSearch = text => {
@@ -135,15 +126,15 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitle: 'Select your Institution',
       headerTitleContainerStyle: {alignItems: 'center'},
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-      headerRight: () => ( <View style={{marginRight: 10}} >
-        <StyledButton text='Save' disabled={alreadySelectedId === -1 ? true : false } onPress={ 
+      headerRight: () => ( <View style={{marginRight: 0}} >
+        {/* <StyledButton text='Save' disabled={alreadySelectedId === -1 ? true : false } onPress={ 
           alreadySelectedId === -1 ? ()=>{} : ()=>handleSavePress(alreadySelectedId) } 
           buttonStyle={{ 
             paddingHorizontal: 13,
             backgroundColor: alreadySelectedId === -1 ?  Colors.INFO_GREY : Colors.POPUP_RED, 
             paddingTop: 4,
             paddingBottom: 7
-          }}/>
+          }}/> */}
       </View> ),
       headerLeft: () => (
         <View style={{marginLeft: 10}}>
@@ -175,7 +166,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                   return Object.keys(item).length > 0 ? <InstitutionCard data={item} index={index} handlePress={handlePress} selectedId ={selectedId} /> : 
                   <View style={{ width: '100%' }}>
                     <View style={{ alignItems: 'center', paddingVertical: 20, marginHorizontal: 15 }}>
-                        <Text16Normal text={"Oops! This institution doesnt exist!"} textColor={Colors.POPUP_RED} textStyle={FONTS.SEMIBOLD}/>
+                        <Text16Normal text={"Oops! This institution doesn't exist!"} textColor={Colors.POPUP_RED} textStyle={FONTS.SEMIBOLD}/>
                     </View>
                   </View>
                 }}
@@ -208,7 +199,19 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                 ListFooterComponent={()=>{
                   return <View style={{ padding: 100 }} />
                 }}
-              />              
+              />       
+              <CustomPopUp
+                icon={<NotificationIcon/>}
+                visible={confirmationModal}
+                onOk={() => { handleSavePress(selectedId); }}
+                isCancelable={false}
+                oKText={'Confirm'}
+                header={"You'll be added to " + currentSelectedInstitution["name"] + "'s Leaderboard"}
+                description={"Are you sure to select " + currentSelectedInstitution["name"] + ", " + currentSelectedInstitution["city"] + " as your institute?"}
+                isCloseButton={true}   
+                closeButtonPress={()=> { setShowConfirmation(false); }}
+                isDescriptionLong={false} 
+            />       
             </View>
           )}
         </>

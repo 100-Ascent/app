@@ -278,7 +278,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                   { userData["college"] === undefined ? null : <ProfileInput
                     type={ProfileInputFieldTypes.INSTITUTION}
                     iconName="public"
-                    textField={ userData["college"]["name"] }  
+                    textField={ userData["college"]["name"] + ", " + userData["college"]["city"] }  
                   />}
                   <ProfileInput
                     type={ProfileInputFieldTypes.COUNTRY}

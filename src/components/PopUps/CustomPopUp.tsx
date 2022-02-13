@@ -6,6 +6,7 @@ import Text16Normal from '../Text/Text16Normal';
 import PopUpButton from '../Button/PopUpButton';
 import Text20 from '../Text/Text20';
 import Text14 from '../Text/Text14';
+import { FONTS } from '../../utils/constants/fonts';
 
 interface Props {
   cancelText?: string;
@@ -26,7 +27,7 @@ interface Props {
 const CustomPopUp: React.FC<Props> = ({
   cancelText,
   description,
-  header,
+  header="",
   isCancelable,
   onCancel,
   onOk,
@@ -53,9 +54,9 @@ const CustomPopUp: React.FC<Props> = ({
           <View style={styles.contentContainer}>
             {icon}
             <View style={styles.content}>
-              <View style={styles.heading}>
-                <Text20 text={header} textColor={Colors.TEXTDARK} />
-              </View>
+              { header?.length === 0 ? <View style={{ padding: 5 }} /> : <View style={styles.heading}>
+                <Text20 text={header} textColor={Colors.TEXTDARK} textStyle={[FONTS.SEMIBOLD]} />
+              </View> }
 
               <View style={{marginTop: 5, paddingHorizontal: 10 }}>
                 {  description?.length === 0 ? null : !isDescriptionLong ? (
@@ -122,7 +123,7 @@ const CustomPopUp: React.FC<Props> = ({
                   </View>
                 </TouchableOpacity>
               </View>
-            ) : null}
+            ) : <View style={{padding: 5}} />}
             <View style={{padding: 5}} />
           </View>
         </View>

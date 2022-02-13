@@ -32,8 +32,8 @@ const InstitutionCard: React.FC<Props> = ({data, index, handlePress, selectedId}
     <TouchableOpacity activeOpacity={0.8} 
         disabled={!data.is_active}
         style={{ 
-            borderWidth: data.id === selectedId ? 3 : 0,
-            borderColor: data.id === selectedId ? Colors.POPUP_RED : Colors.WHITE, 
+            // borderWidth: data.id === selectedId ? 3 : 0,
+            // borderColor: data.id === selectedId ? Colors.POPUP_RED : Colors.WHITE, 
             borderRadius: 10,
 
         }} 
