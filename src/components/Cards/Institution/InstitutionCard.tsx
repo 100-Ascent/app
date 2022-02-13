@@ -8,6 +8,8 @@ import Text10 from '../../Text/Text10';
 import Text12Normal from '../../Text/Text12Normal';
 import Text18 from '../../Text/Text18';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
+import { useSelector } from 'react-redux';
+import { AppState } from '../../../redux';
 
 interface Props {
   data: any;
@@ -17,6 +19,9 @@ interface Props {
 }
 
 const InstitutionCard: React.FC<Props> = ({data, index, handlePress, selectedId}) => {
+
+  const user = useSelector((state: AppState) => state.rootStore.user);
+  
   return data.abbr === "-1"  ? (
     <View style={[styles.emptyCard]} />
   ) : (

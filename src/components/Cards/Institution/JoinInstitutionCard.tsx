@@ -8,6 +8,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import {FONTS} from '../../../utils/constants/fonts';
 import Text14 from '../../Text/Text14';
 import Text12Normal from '../../Text/Text12Normal';
+import FastImage from 'react-native-fast-image';
 
 interface Props {
   onPress: () => void;
@@ -36,7 +37,13 @@ const JoinInstitutionCard: React.FC<Props> = ({
             flexDirection: 'row',
           }}>
           <View style={{ paddingHorizontal: 10, width: '25%' }}>
-            <Text style={{fontSize: 40}}>🏢</Text>
+            {/* <Text style={{fontSize: 40}}>🏢</Text> */}
+          </View>
+          <View style={{ position: 'absolute', bottom: -37, left: -20, zIndex: -1, paddingHorizontal: 10 }}>
+            <FastImage 
+              source={require("../../../../assets/icons/Rewards/building.png")}
+              style={{ width: 100, height: 100 }}
+            />
           </View>
           <View style={{ paddingLeft: 10, justifyContent: 'center', width: '70%'}}>
             <Text18
@@ -78,5 +85,6 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
+    overflow: 'hidden'
   },
 });

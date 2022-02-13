@@ -200,11 +200,14 @@ const callToGetCustomLeaderboardsData = async (id: any) => {
          },
        })
        .then(async res => {
-         const data = res.data;   
-         setAllTimeLeaderboardData(data.data);
+         const data = res.data; 
+         const alltimdata = [ ...data.data ];
+         const weeklydata = [...data.data];
+         const sortedAllTimeData = [ ...callToAddRankToLeaderboardData(alltimdata)]; 
+         setAllTimeLeaderboardData(sortedAllTimeData);
          setActiveDays(data.active_days);
          setLeagueEndTime(data.league_end_time)
-         setWeeklyCustomLeaderBoardData(data.data);
+         setWeeklyCustomLeaderBoardData(weeklydata);
          const myStatsInAllTime = res.data.data.find(obj=>obj.username.includes(user['username']));
          const myRank =  res.data.data.findIndex( obj=> obj.username === user['username']);
          setCurrentUserData({
@@ -337,7 +340,7 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Backgroun
                       isFinalLeague={leagueData["all_leagues"][leagueData['league_index']+1] === undefined}
                     /> 
 
-                    : currentSwitch === 1 ? <TableRow item={item} /> 
+                    : currentSwitch === 1 ? <TableRow item={item} rank={item.rank} /> 
                     : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ? !selectedLeaderboard['default'] ? null : index === 9 && leagueData['league_index'] < leagueData["all_leagues"].length ? 

@@ -55,7 +55,7 @@ const CustomPopUp: React.FC<Props> = ({
             {icon}
             <View style={styles.content}>
               { header?.length === 0 ? <View style={{ padding: 5 }} /> : <View style={styles.heading}>
-                <Text20 text={header} textColor={Colors.TEXTDARK} textStyle={[FONTS.SEMIBOLD]} />
+                <Text20 text={header} textColor={Colors.TEXTDARK} textStyle={[FONTS.SEMIBOLD, {textAlign: 'center'}]} />
               </View> }
 
               <View style={{marginTop: 5, paddingHorizontal: 10 }}>

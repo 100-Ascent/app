@@ -31,7 +31,8 @@ import moment from 'moment';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {useSelector} from 'react-redux';
 import {DeviceEventEmitter} from "react-native"
-
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import DeleteModalIcon from '../../assets/modal-icons/delete-modal-icon.svg';
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
   route: RootNavRouteProps<'EditMyProfileScreen'>;
@@ -44,6 +45,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const [institution, setInstitution] = useState(userData["college"] === undefined ? {} : userData["college"]);
   const [image, setImage] = useState(null);
   const [token, setToken] = useState('');
+  const [ institutionPopUp, showInstitutionPopup ] = useState(false);
   const [usernameError, setUsernameError] = useState(false);
   const genderOptions = [
     {id: 'male', value: 'Male'},
@@ -188,6 +190,28 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
       });
   }
 
+  const handleRemoveInstitution = async () => {
+    await axios.delete('/api/college' , {
+      headers: {
+        'X-CONTEXT-ID': contextId,
+      },
+    })
+    .then(res => {
+       if(res.data.success){
+        setInstitution({});
+        showInstitutionPopup(false);     
+       }else{
+        showInstitutionPopup(false);     
+       }
+          
+    })
+    .catch(err => {
+      console.log('Error removing college');
+      console.log(err);
+      showInstitutionPopup(false);   
+    });   
+  }
+
   navigation.setOptions({
     headerLeft: () => (
       <View style={{marginLeft: 10}}>
@@ -291,7 +315,8 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               <EditProfileInput
                 label={'Institution'}
                 keyName={'institution'}
-                isInstitution={true} 
+                isInstitution={true}
+                handleInstitutionRemovePress = {()=> showInstitutionPopup(true)} 
                 handleInstitutionSelection={handleInstitutionSelection}               
                 value={ Object.keys(institution).length > 0 ?  institution['name'] : "Select your Institution"}                
               />
@@ -357,6 +382,17 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               />
             </View>
           </View>
+          <CustomPopUp
+              visible={institutionPopUp}
+              onOk={handleRemoveInstitution}
+              isCancelable={true}
+              onCancel={()=> showInstitutionPopup(false)}
+              oKText={'Yes'}
+              cancelText={'No'}
+              header={'Confirm Remove'}
+              description={"If you choose yes, you will be removed from " + institution.name} 
+              icon={<DeleteModalIcon/>} 
+            />
           <View style={{padding: 80}} />
         </ScrollView>
       </Background>

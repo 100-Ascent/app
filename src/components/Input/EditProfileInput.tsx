@@ -22,6 +22,7 @@ interface Props {
   handleDateOfBirth?: (dob)=> void;
   handleUserNameBlurEvent?: ()=> void;
   handleInstitutionSelection?: ()=> void;
+  handleInstitutionRemovePress?: () => void;
 }
 
 const EditProfileInput: React.FC<Props> = ({
@@ -37,7 +38,8 @@ const EditProfileInput: React.FC<Props> = ({
   keyName,
   handleDateOfBirth,
   handleUserNameBlurEvent,
-  handleInstitutionSelection
+  handleInstitutionSelection,
+  handleInstitutionRemovePress
 }) => {
 
     let day, month, year;
@@ -128,25 +130,30 @@ const EditProfileInput: React.FC<Props> = ({
               backgroundColor: Colors.TRANSPARENT,
               flexDirection: 'row',
               width: '100%',
-              borderBottomWidth: 1,
-              paddingVertical: 5,
+              borderBottomWidth: 0,
+              paddingVertical: 0,
             }}>
             <View
               style={{
                 borderColor: Colors.TRANSPARENT,
                 width: '100%',
-                borderBottomColor: Colors.TRANSPARENT,
                 backgroundColor: Colors.TRANSPARENT,
-                flexDirection: 'row',
+                flexDirection: 'row',              
               }}>
-              <View style={{ width: '90%' }}>
+              <View style={{ width: value !== "Select your Institution" ? '80%' : "90%", borderBottomWidth: 1, borderBottomColor: Colors.TEXTDARK, }}>
                 <Text style={{color: Colors.TEXTDARK}}>
                   {value?.length > 55 ? value.substring(0,45) + "..." : value } 
                 </Text>
               </View>
-              <View style={{ width: '10%', alignItems: 'flex-end'}}>
-                <Icon name="chevron-right" type="MaterialIcons" size={20} tvParallaxProperties={undefined} />
+              <View style={{ width: '10%', alignItems: 'flex-end', borderBottomWidth: 1, borderBottomColor: Colors.TEXTDARK,}}>
+                
+                  <Icon name="chevron-right" type="MaterialIcons" size={25} tvParallaxProperties={undefined} />                
               </View>
+              { value !== "Select your Institution" ? <View style={{ width: '10%', alignItems: 'flex-end'}}>
+                <TouchableOpacity activeOpacity={0.1} onPress={handleInstitutionRemovePress}> 
+                  <Icon name="cross" type="entypo" size={25} tvParallaxProperties={undefined} />
+                </TouchableOpacity>
+              </View> : null}
             </View>
           </TouchableOpacity>
         )}

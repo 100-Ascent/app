@@ -91,7 +91,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
       callToSaveInstitution(institution);
     }else{
       DeviceEventEmitter.removeAllListeners("event.testEvent");
-      navigation.pop();
+      navigation.navigate('LeaderboardScreen');
     }
   }
 
@@ -104,10 +104,12 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
   const handleSearch = text => {
 
     const formattedQuery = text.toLowerCase();
+
     let filteredData = allInstitution.filter(obj => 
       obj.name.toLowerCase().includes(formattedQuery) || 
       obj.abbr.toLowerCase().includes(formattedQuery) || 
-      obj.city.toLowerCase().includes(formattedQuery) );
+      obj.city.toLowerCase().includes(formattedQuery) || 
+      obj.tags.toLowerCase().includes(formattedQuery) );
     
     if(filteredData.length === 0){
       setInstitution([{ }]);

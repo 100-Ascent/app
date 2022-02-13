@@ -69,6 +69,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
     setLoading(true);
     if (!validateEmail(email)) {
       setError(true);
+      setLoading(false);
       isEverythingOk = false;
     }
     

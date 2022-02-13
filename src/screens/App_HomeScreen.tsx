@@ -221,11 +221,11 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                 </View>
 
                 {/* Institution Card */}
-                <Text16Bold
+                { toShowInstituteCard ? user['college'] === undefined ? <Text16Bold
                     text={SELECT_INSTITUTE}
                     textColor={Colors.TEXTDARK}
                     containerStyle={{paddingHorizontal: 15, marginTop: 25}}
-                  />
+                  /> : <View/> : <View/> }
                 { toShowInstituteCard ? user['college'] === undefined ? <View style={{ marginTop: 15 }}>
                   <JoinInstitutionCard onPress={handleInstitutionPress} callToSetInstitutionCard={callToSetInstitutionCard}/>
                   </View> : <View/> : <View/> }

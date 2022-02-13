@@ -105,12 +105,14 @@ const ProfileInput: React.FC<Props> = ({iconName, textField, isEmailVerified, ty
                 fontFamily: 'Quicksand-SemiBold',       
                 width: '90%',
             }} 
-            placeholder={ type === ProfileInputFieldTypes.DOB ? textField.charAt(10) !== 'T' ? textField : moment(new Date(textField)).format("DD/MM/YYYY") : textField}            
+            placeholder={ type === ProfileInputFieldTypes.DOB ? textField.charAt(10) !== 'T' ? textField : moment(new Date(textField)).format("DD/MM/YYYY") 
+            : textField}            
             placeholderTextColor={Colors.BLACK2}
             editable={false} 
             selectTextOnFocus={false}
             multiline={true}
-            numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 1 }
+            numberOfLines={ type === ProfileInputFieldTypes.ADDRESS ? textField.length > 75 ? 5 : 3 : 
+              type === ProfileInputFieldTypes.INSTITUTION ? textField.length > 40 ? 3 : 1 : 1 }
         />
       </View>
       <TouchableOpacity activeOpacity={ ProfileInputFieldTypes.EMAIL === type ? 0.5 : 1} onPress={ProfileInputFieldTypes.EMAIL === type ?
