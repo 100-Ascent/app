@@ -11,7 +11,7 @@ export type RootStackParamList = {
   FitnessIntegrationScreen : undefined;
   FitnessConnectionScreen: { data: any };
   LeaderboardScreen: undefined;
-  InstitutionScreen: { selectedId ?: any };
+  InstitutionScreen: { selectedId ?: any, prevScreen?: any };
 
   HomeStack: undefined;
   FitnessStack: undefined;

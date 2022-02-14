@@ -158,7 +158,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   DeviceEventEmitter.addListener("event.testEvent", (eventData) => callBackToGetInsitutionData(eventData));
 
   const handleInstitutionSelection = () => {
-    navigation.push('InstitutionScreen', { selectedId: Object.keys(institution).length > 0 ? institution['id'] : -1 });
+    navigation.push('InstitutionScreen', { selectedId: Object.keys(institution).length > 0 ? institution['id'] : -1, prevScreen: "Edit" });
   }
 
   const handleSavePress = () => {

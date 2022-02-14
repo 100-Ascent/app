@@ -17,6 +17,9 @@ interface Props {
 const SessionCard: React.FC<Props> = ({session}) => {
   
   const handlePress = useCallback(async () => {
+    if(session.on_click_link.length === 0){
+      return;
+    }
     const supported = await Linking.canOpenURL(session.on_click_link);
     if (supported) {
       await Linking.openURL(session.on_click_link);

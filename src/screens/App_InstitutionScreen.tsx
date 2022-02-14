@@ -34,6 +34,7 @@ interface Props {
 const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
 
   const alreadySelectedId = route.params.selectedId;
+  const prevScreen = route.params.prevScreen;
   const [loading, setLoading] = useState(true);
   const [institution, setInstitution] = useState([]);
   const [allInstitution, setAllInstitution] = useState([]);
@@ -77,7 +78,12 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
         DeviceEventEmitter.emit("event.testEvent", {institution}); 
         DeviceEventEmitter.removeAllListeners("event.testEvent");
         AsyncStorage.setItem('showIntitutionCard', "false");
-        navigation.navigate('LeaderboardScreen')
+        if(prevScreen === "Home"){
+          navigation.navigate('LeaderboardScreen');
+        }else{
+          navigation.pop();
+        }
+        
       })
       .catch(err => {
         console.log('failed in saving institution data');

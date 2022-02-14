@@ -199,7 +199,7 @@ const callToGetCustomLeaderboardsData = async (id: any) => {
            'X-CONTEXT-ID': contextId,
          },
        })
-       .then(async res => {
+       .then(res => {
          const data = res.data; 
          const alltimdata = [ ...data.data ];
          const weeklydata = [...data.data];
@@ -302,11 +302,21 @@ navigation.setOptions({
     </View>,        
   });
 
+  const getSortedByRank = (data) => {
+    let myData = [];
+    for(let idx=0;idx<data.length;idx++){
+      data[idx]['rank'] = (idx+1);
+      myData.push(data[idx]);
+    }
+    return myData;
+  }
+
 return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
   <>
   <LeagueListCard data={leagueData} />
   <FlatList
-      data={currentSwitch === 0 ? weeklyData : currentSwitch === 1 ? allTimeData : rulesData}
+      data={currentSwitch === 0 ? !selectedLeaderboard["default"] ? getSortedByRank(weeklyData) : weeklyData : currentSwitch === 1 ? 
+        !selectedLeaderboard["default"] ? getSortedByRank(allTimeData) : allTimeData : rulesData}
       keyExtractor={( item, index ) => 'key'+index}
       onRefresh={() => onRefresh()}
       refreshing={isFetching}
@@ -340,7 +350,7 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Backgroun
                       isFinalLeague={leagueData["all_leagues"][leagueData['league_index']+1] === undefined}
                     /> 
 
-                    : currentSwitch === 1 ? <TableRow item={item} rank={item.rank} /> 
+                    : currentSwitch === 1 ? <TableRow item={item} rank={index+1} isCustomLeaderboard ={!selectedLeaderboard["default"]} /> 
                     : index === 0 ? <NotesCard showHeader={false} notes={rulesData} hasNumericBullets={true} /> : null }
                 </View>          
                   { currentSwitch === 0 ? !selectedLeaderboard['default'] ? null : index === 9 && leagueData['league_index'] < leagueData["all_leagues"].length ? 

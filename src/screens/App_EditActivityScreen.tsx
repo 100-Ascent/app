@@ -43,9 +43,7 @@ interface Props {
 
 
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
-  console.log("EditActivityScreen")
   const routeData = route.params.data;
-  console.log(routeData)
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = new Date(routeData.date);
 
@@ -92,7 +90,6 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
         steps: calminsteps.steps,
         comment: comment,
       };
-      
 
     await axios
       .put( UPDATE_ACTIVITY_DATA + route.params.data.id, data)

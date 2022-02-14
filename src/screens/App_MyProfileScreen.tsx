@@ -386,7 +386,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
                 isCloseButton={true}
                 closeButtonPress={() => setVerifyEmailPopUp(false)}
               />
-              <View style={{padding: 50}} />
+              <View style={{padding: 70}} />
             </ScrollView>
           )}
           {/* <View style={{position: 'absolute', bottom: 20, right: 20}}>

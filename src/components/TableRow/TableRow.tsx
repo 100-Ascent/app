@@ -32,9 +32,7 @@ const TableRow: React.FC<Props> = ({
   isFixedRow = false,
   isCustomLeaderboard = false,
 }) => {
-  if(isCustomLeaderboard){
-    item.rank = rank;
-  }
+
   return (
     <View style={{  }}>
       <TouchableOpacity activeOpacity={0.9} onPress={handlePress}>

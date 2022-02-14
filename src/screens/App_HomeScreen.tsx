@@ -203,7 +203,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
   }
 
   const handleInstitutionPress = async () => {
-    navigation.navigate('InstitutionScreen', { selectedId: -1 });
+    navigation.navigate('InstitutionScreen', { selectedId: -1, prevScreen: "Home" });
   }
 
   return (
