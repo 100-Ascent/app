@@ -140,11 +140,11 @@ android {
         applicationId "com.tym.tym_100ascent"
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 10
-        versionName "1.4.1"
+        versionCode 11
+        versionName "1.4.2"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
-            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e'
+            appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5'
         ]
     }
     splits {
