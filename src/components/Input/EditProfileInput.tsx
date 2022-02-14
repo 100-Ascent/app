@@ -7,6 +7,7 @@ import HelpTooltip from '../Tooltip/HelpTooltip';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import Text14 from '../Text/Text14';
 import moment from 'moment';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 interface Props {
   label: string;
@@ -131,7 +132,7 @@ const EditProfileInput: React.FC<Props> = ({
               flexDirection: 'row',
               width: '100%',
               borderBottomWidth: 0,
-              paddingVertical: 0,
+              paddingVertical: isIOS ? 3 : 0,
             }}>
             <View
               style={{
