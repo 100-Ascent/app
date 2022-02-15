@@ -1,13 +1,12 @@
 import React, {useState, useEffect} from 'react';
-import { Platform} from 'react-native';
-
+import {Linking, Platform} from 'react-native';
 import AuthStack from './AuthStack';
 import AppStack from './AppStack';
 import AsyncStorage from '@react-native-community/async-storage';
 import auth from '@react-native-firebase/auth';
 import axios from 'axios';
 import messaging, { FirebaseMessagingTypes } from '@react-native-firebase/messaging';
-import {NavigationContainer} from '@react-navigation/native';
+import { LinkingOptions, NavigationContainer } from '@react-navigation/native';
 import {useDispatch} from 'react-redux';
 import uuid from 'react-native-uuid';
 import VersionNumber from 'react-native-version-number';
@@ -24,11 +23,13 @@ import UnderMaintenanceScreen from '../screens/App_UnderMaintenance';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 
+import notifee, { AndroidImportance, AndroidStyle } from '@notifee/react-native';
+
 const getFcmToken = async () => {
   const fcmToken = await messaging().getToken();
   if (fcmToken) {
     await messaging().subscribeToTopic('all');
-    console.log(fcmToken)
+    console.log("fcmtoken",fcmToken)
     return fcmToken;
   } else {
     return '';
@@ -47,6 +48,7 @@ const callToCreateUser = async (
     appVersion: VersionNumber.appVersion,
     deviceId: uuid.v4().toString(),
   };
+  console.log(data);
   
   await axios
     .post(LOGIN, data)
@@ -89,6 +91,109 @@ const callToUserCheckIn = async (setLoading: any, dispatch: any) => {
       setLoading(false);
     });
 };
+
+const deepLinksConf = {
+  screens: {
+      LeaderboardStack:{
+        initialRouteName: 'Home',
+        screens: {
+          Leaderboard: 'leaderboard',
+        },
+      }
+  },
+};
+
+const linking: LinkingOptions = {
+  prefixes: ['100ascent://', 'https://app.100ascent.com'],
+  config: deepLinksConf,
+}
+
+
+notifee.onBackgroundEvent(async ({ type, detail }) => {
+
+  const { notification, pressAction } = detail;
+  console.log(type, detail);
+  const url = detail?.notification?.data?.link;
+  console.log(url);
+  if(type === 1)
+    if(url) await Linking.openURL(url)
+  
+});
+
+const onMessageReceived = async (message)=> {
+  
+  console.log(message);
+  
+  console.log("message incoming");
+  const {data} = message;
+  
+  console.log("data",data);
+  console.log("sound", data.sound);
+  if(data.isNotifee){
+
+    try{
+      const channelId =  await notifee.createChannel({
+        id: data.sound,
+        name: data.sound,
+        sound: data.sound
+      });
+      
+      let style = {
+        type: AndroidStyle.BIGTEXT,
+        text: data.body
+      };
+      
+      if(data.bigText){
+        style = {
+          type: AndroidStyle.BIGTEXT,
+          text: data.bigText,
+        }
+      }else if (data.isIconLeft) {
+        style = {
+          type: AndroidStyle.MESSAGING,
+          person: {
+            name: data.title,
+            icon: data.icon,
+          },
+          messages: [{text: data.body, timestamp: Date.now()}]
+        } 
+      } else if (data.bigImage) {
+        style = {
+          type: AndroidStyle.BIGPICTURE,
+          picture: data.bigImage
+        }
+      }else{
+        
+      }
+      
+      console.log("style", style)
+      
+      // Display a notification
+      await notifee.displayNotification({
+        title: data.title,
+        body: data.body,
+        android: {
+          channelId,
+          style,
+          importance: AndroidImportance.HIGH,
+          smallIcon: 'tym_100ascent_notification',
+          largeIcon: data.icon,
+        },
+        data: {
+          link: data.deepLink
+        }
+      });  
+    }catch(e){
+      console.log(e);
+    }
+  }
+  return Promise.resolve();
+}
+
+messaging().setBackgroundMessageHandler(onMessageReceived);
+
+
+
 
 const Routes = () => {
   const [isValidAppVersion, setIsValidAppVersion] = useState(true);
@@ -159,10 +264,6 @@ const Routes = () => {
     const unsubscribe = messaging().onMessage(async remoteMessage => {
       return await setNotification(remoteMessage)          
     });
-     
-    messaging().setBackgroundMessageHandler(async remoteMessage => {      
-      console.log('Message handled in the background!', remoteMessage);      
-    });
 
     return unsubscribe;
   }, []);
@@ -204,9 +305,9 @@ const Routes = () => {
     });
   }
   }, []);
-  
+
   return (
-    <NavigationContainer>
+    <NavigationContainer linking={linking}>
       { killSwitch ? <UnderMaintenanceScreen/> : isValidAppVersion ? (
         loading ? (
           <RNLoader />
@@ -234,8 +335,8 @@ const Routes = () => {
           onOk={() => setNotification(undefined)}
           isCancelable={false}
           oKText={'OKAY'}
-          header={notification.notification.title}
-          description={notification.notification.body}
+          header={notification.data.title}
+          description={notification.data.body}
           isCloseButton={false}   
           isDescriptionLong={false} 
       /> :  <></> }
