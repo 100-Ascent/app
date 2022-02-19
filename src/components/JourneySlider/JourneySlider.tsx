@@ -27,8 +27,6 @@ const JourneySliderComponent = ({
     setIsRewardPopUpVisible(true);
   };
 
-
-
   let cards = (
     <View style={{flexDirection: 'row', paddingTop: 30}}>
       {data.map((item, ii) => {
@@ -104,7 +102,7 @@ const JourneySliderComponent = ({
   );
 
   return <>
-      <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <ScrollView horizontal showsHorizontalScrollIndicator={false} >
         {cards}
         <View style={{ padding: 20 }} />
       </ScrollView>

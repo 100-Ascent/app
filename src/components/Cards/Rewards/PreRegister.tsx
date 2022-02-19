@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
     elevation: 1,
     borderRadius: 10,
     paddingHorizontal: 10,
-    backgroundColor: Colors.TEXT,
+    backgroundColor: '#FFF',
   },
   header: {
     flex: 1,

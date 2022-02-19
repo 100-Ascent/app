@@ -8,7 +8,6 @@ const SpotifyButton = ({onPress}) => {
       <View
         style={{
           backgroundColor: '#111426',
-          marginHorizontal: 5,
           padding: 9,
           justifyContent: 'center',
           alignItems: 'center',

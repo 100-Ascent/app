@@ -7,15 +7,14 @@ import Text16Underline from '../../../Text/Text16Underline';
 
 const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
   return (
-    <View style={{flex: 1, marginHorizontal: 15, flexDirection: 'row'}}>
+    <View style={{ marginHorizontal: 20, marginTop: 10, flexDirection: 'row'}}>
       <View
         style={{
-          flex: 2,
           justifyContent: 'center',
           alignItems: 'center',
           paddingHorizontal: 10,
         }}>
-        <View style={{borderWidth: 3, borderRadius: 100, padding: 3}}>
+        <View style={{ borderWidth: 3, borderRadius: 100, padding: 3 }}>
           <FastImage
             style={{width: 100, height: 100, borderRadius: 100}}
             source={{

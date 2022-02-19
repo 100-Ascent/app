@@ -35,7 +35,7 @@ const StyledButton: React.FC<Props> = ({
               borderRadius: 10,
               justifyContent: 'center',
               alignItems: 'center',
-              borderWidth: 1
+              paddingVertical: 10,
             },
             buttonStyle,
           ]}>

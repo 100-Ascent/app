@@ -11,11 +11,11 @@ import Text14 from '../Text/Text14';
 
 const TabView = ({children, onPress, isActive}) => {
   return (
-    <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={{flex: 1}}>
+    <TouchableOpacity onPress={onPress} activeOpacity={0.8} style={{ flex: 1 }}>
       <View
         style={{
           flex: 1,
-          marginVertical: 8,
+          marginVertical: 10,
           paddingHorizontal: 0,
         }}>
         <View
@@ -99,7 +99,7 @@ const ThreeTabNavigator = ({
         style={{
           flex: 1,
           flexDirection: 'row',
-          marginHorizontal: 10,
+          marginHorizontal: 20,
         }}>
         
         <TabView isActive={active === 0} onPress={() => handlePress(0)}>

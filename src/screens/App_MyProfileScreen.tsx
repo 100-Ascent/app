@@ -50,6 +50,7 @@ import moment from 'moment';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import parsePhoneNumber from 'libphonenumber-js';
 import {useIsFocused} from '@react-navigation/native';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -190,6 +191,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
               }
               contentContainerStyle={{flexGrow: 1}}>
               <View style={{flex: 1, paddingHorizontal: 15}}>
+                <BackgroundVector/>
                 <View style={myProfileStyles.profileWrapper}>
                   {userData['is_verified_email'] ? (
                     <View />

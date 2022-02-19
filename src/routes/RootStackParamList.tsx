@@ -35,6 +35,7 @@ export type RootStackParamList = {
   MyChallengeScreen: { data: any, challengeId: any };  
   ChallengeDescriptionScreen: {data: Object};
   CheckpointMilestoneScreen: { data: any, current_distance: any, total_distance: any  }
+  RewardsScreen: { data: any, name: any, icon: any }
   
   // EditActivityDataScreen: {data?: any; cd_id: any};
   // MyChallengeScreen: {data: Object; challengeId: Object};

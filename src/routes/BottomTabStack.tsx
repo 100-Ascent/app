@@ -120,8 +120,8 @@ const BottomTabStack = ({navigation, route}) => {
             tabBarIcon: ({focused}) => (
               <View style={{position: 'absolute', top: 15}}>
                 <Icon
-                  name="home"
-                  type="ionicon"
+                  name="directions-run"
+                  type="material-icons"
                   size={28}
                   color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
@@ -132,19 +132,19 @@ const BottomTabStack = ({navigation, route}) => {
             // Onpress Update....
             focus: e => {
               Animated.spring(tabOffsetValue, {
-                toValue: 0,
+                toValue: getWidth(),
                 useNativeDriver: true,
               }).start();
             },
             tabPress: e => {
               Animated.spring(tabOffsetValue, {
-                toValue: 0,
+                toValue: getWidth(),
                 useNativeDriver: true,
               }).start();
             },
           })}
         />        
-        <Tab.Screen
+        {/* <Tab.Screen
           name="DataInListViewScreen"
           component={Activity}
           options={{
@@ -176,7 +176,7 @@ const BottomTabStack = ({navigation, route}) => {
               }).start();
             },
           })}
-        />
+        /> */}
         <Tab.Screen
           name="AddActivityScreen"
           component={PostActivity}

@@ -35,6 +35,7 @@ import Text12Bold from '../components/Text/Text12Bold';
 import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
 import { isIOS } from 'react-native-elements/dist/helpers';
 import { styles } from '../styles/Global/styles';
+import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -71,6 +72,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const [comment, setComment] = useState('');
   
   const [isAllowPost, setDisablePost] = useState(true);
+  const [subscribedChallenge, setSubscribedChallenge] = useState([]);
 
   // API call to update
   const handlePostData = async () => {
@@ -133,6 +135,8 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   // Get activity data
   const getDropdownActivities = () => {
     setDropdownData(activityData.activities);
+    setSubscribedChallenge(activityData.challenges);
+
     let item = activityData.activities;
     let index = item.findIndex(item => item.name.includes('Average'));
     setSelected(item[index]);
@@ -148,6 +152,18 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
         selected['id'] === undefined ||
         data.length === 0,
     );
+  };
+
+  const getSelectedChallenge = idx => {
+    setDisablePost(
+      selectedDate === null ||
+        selected['id'] === undefined ||
+        distanceTimeData.length === 0,
+    );
+  };
+
+  const handleSubscribeToAChallenge = () => {
+    navigation.navigate('AllChallengesScreen');
   };
 
   // Calories, minutes, steps data
@@ -367,13 +383,13 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
 
                   />
                 </View>
-                {/* <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard
                     challenges={subscribedChallenge}
                     getSelectedChallenge={getSelectedChallenge}
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
-                </View> */}
+                </View>
                 <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
                   <AddCommentImageCard
                     comment={comment}

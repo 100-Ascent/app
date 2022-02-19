@@ -81,7 +81,6 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
   return (
     <View
       style={{
-        marginHorizontal: 20,
         backgroundColor: Colors.TEXT,
         borderRadius: 10,
         elevation: 2,

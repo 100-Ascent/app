@@ -29,6 +29,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
   playlist,
   handleSubscribe,
 }) => {
+
   const OpenURLButton = ({url}) => {
     const handlePress = useCallback(async () => {
       const supported = await Linking.canOpenURL(url);
@@ -40,7 +41,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
     }, [url]);
 
     return (
-      <View style={{ flex: 1, marginLeft: 5, justifyContent: 'center'}}>
+      <View style={{ flex: 1, marginRight: 10, justifyContent: 'center'}}>
         <SpotifyButton onPress={handlePress} />
       </View>
     );

@@ -140,11 +140,11 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleRewardsPressed = () => {
-    // navigation.navigate('RewardsScreen', {
-    //   data: challengeData.rewards,
-    //   name: challengeData.name,
-    //   icon: challengeData.icon,
-    // });
+    navigation.navigate('RewardsScreen', {
+      data: challengeData.rewards,
+      name: challengeData.name,
+      icon: challengeData.icon,
+    });
   };
 
   return (
