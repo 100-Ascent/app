@@ -28,6 +28,7 @@ export const NO_REWARDS_TEXT =
 export const NO_REWARDS_TOUNLOCK_PRESENT = 'Unlock rewards to reveal them';
 export const WIDTH = Dimensions.get('window').width;
 export const HEIGHT = Dimensions.get('window').height;
+export const SUBSCRIBE = "Subscribe"
 export const DEV_VERSION = true;
 export const RINGCOLORS = [
   '#9400d3',

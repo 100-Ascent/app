@@ -1,15 +1,15 @@
 import React from 'react';
-import {Text, TextStyle, View} from 'react-native';
-import {Colors} from '../../utils/colors';
+import {Text, View, ViewStyle} from 'react-native';
+import { Colors } from '../../utils/colors';
 
 interface Props {
   text: string;
   textColor: string;
   textStyle?: any;
-  containerStyle?: any;
+  containerStyle?: ViewStyle;
 }
 
-const Text14: React.FC<Props> = ({text, textColor, textStyle, containerStyle}) => {
+const Text14: React.FC<Props> = ({text, textColor = Colors.TEXTDARK, textStyle, containerStyle}) => {
   return (
     <View style={[containerStyle]}>
       <Text

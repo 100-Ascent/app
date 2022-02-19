@@ -16,6 +16,7 @@ import {WIDTH} from '../utils/constants/constants';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { isIOS } from 'react-native-elements/dist/helpers';
+import Journey from './ScreenStacks/Journey';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
@@ -80,6 +81,39 @@ const BottomTabStack = ({navigation, route}) => {
         <Tab.Screen
           name="HomeScreen"
           component={Home}
+          options={{
+            tabBarLabel: '4',
+            unmountOnBlur: true,
+            tabBarIcon: ({focused}) => (
+              <View style={{position: 'absolute', top: 15}}>
+                <Icon
+                  name="home"
+                  type="ionicon"
+                  size={28}
+                  color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
+                />
+              </View>
+            ),
+          }}
+          listeners={({navigation, route}) => ({
+            // Onpress Update....
+            focus: e => {
+              Animated.spring(tabOffsetValue, {
+                toValue: 0,
+                useNativeDriver: true,
+              }).start();
+            },
+            tabPress: e => {
+              Animated.spring(tabOffsetValue, {
+                toValue: 0,
+                useNativeDriver: true,
+              }).start();
+            },
+          })}
+        />    
+        <Tab.Screen
+          name="JourneyScreen"
+          component={Journey}
           options={{
             tabBarLabel: '4',
             unmountOnBlur: true,

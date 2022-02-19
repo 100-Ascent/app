@@ -35,11 +35,12 @@ const StyledButton: React.FC<Props> = ({
               borderRadius: 10,
               justifyContent: 'center',
               alignItems: 'center',
-              paddingVertical: 10,
+              borderWidth: 1
             },
             buttonStyle,
           ]}>
-          {loading ? <ActivityIndicator size="small" color={Colors.TEXT} /> : <Text16Normal
+          {loading ? <ActivityIndicator size="small" color={Colors.TEXT} /> : 
+          <Text16Normal
             text={text}
             textColor={Colors.TEXT}
             textStyle={textStyle}

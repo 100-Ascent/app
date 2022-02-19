@@ -2,9 +2,9 @@ export const Colors = {
   BACKGROUND: '#161616',
   TEXT: '#F8F8F8',
   TEXT1: '#FAFAFA',
-  TEXT2: '#949494',
-  TEXT3: '#878787',
-  TEXT4: '#333333',
+  // TEXT2: '#949494',
+  // TEXT3: '#878787',
+  // TEXT4: '#333333',
   TEXTDARK: '#121212',
   HEADING: '#1A2741',
 
