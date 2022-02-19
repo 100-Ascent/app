@@ -220,7 +220,7 @@ export default ChallengeDescriptionScreen;
 
 const styles = StyleSheet.create({
   cityMilestoneCard: { 
-    marginTop: 30,
+    marginTop: 20,
     marginHorizontal: 20,
     paddingHorizontal: 10,
     paddingTop: 20, 

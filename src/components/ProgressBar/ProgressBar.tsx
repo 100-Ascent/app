@@ -8,7 +8,7 @@ import Text20 from '../Text/Text20';
 const ProgressBar = ({distance}) => {
   const isCompleted = false;
   return (
-    <View style={{flex: 1, marginHorizontal: 15}}>
+    <View >
       <View
         style={{
           flex: 1,

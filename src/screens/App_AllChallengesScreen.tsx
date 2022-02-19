@@ -16,15 +16,15 @@ import Text20 from '../components/Text/Text20';
 
 import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
-import {HEIGHT, WIDTH} from '../utils/constants/constants';
+import {HEIGHT, SUBSCRIBE_TO_CHALLENGE, WIDTH} from '../utils/constants/constants';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import {useIsFocused} from '@react-navigation/native';
 import {NavigationDrawerStructure} from '../routes/AppStack';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import SubscribeToChallengeIcon from '../../assets/modal-icons/notification-icon.svg';
+import { CHALLENGE_DATA, SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
 
-const width = WIDTH-30    ;
-const height = HEIGHT * 0.45;
+const width = WIDTH-30;
 
 interface Props {
   navigation: RootNavProp<'JourneyScreen'>;
@@ -40,13 +40,9 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   const [toSubscribeCid, setSubscribeCid] = useState('');
   const isFocused = useIsFocused();
 
-  useEffect(() => {
-    getChallengeData();
-  }, [isFocused]);
-
   const getChallengeData = async () => {
     setLoading(true);
-    await axios.get('/api/challenge', {
+    await axios.get(CHALLENGE_DATA, {
         headers: {
           'X-CONTEXT-ID': contextId,
         },
@@ -55,7 +51,6 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
         
         let allChallenge = res.data.data[0].remainingList;
         let activeChallenge = res.data.data[0].subsList;
-
         if (activeChallenge.length == 1) {
           navigation.navigate('MyChallengeScreen', {
             data: activeChallenge[0],
@@ -79,22 +74,23 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
       });
   };
 
-  const handleSubscribe = () => {
+  const handleSubscribe = async () => {
     setSubscribePopUp(false);
-    // setLoading(true);
-    // axios
-    //   .get('/api/challenge/subscribed/' + toSubscribeCid, {
-    //     headers: {
-    //       'X-CONTEXT-ID': contextId,
-    //     },
-    //   })
-    //   .then(res => {
-    //     getChallengeData();
-    //   })
-    //   .catch(err => {
-    //     console.log('error');
-    //     console.log(err);
-    //   });
+    setLoading(true);
+    await axios
+      .get(SUBSCRIBE_CHALLENGE + toSubscribeCid, {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(res => {
+        getChallengeData();
+      })
+      .catch(err => {
+        console.log('Error subscribing to challenge');
+        console.log(err);
+        setLoading(false);
+      });
   };
 
   const handleSubscribedPressed = cid => {
@@ -115,6 +111,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   };
 
   useEffect(() => {
+    getChallengeData();
     navigation.setOptions({
       headerTitle: 'Challenges',
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
@@ -122,7 +119,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
       headerRight: () => <View style={{marginRight: 0}} />,
       headerLeft: () => <View style={{marginLeft: 0}} />,
     });
-  }, []);
+  }, [isFocused]);
 
   return (
     <SafeAreaView style={{flex: 1}}>
