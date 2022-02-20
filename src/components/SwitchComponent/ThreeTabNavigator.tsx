@@ -3,6 +3,7 @@ import {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import {RINGCOLORS} from '../../utils/constants/constants';
+import { FONTS } from '../../utils/constants/fonts';
 import FunFactCard from '../Cards/Challenges/MyChallenges/FunFactCard';
 import KlicksToGoCard from '../Cards/Challenges/MyChallenges/KlicksToGoCard';
 import DistanceComponent from '../DistanceComponent/DistanceComponent';
@@ -107,6 +108,7 @@ const ThreeTabNavigator = ({
             <Text14
               text="My Journey"
               textColor={active === 0 ? Colors.WHITE : Colors.TEXTDARK}
+              textStyle={FONTS.REGULAR}
             />
           </View>
         </TabView>
@@ -125,6 +127,7 @@ const ThreeTabNavigator = ({
             <Text14
               text="My Distances"
               textColor={active === 2 ? Colors.WHITE : Colors.TEXTDARK}
+              textStyle={FONTS.REGULAR}
             />
           </View>
         </TabView>

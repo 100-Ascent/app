@@ -1,47 +1,40 @@
-import React, {Component} from 'react';
-import {useState} from 'react';
-import {Text, TouchableOpacity, View} from 'react-native';
+import React from 'react';
+import {TouchableOpacity, View} from 'react-native';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import FastImage from 'react-native-fast-image';
 import {Colors} from '../../../utils/colors';
 import {SUBSCRIBE_TO_CHALLENGE} from '../../../utils/constants/constants';
 import StyledButton from '../../Button/StyledButton';
-import Text16Bold from '../../Text/Text16Bold';
 import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
   challenges: any;
-  getSelectedChallenge: any;
   handleSubscribeToAChallenge: any;
+  handleSelectedChallenges: (idx: number) => void,
 }
+
 const SubscribedChallengeListCard: React.FC<Props> = ({
-  getSelectedChallenge,
   challenges,
   handleSubscribeToAChallenge,
+  handleSelectedChallenges,
 }) => {
-  const [selectedChallenge, setSelectedChallenge] = useState(0);
-
+  
   const challengeList = challenges.map((val, idx) => {
     return (
       <View
         style={{
           flex: 1,
           marginHorizontal: 20,
-          borderWidth: selectedChallenge === idx ? 0 : 1,
-          borderColor:
-            selectedChallenge === idx ? Colors.TRANSPARENT : '#D9D9D9',
+          borderWidth: val.isSelected ? 0 : 1,
+          borderColor: val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
           borderRadius: 10,
           marginTop: 15,
-          backgroundColor:
-            selectedChallenge === idx ? Colors.BLACK5 : Colors.TEXT,
+          backgroundColor: val.isSelected ? Colors.BLACK5 : Colors.TEXT,
         }}
         key={idx}>
         <TouchableOpacity
           activeOpacity={0.8}
-          onPress={() => {
-            setSelectedChallenge(idx);
-            getSelectedChallenge(idx);
-          }}>
+          onPress={() => { handleSelectedChallenges(idx) }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 1, padding: 10}}>
               <FastImage
@@ -60,15 +53,15 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <View
                 style={{
-                  padding: selectedChallenge === idx ? 5 : 10,
+                  padding: val.isSelected ? 5 : 10,
                   borderRadius: 50,
                   borderWidth: 1,
                   borderColor:
-                    selectedChallenge === idx ? Colors.TRANSPARENT : '#D9D9D9',
+                    val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
                   backgroundColor:
-                    selectedChallenge === idx ? Colors.GREEN : Colors.TEXT,
+                    val.isSelected ? Colors.GREEN : Colors.TEXT,
                 }}>
-                {selectedChallenge === idx ? (
+                {val.isSelected ? (
                   <Icon name="check" size={15} color={Colors.TEXT} />
                 ) : null}
               </View>

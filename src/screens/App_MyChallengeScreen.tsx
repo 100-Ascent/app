@@ -22,6 +22,7 @@ import ProgressBar from '../components/ProgressBar/ProgressBar';
 import RewardsCard from '../components/Cards/Rewards/RewardsCard';
 import CheckpointCard from '../components/Cards/Challenges/MyChallenges/CheckpointCard';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
+import { NavigationDrawerStructure } from '../routes/AppStack';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -112,7 +113,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerTitleContainerStyle: {alignItems: 'center'},
       headerRight: () => <View style={{marginRight: 0}} />,
-      headerLeft: () => <View style={{marginLeft: 0}} />,
+      headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
     });
     callToGetChallengeDataFromId();
     callToGetTracksData();

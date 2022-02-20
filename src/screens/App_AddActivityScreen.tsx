@@ -20,22 +20,17 @@ import { AppState } from '../redux';
 
 import Background from '../components/Background/StyledBackground';
 import RNLoader from '../components/Loader/RNLoader';
-
 import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
 import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
 import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-
 import StyledButton from '../components/Button/StyledButton';
-
 import { RootNavProp } from '../routes/RootStackParamList';
 import { Colors } from '../utils/colors';
 import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
 import Text12Bold from '../components/Text/Text12Bold';
-
-import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
-import { isIOS } from 'react-native-elements/dist/helpers';
 import { styles } from '../styles/Global/styles';
 import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -74,6 +69,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const [isAllowPost, setDisablePost] = useState(true);
   const [subscribedChallenge, setSubscribedChallenge] = useState([]);
 
+  const getChallengeIdList = (data) => {
+    let arr = [];
+    for(let idx=0;idx<data.length;idx++){
+      arr.push(data[idx]['cid']);
+    }
+    return arr;
+  }
+
   // API call to update
   const handlePostData = async () => {
     const data = {
@@ -84,8 +87,10 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       calories: calminsteps.cal,
       min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
-      comment: comment
+      comment: comment,
+      // challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.isSelected ))
     };
+
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
@@ -135,14 +140,22 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   // Get activity data
   const getDropdownActivities = () => {
     setDropdownData(activityData.activities);
-    setSubscribedChallenge(activityData.challenges);
-
     let item = activityData.activities;
     let index = item.findIndex(item => item.name.includes('Average'));
     setSelected(item[index]);
     setDefaultOption(item[index].is_distance ? 0 : 1);
     setLoading(false);
   };
+
+  const getUserChallenges = () => {
+    let allChallenges = [...activityData.challenges, ...activityData.challenges];
+    for(let idx=0;idx<allChallenges.length;idx++){
+      let data = { ...allChallenges[idx]};
+      data['isSelected'] = idx===0;
+      allChallenges[idx] = data;
+    }
+    setSubscribedChallenge([...allChallenges]);
+  }
 
   // Get distance time data
   const getDistanceTimeData = data => {
@@ -154,13 +167,23 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     );
   };
 
-  const getSelectedChallenge = idx => {
+  const checkPostButtonState = (selectedChallenges) => {
     setDisablePost(
       selectedDate === null ||
         selected['id'] === undefined ||
-        distanceTimeData.length === 0,
+        distanceTimeData.length === 0 || selectedChallenges === undefined,
     );
   };
+
+  const handleSelectedChallenges = (idx) => {  
+    let challenges = [...subscribedChallenge];
+    let data = { ...challenges[idx] };
+    data.isSelected = !data.isSelected;
+    challenges[idx] = data;
+    let selectedChallenges = challenges.find(obj => obj.isSelected );  
+    checkPostButtonState(selectedChallenges);
+    setSubscribedChallenge(challenges);    
+  }
 
   const handleSubscribeToAChallenge = () => {
     navigation.navigate('AllChallengesScreen');
@@ -188,6 +211,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       headerLeft: () => <View style={{marginLeft: 0}}/>
     });
     getDropdownActivities();
+    getUserChallenges();
   }, []);
 
   var dateDifference = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))/ (1000 * 60 * 60 * 24));
@@ -385,8 +409,8 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                 </View>
                 <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard
-                    challenges={subscribedChallenge}
-                    getSelectedChallenge={getSelectedChallenge}
+                    challenges={subscribedChallenge}                    
+                    handleSelectedChallenges={handleSelectedChallenges}
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
                 </View>
