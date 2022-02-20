@@ -3,6 +3,7 @@ import {StyleSheet, View} from 'react-native';
 import FastImage from 'react-native-fast-image';
 import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Colors} from '../../../../utils/colors';
+import { WIDTH } from '../../../../utils/constants/constants';
 import Text14 from '../../../Text/Text14';
 import Text20 from '../../../Text/Text20';
 
@@ -38,7 +39,8 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.TEXT,
     marginHorizontal: 20,
     borderRadius: 10,
-    elevation: 1,
+   
+    // alignItems: 'center'
   },
   image: {
     height: 150,

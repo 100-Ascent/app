@@ -107,6 +107,9 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   };
 
   useEffect(() => {
+    navigation.setOptions({
+      headerTitle: null,
+    });
     getChallengeData();    
   }, [isFocused]);
 

@@ -13,12 +13,8 @@ interface Props {
 const AboutChallengeCard: React.FC<Props> = ({title, description}) => {
   return (
     <View style={styles.container}>
-      <View style={{ paddingTop: 10, paddingLeft: 20 }}>
-        <Text18 text={title} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
-      </View>
-      <View style={{paddingTop: 10, paddingBottom: 10, paddingHorizontal: 20}}>
-        <Text14 text={description} textColor={Colors.TEXTDARK} />
-      </View>
+      <Text18 text={title} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} containerStyle={styles.header} />
+      <Text14 text={description} textColor={Colors.TEXTDARK} containerStyle={styles.description} />
     </View>
   );
 };
@@ -32,5 +28,15 @@ const styles = StyleSheet.create({
     paddingBottom: 10,
     borderRadius: 10,
     elevation: 1
+  },
+  header: { 
+    paddingTop: 20, 
+    paddingLeft: 20 
+  },
+  description: {
+    paddingTop: 10, 
+    paddingBottom: 10, 
+    paddingHorizontal: 20
   }
+
 })

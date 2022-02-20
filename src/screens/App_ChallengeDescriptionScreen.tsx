@@ -23,6 +23,8 @@ import CommonCard from '../components/Cards/Challenges/Description/CommonCard';
 import AdditionalRewardsCard from '../components/Cards/Challenges/Description/AdditionalRewardsCard';
 import PreRegister from '../components/Cards/Rewards/PreRegister';
 import Icon from 'react-native-elements/dist/icons/Icon';
+import { SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
+import SubscribeToChallenge from '../../assets/modal-icons/notification-icon.svg';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -37,6 +39,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const [subscribePopUp, setSubscribePopUp] = useState<boolean>(false);
   const [toSubscribeCid, setSubscribeCid] = useState('');
+
   const handleSwitch = () => {
     const tab = 1 - currentTab;
     setTab(tab);
@@ -44,16 +47,15 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
 
   const handleSubscribe = async () => {
     await axios
-      .get('/api/challenge/subscribed/' + data.id, {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
+      .get(SUBSCRIBE_CHALLENGE + data.id, {
+        headers: { 'X-CONTEXT-ID': contextId }
       })
       .then(res => {
         setSubscribePopUp(false);
-        navigation.navigate('DataLoaderScreen');
+        navigation.pop();
       })
       .catch(err => {
+        setSubscribePopUp(false);
         console.log('error in subscribing to challenge');
         console.log(err);
       });
@@ -81,7 +83,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitle: 'Challenge Description',
       headerTitleContainerStyle: {alignItems: 'center'},
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-      headerRight: () => <View style={{marginRight: 0}}/>,
+      headerRight: () => <View style={{marginRight: 0 }}/>,
       headerLeft: () => (
         <View style={{marginLeft: 10}}>
           <Icon
@@ -99,9 +101,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
   return (
     <SafeAreaView style={{flex: 1}}>
     <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
-      {loading ? (
-        <RNLoaderSimple />
-      ) : (
+      {loading ? <RNLoaderSimple /> : 
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}}>
 
           <View style={{flex: 1 }}>
@@ -120,11 +120,9 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
 
             <View style={{ padding: 5 }} />
             <CustomSwitch currentTab={currentTab} onPress={handleSwitch} />
-
             
-
             {currentTab === 0 ? (
-              <View>                              
+              <>                              
                 <View style={styles.cityMilestoneCard}> 
                   <ChallengeDistanceMilestoneCity  cities={data.cities} distance={data.distance} milestones={data.milestones} />
                 </View>
@@ -150,29 +148,16 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                     description={data.bottom_desc}
                   />
                 </View>
-            </View>
+            </>
             ) : (
-              <View>
-                <View style={{ marginTop: 20 }} >
-                  <CommonCard
-                    data={data.rewards[0]}
-                    imageOnPress={rewardImageOnPress}
-                  />
-                </View>
-
-                <View style={{ marginTop: 20 }} >
-                  <CommonCard
-                    data={data.rewards[1]}
-                    imageOnPress={rewardImageOnPress}
-                  />
-                </View>
-
-                <View style={{ marginTop: 20 }} >
-                  <CommonCard
-                    data={data.rewards[2]}
-                    imageOnPress={rewardImageOnPress}
-                  />
-                </View>
+              <>
+                {
+                  data.rewards.map((val,idx)=>{
+                    return <View style={{ marginTop: 20 }} key={idx} >
+                      <CommonCard data={val} imageOnPress={rewardImageOnPress} />
+                    </View>
+                  })
+                }
 
                 <View style={{ marginTop: 20 }} >
                   <AdditionalRewardsCard data={data.extraRewards} />
@@ -182,8 +167,10 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                   <PreRegister />
                 </View>
 
-              </View>
+              </>
             )}
+
+            <View style={{ padding: 5 }}/>
             <ChallengeNameSubscribeCard
               shouldShowButtons={!data.is_subscribed}
               shouldShowTitle={false}
@@ -191,13 +178,13 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               icon={data.icon}
               cid={data.id}
               playlist={data.playlist}
-              handleSubscribe={handleSubscribe}
+              handleSubscribe={handleSubscribedPressed}
             />
           </View>
           <View style={{padding: 70}}/>
           
           <CustomPopUp
-            icon={<></>}
+            icon={<SubscribeToChallenge/>}
             isCancelable={true}
             cancelText={'Cancel'}
             description={'Do you really want to subscribe?'}
@@ -210,7 +197,8 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
             }}
             onOk={handleSubscribe}
           /> 
-        </ScrollView> )}
+        </ScrollView>
+        }
       </Background>
     </SafeAreaView>
   );

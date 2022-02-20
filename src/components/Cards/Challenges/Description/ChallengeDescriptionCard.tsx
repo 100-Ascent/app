@@ -1,8 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-
 import Icon from 'react-native-elements/dist/icons/Icon';
-
 import {Colors} from '../../../../utils/colors';
 import { FONTS } from '../../../../utils/constants/fonts';
 import Text14 from '../../../Text/Text14';

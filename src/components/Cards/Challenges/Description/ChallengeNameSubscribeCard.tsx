@@ -49,7 +49,8 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
 
   return (
     <View style={{ marginHorizontal: 20 }}>
-      {shouldShowTitle ? (
+      { 
+        shouldShowTitle ? (
           <View style={{ flexDirection: 'row'}}>
             <View style={styles.imageBorder}>
               <FastImage style={styles.image}
@@ -66,12 +67,13 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
       ) : null}
 
       <View style={styles.buttonContainer}>
-        {shouldShowButtons ? (
+        {
+          shouldShowButtons ? (
           <View style={{flex: 4, justifyContent: 'center'}}>
             <StyledButton
               text={SUBSCRIBE.toUpperCase()}
               onPress={() => handleSubscribe(cid)}
-              buttonStyle={{ marginVertical: 0, paddingVertical: 9 }}
+              buttonStyle={{ marginVertical: 0, paddingVertical: 9, marginRight: 15 }}
               textStyle={{ paddingBottom: 2 }}
             />
           </View>

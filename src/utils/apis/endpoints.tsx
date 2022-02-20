@@ -20,4 +20,4 @@ export const USER_STREAK_DATA = "/api/user/activity/streak";
 export const ACTIVITY_LIST = '/api/activities';
 
 export const CHALLENGE_DATA = '/api/challenge';
-export const SUBSCRIBE_CHALLENGE = '/api/challenge/subscribed/';
+export const SUBSCRIBE_CHALLENGE = '/api/challenge/subscribed/'; 
