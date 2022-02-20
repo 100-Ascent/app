@@ -2,7 +2,6 @@ import React from 'react'
 import { StyleSheet, View } from 'react-native';
 import Text28 from '../../Text/Text28';
 import Text14 from '../../Text/Text14';
-import Text16Normal from '../../Text/Text16Normal';
 import Text20 from '../../Text/Text20';
 import CityCarousal from '../../Carousals/CityCarousal';
 import MileStoneIcon from '../../../../assets/icons/milestone-icon.svg';
@@ -25,7 +24,7 @@ const ChallengeDistanceMilestoneCity: React.FC<Props> = ({ cities, distance, mil
 //Component functions
 
 return <View>
-    <View style={{ flexDirection: 'row' }}>
+    <View style={{ flexDirection: 'row', marginTop: 5 }}>
           <View style={styles.challengeData}>
               <View style={{justifyContent: "center"}}>
                 <MileStoneIcon />

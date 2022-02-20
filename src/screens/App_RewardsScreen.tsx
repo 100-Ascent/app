@@ -16,6 +16,7 @@ import PreRegister from '../components/Cards/Rewards/PreRegister';
 import RewardsUnlocked from '../components/Cards/Challenges/CheckpointMilestone/RewardsUnlocked';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import HamperCard from '../components/Cards/Rewards/CustomHamperCard';
+import AllRewards from '../components/Cards/Rewards/AllRewards';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;
@@ -142,7 +143,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               <PreRegister />
             </View>
 
-            <View style={{ marginTop: 20 }}>
+            <View style={{ marginTop: toUnlockRewardsArray.length > 0 ? 20 : 0 }}>
               {toUnlockRewardsArray.length > 0 ? (
                 <RewardsUnlocked
                   rewards={toUnlockRewardsArray}
@@ -151,15 +152,16 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               ) : null}
             </View>
 
-            <View style={{padding: 10}} />
-            {/* {toUnlockRewardsArray.length > 0 &&
-            scratchedReward.length === 0 ? null : (
-              <AllRewards
-                data={scratchedReward}
-                isRewardToUnlock={toUnlockRewardsArray.length !== 0}
-                onPress={handleAllRewardPressed}
-              />
-            )} */}
+            <View style={{ marginTop: 20 }}>
+              {toUnlockRewardsArray.length > 0 &&
+              scratchedReward.length === 0 ? null : (
+                <AllRewards
+                  data={scratchedReward}
+                  isRewardToUnlock={toUnlockRewardsArray.length !== 0}
+                  onPress={handleAllRewardPressed}
+                />
+              )}
+            </View>
 
             {scratchedReward.length > 0 ? (
               <RewardsPopUp
@@ -169,16 +171,16 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               />
             ) : null}
 
-            {/* <NewRewardPopUp
-              visible={visible}
-              onCancel={handleCancel}
-              onHandleRevealPressed={onHandleRevealPressed}
-              rewardIndex={idx}
-              setRef={setRef}
-              explosion={explosion}
-              isRevealed={isRevealed}
-              toUnlockRewardsArray={toUnlockRewardsArray}
-            /> */}
+              <NewRewardPopUp
+                visible={visible}
+                onCancel={handleCancel}
+                onHandleRevealPressed={onHandleRevealPressed}
+                rewardIndex={idx}
+                setRef={setRef}
+                explosion={explosion}
+                isRevealed={isRevealed}
+                toUnlockRewardsArray={toUnlockRewardsArray}
+              />
           </View>
           <View style={{padding: 100}} />
         </ScrollView>
