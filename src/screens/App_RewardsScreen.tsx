@@ -13,10 +13,11 @@ import {AppState} from '../redux';
 import RewardsPopUp from '../components/PopUps/RewardsPopUp';
 import ChallengeNameSubscribeCard from '../components/Cards/Challenges/Description/ChallengeNameSubscribeCard';
 import PreRegister from '../components/Cards/Rewards/PreRegister';
-import RewardsUnlocked from '../components/Cards/Challenges/CheckpointMilestone/RewardsUnlocked';
+
 import Icon from 'react-native-elements/dist/icons/Icon';
 import HamperCard from '../components/Cards/Rewards/CustomHamperCard';
 import AllRewards from '../components/Cards/Rewards/AllRewards';
+import RewardsUnlocked from '../components/Cards/Rewards/RewardsUnlocked';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;

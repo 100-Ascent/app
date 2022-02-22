@@ -23,6 +23,7 @@ import RewardsCard from '../components/Cards/Rewards/RewardsCard';
 import CheckpointCard from '../components/Cards/Challenges/MyChallenges/CheckpointCard';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import { NavigationDrawerStructure } from '../routes/AppStack';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -40,6 +41,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   const currentDistance = useSelector(
     (state: AppState) => state.rootStore.currentValue.distance,
   );
+ 
   const dispatch = useDispatch();
 
   const callToGetChallengeDataFromId = async () => {
@@ -152,7 +154,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
         {loading ? (
-          <RNLoader />
+          <RNLoaderSimple />
         ) : (
           <View style={{flex: 1}}>
             <ScrollView scrollEnabled style={{flexGrow: 1}}>

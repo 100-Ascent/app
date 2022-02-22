@@ -28,6 +28,7 @@ import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
 import Background from '../components/Background/StyledBackground';
 import { isIOS } from 'react-native-elements/dist/helpers';
 import { styles } from '../styles/Global/styles';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props{
 navigation:RootNavProp<'LeaderboardScreen'>;
@@ -311,7 +312,7 @@ navigation.setOptions({
     return myData;
   }
 
-return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
+return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
   <>
   <LeagueListCard data={leagueData} />
   <FlatList

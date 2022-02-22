@@ -35,6 +35,8 @@ const DistanceCard: React.FC<Props> = ({
   handleDelete,
   showAllActivities
 }) => {
+
+  data = data.uad;
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
   const [toDeleteId, setToDeleteId ] = useState(0);
@@ -78,9 +80,9 @@ const DistanceCard: React.FC<Props> = ({
     });
   };
 
-  const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity_id)[0];
+  const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity.id)[0];
   return (
-    <View style={{ flex: 1, borderRadius: 10 }}>
+    <View style={{ flex: 1, borderRadius: 10, marginHorizontal: 20, marginTop: 5 }}>
       <ViewShot
         style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
         ref={ref}
@@ -216,7 +218,7 @@ const DistanceCard: React.FC<Props> = ({
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <FitnessCard stream={data.stream} />
-              {/* <View style={{flex: 1}} /> */}
+
             </View>
           </View> 
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 10, marginBottom: -5, marginRight: -5, flexDirection: 'row'}}>

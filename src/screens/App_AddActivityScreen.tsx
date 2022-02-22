@@ -88,14 +88,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment,
-      // challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.isSelected ))
+      challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.isSelected ))
     };
 
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
         ToastAndroid.show('Added Data successfully!', ToastAndroid.SHORT);
-        navigation.navigate('DataInListViewScreen');
+        navigation.navigate('JourneyScreen');
       })
       .catch(err => {
         console.log('error');
@@ -148,10 +148,10 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const getUserChallenges = () => {
-    let allChallenges = [...activityData.challenges, ...activityData.challenges];
+    let allChallenges = [...activityData.challenges];
     for(let idx=0;idx<allChallenges.length;idx++){
       let data = { ...allChallenges[idx]};
-      data['isSelected'] = idx===0;
+      data['isSelected'] = true;
       allChallenges[idx] = data;
     }
     setSubscribedChallenge([...allChallenges]);
