@@ -249,6 +249,7 @@ const DistanceCard: React.FC<Props> = ({
                         color={Colors.POPUP_GREY}
                         size={24}
                         onPress={() => {
+                          console.log(data);
                           setToDeleteId(data.id);
                           setVisible(true)
                         }}

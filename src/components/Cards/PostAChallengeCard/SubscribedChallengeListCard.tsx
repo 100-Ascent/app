@@ -9,8 +9,8 @@ import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
   challenges: any;
-  handleSubscribeToAChallenge: any;
-  handleSelectedChallenges: (idx: number) => void,
+  handleSubscribeToAChallenge?: any;
+  handleSelectedChallenges?: (idx: number) => void,
 }
 
 const SubscribedChallengeListCard: React.FC<Props> = ({
@@ -25,11 +25,11 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
         style={{
           flex: 1,
           marginHorizontal: 20,
-          borderWidth: val.isSelected ? 0 : 1,
-          borderColor: val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
+          borderWidth: val.is_attach || val.isSelected ? 0 : 1,
+          borderColor: val.is_attach ||  val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
           borderRadius: 10,
           marginTop: 15,
-          backgroundColor: val.isSelected ? Colors.BLACK5 : Colors.TEXT,
+          backgroundColor: val.is_attach || val.isSelected ? Colors.BLACK5 : Colors.TEXT,
         }}
         key={idx}>
         <TouchableOpacity
@@ -53,15 +53,15 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
               <View
                 style={{
-                  padding: val.isSelected ? 5 : 10,
+                  padding: val.is_attach || val.isSelected ? 5 : 10,
                   borderRadius: 50,
                   borderWidth: 1,
                   borderColor:
-                    val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
+                  val.is_attach || val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
                   backgroundColor:
-                    val.isSelected ? Colors.GREEN : Colors.TEXT,
+                  val.is_attach || val.isSelected ? Colors.GREEN : Colors.TEXT,
                 }}>
-                {val.isSelected ? (
+                {val.is_attach || val.isSelected ? (
                   <Icon name="check" size={15} color={Colors.TEXT} />
                 ) : null}
               </View>

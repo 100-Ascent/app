@@ -24,6 +24,7 @@ import CheckpointCard from '../components/Cards/Challenges/MyChallenges/Checkpoi
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import { NavigationDrawerStructure } from '../routes/AppStack';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -41,6 +42,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   const currentDistance = useSelector(
     (state: AppState) => state.rootStore.currentValue.distance,
   );
+  const isFocused = useIsFocused();
  
   const dispatch = useDispatch();
 
@@ -55,6 +57,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(res => {
         let data = res.data.data;
+        console.log(data);
         dispatch(
           setCurrentValues({
             distance: data.current_distance,
@@ -120,7 +123,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
     callToGetChallengeDataFromId();
     callToGetTracksData();
     callToGetUserJourneyData();
-  }, []);
+  }, [isFocused]);
 
   const onCheckpointPressed = () => {
     navigation.navigate('CheckpointMilestoneScreen', {
@@ -206,6 +209,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                     }
                     funfact={challengeData.current_checkpoint.tid.fun_fact}
                     distance={challengeData.current_distance}
+                    callToGetChallengeDataFromId={callToGetChallengeDataFromId}
                   />
                 </View>
               </View>

@@ -33,7 +33,6 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   
   
-  
   const callToDeleteDistance = async (id) => {
     await axios
       .delete('/api/user/data/' + id, {
@@ -52,7 +51,7 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   };
 
   const handleEditPressed = (id: any ) => {     
-    const index = distanceData.findIndex( obj => obj.id === id );  
+    const index = distanceData.findIndex( obj => obj.uad.id === id );  
     handleEditActivity(distanceData[index])  
   };
 

@@ -15,7 +15,7 @@ import DateTimePicker from '@react-native-community/datetimepicker';
 import FastImage from 'react-native-fast-image';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import moment from 'moment';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { AppState } from '../redux';
 
 import Background from '../components/Background/StyledBackground';
@@ -30,7 +30,9 @@ import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddComme
 import Text12Bold from '../components/Text/Text12Bold';
 import { styles } from '../styles/Global/styles';
 import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
-import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
+import { ACTIVITY_LIST, ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
+import { SetActivitData } from '../redux/action';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -40,6 +42,8 @@ interface Props {
 const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const dispatch = useDispatch();
 
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -138,17 +142,32 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   };
 
   // Get activity data
-  const getDropdownActivities = () => {
-    setDropdownData(activityData.activities);
-    let item = activityData.activities;
-    let index = item.findIndex(item => item.name.includes('Average'));
-    setSelected(item[index]);
-    setDefaultOption(item[index].is_distance ? 0 : 1);
-    setLoading(false);
+  const getDropdownActivities = async() => {
+    const headers = { 'X-CONTEXT-ID': contextId };
+    setLoading(true);
+    await axios
+    .get(ACTIVITY_LIST, { headers })
+      .then(res => {
+        const data = res.data.data;
+        dispatch(SetActivitData({data: data}));
+        setDropdownData(data.activities);
+        let item = data.activities;
+        let index = item.findIndex(item => item.name.includes('Average'));
+        setSelected(item[index]);
+        setDefaultOption(item[index].is_distance ? 0 : 1);
+        getUserChallenges(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error');
+        console.log(err);
+      });
+
+    
   };
 
-  const getUserChallenges = () => {
-    let allChallenges = [...activityData.challenges];
+  const getUserChallenges = (data) => {
+    let allChallenges = [...data.challenges];
     for(let idx=0;idx<allChallenges.length;idx++){
       let data = { ...allChallenges[idx]};
       data['isSelected'] = true;
@@ -211,7 +230,6 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       headerLeft: () => <View style={{marginLeft: 0}}/>
     });
     getDropdownActivities();
-    getUserChallenges();
   }, []);
 
   var dateDifference = Math.floor((Date.UTC(new Date().getFullYear(), new Date().getMonth(), new Date().getDate()) - Date.UTC(date.getFullYear(), date.getMonth(), date.getDate()))/ (1000 * 60 * 60 * 24));
@@ -233,7 +251,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
             contentContainerStyle={{flexGrow: 1}}
             keyboardShouldPersistTaps="handled">
             {loading && dropdownData.length === 0 ? (
-              <RNLoader />
+              <RNLoaderSimple />
             ) : (
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View

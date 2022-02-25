@@ -1,3 +1,4 @@
+import { useNavigation } from '@react-navigation/native';
 import React, {useEffect} from 'react';
 import {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
@@ -47,10 +48,11 @@ const ThreeTabNavigator = ({
   distance,
   userLocation,
   userJourneyIndex,
+  callToGetChallengeDataFromId
 }) => {
   const [active, setActive] = useState(0);
   const [index, setIndex] = useState(0);
-
+  const navigation = useNavigation();
   const arr = journeyData.map((val, idx) => {
     return RINGCOLORS[0];
   });
@@ -79,7 +81,10 @@ const ThreeTabNavigator = ({
       case 2:
         return (
           <>
-            <DistanceComponent distanceData={distanceData} />
+            <DistanceComponent 
+              handleEditActivity={ (data) => navigation.navigate('EditActivityScreen', { data: data.uad }) } 
+              distanceData={distanceData} 
+              callToGetUserActivityData={callToGetChallengeDataFromId}/>
             <KlicksToGoCard distance={distance} />
             <View style={{padding: 10}} />
             <FunFactCard
