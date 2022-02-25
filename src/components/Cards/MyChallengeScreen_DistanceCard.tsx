@@ -94,7 +94,7 @@ const DistanceCard: React.FC<Props> = ({
             backgroundColor: Colors.TEXT,
             paddingHorizontal: 20,
             paddingVertical: 20,
-            elevation: 2,
+            elevation: 3,
           }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 2}}>
