@@ -171,8 +171,15 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   icon={data.icon}
                 />
 
-                <View style={{ marginTop: 20, marginHorizontal: 10 }}>
+                {/* <View style={{ marginTop: 20, marginHorizontal: 10 }}>
                   <StatsCard streak={challengeData.streak} isToday={challengeData.is_today_streak} />
+                </View> */}
+                
+                <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+                  <CheckpointCard
+                    checkpoint={challengeData.current_checkpoint}
+                    onCheckpointPressed={onCheckpointPressed}
+                  />
                 </View>
 
                 <View style={{ marginTop: 20, marginHorizontal: 20 }}>
@@ -186,13 +193,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   />
                 </View>
 
-                <View style={{ marginTop: 20, marginHorizontal: 20 }}>
-                  <CheckpointCard
-                    checkpoint={challengeData.current_checkpoint}
-                    onCheckpointPressed={onCheckpointPressed}
-                  />
-                </View>
-
+               
                 <View style={{ marginTop: 20}}>
                   <ThreeTabNavigator
                     userLocation={{

@@ -23,6 +23,8 @@ export const EMAIL_VERIFICATION_SENT_AFTER_1 =
   'Please click the verification link';
 export const EMAIL_VERIFICATION_SENT_AFTER_2 = 'sent on above email';
 
+export const EMAIL_NOT_VERIFIED = "Your email id is not yet verified. Verify Now!"; 
+
 export const NO_REWARDS_TEXT =
   'Good stuff come to those who work hard! Keep grinding on your fitness journey you will unlock rewards on completing milestone';
 export const NO_REWARDS_TOUNLOCK_PRESENT = 'Unlock rewards to reveal them';

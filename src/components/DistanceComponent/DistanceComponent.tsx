@@ -34,8 +34,9 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   
   
   const callToDeleteDistance = async (id) => {
+    // console.log(id);
     await axios
-      .delete('/api/user/data/' + id, {
+      .delete(USER_ACTIVITY_DATA + "/" + id, {
         headers: {
           'X-CONTEXT-ID': contextId,
         },
@@ -51,7 +52,7 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   };
 
   const handleEditPressed = (id: any ) => {     
-    const index = distanceData.findIndex( obj => obj.uad.id === id );  
+    const index = distanceData.findIndex( obj => obj.uad? obj.uad.id : obj.id === id );
     handleEditActivity(distanceData[index])  
   };
 
@@ -65,10 +66,11 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
     dataMap.set(date,arr);
   }
 
+ 
   const card = distanceData.map((val,idx)=>{
       return <View style={{ marginTop: idx === 0 ? 5 : 15 }}>
         <DistanceCard
-          data={distanceData[idx]}
+          data={val}
           editPressed={handleEditPressed}
           handleDelete={callToDeleteDistance}
         />
@@ -90,11 +92,11 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
         <Text16Normal text={val.heading} textColor={Colors.TEXTDARK} textStyle={{ fontFamily: "Quicksand-SemiBold" }}/>
       </View>
       {
-        val.value.map((cardValue,idxx)=>{
+        val.value.map((cardValue,idxx)=>{    
           return <View style={{ marginTop: idxx === 0 ? 5 : 15 }} key={idxx}>
           <DistanceCard
-            showAllActivities ={showAllActivities}
             data={cardValue}
+            showAllActivities ={showAllActivities}
             editPressed={handleEditPressed}
             handleDelete={callToDeleteDistance}
           />

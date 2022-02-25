@@ -36,7 +36,7 @@ const DistanceCard: React.FC<Props> = ({
   showAllActivities
 }) => {
 
-  data = data.uad;
+  data = data.uad? data.uad : data;
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
   const [toDeleteId, setToDeleteId ] = useState(0);
@@ -80,10 +80,10 @@ const DistanceCard: React.FC<Props> = ({
     });
   };
 
-  const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity.id)[0];
-  return (
-    <View style={{ flex: 1, borderRadius: 10, marginHorizontal: 20, marginTop: 5 }}>
-      <ViewShot
+  const selectedActivity = activityData.activities.filter( obj => obj.id === (data.activity? data.activity.id : data.activity_id))[0];
+
+  return <View>
+     <ViewShot
         style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
         ref={ref}
         options={{format: 'jpg', quality: 0.9}}>
@@ -160,33 +160,7 @@ const DistanceCard: React.FC<Props> = ({
               </View>
             </View>
             <View style={{flex: 1}}>
-              {/* <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}>
-                <View style={{}}>
-                  <Icon
-                    name="edit"
-                    type="material-icons"
-                    onPress={editPressed}
-                  />
-                </View>
-                <View style={{}}>
-                  <TouchableOpacity>
-                    <Icon
-                      name="delete"
-                      type="MaterialIcons"
-                      color={'#AF3F34'}
-                      onPress={() => {
-                        setToDeleteId(data.id);
-                        setVisible(true)
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View> */}
+             
               { mask ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onShare()}>
                   <Icon name="share" color={Colors.POPUP_GREY} size={24} />
@@ -249,7 +223,7 @@ const DistanceCard: React.FC<Props> = ({
                         color={Colors.POPUP_GREY}
                         size={24}
                         onPress={() => {
-                          console.log(data);
+                          console.log(data)
                           setToDeleteId(data.id);
                           setVisible(true)
                         }}
@@ -273,7 +247,35 @@ const DistanceCard: React.FC<Props> = ({
         icon={<DeleteModalIcon/>} 
         />
     </View>
-  );
 };
 
 export default DistanceCard;
+
+
+ {/* <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}>
+                <View style={{}}>
+                  <Icon
+                    name="edit"
+                    type="material-icons"
+                    onPress={editPressed}
+                  />
+                </View>
+                <View style={{}}>
+                  <TouchableOpacity>
+                    <Icon
+                      name="delete"
+                      type="MaterialIcons"
+                      color={'#AF3F34'}
+                      onPress={() => {
+                        setToDeleteId(data.id);
+                        setVisible(true)
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View> */}

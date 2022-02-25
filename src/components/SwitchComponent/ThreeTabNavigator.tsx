@@ -81,10 +81,12 @@ const ThreeTabNavigator = ({
       case 2:
         return (
           <>
-            <DistanceComponent 
-              handleEditActivity={ (data) => navigation.navigate('EditActivityScreen', { data: data.uad }) } 
-              distanceData={distanceData} 
-              callToGetUserActivityData={callToGetChallengeDataFromId}/>
+            <View style={{ marginHorizontal: 20 }}>
+              <DistanceComponent 
+                handleEditActivity={ (data) => navigation.navigate('EditActivityScreen', { data: data.uad }) } 
+                distanceData={distanceData} 
+                callToGetUserActivityData={callToGetChallengeDataFromId}/>
+            </View>
             <KlicksToGoCard distance={distance} />
             <View style={{padding: 10}} />
             <FunFactCard

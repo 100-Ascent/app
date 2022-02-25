@@ -75,7 +75,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
   
   const [dropdownData, setDropdownData] = useState([]);
-  const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity.id)[0];
+  const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity? routeData.activity.id : routeData.activity_id )[0];
   const [selected, setSelected] = useState(selectedActivity);
   
   const [defaultOption, setDefaultOption] = useState(routeData.is_distance ? 0 : 1);

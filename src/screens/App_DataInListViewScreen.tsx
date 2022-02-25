@@ -1,8 +1,9 @@
+import { useIsFocused } from '@react-navigation/native';
 import axios from 'axios';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 import { isIOS } from 'react-native-elements/dist/helpers';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Icon from 'react-native-elements/dist/icons/Icon';
 import { useSelector } from 'react-redux';
 import Background from '../components/Background/StyledBackground';
 import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
@@ -22,35 +23,28 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
   const [loading, setLoading] = useState(true);
   const [data, setActivityData] = useState([]);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const headers = { headers: { 'X-CONTEXT-ID': contextId } };
+  const isFocused = useIsFocused();
   
   //Async functions
   const callToGetUserActivityData = async () => {
-    setLoading(true);
     await axios
-      .get(USER_ACTIVITY_DATA, {
-        headers: {
-          'X-CONTEXT-ID': contextId,
-        },
-      })
-      .then(async res => {
-        const data = res.data.data;
-        if (res.data.success) {          
-          setActivityData(data);
-          setLoading(false);
-        } else {
-          setActivityData([]);
-          setLoading(false);
-        }
-      })
-      .catch(err => {
-        console.log('failed in activity data yohoooooooo');
-        console.log(err);
-      });
+        .get(USER_ACTIVITY_DATA, headers)
+        .then(async res => {
+            const data = res.data.data;        
+            setActivityData(res.data.success ? data : []);         
+            setLoading(false);   
+        })
+        .catch(err => {
+            console.log('failed in activity data yohoooooooo');
+            console.log(err);
+            setLoading(false);
+        });
   };
 
   useEffect(()=>{
     callToGetUserActivityData();
-  },[]);
+  },[isFocused]);
 
   //Component functions
   useEffect(() => {
@@ -59,11 +53,21 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerTitleContainerStyle: {alignItems: 'center'},
       headerRight: () => <View style={{marginRight : 10}} />,
+      headerLeft: () => (
+        <View style={{marginLeft: 10}}>
+          <Icon
+            name="arrow-back"
+            type="ionicons"
+            size={30}
+            onPress={() => navigation.pop()}
+          />
+        </View>
+      ),
     });
   }, [])
 
   const handleEditActivity = (data) => {  
-    navigation.replace('EditActivityScreen', { data });
+    navigation.navigate('EditActivityScreen', { data: data.uad? data.uad : data });
   }
   
   return (
