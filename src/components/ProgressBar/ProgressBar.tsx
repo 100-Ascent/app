@@ -55,12 +55,12 @@ const ProgressBar = ({distance}) => {
             borderBottomRightRadius: isCompleted ? 10 : 0,
           }}>
           {distance >= 15 ? (
-            <Text14 text={`${distance} km`} textColor={Colors.TEXT} />
+            <Text14 text={`${distance} klicks`} textColor={Colors.TEXT} />
           ) : null}
         </View>
         {distance < 15 ? (
           <View style={{paddingLeft: 15}}>
-            <Text14 text={`${distance} km`} textColor={Colors.TEXT} />
+            <Text14 text={`${distance} klicks`} textColor={Colors.TEXT} />
           </View>
         ) : null}
       </View>
