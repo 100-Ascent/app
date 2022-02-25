@@ -22,6 +22,7 @@ const RewardsCard = ({rewards, onPress}) => {
         backgroundColor: Colors.CARDS_COLOR2,
         borderRadius: 10,
         padding: 10,
+        elevation: 10
       }}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
         <View

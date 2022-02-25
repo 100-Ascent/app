@@ -25,7 +25,6 @@ interface Props {
 }
 const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
   let explosion = useRef(null);
-  const data = route.params.data;
   const challengeName = route.params.name;
   const challengeIcon = route.params.icon;
   const [visible, setVisible] = useState(false);
@@ -133,7 +132,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               name={challengeName}
               icon={challengeIcon}
               shouldShowButtons={false}
-              shouldShowTitle={true}
+              shouldShowTitle={true} 
             />
 
             <View style={{ marginTop: 20 }}>

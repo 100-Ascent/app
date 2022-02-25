@@ -182,11 +182,11 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   />
                 </View>
 
-                <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+                <View style={{ marginTop: 20, marginHorizontal: 20, elevation: 5 }}>
                   <ProgressBar distance={currentDistance} />
                 </View>
 
-                <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+                <View style={{ marginTop: 20, marginHorizontal: 20, elevation: 5 }}>
                   <RewardsCard
                     rewards={challengeData.rewards}
                     onPress={handleRewardsPressed}

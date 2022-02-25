@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 20,
     paddingBottom: 10,
     borderRadius: 10,
-    elevation: 1
+    elevation: 3,
   },
   header: { 
     paddingTop: 20, 

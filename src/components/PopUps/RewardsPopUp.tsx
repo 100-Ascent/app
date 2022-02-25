@@ -60,10 +60,10 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
           </View>
           <View style={{padding: 5}} />
           <View style={{marginBottom: 25}}>
-            <View style={{paddingHorizontal: 5, paddingVertical: 15}}>
+            <View style={{paddingHorizontal: 5, paddingVertical: 15, alignItems: 'center'}}>
               <Text20 text={data.title} textColor={Colors.TEXTDARK} />
             </View>
-            <View style={{paddingHorizontal: 5}}>
+            <View style={{paddingHorizontal: 5, alignItems: 'center'}}>
               <Text16Normal
                 text={data.description}
                 textColor={Colors.TEXTDARK}

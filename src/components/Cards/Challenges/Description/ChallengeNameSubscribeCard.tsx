@@ -18,6 +18,7 @@ interface Props {
   cid?: string;
   playlist?: string;
   handleSubscribe?: (cid: string) => void;
+  onSharePress?: ()=> void;
 }
 
 const ChallengeNameSubscribeCard: React.FC<Props> = ({
@@ -28,6 +29,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
   cid,
   playlist,
   handleSubscribe,
+  onSharePress
 }) => {
 
   const OpenURLButton = ({url}) => {
@@ -80,7 +82,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
         ) : null}
         <OpenURLButton url={playlist} />
         <View style={{flex: 1, justifyContent: 'center'}}>
-          <ShareButton />
+          <ShareButton onPress={onSharePress} />
         </View>
       </View>
     </View>

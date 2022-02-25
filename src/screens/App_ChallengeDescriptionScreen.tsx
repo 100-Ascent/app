@@ -25,6 +25,9 @@ import PreRegister from '../components/Cards/Rewards/PreRegister';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import { SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
 import SubscribeToChallenge from '../../assets/modal-icons/notification-icon.svg';
+import ViewShot from 'react-native-view-shot';
+import RNFS from 'react-native-fs';
+import Share from 'react-native-share';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -78,6 +81,35 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     // });
   };
 
+  const ref = React.useRef<ViewShot | null>(null);
+  const [mask, setMask] = useState(false);
+
+  const onShare = () => {
+    setMask(true);
+    const temp = setTimeout(captureScreenshot, 500);
+  };
+
+  const captureScreenshot = () => {
+    ref.current.capture().then(uri => {
+      RNFS.readFile(uri, 'base64').then(res => {
+        let urlString = 'data:image/jpeg;base64,' + res;
+        let options = {
+          title: '100 Ascent',
+          message: 'Hi, checkout my recent activity on 100 Ascent app (https://100ascent.com)',
+          url: urlString,
+          type: 'image/jpeg',
+        };
+        Share.open(options)
+          .then(res => {
+            setMask(false);
+          })
+          .catch(err => {
+            setMask(false);
+          });
+      });
+    });
+  };
+
   useEffect(()=>{
     navigation.setOptions({
       headerTitle: 'Challenge Description',
@@ -97,13 +129,16 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
       ),
     });
   })
-
+  
   return (
     <SafeAreaView style={{flex: 1}}>
     <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
       {loading ? <RNLoaderSimple /> : 
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}}>
-
+        <ViewShot
+          style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
+          ref={ref}
+          options={{format: 'jpg', quality: 0.9}}>
           <View style={{flex: 1 }}>
             <BackgroundVector />
             
@@ -116,6 +151,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               cid={data.id}
               playlist={data.playlist}
               handleSubscribe={handleSubscribedPressed}
+              onSharePress={onShare}
             />
 
             <View style={{ padding: 5 }} />
@@ -179,8 +215,10 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               cid={data.id}
               playlist={data.playlist}
               handleSubscribe={handleSubscribedPressed}
+              onSharePress={onShare}
             />
           </View>
+          </ViewShot>
           <View style={{padding: 70}}/>
           
           <CustomPopUp
@@ -213,7 +251,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 10,
     paddingTop: 20, 
     paddingBottom: 0,
-    elevation: 1,
+    elevation: 3,
     borderRadius: 10,
     backgroundColor: Colors.TEXT,
   }

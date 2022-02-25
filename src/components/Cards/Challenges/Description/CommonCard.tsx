@@ -39,7 +39,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.TEXT,
     marginHorizontal: 20,
     borderRadius: 10,
-   
+    elevation: 3,
     // alignItems: 'center'
   },
   image: {

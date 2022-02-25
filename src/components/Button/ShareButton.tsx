@@ -2,9 +2,13 @@ import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
 import ShareIcon from '../../../assets/icons/share-icon.svg';
 
-const ShareButton = () => {
+interface Props {
+  onPress?: ()=> void;
+}
+
+const ShareButton: React.FC<Props> = ({ onPress }) => {
   return (
-    <TouchableOpacity activeOpacity={0.8}>
+    <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
       <View
         style={{
           backgroundColor: '#111426',

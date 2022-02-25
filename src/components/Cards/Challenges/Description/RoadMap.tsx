@@ -37,7 +37,7 @@ StyleSheet.create({
     backgroundColor: Colors.TEXT,
     marginHorizontal: 20,
     borderRadius: 10,
-    elevation: 1,
+    elevation: 3,
   },
   header: {
     width: '100%',

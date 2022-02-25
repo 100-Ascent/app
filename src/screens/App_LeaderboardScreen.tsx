@@ -312,7 +312,7 @@ navigation.setOptions({
     return myData;
   }
 
-return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
+return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
   <>
   <LeagueListCard data={leagueData} />
   <FlatList

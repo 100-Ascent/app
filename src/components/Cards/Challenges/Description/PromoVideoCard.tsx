@@ -14,7 +14,7 @@ export default PromoVideoCard;
 
 const styles = StyleSheet.create({
     container: {
-        elevation: 1,
+        elevation: 3,
         borderRadius: 10,
         marginHorizontal: 20,
         backgroundColor: Colors.TEXT,

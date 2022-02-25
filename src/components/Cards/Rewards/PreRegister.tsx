@@ -44,7 +44,7 @@ export default PreRegister;
 const styles = StyleSheet.create({
   container: {
     marginHorizontal: 20,
-    elevation: 1,
+    elevation: 3,
     borderRadius: 10,
     paddingHorizontal: 10,
     backgroundColor: '#FFF',
