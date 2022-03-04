@@ -1,38 +1,37 @@
-import React, { useState, useEffect } from 'react';
+import { ACTIVITY_LIST, ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
 import {
-  View,
-  Platform,
-  TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
+  StyleSheet,
   Text,
   ToastAndroid,
-  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
+import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import { AppState } from '../redux';
+import Background from '../components/Background/StyledBackground';
+import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
+import { Colors } from '../utils/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
 import FastImage from 'react-native-fast-image';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
-import moment from 'moment';
-import { useDispatch, useSelector } from 'react-redux';
-import { AppState } from '../redux';
-
-import Background from '../components/Background/StyledBackground';
 import RNLoader from '../components/Loader/RNLoader';
-import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
-import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
-import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-import StyledButton from '../components/Button/StyledButton';
-import { RootNavProp } from '../routes/RootStackParamList';
-import { Colors } from '../utils/colors';
-import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
-import Text12Bold from '../components/Text/Text12Bold';
-import { styles } from '../styles/Global/styles';
-import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
-import { ACTIVITY_LIST, ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
-import { SetActivitData } from '../redux/action';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
+import { RootNavProp } from '../routes/RootStackParamList';
+import { SetActivitData } from '../redux/action';
+import StyledButton from '../components/Button/StyledButton';
+import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+import Text12Bold from '../components/Text/Text12Bold';
+import axios from 'axios';
+import moment from 'moment';
+import { styles } from '../styles/Global/styles';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -186,11 +185,11 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     );
   };
 
-  const checkPostButtonState = (selectedChallenges) => {
+  const checkPostButtonState = () => {
     setDisablePost(
       selectedDate === null ||
         selected['id'] === undefined ||
-        distanceTimeData.length === 0 || selectedChallenges === undefined,
+        distanceTimeData.length === 0,
     );
   };
 
@@ -199,8 +198,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     let data = { ...challenges[idx] };
     data.isSelected = !data.isSelected;
     challenges[idx] = data;
-    let selectedChallenges = challenges.find(obj => obj.isSelected );  
-    checkPostButtonState(selectedChallenges);
+    checkPostButtonState();
     setSubscribedChallenge(challenges);    
   }
 

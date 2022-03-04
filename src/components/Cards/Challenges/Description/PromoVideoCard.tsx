@@ -1,6 +1,7 @@
-import React from 'react';
 import {StyleSheet, View} from 'react-native';
+
 import {Colors} from '../../../../utils/colors';
+import React from 'react';
 import YoutubePlayer from 'react-native-youtube-iframe';
 
 const PromoVideoCard = () => {

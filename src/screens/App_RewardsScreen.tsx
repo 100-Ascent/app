@@ -1,23 +1,21 @@
 import React, {useEffect, useRef, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {SafeAreaView, ScrollView, View} from 'react-native';
 
-import BackgroundVector from '../components/Background/BackgroundVector';
+import AllRewards from '../components/Cards/Rewards/AllRewards';
+import {AppState} from '../redux';
 import Background from '../components/Background/StyledBackground';
-import NewRewardPopUp from '../components/PopUps/NewRewardPopUp';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import BackgroundVector from '../components/Background/BackgroundVector';
+import ChallengeNameSubscribeCard from '../components/Cards/Challenges/Description/ChallengeNameSubscribeCard';
 import {Colors} from '../utils/colors';
+import HamperCard from '../components/Cards/Rewards/CustomHamperCard';
+import Icon from 'react-native-elements/dist/icons/Icon';
+import NewRewardPopUp from '../components/PopUps/NewRewardPopUp';
+import PreRegister from '../components/Cards/Rewards/PreRegister';
+import RewardsPopUp from '../components/PopUps/RewardsPopUp';
+import RewardsUnlocked from '../components/Cards/Rewards/RewardsUnlocked';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
-import {AppState} from '../redux';
-import RewardsPopUp from '../components/PopUps/RewardsPopUp';
-import ChallengeNameSubscribeCard from '../components/Cards/Challenges/Description/ChallengeNameSubscribeCard';
-import PreRegister from '../components/Cards/Rewards/PreRegister';
-
-import Icon from 'react-native-elements/dist/icons/Icon';
-import HamperCard from '../components/Cards/Rewards/CustomHamperCard';
-import AllRewards from '../components/Cards/Rewards/AllRewards';
-import RewardsUnlocked from '../components/Cards/Rewards/RewardsUnlocked';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;
@@ -139,10 +137,6 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               <HamperCard />
             </View>
 
-            <View style={{ marginTop: 20 }}>
-              <PreRegister />
-            </View>
-
             <View style={{ marginTop: toUnlockRewardsArray.length > 0 ? 20 : 0 }}>
               {toUnlockRewardsArray.length > 0 ? (
                 <RewardsUnlocked
@@ -171,6 +165,9 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               />
             ) : null}
 
+            <View style={{ marginTop: 20 }}>
+              <PreRegister />
+            </View>
               <NewRewardPopUp
                 visible={visible}
                 onCancel={handleCancel}

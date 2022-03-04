@@ -1,20 +1,20 @@
-import React from 'react';
 import {ToastAndroid, View} from 'react-native';
-import {useNavigation} from '@react-navigation/core';
-import {StackNavigationProp} from '@react-navigation/stack';
-import axios from 'axios';
-import {useSelector} from 'react-redux';
-import {AppState} from '../../redux';
 
-import {RootStackParamList} from '../../routes/RootStackParamList';
-import { USER_ACTIVITY_DATA } from '../../utils/apis/endpoints';
-import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
-import moment from 'moment';
-import Text16Normal from '../Text/Text16Normal';
+import {AppState} from '../../redux';
 import { Colors } from '../../utils/colors';
-import Text16Bold from '../Text/Text16Bold';
-import Text12Bold from '../Text/Text12Bold';
+import DistanceCard from '../Cards/MyChallengeScreen_DistanceCard';
 import EmptyState from '../../../assets/icons/empty_state.svg';
+import React from 'react';
+import {RootStackParamList} from '../../routes/RootStackParamList';
+import {StackNavigationProp} from '@react-navigation/stack';
+import Text12Bold from '../Text/Text12Bold';
+import Text16Bold from '../Text/Text16Bold';
+import Text16Normal from '../Text/Text16Normal';
+import { USER_ACTIVITY_DATA } from '../../utils/apis/endpoints';
+import axios from 'axios';
+import moment from 'moment';
+import {useNavigation} from '@react-navigation/core';
+import {useSelector} from 'react-redux';
 
 interface Props {
   distanceData?: any;
@@ -107,11 +107,11 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   });
   
   return (
-    <View style={{marginTop: 20}}>
+    <View style={{ }}>
       {distanceData.length > 0 ? (
         showAllActivities ? cardWithHeader : card
       ) : 
-          <View style={{marginTop: 10, display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
+          <View style={{ display: 'flex', alignItems: 'center', justifyContent: 'center'}}>
             <EmptyState />
             <Text16Bold text={'No Activity Found!'} textColor={Colors.TEXTDARK} textStyle={{marginTop: -30}} />
             <Text12Bold text={'Click on + icon to add your first activity'} textColor={'grey'} />

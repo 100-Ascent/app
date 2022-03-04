@@ -1,13 +1,14 @@
-import React from 'react'
 import { StyleSheet, View } from 'react-native';
-import Text28 from '../../Text/Text28';
+
+import CityCarousal from '../../Carousals/CityCarousal';
+import { Colors } from '../../../utils/colors';
+import DoubleDistanceIcon from '../../../../assets/icons/double-distance-icon.svg';
+import { FONTS } from '../../../utils/constants/fonts';
+import MileStoneIcon from '../../../../assets/icons/milestone-icon.svg';
+import React from 'react'
 import Text14 from '../../Text/Text14';
 import Text20 from '../../Text/Text20';
-import CityCarousal from '../../Carousals/CityCarousal';
-import MileStoneIcon from '../../../../assets/icons/milestone-icon.svg';
-import DoubleDistanceIcon from '../../../../assets/icons/double-distance-icon.svg';
-import { Colors } from '../../../utils/colors';
-import { FONTS } from '../../../utils/constants/fonts';
+import Text28 from '../../Text/Text28';
 
 interface Props{
     cities: any;
@@ -37,7 +38,7 @@ return <View>
               <Text14
                 text={'Milestones'} 
                 textColor={Colors.TEXTDARK} 
-                containerStyle={{ marginLeft: 5, justifyContent: "flex-end", paddingBottom: 5 }}
+                containerStyle={{ marginLeft: 5, justifyContent: "flex-end", paddingBottom: 3 }}
               />
           </View>
           <View style={styles.challengeData}>
@@ -52,7 +53,7 @@ return <View>
               <Text14
                 text={'km'} 
                 textColor={Colors.TEXTDARK} 
-                containerStyle={{ marginLeft: 5, justifyContent: "flex-end", paddingBottom: 5 }}
+                containerStyle={{ marginLeft: 5, justifyContent: "flex-end", paddingBottom: 3 }}
               />
           </View>
         </View>

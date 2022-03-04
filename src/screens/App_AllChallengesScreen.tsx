@@ -1,28 +1,26 @@
+import { CHALLENGE_DATA, SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
 import React, {useEffect, useState} from 'react';
 import {SafeAreaView, View} from 'react-native';
 
+import ActiveChallengeCard from '../components/Cards/Challenges/ActiveChallenge';
 import {AppState} from '../redux';
-import axios from 'axios';
-import {ScrollView} from 'react-native-gesture-handler';
-import {useSelector} from 'react-redux';
-
 import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
-import ActiveChallengeCard from '../components/Cards/Challenges/ActiveChallenge';
 import ChallengeCardCarousal from '../components/Carousals/ChallengeCardCarousal';
-import CompletedChallenge from '../components/Cards/Challenges/CompletedChallenge';
-import NoActiveChallengeCard from '../components/Cards/Challenges/NoActiveChallengeCard';
-import Text20 from '../components/Text/Text20';
-
-import {RootNavProp} from '../routes/RootStackParamList';
 import {Colors} from '../utils/colors';
-import {WIDTH} from '../utils/constants/constants';
+import CompletedChallenge from '../components/Cards/Challenges/CompletedChallenge';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
-import {useIsFocused} from '@react-navigation/native';
 import {NavigationDrawerStructure} from '../routes/AppStack';
+import NoActiveChallengeCard from '../components/Cards/Challenges/NoActiveChallengeCard';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import {RootNavProp} from '../routes/RootStackParamList';
+import {ScrollView} from 'react-native-gesture-handler';
 import SubscribeToChallengeIcon from '../../assets/modal-icons/notification-icon.svg';
-import { CHALLENGE_DATA, SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
+import Text20 from '../components/Text/Text20';
+import {WIDTH} from '../utils/constants/constants';
+import axios from 'axios';
+import {useIsFocused} from '@react-navigation/native';
+import {useSelector} from 'react-redux';
 
 const width = WIDTH-30;
 
@@ -57,7 +55,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
           });
         } else {
           navigation.setOptions({
-            headerTitle: 'Challenges',
+            headerTitle: 'The Journey',
             headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
             headerTitleContainerStyle: {alignItems: 'center'},
             headerRight: () => <View style={{marginRight: 0}} />,
@@ -132,22 +130,14 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                     onPress={onChallengePress}
                     handleSubscribe={handleSubscribedPressed}
                   /> : null
+              }              
+              {  showActiveChallengeCard ? 
+                  <View style={{marginTop: 30}}>                
+                    <Text20 text="Active Journeys" textColor={Colors.TEXTDARK} containerStyle={{paddingLeft: 20}} />              
+                    <ActiveChallengeCard  data={activeChallenge}  onPress={handleActiveChallengePressed}  />              
+                  </View> : <NoActiveChallengeCard /> 
               }
-              <View style={{marginTop: 30}}>
-                <Text20
-                  text="Active Challenges"
-                  textColor={Colors.TEXTDARK}
-                  containerStyle={{paddingLeft: 20}}
-                />
-                { 
-                  showActiveChallengeCard ? 
-                    <ActiveChallengeCard 
-                      data={activeChallenge} 
-                      onPress={handleActiveChallengePressed} 
-                      /> : 
-                    <NoActiveChallengeCard /> 
-                }
-                <View style={{padding: 30}} />
+              <View style={{padding: 30}} />
                 {
                   showCompletedChallengeCard ?
                   <CompletedChallenge
@@ -155,7 +145,6 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                     onPress={onChallengePress}
                   /> : <View /> 
                 }
-              </View>
             </View>
 
             <View style={{margin: 70}} />

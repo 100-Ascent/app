@@ -1,9 +1,10 @@
-import React from 'react';
 import {Image, ScrollView, TouchableOpacity} from 'react-native';
-import {View} from 'react-native';
-import FastImage from 'react-native-fast-image';
+
 import {Colors} from '../../utils/colors';
+import FastImage from 'react-native-fast-image';
+import React from 'react';
 import Text14 from '../Text/Text14';
+import {View} from 'react-native';
 
 const RewardsCarousal = ({data, onPress}) => {
   const rewards = data.map((val, idx) => {
@@ -19,7 +20,7 @@ const RewardsCarousal = ({data, onPress}) => {
               alignItems: 'center',
               marginHorizontal: 10,
               marginVertical: 5,
-              opacity: val.is_passed ? 1 : 0.15,
+              opacity: val.is_passed ? 1 : 0.50,
             }}>
             <FastImage
               style={{
@@ -55,7 +56,7 @@ const RewardsCarousal = ({data, onPress}) => {
                 textColor={Colors.BLACK4}
                 textStyle={{
                   textAlign: 'center',
-                  opacity: val.is_passed ? 1 : 0.35,
+                  opacity: val.is_passed ? 1 : 0.60,
                 }}
               />
             </View>

@@ -1,13 +1,13 @@
-import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
-import {Colors} from '../../../utils/colors';
-import StyledButton from '../../Button/StyledButton';
 
-import Text24 from '../../Text/Text24';
-import FastImage from 'react-native-fast-image';
-import { SUBSCRIBE } from '../../../utils/constants/constants';
 import ChallengeDistanceMilestoneCity from './ChallengeDistanceMilestoneCity';
+import {Colors} from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
+import FastImage from 'react-native-fast-image';
+import React from 'react';
+import { SUBSCRIBE } from '../../../utils/constants/constants';
+import StyledButton from '../../Button/StyledButton';
+import Text24 from '../../Text/Text24';
 
 interface Props {
   data: any;
@@ -79,13 +79,13 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   nameContainer: { 
-    width: '50%', 
+    width: '60%',
     flexDirection: 'column', 
     paddingHorizontal: 20, 
-    paddingTop: 20 
+    paddingTop: 20
   },
   buttonContainer: { 
-    marginTop: 10 
+    marginTop: 10
   },
   challengeData: {
     width: "50%", 

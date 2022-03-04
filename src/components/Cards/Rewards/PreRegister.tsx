@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
-import {View, TextInput, StyleSheet} from 'react-native';
+import {StyleSheet, TextInput, View} from 'react-native';
 
 import {Colors} from '../../../utils/colors';
-import Text16Normal from '../../Text/Text16Normal';
-import StyledButton from '../../Button/StyledButton';
 import { FONTS } from '../../../utils/constants/fonts';
+import StyledButton from '../../Button/StyledButton';
+import Text16Normal from '../../Text/Text16Normal';
 
 const PreRegister = () => {
   const [email, setEmail] = useState('');
@@ -31,7 +31,7 @@ const PreRegister = () => {
               />
             </View>
             <View style={styles.buttonContainer}>
-              <StyledButton text="SUBMIT" onPress={() => submitHandler()} buttonStyle={{ paddingVertical: 7 }} />
+              <StyledButton text="SUBMIT" onPress={() => submitHandler()} buttonStyle={{ paddingVertical: 8 }} />
             </View>
           </View>
       </View>
@@ -68,7 +68,8 @@ const styles = StyleSheet.create({
     borderColor: Colors.BLACK3,
     borderRadius: 10,
     color: Colors.TEXTDARK,
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     fontSize: 16,
   },
   buttonContainer: {

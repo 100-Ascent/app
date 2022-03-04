@@ -1,29 +1,27 @@
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {View, SafeAreaView} from 'react-native';
-
-import LinearGradient from 'react-native-linear-gradient';
-import {ScrollView} from 'react-native-gesture-handler';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import {SafeAreaView, View} from 'react-native';
+import {setCurrentValues, setJourneyIndex} from '../redux/action';
 import {useDispatch, useSelector} from 'react-redux';
-import {AppState} from '../redux';
 
+import {AMSTERDAM} from '../utils/constants/versions';
+import {AppState} from '../redux';
 import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
-import RNLoader from '../components/Loader/RNLoader';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import {Colors} from '../utils/colors';
-import {setCurrentValues, setJourneyIndex} from '../redux/action';
-import FloatingActionButton from '../components/Button/FloatingActionButton';
-import {AMSTERDAM} from '../utils/constants/versions';
 import ChallengeNameWithIconCard from '../components/Cards/Challenges/MyChallenges/ChallengeNameWithIconCard';
-import StatsCard from '../components/Cards/StatsCard';
-import ProgressBar from '../components/ProgressBar/ProgressBar';
-import RewardsCard from '../components/Cards/Rewards/RewardsCard';
 import CheckpointCard from '../components/Cards/Challenges/MyChallenges/CheckpointCard';
-import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
+import {Colors} from '../utils/colors';
+import FloatingActionButton from '../components/Button/FloatingActionButton';
+import LinearGradient from 'react-native-linear-gradient';
 import { NavigationDrawerStructure } from '../routes/AppStack';
+import ProgressBar from '../components/ProgressBar/ProgressBar';
+import RNLoader from '../components/Loader/RNLoader';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import RewardsCard from '../components/Cards/Rewards/RewardsCard';
+import {ScrollView} from 'react-native-gesture-handler';
+import StatsCard from '../components/Cards/StatsCard';
+import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
+import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
 
 interface Props {
@@ -114,7 +112,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
 
   useEffect(() => {
     navigation.setOptions({
-      headerTitle: 'My Challenge',
+      headerTitle: 'My Journey',
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerTitleContainerStyle: {alignItems: 'center'},
       headerRight: () => <View style={{marginRight: 0}} />,

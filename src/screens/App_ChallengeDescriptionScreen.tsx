@@ -1,33 +1,31 @@
 import React, {useEffect, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
 
-import axios from 'axios';
-import {useSelector} from 'react-redux';
+import AboutChallengeCard from '../components/Cards/Challenges/Description/AboutChallengeCard';
+import AdditionalRewardsCard from '../components/Cards/Challenges/Description/AdditionalRewardsCard';
 import {AppState} from '../redux';
-
 import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
-import ChallengeNameSubscribeCard from '../components/Cards/Challenges/Description/ChallengeNameSubscribeCard';
-import CustomSwitch from '../components/SwitchComponent/CustomSwitch';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import {Colors} from '../utils/colors';
-import CustomPopUp from '../components/PopUps/CustomPopUp';
-import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
-import ChallengeDistanceMilestoneCity from '../components/Cards/Challenges/ChallengeDistanceMilestoneCity';
-import PromoVideoCard from '../components/Cards/Challenges/Description/PromoVideoCard';
 import ChallengeDescriptionCard from '../components/Cards/Challenges/Description/ChallengeDescriptionCard';
-import RoadMapCard from '../components/Cards/Challenges/Description/RoadMap';
-import AboutChallengeCard from '../components/Cards/Challenges/Description/AboutChallengeCard';
+import ChallengeDistanceMilestoneCity from '../components/Cards/Challenges/ChallengeDistanceMilestoneCity';
+import ChallengeNameSubscribeCard from '../components/Cards/Challenges/Description/ChallengeNameSubscribeCard';
+import {Colors} from '../utils/colors';
 import CommonCard from '../components/Cards/Challenges/Description/CommonCard';
-import AdditionalRewardsCard from '../components/Cards/Challenges/Description/AdditionalRewardsCard';
-import PreRegister from '../components/Cards/Rewards/PreRegister';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import CustomSwitch from '../components/SwitchComponent/CustomSwitch';
 import Icon from 'react-native-elements/dist/icons/Icon';
+import PreRegister from '../components/Cards/Rewards/PreRegister';
+import PromoVideoCard from '../components/Cards/Challenges/Description/PromoVideoCard';
+import RNFS from 'react-native-fs';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import RoadMapCard from '../components/Cards/Challenges/Description/RoadMap';
 import { SUBSCRIBE_CHALLENGE } from '../utils/apis/endpoints';
+import Share from 'react-native-share';
 import SubscribeToChallenge from '../../assets/modal-icons/notification-icon.svg';
 import ViewShot from 'react-native-view-shot';
-import RNFS from 'react-native-fs';
-import Share from 'react-native-share';
+import axios from 'axios';
+import {useSelector} from 'react-redux';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -112,7 +110,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
 
   useEffect(()=>{
     navigation.setOptions({
-      headerTitle: 'Challenge Description',
+      headerTitle: 'Journey Description',
       headerTitleContainerStyle: {alignItems: 'center'},
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
       headerRight: () => <View style={{marginRight: 0 }}/>,
@@ -135,10 +133,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
       {loading ? <RNLoaderSimple /> : 
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}}>
-        <ViewShot
-          style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
-          ref={ref}
-          options={{format: 'jpg', quality: 0.9}}>
+        
           <View style={{flex: 1 }}>
             <BackgroundVector />
             
@@ -158,11 +153,16 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
             <CustomSwitch currentTab={currentTab} onPress={handleSwitch} />
             
             {currentTab === 0 ? (
-              <>                              
-                <View style={styles.cityMilestoneCard}> 
+              <>         
+                                    
+                <ViewShot
+                  style={{ backgroundColor: Colors.TEXT, borderRadius: 10, marginHorizontal: 20, marginTop: 20 }}
+                  ref={ref}
+                  options={{format: 'jpg', quality: 0.9}}>    
+                  <View style={styles.cityMilestoneCard}>            
                   <ChallengeDistanceMilestoneCity  cities={data.cities} distance={data.distance} milestones={data.milestones} />
                 </View>
-
+                </ViewShot>
                 <View style={{ marginTop: 20 }} >
                   <PromoVideoCard />
                 </View>
@@ -218,7 +218,6 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               onSharePress={onShare}
             />
           </View>
-          </ViewShot>
           <View style={{padding: 70}}/>
           
           <CustomPopUp
@@ -246,8 +245,8 @@ export default ChallengeDescriptionScreen;
 
 const styles = StyleSheet.create({
   cityMilestoneCard: { 
-    marginTop: 20,
-    marginHorizontal: 20,
+    // marginTop: 20,
+    // marginHorizontal: 20,
     paddingHorizontal: 10,
     paddingTop: 20, 
     paddingBottom: 0,

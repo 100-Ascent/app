@@ -1,6 +1,7 @@
-import React from 'react';
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
+
 import {Colors} from '../../utils/colors';
+import React from 'react';
 import Text16Normal from '../Text/Text16Normal';
 
 const CustomSwitch = ({currentTab, onPress}) => {
@@ -13,12 +14,8 @@ const CustomSwitch = ({currentTab, onPress}) => {
             <TouchableOpacity onPress={onPress}>
                 <Text16Normal
                   text={val}
-                  textColor={currentTab === idx ? Colors.TEXT : Colors.TEXTDARK}
-                  containerStyle={[ styles.tab, {
-                    backgroundColor: currentTab === idx ? 
-                      Colors.CARDS_COLOR1 : Colors.TRANSPARENT 
-                    }]
-                  }
+                  textColor={ Colors.TEXTDARK}
+                  containerStyle={[ styles.tab, { borderTopWidth: currentTab === idx ?  2 : 0 }] }
                 />
             </TouchableOpacity>
           </View>
@@ -40,5 +37,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     paddingVertical: 10,
+    borderTopStartRadius: 0,
+    borderTopEndRadius: 0,
   }
 })
