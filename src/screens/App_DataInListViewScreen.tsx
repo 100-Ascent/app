@@ -1,17 +1,18 @@
-import { useIsFocused } from '@react-navigation/native';
-import axios from 'axios';
 import React, {useEffect, useState} from 'react';
-import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
-import { isIOS } from 'react-native-elements/dist/helpers';
-import Icon from 'react-native-elements/dist/icons/Icon';
-import { useSelector } from 'react-redux';
-import Background from '../components/Background/StyledBackground';
-import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
-import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
-import { AppState } from '../redux';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import { USER_ACTIVITY_DATA } from '../utils/apis/endpoints';
+import {SafeAreaView, ScrollView, StyleSheet, View} from 'react-native';
+
+import { AppState } from '../redux';
+import Background from '../components/Background/StyledBackground';
 import {Colors} from '../utils/colors';
+import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
+import Icon from 'react-native-elements/dist/icons/Icon';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import { USER_ACTIVITY_DATA } from '../utils/apis/endpoints';
+import axios from 'axios';
+import { isIOS } from 'react-native-elements/dist/helpers';
+import { useIsFocused } from '@react-navigation/native';
+import { useSelector } from 'react-redux';
 
 interface Props {
   navigation: RootNavProp<'DataInListViewScreen'>;
@@ -78,7 +79,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
           scrollEnabled
           style={{flexGrow: 1}}
           contentContainerStyle={{flexGrow: 1}}>
-          <View style={{flex: 1, paddingHorizontal: 15}}>
+          <View style={{flex: 1, paddingHorizontal: 15, marginTop: 10 }}>
             <View style={[{marginHorizontal: 10}, isIOS ? styles.shadow: {}]}>
               <DistanceComponent
                 showAllActivities={true}

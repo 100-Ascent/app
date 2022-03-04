@@ -1,13 +1,14 @@
-import React from 'react';
-import {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
-import {View, StyleSheet, ScrollView} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import FastImage from 'react-native-fast-image';
+import {ScrollView, StyleSheet, View} from 'react-native';
+
 import {Colors} from '../../utils/colors';
+import FastImage from 'react-native-fast-image';
 import FunFactCard from '../Cards/Challenges/MyChallenges/FunFactCard';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import React from 'react';
 import RewardsPopUp from '../PopUps/RewardsPopUp';
 import Text14 from '../Text/Text14';
+import {TouchableOpacity} from 'react-native';
+import {useState} from 'react';
 
 const JourneySliderComponent = ({
   colorArray,
@@ -29,17 +30,12 @@ const JourneySliderComponent = ({
 
   let cards = (
     <View style={{flexDirection: 'row', paddingTop: 30}}>
-      {data.map((item, ii) => {
+      {data.map((item, idx) => {
         return (
-          <View style={[styles.card, {flex: 1, flexDirection: 'row'}]} key={ii}>
+          <View style={[styles.card, {flex: 1, flexDirection: 'row'}]} key={idx}>
             <View style={{flex: 1}} />
             <View style={{flex: 2, alignItems: 'center'}}>
-              <View
-                style={{
-                  flex: 1,
-                  paddingHorizontal: 20,
-                }}
-                >
+              <View style={{ flex: 1, paddingHorizontal: 20 }} >
                 <TouchableOpacity
                   disabled={item.order > journeyIndex}
                   activeOpacity={item.order <= journeyIndex ? 1 : 0.5}
@@ -86,7 +82,7 @@ const JourneySliderComponent = ({
                 // marginTop: 10,
                 paddingTop: 30,
               }}>
-              {ii !== data.length - 1 ? (
+              {idx !== data.length - 1 ? (
                 <Icon
                   name="arrow-long-right"
                   type="entypo"

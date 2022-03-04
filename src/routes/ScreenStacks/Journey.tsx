@@ -1,15 +1,15 @@
-import React from 'react';
-
-import {createStackNavigator} from '@react-navigation/stack';
-import {Colors} from '../../utils/colors';
-import {RootStackParamList} from '../RootStackParamList';
-import JourneyScreen from '../../screens/App_AllChallengesScreen';
 import ChallengeDescriptionScreen from '../../screens/App_ChallengeDescriptionScreen';
-import MyChallengeScreen from '../../screens/App_MyChallengeScreen';
 import CheckpointMilestoneScreen from '../../screens/App_CheckpointMilestoneScreen';
-import RewardsScreen from '../../screens/App_RewardsScreen';
-import MediaScreen from '../../screens/App_MediaScreen';
+import {Colors} from '../../utils/colors';
+import DataInListViewScreen from '../../screens/App_DataInListViewScreen';
 import EditActivityScreen from '../../screens/App_EditActivityScreen';
+import JourneyScreen from '../../screens/App_AllChallengesScreen';
+import MediaScreen from '../../screens/App_MediaScreen';
+import MyChallengeScreen from '../../screens/App_MyChallengeScreen';
+import React from 'react';
+import RewardsScreen from '../../screens/App_RewardsScreen';
+import {RootStackParamList} from '../RootStackParamList';
+import {createStackNavigator} from '@react-navigation/stack';
 
 const JourneyStack = createStackNavigator<RootStackParamList>();
 
@@ -104,6 +104,20 @@ const Journey = ({navigation}) => {
       <JourneyStack.Screen
         name={'EditActivityScreen'}
         component={EditActivityScreen}
+        options={({route}) => ({
+          headerLeft: null,
+          headerTitle: null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <JourneyStack.Screen
+        name={'DataInListViewScreen'}
+        component={DataInListViewScreen}
         options={({route}) => ({
           headerLeft: null,
           headerTitle: null,

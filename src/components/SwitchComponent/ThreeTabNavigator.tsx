@@ -1,15 +1,17 @@
-import { useNavigation } from '@react-navigation/native';
 import React, {useEffect} from 'react';
-import {useState} from 'react';
-import {TouchableOpacity, View} from 'react-native';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
+
 import {Colors} from '../../utils/colors';
-import {RINGCOLORS} from '../../utils/constants/constants';
+import DistanceComponent from '../DistanceComponent/DistanceComponent';
 import { FONTS } from '../../utils/constants/fonts';
 import FunFactCard from '../Cards/Challenges/MyChallenges/FunFactCard';
-import KlicksToGoCard from '../Cards/Challenges/MyChallenges/KlicksToGoCard';
-import DistanceComponent from '../DistanceComponent/DistanceComponent';
 import JourneySliderComponent from '../JourneySlider/JourneySlider';
+import KlicksToGoCard from '../Cards/Challenges/MyChallenges/KlicksToGoCard';
+import {RINGCOLORS} from '../../utils/constants/constants';
 import Text14 from '../Text/Text14';
+import Text16Bold from '../Text/Text16Bold';
+import { useNavigation } from '@react-navigation/native';
+import {useState} from 'react';
 
 const TabView = ({children, onPress, isActive}) => {
   return (
@@ -84,8 +86,15 @@ const ThreeTabNavigator = ({
             <View style={{ marginHorizontal: 20 }}>
               <DistanceComponent 
                 handleEditActivity={ (data) => navigation.navigate('EditActivityScreen', { data: data.uad }) } 
-                distanceData={distanceData} 
+                distanceData={distanceData.length > 3 ? distanceData.slice(0,3) : distanceData } 
                 callToGetUserActivityData={callToGetChallengeDataFromId}/>
+                { 
+                  distanceData.length > 3 ? <View style={styles.seeAllActivities}>
+                    <TouchableOpacity onPress={()=> navigation.navigate('DataInListViewScreen', { data: distanceData }) }>
+                      <Text16Bold text="See All Activities" textColor={Colors.TEXTDARK} textStyle={{textDecorationLine: 'underline'}} />
+                    </TouchableOpacity>
+                  </View> : null
+                }
             </View>
             <KlicksToGoCard distance={distance} />
             <View style={{padding: 10}} />
@@ -146,3 +155,12 @@ const ThreeTabNavigator = ({
 };
 
 export default ThreeTabNavigator;
+
+const styles = StyleSheet.create({
+  seeAllActivities: {
+    flex: 1, 
+    alignItems: 'flex-end', 
+    marginRight: 15, 
+    marginTop: 20 
+  }
+})
