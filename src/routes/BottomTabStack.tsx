@@ -1,5 +1,6 @@
 import {Animated, Keyboard, View} from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
+import { getFocusedRouteNameFromRoute, useIsFocused } from '@react-navigation/native';
 
 import Activity from './ScreenStacks/Activity';
 import AddActivityScreen from '../screens/App_AddActivityScreen';
@@ -8,19 +9,18 @@ import CustomTabBarButton from '../components/Button/CustomTabBarButton';
 import Fitness from './ScreenStacks/Fitness';
 import Home from './ScreenStacks/Home';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Journey from './ScreenStacks/Journey';
 import Leaderboard from './ScreenStacks/Leaderboard';
 import PostActivity from './ScreenStacks/PostActivity';
 import Profile from './ScreenStacks/Profile';
 import {RootStackParamList} from './RootStackParamList';
 import {WIDTH} from '../utils/constants/constants';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import { getFocusedRouteNameFromRoute } from '@react-navigation/native';
 import { isIOS } from 'react-native-elements/dist/helpers';
-import Journey from './ScreenStacks/Journey';
 
 const Tab = createBottomTabNavigator<RootStackParamList>();
 
-const BottomTabStack = ({navigation, route}) => {
+const BottomTabStack = ({navigation}) => {
   
   const getWidth = () => {
     let width = WIDTH - 20;
@@ -30,19 +30,19 @@ const BottomTabStack = ({navigation, route}) => {
     
   const tabOffsetValue = useRef(new Animated.Value(getWidth() * 0)).current;
 
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
+  const [isTabBarVisible, setTabBarVisibility] = useState(true);
 
  useEffect(() => {
     const keyboardDidShowListener = Keyboard.addListener(
       'keyboardDidShow',
       () => {
-        setKeyboardVisible(true); // or some other action
+        setTabBarVisibility(false); // or some other action
       }
     );
     const keyboardDidHideListener = Keyboard.addListener(
       'keyboardDidHide',
       () => {
-        setKeyboardVisible(false); // or some other action
+        setTabBarVisibility(true); // or some other action
       }
     );
 
@@ -51,18 +51,18 @@ const BottomTabStack = ({navigation, route}) => {
       keyboardDidShowListener.remove();
     };
   }, []);
-
+  
   return (
     <>
       <Tab.Navigator
         initialRouteName="HomeScreen"
         tabBarOptions={{
-          keyboardHidesTabBar: isKeyboardVisible,
+          keyboardHidesTabBar: !isTabBarVisible,
           showLabel: false,
           style: {
             backgroundColor: Colors.WHITE,
             position: 'absolute',
-            bottom: isKeyboardVisible ? 0 : 15,
+            bottom: isTabBarVisible ? 15 : 0,
             marginHorizontal: 10,
 
             height: 60,
@@ -93,7 +93,7 @@ const BottomTabStack = ({navigation, route}) => {
                   color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />
               </View>
-            ),
+            ),            
           }}
           listeners={({navigation, route}) => ({
             // Onpress Update....
@@ -114,7 +114,7 @@ const BottomTabStack = ({navigation, route}) => {
         <Tab.Screen
           name="JourneyScreen"
           component={Journey}
-          options={{
+          options={({ route }) => ({
             tabBarLabel: '4',
             unmountOnBlur: true,
             tabBarIcon: ({focused}) => (
@@ -127,9 +127,17 @@ const BottomTabStack = ({navigation, route}) => {
                 />
               </View>
             ),
-          }}
+            tabBarVisible: ((route) => {
+                const routeName = getFocusedRouteNameFromRoute(route) ?? "";  
+                if(routeName === "PaymentScreen"){
+                  setTabBarVisibility(false);
+                  return false;
+                }              
+                setTabBarVisibility(true);
+                return true;  
+            })(route),
+          })}
           listeners={({navigation, route}) => ({
-            // Onpress Update....
             focus: e => {
               Animated.spring(tabOffsetValue, {
                 toValue: getWidth(),
@@ -196,7 +204,7 @@ const BottomTabStack = ({navigation, route}) => {
             tabBarButton: props => (
               <CustomTabBarButton
                 onPress={() => navigation.navigate('AddActivityScreen')}
-                isKeyboardVisible = {isKeyboardVisible}
+                showTabBarButton = {isTabBarVisible}
                 {...props}
               />
             ),
@@ -291,9 +299,9 @@ const BottomTabStack = ({navigation, route}) => {
         style={{
           width: getWidth() - 20,
           height: 2,
-          backgroundColor: isKeyboardVisible ? Colors.TRANSPARENT : Colors.POPUP_RED,
+          backgroundColor: isTabBarVisible ? Colors.POPUP_RED : Colors.TRANSPARENT,
           position: 'absolute',
-          bottom: isKeyboardVisible ? 0 : 75,
+          bottom: isTabBarVisible ? 75 : 0,
           left: 25,
           borderRadius: 20,
           transform: [{translateX: tabOffsetValue}],

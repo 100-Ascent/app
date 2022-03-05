@@ -1,12 +1,19 @@
+import React, { FC } from 'react';
 import {TouchableOpacity, View} from 'react-native';
 
 import {Colors} from '../../../../utils/colors';
 import FastImage from 'react-native-fast-image';
-import React from 'react';
 import Text16Underline from '../../../Text/Text16Underline';
 import Text28 from '../../../Text/Text28';
 
-const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
+interface Props {
+  name: string;
+  icon: any;
+  onViewDetailsPressed?: ()=>void,
+  showViewDetails?: boolean;
+}
+
+const ChallengeNameWithIconCard: FC<Props> = ({name, icon, onViewDetailsPressed, showViewDetails = true}) => {
   return (
     <View style={{ marginHorizontal: 20, marginTop: 10, flexDirection: 'row'}}>
       <View
@@ -32,9 +39,9 @@ const ChallengeNameWithIconCard = ({name, icon, onViewDetailsPressed}) => {
         </View>
         <View style={{flex: 1, justifyContent: 'center'}}>
           <TouchableOpacity onPress={onViewDetailsPressed}>
-            <Text16Underline text="View Details" textColor={Colors.INFO_GREY} />
+          { showViewDetails ? <Text16Underline text="View Details" textColor={Colors.INFO_GREY} />: null}
           </TouchableOpacity>
-        </View>
+        </View> 
       </View>
     </View>
   );

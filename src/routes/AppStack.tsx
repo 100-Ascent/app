@@ -1,28 +1,27 @@
-import React, {useEffect, useState} from 'react';
-import {createStackNavigator} from '@react-navigation/stack';
 import {
-  createDrawerNavigator,
   DrawerContentScrollView,
   DrawerItem,
+  createDrawerNavigator,
 } from '@react-navigation/drawer';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {Colors} from '../utils/colors';
-import {View, StyleSheet, TouchableOpacity} from 'react-native';
-import Animated from 'react-native-reanimated';
-import {RootStackParamList} from './RootStackParamList';
-import auth from '@react-native-firebase/auth';
-import MenuIcon from '../../assets/icons/menu.svg';
-import Text24 from '../components/Text/Text24';
+import React, {useEffect, useState} from 'react';
+import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
-import AllChallenges from './ScreenStacks/Home';
-import Fitness from './ScreenStacks/Fitness';
-import { useSelector } from 'react-redux';
+import Animated from 'react-native-reanimated';
 import { AppState } from '../redux';
-import axios from 'axios';
-import { HEARTBEAT } from '../utils/apis/endpoints';
-import Settings from './ScreenStacks/Settings';
-import Leaderboard from './ScreenStacks/Leaderboard';
 import BottomTabStack from './BottomTabStack';
+import {Colors} from '../utils/colors';
+import Fitness from './ScreenStacks/Fitness';
+import { HEARTBEAT } from '../utils/apis/endpoints';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import Leaderboard from './ScreenStacks/Leaderboard';
+import MenuIcon from '../../assets/icons/menu.svg';
+import {RootStackParamList} from './RootStackParamList';
+import Settings from './ScreenStacks/Settings';
+import Text24 from '../components/Text/Text24';
+import auth from '@react-native-firebase/auth';
+import axios from 'axios';
+import {createStackNavigator} from '@react-navigation/stack';
+import { useSelector } from 'react-redux';
 
 const Stack = createStackNavigator<RootStackParamList>();
 const Drawer = createDrawerNavigator<RootStackParamList>();
@@ -152,22 +151,6 @@ const CustomDrawerContent = ({...rest}) => {
             rest.navigation.closeDrawer();
           }}
         />
-        {/* <DrawerItem
-          icon={({color, size}) => (
-            <Icon
-              name="leaderboard"
-              type="material-icons"
-              color={Colors.WHITE}
-              size={size}
-            />
-          )}
-          label="Leaderboard"
-          labelStyle={{color: Colors.WHITE, fontSize: 16}}
-          onPress={() => {
-            rest.navigation.navigate('LeaderboardStack')
-            rest.navigation.closeDrawer();
-          }}
-        /> */}
       </DrawerContentScrollView>
       <DrawerItem
         icon={({color, size}) => (
@@ -247,9 +230,9 @@ const AppStack = () => {
         {props => <SettingsStack {...props} style={animatedStyle} />}
       </Drawer.Screen>
 
-      <Drawer.Screen name="LeaderboardStack">
+      {/* <Drawer.Screen name="LeaderboardStack">
         {props => <LeaderboardStack {...props} style={animatedStyle} />}
-      </Drawer.Screen>
+      </Drawer.Screen> */}
       
     </Drawer.Navigator>
   );

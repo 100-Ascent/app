@@ -6,6 +6,7 @@ import EditActivityScreen from '../../screens/App_EditActivityScreen';
 import JourneyScreen from '../../screens/App_AllChallengesScreen';
 import MediaScreen from '../../screens/App_MediaScreen';
 import MyChallengeScreen from '../../screens/App_MyChallengeScreen';
+import PaymentScreen from '../../screens/App_PaymentScreen';
 import React from 'react';
 import RewardsScreen from '../../screens/App_RewardsScreen';
 import {RootStackParamList} from '../RootStackParamList';
@@ -13,8 +14,7 @@ import {createStackNavigator} from '@react-navigation/stack';
 
 const JourneyStack = createStackNavigator<RootStackParamList>();
 
-const Journey = ({navigation}) => {
-
+const Journey = ({navigation }) => {
   return (
     <JourneyStack.Navigator
       initialRouteName="JourneyScreen"
@@ -118,6 +118,20 @@ const Journey = ({navigation}) => {
       <JourneyStack.Screen
         name={'DataInListViewScreen'}
         component={DataInListViewScreen}
+        options={({route}) => ({
+          headerLeft: null,
+          headerTitle: null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <JourneyStack.Screen
+        name={'PaymentScreen'}
+        component={PaymentScreen}
         options={({route}) => ({
           headerLeft: null,
           headerTitle: null,

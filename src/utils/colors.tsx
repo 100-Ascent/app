@@ -49,6 +49,6 @@ export const Colors = {
   POPUP_GREY: '#575757',
 
   GREY_LIGHT: '#ECECEC',
-
+  INFO_GREY_LIGHT: "#EFF0F3",
   BUTTON_DARK: '#111426',
 };

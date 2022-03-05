@@ -15,6 +15,9 @@ import {BASEURL} from '../utils/constants/constants';
 import Background from '../components/Background/StyledBackground';
 import Checkbox from '../components/Checkbox/Checkbox';
 import {Colors} from '../utils/colors';
+import CustomPopUp from '../components/PopUps/CustomPopUp';
+import DeleteModalIcon from '../../assets/modal-icons/delete-modal-icon.svg';
+import {DeviceEventEmitter} from "react-native"
 import EditProfileInput from '../components/Input/EditProfileInput';
 import FastImage from 'react-native-fast-image';
 import Icon from 'react-native-elements/dist/icons/Icon';
@@ -30,9 +33,7 @@ import axios from 'axios';
 import moment from 'moment';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import {useSelector} from 'react-redux';
-import {DeviceEventEmitter} from "react-native"
-import CustomPopUp from '../components/PopUps/CustomPopUp';
-import DeleteModalIcon from '../../assets/modal-icons/delete-modal-icon.svg';
+
 interface Props {
   navigation: RootNavProp<'EditMyProfileScreen'>;
   route: RootNavRouteProps<'EditMyProfileScreen'>;

@@ -1,6 +1,7 @@
-import React from 'react';
 import {Text, View, ViewStyle} from 'react-native';
+
 import { Colors } from '../../utils/colors';
+import React from 'react';
 
 interface Props {
   text: string;
@@ -17,7 +18,6 @@ const Text14: React.FC<Props> = ({text, textColor = Colors.TEXTDARK, textStyle, 
           {
             fontSize: 14,
             color: textColor,
-            textAlign: 'left',
             fontFamily: 'Quicksand-Light',
           },
           textStyle,
