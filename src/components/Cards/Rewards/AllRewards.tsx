@@ -1,11 +1,12 @@
-import React from 'react';
-import {View} from 'react-native';
-import FastImage from 'react-native-fast-image';
-import {TouchableOpacity} from 'react-native-gesture-handler';
 import {Colors} from '../../../utils/colors';
+import { FONTS } from '../../../utils/constants/fonts';
+import FastImage from 'react-native-fast-image';
 import {NO_REWARDS_TEXT} from '../../../utils/constants/constants';
+import React from 'react';
 import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
+import {TouchableOpacity} from 'react-native-gesture-handler';
+import {View} from 'react-native';
 
 const AllRewards = ({data, isRewardToUnlock, onPress}) => {
   let rewards = [];
@@ -30,37 +31,28 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
 
   return (
     <View
-      style={{
-        flex: 1,
-        marginHorizontal: 20,
-        backgroundColor: Colors.TEXT,
-        borderRadius: 10,
-        elevation: 2,
-        paddingBottom: 5,
-      }}>
-      <View style={{flex: 1, paddingHorizontal: 20, paddingTop: 15}}>
-        <Text16Normal text={'All Rewards'} textColor={Colors.TEXTDARK} />
+      style={{ flex: 1, marginHorizontal: 20, borderRadius: 10, paddingBottom: 5 }}>
+      <View style={{flex: 1, paddingHorizontal: 10, paddingTop: 15}}>
+        <Text16Normal text={'All Rewards'} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
       </View>
       {data.length > 0 ? (
         <View style={{flex: 1, padding: 5}}>
           {rewards.map((row, idx) => {
             return (
-              <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                }}
-                key={idx}>
+              <View style={{ flex: 1, flexDirection: 'row' }} key={idx}>
                 {row.map((val, idx2) => {
                   return val.is_passed && val.is_scratched ? (
                     <View
                       style={{
                         flex: 1,
-                        elevation: val !== '' ? 1 : 0,
-                        backgroundColor: Colors.TEXT,
-                        marginHorizontal: 15,
+                        elevation: val !== '' ? 3 : 0,
+                        backgroundColor: "#FFF",
+                        marginRight: idx2 % 2 ? 0 : 10,
+                        marginLeft: idx2 % 2 ? 10 : 0,              
                         padding: 5,
                         marginTop: 15,
+                        paddingTop: 20,
+                        borderRadius: 10,
                       }}
                       key={idx2}>
                       <View

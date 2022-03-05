@@ -28,10 +28,10 @@ const ProgressBar = ({distance}) => {
           colors={[ "#E06627", "#F0AF46" ]} 
           useAngle angle={60} 
           style={[styles.progress, { width: `${distance}%`, borderBottomRightRadius: isCompleted ? 10 : 0, }]}>
-          {  distance >= 20 ? <Text16Normal text={`${distance} klicks`} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} /> : null }
+          {  distance >= 20 ? <Text14 text={`${distance} klicks`} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} /> : null }
         </LinearGradient>
 
-          { distance < 20 ? <Text14 text={`${distance} klicks`} textColor={Colors.TEXT} containerStyle={{paddingLeft: 10}} /> : null }
+          { distance < 20 ? <Text14 text={`${distance} klicks`} textColor={Colors.TEXT} containerStyle={{paddingLeft: 10}} textStyle={FONTS.SEMIBOLD} /> : null }
       </View>
     </View>
 };

@@ -14,43 +14,15 @@ const RewardsCarousal = ({data, onPress}) => {
           disabled={!val.is_passed}
           activeOpacity={0.8}
           onPress={() => onPress(val)}>
-          <View
-            style={{
-              flex: 1,
-              alignItems: 'center',
-              marginHorizontal: 10,
-              marginVertical: 5,
-              opacity: val.is_passed ? 1 : 0.50,
-            }}>
-            <FastImage
-              style={{
-                width: 90,
-                height: 90,
-                borderRadius: 90,
-                opacity: 1,
-                backgroundColor: Colors.TRANSPARENT,
-              }}
-              source={{
-                uri: val.icon,
-                priority: FastImage.priority.high,
-              }}
+          <View style={{ flex: 1, alignItems: 'center', marginHorizontal: 10, marginVertical: 5, opacity: val.is_passed ? 1 : 0.50 }}>
+            <FastImage style={{ width: 90, height: 90, borderRadius: 90, opacity: 1, backgroundColor: Colors.TRANSPARENT }}
+              source={{ uri: val.icon, priority: FastImage.priority.high }}
               resizeMode={FastImage.resizeMode.cover}
             />
           </View>
-          <View
-            style={{
-              alignItems: 'center',
-              flex: 1,
-              justifyContent: 'center',
-              flexDirection: 'row',
-            }}>
+          <View style={{ alignItems: 'center', flex: 1, justifyContent: 'center', flexDirection: 'row' }}>
             <View style={{width: '10%'}} />
-            <View
-              style={{
-                width: '80%',
-                alignContent: 'center',
-                justifyContent: 'center',
-              }}>
+            <View style={{ width: '80%', alignContent: 'center', justifyContent: 'center' }}>
               <Text14
                 text={val.title}
                 textColor={Colors.BLACK4}

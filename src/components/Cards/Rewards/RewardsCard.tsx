@@ -1,10 +1,10 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
+
 import {Colors} from '../../../utils/colors';
+import RewardsCardHeader from './RewardsCardHeader';
 import RewardsCarousal from '../../Carousals/RewardsCarousal';
 import RewardsPopUp from '../../PopUps/RewardsPopUp';
-import RewardsCardHeader from './RewardsCardHeader';
-
 
 const RewardsCard = ({rewards, onPress}) => {
   const [reward, setReward] = useState(0);
@@ -17,18 +17,9 @@ const RewardsCard = ({rewards, onPress}) => {
     setVisible(false);
   };
   return (
-    <View
-      style={{
-        backgroundColor: Colors.CARDS_COLOR2,
-        borderRadius: 10,
-        padding: 10,
-        elevation: 10
-      }}>
+    <View style={{ backgroundColor: Colors.CARDS_COLOR2, borderRadius: 10, padding: 10, elevation: 10 }}>
       <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
-        <View
-          style={{
-            flex: 1,
-          }}>
+        <View style={{ flex: 1 }}>
           <RewardsCardHeader />
         </View>
       </TouchableOpacity>
