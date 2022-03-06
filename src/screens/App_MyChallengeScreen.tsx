@@ -120,6 +120,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(res => {
         let data = res.data.data;
+        console.log(data);
         if(data.checkpoints.length>0 || data.rewards.length>0 ){
           setNewRewardsMilestone(data);
           setShowPopUp(true);

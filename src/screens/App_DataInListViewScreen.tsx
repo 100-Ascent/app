@@ -85,7 +85,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
                 showAllActivities={true}
                 distanceData={data} 
                 handleEditActivity={handleEditActivity}  
-                // callToGetUserActivityData={callToGetUserActivityData}                             
+                callToGetUserActivityData={callToGetUserActivityData}                             
               />
             </View>
           </View>

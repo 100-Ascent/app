@@ -16,9 +16,10 @@ interface Props{
     isDisabled: boolean;
     onPress: ()=> void;
     total: any;
+    currency: string;
 }
 
-const PayNowWithSummaryCard: React.FC<Props> = ({ summary, isDisabled, onPress, total }) => {
+const PayNowWithSummaryCard: React.FC<Props> = ({ summary, isDisabled, onPress, total, currency }) => {
 
 //State variables
 const [isExpanded, setIsExpanded] = useState(false);
@@ -64,7 +65,7 @@ return <View style={styles.container}>
             { 
                 isExpanded ? <View style={[styles.grandTotal,{ paddingBottom : isDisabled? 0 : 10 }]}>
                     <Text16Normal text={"Grand Total"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
-                    <Text16Normal text={total} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
+                    <Text16Normal text={currency + total} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View> : null 
             }
         </View>
@@ -80,7 +81,7 @@ return <View style={styles.container}>
     </View>
     <TouchableOpacity activeOpacity={0.8} onPress={onPress} disabled={isDisabled}>
         <View style={[styles.payNowContainer, { backgroundColor: isDisabled? "#A5A5A5" : Colors.POPUP_RED } ]}>
-            <Text18 text={"Pay " + total} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} />
+            <Text18 text={"Pay " + currency + total} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} />
         </View>
     </TouchableOpacity>
 </View>;

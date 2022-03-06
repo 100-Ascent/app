@@ -21,7 +21,7 @@ const CityCarousal = ({onPress, data}) => {
               />
             </View>
           </View>
-          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5, width: 100 }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5 }}>
             <Text14 text={val.name} textColor={Colors.TEXTDARK} textStyle={{ textAlign: 'center' }} />
           </View>
         </TouchableOpacity>

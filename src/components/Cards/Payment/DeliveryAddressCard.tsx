@@ -112,7 +112,7 @@ return <View style={styles.container}>
     }
 
     <TouchableOpacity activeOpacity={0.9} onPress={ handlePress }>
-        <View style={[styles.button, {  backgroundColor: isAddressComplete ? "#0BC675" : Colors.INFO_GREY }]}>
+        <View style={[styles.button, {  backgroundColor: isAddressConfirmed? Colors.POPUP_RED : isAddressComplete ? "#0BC675" : Colors.INFO_GREY }]}>
             <Text16Normal text={ isAddressConfirmed ? "Address Confirmed" : isEditing? "Save Address" : "Confirm Address"} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD}/>
         </View>
     </TouchableOpacity>

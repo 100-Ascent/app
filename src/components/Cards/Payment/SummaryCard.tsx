@@ -9,10 +9,11 @@ import Text16Normal from '../../Text/Text16Normal';
 import Text30 from '../../Text/Text30';
 
 interface Props{
-    data: Object
+    data: Object;
+    currency: string
 }
 
-const SummaryCard: React.FC<Props> = ({ data }) => {
+const SummaryCard: React.FC<Props> = ({ data, currency }) => {
 
 //State variables
 
@@ -22,9 +23,14 @@ const SummaryCard: React.FC<Props> = ({ data }) => {
 
 return <View style={styles.container}>
     <View style={styles.price}>
-        <Text30 text={data["currency"]} textColor={Colors.INFO_GREY} containerStyle={{ paddingHorizontal: 5 }}/>
+        <Text30 text={currency} textColor={Colors.INFO_GREY} containerStyle={{ paddingHorizontal: 5 }}/>
         <Text30 text={data["discountedPrice"]} textColor={Colors.TEXTDARK} />
-        <Text16Normal text={data["originalPrice"]} textColor={Colors.TEXTDARK} containerStyle={{ paddingTop: 7, paddingLeft: 7 }} />        
+        <Text16Normal 
+            text={currency + data["originalPrice"]} 
+            textColor={Colors.POPUP_RED} 
+            containerStyle={{ paddingTop: 7, paddingLeft: 7 }} 
+            textStyle={{ textDecorationLine: 'line-through', textDecorationStyle: 'solid' }}
+        />        
     </View>
     <View style={styles.pointContainer}>
         {

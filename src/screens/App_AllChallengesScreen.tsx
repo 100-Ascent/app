@@ -46,7 +46,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
         headers: { 'X-CONTEXT-ID': contextId }
       })
       .then(res => {
-        let allChallenge = res.data.data[0].remainingList;
+        let allChallenge = res.data.data[0].remainingList;     
         let activeChallenge = res.data.data[0].subsList;
         if (activeChallenge.length == 1) {
           navigation.navigate('MyChallengeScreen', {
@@ -68,7 +68,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
         }
       })
       .catch(err => {
-        console.log('Error on get my challenges');
+        console.log('Error on get alll challenges');
         console.log(err);
       });
   };
@@ -91,14 +91,15 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const handlePaymentPress = (data) => {
-    navigation.navigate('PaymentScreen', { data: data });
+    data.amount = 0;
+    if(data.amount === 0){
+      setSubscribeCid(data.id);
+      setSubscribePopUp(true);
+    }else{
+      navigation.navigate('PaymentScreen', { data: data });
+    }
   }
   
-  const handleSubscribedPressed = data => {
-    setSubscribeCid(data.id);
-    setSubscribePopUp(true);
-  };
-
   const handleActiveChallengePressed = (data: any) => {
     const cid = data.id;
     navigation.navigate('MyChallengeScreen', { data: data, challengeId: cid });
@@ -132,7 +133,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                     allChallenge={allChallenge}
                     wrapStyle={{width: width }}
                     onPress={onChallengePress}
-                    handleSubscribe={handleSubscribedPressed}
+                    handleSubscribe={handlePaymentPress}
                   /> : null
               }              
               {  showActiveChallengeCard ? 

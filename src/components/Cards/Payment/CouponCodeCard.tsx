@@ -52,8 +52,10 @@ const CouponCodeCard = () => {
                 elevation: 2, backgroundColor: err? Colors.INFO_GREY : isCouponApplied ? Colors.POPUP_RED : Colors.INFO_GREEN}, styles.buttonStyle]} textStyle={FONTS.SEMIBOLD} />
             </View>
           </View>
-          { isCouponApplied ? <View style={[styles.message, {  backgroundColor: "#EBFFF4" }]}>
-              <Text14 text={"You saved ₹200 using " + coupon + "!" } textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
+          {/* { isCouponApplied ? <View style={[styles.message, {  backgroundColor: "#EBFFF4" }]}> */}
+              {/* <Text14 text={"You saved ₹200 using " + coupon + "!" } textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} /> */}
+          { isCouponApplied ? <View style={[styles.message, {  backgroundColor: Colors.DEMOTED_LIGHT }]}>
+              <Text14 text={"Invalid coupon code" } textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
           </View> : null }
           <View style={{ paddingBottom: isCouponApplied? 15 : 5 }}/>
       </View>

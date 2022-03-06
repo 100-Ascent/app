@@ -29,6 +29,9 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
 
   const data = route.params.data;
   const paymentSummaryList = data.payment_summary_list;
+  const summary = data.summary;
+  const currency = data.currency;
+  const policy = data.policy;
   const total = data.amount;
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const user = useSelector((state: AppState) => state.rootStore.user);
@@ -70,24 +73,6 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
     };
   }, []);
 
-  const summary = {
-      "discountedPrice": 999,
-      "originalPrice": "Rs 2499",
-      "currency": "Rs",
-      "benefits": [
-          {"available": true, "point": "Entry to the journey"},
-          {"available": true, "point": "An Achiever's Medal"},
-          {"available": true, "point": "7 Virtual postcards along the way"},
-          {"available": false, "point": "Track Progress on mobile app"},
-          {"available": false, "point": "Digital certificate of completion"},
-      ]
-  }
-
-  const policy = {
-      "header": "7 days return policy",
-      "description": "You can opt to get a full refund within 7 days of purchase, no questions asked",
-      "link": "www.google.com"
-  }
 
   const intializePaytmTransaction = (orderId: string, txnToken: string) => {
 
@@ -191,7 +176,7 @@ return <SafeAreaView style={{flex: 1}}>
             <View style={{flex: 1 }}>
                 <ChallengeNameWithIconCard showViewDetails={false} name={data.name} icon={data.backgroundImage} />
                 <View style={{ marginTop: 20 }}>
-                    <SummaryCard data={summary} />
+                    <SummaryCard currency={currency} data={summary} />
                 </View>
                 <View style={{ marginTop: 20 }}>
                     <ReturnPolicyCard policy={policy} />
@@ -213,6 +198,7 @@ return <SafeAreaView style={{flex: 1}}>
         { !isKeyboardVisible ? <View style={styles.fixedCard}>
             <PayNowWithSummaryCard 
               summary={paymentSummaryList}
+              currency={currency}
               total={total} 
               isDisabled={isPayButtonDisabled} 
               onPress={onPayPress}             
