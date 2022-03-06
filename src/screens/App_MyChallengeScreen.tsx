@@ -14,6 +14,7 @@ import {Colors} from '../utils/colors';
 import FloatingActionButton from '../components/Button/FloatingActionButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationDrawerStructure } from '../routes/AppStack';
+import NewRewardsMilestonePopUp from '../components/PopUps/NewRewardsMilestonePopUp';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
 import RNLoader from '../components/Loader/RNLoader';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
@@ -36,6 +37,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   const [myDistanceData, setDistanceData] = useState([]);
   const [loading, setLoading] = useState(true);
   const [tracksData, setTracksData] = useState([]);
+
+  const [newRewardsMilestone, setNewRewardsMilestone] = useState({});
+  const [showPopUp, setShowPopUp] = useState(false);
+
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const currentDistance = useSelector(
     (state: AppState) => state.rootStore.currentValue.distance,
@@ -55,12 +60,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       })
       .then(res => {
         let data = res.data.data;
-        console.log(data);
-        dispatch(
-          setCurrentValues({
-            distance: data.current_distance,
-            index: data.current_track_index,
-          }),
+        dispatch( setCurrentValues({ distance: data.current_distance, index: data.current_track_index }),
         );
 
         dispatch(setJourneyIndex({index: data.user_journey_index}));
@@ -110,6 +110,27 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       });
   };
 
+  const callToGetNewRewardsMilestone = async () => {
+    const cid = route.params.challengeId;
+    await axios
+      .get('/api/challenge/new/updates/' + cid, {
+        headers: {
+          'X-CONTEXT-ID': contextId,
+        },
+      })
+      .then(res => {
+        let data = res.data.data;
+        if(data.checkpoints.length>0 || data.rewards.length>0 ){
+          setNewRewardsMilestone(data);
+          setShowPopUp(true);
+        }
+      })
+      .catch(err => {
+        console.log('error123');
+        console.log(err);
+      });
+  }
+
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'My Journey',
@@ -118,9 +139,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       headerRight: () => <View style={{marginRight: 0}} />,
       headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
     });
-    callToGetChallengeDataFromId();
+    callToGetChallengeDataFromId();    
     callToGetTracksData();
     callToGetUserJourneyData();
+    callToGetNewRewardsMilestone();
   }, [isFocused]);
 
   const onCheckpointPressed = () => {
@@ -150,6 +172,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       icon: challengeData.icon,
     });
   };
+
+  const onPopUpClose= () => {
+    setShowPopUp(false)
+  }
 
   return (
     <SafeAreaView style={{flex: 1}}>
@@ -222,6 +248,12 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{padding: 50}} />
               </LinearGradient>
             </ScrollView>
+            <NewRewardsMilestonePopUp 
+              checkpoints={newRewardsMilestone['checkpoints']} 
+              rewards={newRewardsMilestone['rewards']} 
+              visible={showPopUp} 
+              onClose={onPopUpClose}
+            />
           </View>
         )}
       </Background>

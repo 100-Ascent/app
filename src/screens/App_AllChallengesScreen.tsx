@@ -90,14 +90,14 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
       });
   };
 
-  const handlePaymentPress = () => {
-    navigation.navigate('PaymentScreen');
+  const handlePaymentPress = (data) => {
+    navigation.navigate('PaymentScreen', { data: data });
   }
   
-  // const handleSubscribedPressed = cid => {
-  //   setSubscribeCid(cid);
-  //   setSubscribePopUp(true);
-  // };
+  const handleSubscribedPressed = data => {
+    setSubscribeCid(data.id);
+    setSubscribePopUp(true);
+  };
 
   const handleActiveChallengePressed = (data: any) => {
     const cid = data.id;
@@ -132,7 +132,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                     allChallenge={allChallenge}
                     wrapStyle={{width: width }}
                     onPress={onChallengePress}
-                    handleSubscribe={handlePaymentPress}
+                    handleSubscribe={handleSubscribedPressed}
                   /> : null
               }              
               {  showActiveChallengeCard ? 
@@ -164,7 +164,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                 setSubscribeCid('');
                 setSubscribePopUp(false);
               }}
-              onOk={handlePaymentPress}
+              onOk={handleSubscribe}
             />
           </ScrollView>
         }

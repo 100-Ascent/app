@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { StyleSheet, TouchableOpacity, View } from 'react-native';
 
+import { AppState } from '../../../redux';
 import { Colors } from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
@@ -8,20 +9,19 @@ import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
 import Text18 from '../../Text/Text18';
 import Text30 from '../../Text/Text30';
+import { useSelector } from 'react-redux';
 
 interface Props{
-    summary: Object,
+    summary: any,
     isDisabled: boolean;
     onPress: ()=> void;
+    total: any;
 }
 
-const PayNowWithSummaryCard: React.FC<Props> = ({ summary, isDisabled, onPress }) => {
+const PayNowWithSummaryCard: React.FC<Props> = ({ summary, isDisabled, onPress, total }) => {
 
 //State variables
 const [isExpanded, setIsExpanded] = useState(false);
-//Async functions
-
-//Component functions
 
 return <View style={styles.container}>
     <View style={styles.expandableContainer}>
@@ -33,7 +33,7 @@ return <View style={styles.container}>
         </TouchableOpacity>
         <View style={styles.expandedContainer} >
             {
-                isExpanded ? summary['payments'].map((val,idx)=>{
+                isExpanded ? summary.map((val,idx)=>{
                     return ( 
                     <View style={styles.listContainer}>
                         <Text14 
@@ -44,13 +44,18 @@ return <View style={styles.container}>
                         />
                         <View style={styles.paymentValues}>
                             { 
-                                val.type !== "coupon" ? <Text14 text={val.originalPrice} textColor={Colors.POPUP_RED} textStyle={FONTS.REGULAR} /> : null 
+                                val.type !== "coupon" ? 
+                                    <Text14 
+                                        text={val.originalPrice} 
+                                        textColor={Colors.POPUP_RED} 
+                                        textStyle={[FONTS.REGULAR, { textDecorationLine: 'line-through', textDecorationStyle: 'solid'  }]} 
+                                    /> : null 
                             }
                             <Text14 
                                 text={val.discountedPrice} 
-                                textColor={ val.type === "coupon" ? Colors.BLUE : Colors.TEXTDARK}
+                                textColor={ val.type === "coupon" || val.discountedPrice === "Free" ? Colors.BLUE : Colors.TEXTDARK}
                                  containerStyle={{ paddingLeft: val.type !== "coupon" ? 10 : 0 }} 
-                                 textStyle={FONTS.REGULAR} 
+                                 textStyle={FONTS.SEMIBOLD} 
                             />
                         </View>
                     </View>
@@ -59,7 +64,7 @@ return <View style={styles.container}>
             { 
                 isExpanded ? <View style={[styles.grandTotal,{ paddingBottom : isDisabled? 0 : 10 }]}>
                     <Text16Normal text={"Grand Total"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
-                    <Text16Normal text={summary['total']} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
+                    <Text16Normal text={total} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View> : null 
             }
         </View>
@@ -75,7 +80,7 @@ return <View style={styles.container}>
     </View>
     <TouchableOpacity activeOpacity={0.8} onPress={onPress} disabled={isDisabled}>
         <View style={[styles.payNowContainer, { backgroundColor: isDisabled? "#A5A5A5" : Colors.POPUP_RED } ]}>
-            <Text18 text={"Pay " + summary['total']} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} />
+            <Text18 text={"Pay " + total} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD} />
         </View>
     </TouchableOpacity>
 </View>;

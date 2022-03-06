@@ -8,16 +8,17 @@ import { FONTS } from '../../../utils/constants/fonts';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
 import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
-import { TextInput } from 'react-native-gesture-handler';
 import { useSelector } from 'react-redux';
 
 interface Props{
-
+    handleAddress: (data:any) => void;
+    onConfirmAddress: () => void;
+    isAddressConfirmed: boolean;
+    handleAddressConfirmed: () => void;
 }
 
-const DeliveryAddressCard: React.FC<Props> = ({ }) => {
+const DeliveryAddressCard: React.FC<Props> = ({ handleAddress, onConfirmAddress,isAddressConfirmed, handleAddressConfirmed }) => {
 
-//State variables
     const [isEditing, setEditing] = useState(false);
     const user = useSelector((state: AppState) => state.rootStore.user);
     const [data, setData] = useState({
@@ -28,13 +29,23 @@ const DeliveryAddressCard: React.FC<Props> = ({ }) => {
         "pincode": user["pincode"],
     });
 
-//Async functions
-
-//Component functions
     const handleInput = (name, value) => {
-    setData(prevState => ({...prevState, [name]: value}));
-  };
+        setData(prevState => ({...prevState, [name]: value}));
+    };
 
+  const handlePress = () => {
+    if(isAddressComplete){
+        if(isEditing){
+            handleAddress(data);
+            setEditing(!isEditing)
+        }else{
+            onConfirmAddress();
+        }
+    }else{
+        ToastAndroid.show("Enter a valid delivery address", ToastAndroid.SHORT) 
+    }
+  }
+  
   const isAddressComplete = data['address'].length > 0 || data['city'].length > 0 ||
   data['state'].length > 0 || data['country'].length > 0 || data['pincode'].length > 0;
 
@@ -54,7 +65,8 @@ return <View style={styles.container}>
             textStyle={FONTS.SEMIBOLD}
         />
         <View style={{ justifyContent: 'center' }}>
-            { !isEditing? <Icon name={ "edit" } type={ "ionicons" } onPress={()=>setEditing(!isEditing)} /> : null }
+            { !isEditing? <Icon name={ "edit" } type={ "ionicons" } onPress={()=>{ handleAddressConfirmed(); setEditing(!isEditing)}}/> : 
+            <Icon name={ "cross" } type={ "entypo" } onPress={()=>{ handleAddressConfirmed(); setEditing(!isEditing)}} /> }
         </View>
     </View>
     { isEditing? 
@@ -99,10 +111,9 @@ return <View style={styles.container}>
         </View>
     }
 
-    <TouchableOpacity activeOpacity={0.9} onPress={ !isAddressComplete?  () => ToastAndroid.show("Enter a valid delivery address",ToastAndroid.SHORT) :
-        isEditing? ()=> setEditing(!isEditing) : ()=>{ } }>
+    <TouchableOpacity activeOpacity={0.9} onPress={ handlePress }>
         <View style={[styles.button, {  backgroundColor: isAddressComplete ? "#0BC675" : Colors.INFO_GREY }]}>
-            <Text16Normal text={ isEditing? "Save Address" : "Confirm Address"} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD}/>
+            <Text16Normal text={ isAddressConfirmed ? "Address Confirmed" : isEditing? "Save Address" : "Confirm Address"} textColor={Colors.TEXT} textStyle={FONTS.SEMIBOLD}/>
         </View>
     </TouchableOpacity>
 </View>;

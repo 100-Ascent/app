@@ -39,7 +39,7 @@ export type RootStackParamList = {
   RewardsScreen: { data: any, name: any, icon: any }
 
 
-  PaymentScreen: any;
+  PaymentScreen: { data: any };
   
   // EditActivityDataScreen: {data?: any; cd_id: any};
   // MyChallengeScreen: {data: Object; challengeId: Object};

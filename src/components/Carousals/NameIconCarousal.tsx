@@ -6,11 +6,11 @@ import Text14 from '../Text/Text14';
 import {TouchableOpacity} from 'react-native';
 import {View} from 'react-native';
 
-const CityCarousal = ({onPress, data}) => {
+const NameIconCarousal = ({onPress, data}) => {
   
   const rewards = data.map((val, idx) => {
     return (
-      <View style={{ flex: 1, paddingHorizontal: 5 }} key={idx}>
+      <View style={{ flex: 1, paddingRight: 5 }} key={idx}>
         <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
           <View style={{ alignItems: 'center' }}>
             <View style={{ marginHorizontal: 5, borderWidth: 2, borderColor: Colors.BLACK2, borderRadius: 60, padding: 3 }}>
@@ -21,7 +21,7 @@ const CityCarousal = ({onPress, data}) => {
               />
             </View>
           </View>
-          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5, width: 100 }}>
+          <View style={{ justifyContent: 'center', alignItems: 'center', marginTop: 5, width: 110 }}>
             <Text14 text={val.name} textColor={Colors.TEXTDARK} textStyle={{ textAlign: 'center' }} />
           </View>
         </TouchableOpacity>
@@ -36,7 +36,7 @@ const CityCarousal = ({onPress, data}) => {
         showsHorizontalScrollIndicator={false}
         scrollEventThrottle={5}
         nestedScrollEnabled
-        style={{paddingLeft: 10}}
+        style={{ paddingLeft: 5 }}
         onScroll={() => {}}>
         {rewards}
         <View style={{padding: 5}} />
@@ -45,4 +45,4 @@ const CityCarousal = ({onPress, data}) => {
   );
 };
 
-export default CityCarousal;
+export default NameIconCarousal;

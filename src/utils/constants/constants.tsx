@@ -62,6 +62,8 @@ export const GOOGLE_FIT_CONFIG = {
 ]
 };
 
+export const MERCHANT_ID = "JBheFY42775698183177";
+export const CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=<order_id>";
 
 export const STREAM = {
   GOOGLE_FIT : "Google Fit",

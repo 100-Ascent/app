@@ -30,10 +30,10 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
   rewards.push(temp);
 
   return (
-    <View
-      style={{ flex: 1, marginHorizontal: 20, borderRadius: 10, paddingBottom: 5 }}>
+    <View style={{ flex: 1, marginHorizontal: 20, borderRadius: 20, paddingBottom: 5, 
+      backgroundColor: data.length ===0 ? Colors.TEXT : Colors.TRANSPARENT, elevation:  data.length ===0 ? 2 : 0 }}>
       <View style={{flex: 1, paddingHorizontal: 10, paddingTop: 15}}>
-        <Text16Normal text={'All Rewards'} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
+        <Text16Normal text={'All Rewards'} textColor={Colors.TEXTDARK} textStyle={FONTS.BOLD} />
       </View>
       {data.length > 0 ? (
         <View style={{flex: 1, padding: 5}}>
@@ -99,8 +99,8 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
                         }}>
                         <Text14
                           text={val.title}
-                          textStyle={{textAlign: 'center'}}
-                          textColor={Colors.BLACK4}
+                          textStyle={[FONTS.REGULAR,{textAlign: 'center'}]}
+                          textColor={Colors.BLACK4}                          
                         />
                       </View>
                     </View>

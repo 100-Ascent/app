@@ -33,7 +33,7 @@ const CarousalCard: React.FC<Props> = ({ onPress, data, handleSubscribe, isSubsc
               { isSubscribed ? <View style={{ padding: 10 }} /> : 
                 <StyledButton
                   text={SUBSCRIBE}
-                  onPress={() => handleSubscribe(data.id)}
+                  onPress={() => handleSubscribe(data)}
                   buttonStyle={{ marginVertical: 0, paddingVertical: 5 }}
                   textStyle={{ paddingBottom: 2 }}
                 />
