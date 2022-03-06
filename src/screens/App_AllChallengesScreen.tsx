@@ -91,7 +91,6 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const handlePaymentPress = (data) => {
-    data.amount = 0;
     if(data.amount === 0){
       setSubscribeCid(data.id);
       setSubscribePopUp(true);
