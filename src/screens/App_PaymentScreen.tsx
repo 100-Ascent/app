@@ -14,6 +14,7 @@ import CouponCodeCard from '../components/Cards/Payment/CouponCodeCard';
 import DeliveryAddressCard from '../components/Cards/Payment/DeliveryAddressCard';
 import Icon from 'react-native-elements/dist/icons/Icon';
 import PayNowWithSummaryCard from '../components/Cards/Payment/PayNowWithSummaryCard';
+import PaymentPopUp from '../components/PopUps/PaymentPopUp';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import ReturnPolicyCard from '../components/Cards/Payment/ReturnPolicyCard';
 import SummaryCard from '../components/Cards/Payment/SummaryCard';
@@ -38,9 +39,12 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
 
   //State variables
   const [ loading, setLoading ] = useState(false);
+  const [buttonLoading,setButtonLoading] = useState(false);
   const [address, setAddress] = useState({});
   const [isAddressConfirmed, setAddressConfirmed] = useState(false);
-  
+  const [showPaymentPopUp, setShowPaymentPopup] = useState(false);
+  const [status, setStatus] = useState("FALURE"); 
+  const [orderId, setOrderId] = useState("");
   const isAddressComplete = user['address'].length > 0 || user['city'].length > 0 ||
   user['state'].length > 0 || user['country'].length > 0 || user['pincode'].length > 0;
 
@@ -74,6 +78,26 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
   }, []);
 
 
+  const callToSubscribeToChallenge = async(orderId) => {
+    console.log(orderId);
+      setButtonLoading(true);
+      await axios
+        .get("/api/challenge/check/order/" + orderId, headers)
+        .then(res=>{
+          console.log(res.data);          
+          if(res.data.success){ 
+            setButtonLoading(false);        
+            navigation.replace('AfterPaymentScreen', { name: data.name, icon:data.backgroundImage  });
+          }else{
+            setButtonLoading(false);
+          }
+        })
+        .catch(err=>{
+          setButtonLoading(false);
+        })      
+  }
+
+
   const intializePaytmTransaction = (orderId: string, txnToken: string) => {
 
     AllInOneSDKManager.startTransaction(
@@ -87,22 +111,43 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
             ""
         )
         .then((result) => {
-            console.log(result);
+            if(result.STATUS === "TXN_SUCCESS"){
+              setStatus("SUCCESS");
+              setShowPaymentPopup(true);
+            }else if(result.RESPCODE === "141"){ 
+              setStatus("CANCELLED");
+              setShowPaymentPopup(true);
+            }else{
+              setStatus("ERROR");
+              setShowPaymentPopup(true);     
+            }
         })
         .catch((err) => {
             console.log("errrrrrrrrrrr");
             console.log(err);
+            setStatus("FAILURE");
+            setShowPaymentPopup(true);      
         });
   }
 
+  const handleRedirectionAfterPayment = () => {
+    if(status === "SUCCESS"){
+      callToSubscribeToChallenge(orderId);
+    } else if(status==="ERROR"){
+      navigation.pop();
+    }else{
+      setShowPaymentPopup(false);      
+    }
+  }
+
   const onPayPress = async () => {
+    
     await axios.get(CREATE_ORDER + data.id)
       .then(res=>{
         if(res.data.success){
-          const orderId = res.data.order_id;
-          const txnToken = res.data.data.body.txnToken;
-          console.log(orderId);
-          console.log(txnToken);
+          const orderId = res.data.data.order_id;
+          setOrderId(orderId);
+          const txnToken = res.data.data.txnToken;
           intializePaytmTransaction(orderId, txnToken);
         }else{
           ToastAndroid.show("Something went wrong!", ToastAndroid.SHORT);
@@ -204,6 +249,9 @@ return <SafeAreaView style={{flex: 1}}>
               onPress={onPayPress}             
             />
         </View> : null }
+        {
+          showPaymentPopUp ? <PaymentPopUp status={status} onPress={handleRedirectionAfterPayment} buttonLoading={buttonLoading} /> : null
+        }
     </>
 }
 </Background>

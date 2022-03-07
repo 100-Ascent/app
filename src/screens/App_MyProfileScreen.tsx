@@ -1,21 +1,25 @@
+import {EMAIL_NOT_VERIFIED, ProfileInputFieldTypes} from '../utils/constants/constants';
 import { Image, RefreshControl, SafeAreaView, ScrollView, StyleSheet, ToastAndroid, TouchableOpacity, View } from 'react-native';
-import { USER_ACTIVITY_DATA, USER_DETAILS, VERIFY_EMAIL } from '../utils/apis/endpoints';
 import React, {useEffect, useState} from 'react';
 import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
+import { USER_ACTIVITY_DATA, USER_DETAILS, VERIFY_EMAIL } from '../utils/apis/endpoints';
 import {setData, setEmailVerifiedData} from '../redux/action';
 import {useDispatch, useSelector} from 'react-redux';
 
+import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
 import {AppState} from '../redux';
 import Background from '../components/Background/StyledBackground';
+import BackgroundVector from '../components/Background/BackgroundVector';
 import {Colors} from '../utils/colors';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import DistanceComponent from '../components/DistanceComponent/DistanceComponent';
 import FastImage from 'react-native-fast-image';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
+import NotifyBanner from '../components/Banners/NotifyBanner';
 import ProfileInput from '../components/Input/ProfileInput';
-import {EMAIL_NOT_VERIFIED, ProfileInputFieldTypes} from '../utils/constants/constants';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import Text12Bold from '../components/Text/Text12Bold';
+import Text16Bold from '../components/Text/Text16Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import Text28 from '../components/Text/Text28';
 import VerifyEmailIcon from '../../assets/modal-icons/verify-email-icon.svg';
@@ -25,10 +29,6 @@ import moment from 'moment';
 import myProfileStyles from '../styles/MyProfileScreen/myprofile';
 import parsePhoneNumber from 'libphonenumber-js';
 import {useIsFocused} from '@react-navigation/native';
-import BackgroundVector from '../components/Background/BackgroundVector';
-import Text16Bold from '../components/Text/Text16Bold';
-import ActivitiesToolTip from '../components/Tooltip/ActivitiesToolTip';
-import NotifyBanner from '../components/Banners/NotifyBanner';
 
 interface Props {
   navigation: RootNavProp<'MyProfileScreen'>;
@@ -65,13 +65,13 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     pullLoader === false ? setLoading(true) : setRefreshing(true);
     await axios
         .get(USER_DETAILS, headers)
-        .then(async res => {
+        .then(res => {
             const data = res.data.data;
             dispatch(setEmailVerifiedData(data['is_verified_email']));
             dispatch(setData(data));
             setUserData(data);
             getToken();
-            await callToGetUserActivityData();
+            callToGetUserActivityData();
             pullLoader === false ? setLoading(false) : setRefreshing(false);
         })
         .catch(err => {
@@ -84,7 +84,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
   const callToGetUserActivityData = async () => {
     await axios
         .get(USER_ACTIVITY_DATA, headers)
-        .then(async res => {
+        .then(res => {
             const data = res.data.data;        
             setActivityData(res.data.success ? data : []);            
         })
@@ -107,7 +107,7 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
           </TouchableOpacity>        
           <View style={{padding: 5}}/>
           <TouchableOpacity>
-            <Icon name="edit" size={25} color={'#565656'} onPress={() =>navigation.navigate('EditMyProfileScreen', {data: userData})} />
+            <Icon name="edit" size={25} color={'#565656'} onPress={() => navigation.navigate('EditMyProfileScreen', {data: userData})} />
           </TouchableOpacity>
         </View>
       ),

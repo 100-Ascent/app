@@ -230,7 +230,7 @@ const EditMyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
     headerTitleContainerStyle: {alignItems: 'center'},
   });
-  console.log(Object.keys(institution).length);
+
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>

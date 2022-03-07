@@ -1,3 +1,4 @@
+import AfterPaymentScreen from '../../screens/App_AfterPaymentScreen';
 import ChallengeDescriptionScreen from '../../screens/App_ChallengeDescriptionScreen';
 import CheckpointMilestoneScreen from '../../screens/App_CheckpointMilestoneScreen';
 import {Colors} from '../../utils/colors';
@@ -132,6 +133,20 @@ const Journey = ({navigation }) => {
       <JourneyStack.Screen
         name={'PaymentScreen'}
         component={PaymentScreen}
+        options={({route}) => ({
+          headerLeft: null,
+          headerTitle: null,
+          headerStyle: {
+            backgroundColor: Colors.TRANSPARENT,
+            elevation: 0,
+            borderWidth: 0,
+            borderColor: Colors.BLACK2,
+          },
+        })}
+      />
+      <JourneyStack.Screen
+        name={'AfterPaymentScreen'}
+        component={AfterPaymentScreen}
         options={({route}) => ({
           headerLeft: null,
           headerTitle: null,

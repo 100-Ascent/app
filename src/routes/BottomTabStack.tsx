@@ -129,7 +129,7 @@ const BottomTabStack = ({navigation}) => {
             ),
             tabBarVisible: ((route) => {
                 const routeName = getFocusedRouteNameFromRoute(route) ?? "";  
-                if(routeName === "PaymentScreen"){
+                if(routeName === "PaymentScreen" || routeName === "AfterPaymentScreen"){
                   setTabBarVisibility(false);
                   return false;
                 }              
