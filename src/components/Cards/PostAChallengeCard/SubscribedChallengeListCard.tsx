@@ -1,8 +1,9 @@
-import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import FastImage from 'react-native-fast-image';
+
 import {Colors} from '../../../utils/colors';
+import FastImage from 'react-native-fast-image';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import React from 'react';
 import {SUBSCRIBE_TO_CHALLENGE} from '../../../utils/constants/constants';
 import StyledButton from '../../Button/StyledButton';
 import Text16Normal from '../../Text/Text16Normal';
@@ -22,13 +23,10 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
   const challengeList = challenges.map((val, idx) => {
     return (
       <View
-        style={{
-          flex: 1,
-          marginHorizontal: 20,
+        style={{ flex: 1, marginHorizontal: 20,
           borderWidth: val.is_attach || val.isSelected ? 0 : 1,
           borderColor: val.is_attach ||  val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
-          borderRadius: 10,
-          marginTop: 15,
+          borderRadius: 10, marginTop: 15,
           backgroundColor: val.is_attach || val.isSelected ? Colors.BLACK5 : Colors.TEXT,
         }}
         key={idx}>

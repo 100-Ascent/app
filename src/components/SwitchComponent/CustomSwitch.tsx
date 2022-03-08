@@ -1,6 +1,7 @@
 import {StyleSheet, TouchableOpacity, View} from 'react-native';
 
 import {Colors} from '../../utils/colors';
+import { FONTS } from '../../utils/constants/fonts';
 import React from 'react';
 import Text16Normal from '../Text/Text16Normal';
 
@@ -15,6 +16,7 @@ const CustomSwitch = ({currentTab, onPress}) => {
                 <Text16Normal
                   text={val}
                   textColor={ Colors.TEXTDARK}
+                  textStyle={FONTS.SEMIBOLD}
                   containerStyle={[ styles.tab, { borderTopWidth: currentTab === idx ?  2 : 0 }] }
                 />
             </TouchableOpacity>

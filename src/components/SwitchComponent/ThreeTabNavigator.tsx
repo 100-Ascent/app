@@ -124,7 +124,7 @@ const ThreeTabNavigator = ({
             <Text14
               text="My Journey"
               textColor={active === 0 ? Colors.WHITE : Colors.TEXTDARK}
-              textStyle={FONTS.REGULAR}
+              textStyle={FONTS.SEMIBOLD}
             />
           </View>
         </TabView>
@@ -143,7 +143,7 @@ const ThreeTabNavigator = ({
             <Text14
               text="My Distances"
               textColor={active === 2 ? Colors.WHITE : Colors.TEXTDARK}
-              textStyle={FONTS.REGULAR}
+              textStyle={FONTS.SEMIBOLD}
             />
           </View>
         </TabView>

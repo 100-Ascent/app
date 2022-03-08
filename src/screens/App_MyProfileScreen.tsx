@@ -70,6 +70,19 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
             dispatch(setEmailVerifiedData(data['is_verified_email']));
             dispatch(setData(data));
             setUserData(data);
+            navigation.setOptions({
+              headerRight: () => (
+                <View style={{marginRight: 15, flexDirection: 'row'}}>
+                  <TouchableOpacity onPress={()=>navigation.navigate('LeaderboardScreen')}> 
+                    <Image source={require('../../assets/icons/leaderboard/podium.png')} style={{ width: 25, height: 25 }} />
+                  </TouchableOpacity>        
+                  <View style={{padding: 5}}/>
+                  <TouchableOpacity>
+                    <Icon name="edit" size={25} color={'#565656'} onPress={() => navigation.navigate('EditMyProfileScreen', { data: data })} />
+                  </TouchableOpacity>
+                </View>
+              ),
+            })
             getToken();
             callToGetUserActivityData();
             pullLoader === false ? setLoading(false) : setRefreshing(false);
@@ -99,26 +112,28 @@ const MyProfileScreen: React.FC<Props> = ({navigation, route}) => {
     navigation.setOptions({
       headerTitle: 'My Profile',
       headerTitleStyle: {fontFamily: 'Quicksand-Bold'},
-      headerTitleContainerStyle: {alignItems: 'center'},
-      headerRight: () => (
-        <View style={{marginRight: 15, flexDirection: 'row'}}>
-          <TouchableOpacity onPress={()=>navigation.navigate('LeaderboardScreen')}> 
-            <Image source={require('../../assets/icons/leaderboard/podium.png')} style={{ width: 25, height: 25 }} />
-          </TouchableOpacity>        
-          <View style={{padding: 5}}/>
-          <TouchableOpacity>
-            <Icon name="edit" size={25} color={'#565656'} onPress={() => navigation.navigate('EditMyProfileScreen', {data: userData})} />
-          </TouchableOpacity>
-        </View>
-      ),
+      headerTitleContainerStyle: {alignItems: 'center'},    
+      headerRight: ()=>(<View style={{ marginRight: 10 }} />)  
     });
   }
   
   useEffect(() => {
     setNavigationHeader();
-    callToGetUserDetails(false);
+    callToGetUserDetails(false);    
   }, [isFocused]);
 
+
+  // headerRight: () => (
+  //   <View style={{marginRight: 15, flexDirection: 'row'}}>
+  //     <TouchableOpacity onPress={()=>navigation.navigate('LeaderboardScreen')}> 
+  //       <Image source={require('../../assets/icons/leaderboard/podium.png')} style={{ width: 25, height: 25 }} />
+  //     </TouchableOpacity>        
+  //     <View style={{padding: 5}}/>
+  //     <TouchableOpacity>
+  //       <Icon name="edit" size={25} color={'#565656'} onPress={() => console.log(userData)} />
+  //     </TouchableOpacity>
+  //   </View>
+  // ),
 
   // Component Functions
   const handleInfoPressed = () => setVerifyEmailPopUp(true);

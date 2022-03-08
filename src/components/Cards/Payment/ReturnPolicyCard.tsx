@@ -1,13 +1,11 @@
-import { StyleSheet, View } from 'react-native';
+import { Linking, StyleSheet, TouchableOpacity, View } from 'react-native';
+import React, { useCallback } from 'react'
 
 import { Colors } from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
-import React from 'react'
 import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
-import Text18 from '../../Text/Text18';
-import Text30 from '../../Text/Text30';
 
 interface Props{
     policy: Object
@@ -15,11 +13,21 @@ interface Props{
 
 const ReturnPolicyCard: React.FC<Props> = ({ policy }) => {
 
-//State variables
+    const handleMoreDetailsPressed = useCallback(async () => {
+        if(policy['link'].length === 0){
+          return;
+        }
+        const supported = await Linking.canOpenURL(policy['link']);
+        if (supported) {
+          await Linking.openURL(policy['link']);
+        } else {
+        }
+      }, [policy['link']]);
 
-//Async functions
+    //State variables
+    //Async functions
 
-//Component functions
+    //Component functions
 
 return <View style={styles.container}>
     <View style={styles.icon}>
@@ -32,9 +40,11 @@ return <View style={styles.container}>
         <View style={styles.description}>
             <Text14 text={policy["description"]} textColor={Colors.TEXTDARK} textStyle={[FONTS.REGULAR]}  />
         </View>
-        <View style={styles.moreDetails}>
-            <Text14 text={"More Details"} textColor={Colors.TEXTDARK} textStyle={[FONTS.SEMIBOLD, {textDecorationLine: 'underline'} ]} />
-        </View>
+        <TouchableOpacity activeOpacity={0.7} onPress={handleMoreDetailsPressed} >
+            <View style={styles.moreDetails}>
+                <Text14 text={"More Details"} textColor={Colors.TEXTDARK} textStyle={[FONTS.SEMIBOLD, {textDecorationLine: 'underline'} ]} />
+            </View>
+        </TouchableOpacity>
     </View>
    
 </View>;

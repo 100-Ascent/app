@@ -1,14 +1,13 @@
-import React, {useCallback} from 'react';
 import {Alert, Linking, StyleSheet, View} from 'react-native';
+import React, {useCallback} from 'react';
+
+import {Colors} from '../../../../utils/colors';
 import FastImage from 'react-native-fast-image';
-import SpotifyButton from '../../../Button/SpotifyButton';
+import { SUBSCRIBE } from '../../../../utils/constants/constants';
 import ShareButton from '../../../Button/ShareButton';
+import SpotifyButton from '../../../Button/SpotifyButton';
 import StyledButton from '../../../Button/StyledButton';
 import Text28 from '../../../Text/Text28';
-import {Colors} from '../../../../utils/colors';
-import { SUBSCRIBE } from '../../../../utils/constants/constants';
-
-
 
 interface Props {
   name: string;
@@ -17,7 +16,7 @@ interface Props {
   shouldShowTitle: boolean;
   cid?: string;
   playlist?: string;
-  handleSubscribe?: (cid: string) => void;
+  handleSubscribe?: () => void;
   onSharePress?: ()=> void;
 }
 
@@ -74,7 +73,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
           <View style={{flex: 4, justifyContent: 'center'}}>
             <StyledButton
               text={SUBSCRIBE.toUpperCase()}
-              onPress={() => handleSubscribe(cid)}
+              onPress={handleSubscribe}
               buttonStyle={{ marginVertical: 0, paddingVertical: 9, marginRight: 15 }}
               textStyle={{ paddingBottom: 2 }}
             />

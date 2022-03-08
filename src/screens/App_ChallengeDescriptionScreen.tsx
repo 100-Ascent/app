@@ -68,9 +68,13 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     // });
   };
 
-  const handleSubscribedPressed = cid => {
-    setSubscribeCid(cid);
-    setSubscribePopUp(true);
+  const handleSubscribedPressed = () => {
+    if(data.amount === 0){
+      setSubscribeCid(data.id);
+      setSubscribePopUp(true);
+    }else{
+      navigation.navigate('PaymentScreen', { data: data });
+    }    
   };
 
   const rewardImageOnPress = url => {
@@ -80,11 +84,9 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const ref = React.useRef<ViewShot | null>(null);
-  const [mask, setMask] = useState(false);
 
   const onShare = () => {
-    setMask(true);
-    const temp = setTimeout(captureScreenshot, 500);
+    captureScreenshot();    
   };
 
   const captureScreenshot = () => {
@@ -99,10 +101,10 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
         };
         Share.open(options)
           .then(res => {
-            setMask(false);
+            
           })
           .catch(err => {
-            setMask(false);
+
           });
       });
     });

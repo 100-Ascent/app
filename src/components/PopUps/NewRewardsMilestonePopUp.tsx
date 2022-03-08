@@ -22,39 +22,52 @@ interface Props {
 }
 
 const NewRewardsMilestonePopUp: React.FC<Props> = ({visible, checkpoints, rewards, onClose}) => {
-    
+  
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View style={styles.container}>
         <View style={styles.subContainer}>
 
           <View style={styles.cross}>
-            <View style={{ width: "95%", alignItems: 'center' }}>
-              <Text20 text='Congratulations!' textColor={Colors.TEXTDARK} textStyle={FONTS.BOLD} />
-            </View>
+            <Text20 
+              text='Congratulations!' 
+              textColor={Colors.TEXTDARK} 
+              textStyle={FONTS.BOLD} 
+              containerStyle={{ width: "95%", alignItems: 'center' }} 
+            />
             <View style={{ width: "5%", alignItems: 'flex-end' }}>
               <Icon name="cross" type="entypo" onPress={onClose} size={20} />
             </View>
           </View>
           
-          <Text16Normal
-            text={"Checkpoints Unlocked"} 
-            textColor={Colors.TEXTDARK} 
-            textStyle={FONTS.SEMIBOLD} 
-            containerStyle={{ paddingHorizontal: 20, marginTop: 15 }} 
-          />
-          <View style={{ minHeight: 120, marginTop: 15 }}>
+          { 
+            checkpoints.length > 0 ? 
+              <Text16Normal
+                text={"Checkpoints Unlocked"} 
+                textColor={Colors.TEXTDARK} 
+                textStyle={FONTS.SEMIBOLD} 
+                containerStyle={{ paddingHorizontal: 20, marginTop: 15 }} 
+              /> : null 
+          }
+
+          <View style={{ minHeight: checkpoints.length > 0 ? 120 : 0, marginTop: 15 }}>
             <NameIconCarousal onPress={()=>{}} data={checkpoints}/>
           </View>
-          <Text16Normal
-            text={"Rewards Unlocked"} 
-            textColor={Colors.TEXTDARK} 
-            textStyle={FONTS.SEMIBOLD} 
-            containerStyle={{paddingHorizontal: 20 }} 
-          />
-          <View style={{ minHeight: 120, marginTop: 15 }}>
+
+          { 
+            rewards.length > 0 ? 
+              <Text16Normal
+                text={"Rewards Unlocked"} 
+                textColor={Colors.TEXTDARK} 
+                textStyle={FONTS.SEMIBOLD} 
+                containerStyle={{paddingHorizontal: 20 }} 
+              /> : null
+          }
+
+          <View style={{ minHeight: rewards.length > 0 ? 120 : 0, marginTop: 15 }}>
             <NameIconCarousal onPress={()=>{}} data={rewards}/>
           </View>
+          
           <View style={styles.buttonContainer}>
             <StyledButton text={"OK"} onPress={onClose}  />
           </View>

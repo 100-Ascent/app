@@ -48,7 +48,7 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
   const isAddressComplete = user['address'].length > 0 || user['city'].length > 0 ||
   user['state'].length > 0 || user['country'].length > 0 || user['pincode'].length > 0;
 
-  const [isPayButtonDisabled, setPayButtonDisabled] = useState(!isAddressComplete);
+  const [isPayButtonDisabled, setPayButtonDisabled] = useState(!isAddressConfirmed);
 
 
   const headers = { headers: { 'X-CONTEXT-ID': contextId } };

@@ -1,39 +1,36 @@
-import React, {useState, useEffect} from 'react';
 import {
-  View,
-  Platform,
-  TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
+  StyleSheet,
   Text,
   ToastAndroid,
-  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-
-import axios from 'axios';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import FastImage from 'react-native-fast-image';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {useSelector} from 'react-redux';
-import moment from 'moment';
-import {AppState} from '../redux';
-
-import Background from '../components/Background/StyledBackground';
+import React, {useEffect, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 
 import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import {AppState} from '../redux';
+import Background from '../components/Background/StyledBackground';
 import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
-import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
-import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-import StyledButton from '../components/Button/StyledButton';
-import Text12Bold from '../components/Text/Text12Bold';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
-import { STREAM } from '../utils/constants/constants';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
+import FastImage from 'react-native-fast-image';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
-import { isIOS } from 'react-native-elements/dist/helpers';
+import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
+import { STREAM } from '../utils/constants/constants';
+import StyledButton from '../components/Button/StyledButton';
 import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+import Text12Bold from '../components/Text/Text12Bold';
+import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
+import axios from 'axios';
+import { isIOS } from 'react-native-elements/dist/helpers';
+import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -75,7 +72,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
   
   const [dropdownData, setDropdownData] = useState([]);
-  const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity? routeData.activity.id : routeData.activity_id )[0];
+  const selectedActivity = activityData.activities.filter(obj => obj.id === (routeData.activity? routeData.activity.id : routeData.activity_id) )[0];
   const [selected, setSelected] = useState(selectedActivity);
   
   const [defaultOption, setDefaultOption] = useState(routeData.is_distance ? 0 : 1);
@@ -244,7 +241,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())) /
       (1000 * 60 * 60 * 24),
   );
-
+  
   return (
     <View style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -264,7 +261,6 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             {loading && dropdownData.length === 0 ? (
               <RNLoaderSimple />
             ) : (
-              subscribedChallenge.length === 0 ? <RNLoaderSimple/> :
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View
                   style={{
@@ -448,6 +444,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                   <SubscribedChallengeListCard
                     challenges={subscribedChallenge}
                     handleSelectedChallenges={handleSelectedChallenges}
+                    handleSubscribeToAChallenge={()=>navigation.navigate('JourneyScreen')}
                   />
                 </View>
 
