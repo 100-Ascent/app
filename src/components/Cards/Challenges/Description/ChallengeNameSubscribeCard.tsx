@@ -1,8 +1,9 @@
-import {Alert, Linking, StyleSheet, View} from 'react-native';
-import React, {useCallback} from 'react';
+import {Alert, Linking, StyleSheet, TouchableOpacity, View} from 'react-native';
+import React, {useCallback, useState} from 'react';
 
 import {Colors} from '../../../../utils/colors';
 import FastImage from 'react-native-fast-image';
+import RewardsPopUp from '../../../PopUps/RewardsPopUp';
 import { SUBSCRIBE } from '../../../../utils/constants/constants';
 import ShareButton from '../../../Button/ShareButton';
 import SpotifyButton from '../../../Button/SpotifyButton';
@@ -15,6 +16,7 @@ interface Props {
   shouldShowButtons: boolean;
   shouldShowTitle: boolean;
   cid?: string;
+  image?: any;
   playlist?: string;
   handleSubscribe?: () => void;
   onSharePress?: ()=> void;
@@ -26,6 +28,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
   shouldShowButtons,
   shouldShowTitle,
   cid,
+  image,
   playlist,
   handleSubscribe,
   onSharePress
@@ -48,17 +51,24 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
     );
   };
 
+  const [showPopUp, setShowPopUp] = useState(false);
+  const handlePress = () => {
+    setShowPopUp(true);
+  }
+
   return (
     <View style={{ marginHorizontal: 20 }}>
       { 
         shouldShowTitle ? (
           <View style={{ flexDirection: 'row'}}>
-            <View style={styles.imageBorder}>
-              <FastImage style={styles.image}
-                source={{ uri: icon, priority: FastImage.priority.high }}
-                resizeMode={FastImage.resizeMode.cover}
-              />
-            </View>
+            <TouchableOpacity activeOpacity={0.8} onPress={handlePress}>
+              <View style={styles.imageBorder}>
+                <FastImage style={styles.image}
+                  source={{ uri: icon, priority: FastImage.priority.high }}
+                  resizeMode={FastImage.resizeMode.cover}
+                />
+              </View>
+            </TouchableOpacity>
             <Text28 
               text={name} 
               textColor={Colors.TEXTDARK} 
@@ -84,6 +94,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
           <ShareButton onPress={onSharePress} />
         </View>
       </View>
+      <RewardsPopUp data={image} visible={showPopUp} onClose={()=> setShowPopUp(false)}  />
     </View>
   );
 };

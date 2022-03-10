@@ -3,6 +3,7 @@ import {Dimensions, Modal, StyleSheet} from 'react-native';
 import CityCarousal from '../Carousals/CityCarousal';
 import {Colors} from '../../utils/colors';
 import { FONTS } from '../../utils/constants/fonts';
+import FastImage from 'react-native-fast-image';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import NameIconCarousal from '../Carousals/NameIconCarousal';
 import React from 'react';
@@ -10,9 +11,6 @@ import StyledButton from '../Button/StyledButton';
 import Text16Normal from '../Text/Text16Normal';
 import Text20 from '../Text/Text20';
 import {View} from 'react-native';
-
-const width = Dimensions.get('window').width - 100;
-const height = Dimensions.get('window').height * 0.3;
 
 interface Props {
     visible: boolean;
@@ -22,7 +20,6 @@ interface Props {
 }
 
 const NewRewardsMilestonePopUp: React.FC<Props> = ({visible, checkpoints, rewards, onClose}) => {
-  
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View style={styles.container}>
@@ -67,7 +64,6 @@ const NewRewardsMilestonePopUp: React.FC<Props> = ({visible, checkpoints, reward
           <View style={{ minHeight: rewards.length > 0 ? 120 : 0, marginTop: 15 }}>
             <NameIconCarousal onPress={()=>{}} data={rewards}/>
           </View>
-          
           <View style={styles.buttonContainer}>
             <StyledButton text={"OK"} onPress={onClose}  />
           </View>

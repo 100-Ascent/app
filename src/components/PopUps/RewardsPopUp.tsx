@@ -6,13 +6,16 @@ import { FONTS } from '../../utils/constants/fonts';
 import {HEIGHT} from '../../utils/constants/constants';
 import {Icon} from 'react-native-elements/dist/icons/Icon';
 import ImageCarousal from '../Carousals/ImageCarousal';
+import RNFS from 'react-native-fs';
 import React from 'react';
+import Share from 'react-native-share';
 import ShareButton from '../../components/Button/ShareButton';
 import Text16Normal from '../Text/Text16Normal';
 import Text20 from '../Text/Text20';
 import {View} from 'react-native';
+import ViewShot from 'react-native-view-shot';
 
-const width = Dimensions.get('window').width - 100;
+const width = Dimensions.get('window').width - 85;
 const height = Dimensions.get('window').height * 0.3;
 
 interface Props {
@@ -24,15 +27,48 @@ interface Props {
 const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
   const navigation = useNavigation();
   const onPress = () => {
-    onClose();
-    navigation.navigate('MediaScreen', {
-      data: data.images[0],
+    // onClose();
+    // navigation.navigate('MediaScreen', {
+    //   data: data.images[0],
+    // });
+  };
+
+
+  const ref = React.useRef<ViewShot | null>(null);
+
+  const onShare = () => {
+    captureScreenshot();    
+  };
+
+  const captureScreenshot = () => {
+    ref.current.capture().then(uri => {
+      RNFS.readFile(uri, 'base64').then(res => {
+        let urlString = 'data:image/jpeg;base64,' + res;
+        let options = {
+          title: '100 Ascent',
+          message: 'Hi, checkout my recent activity on 100 Ascent app (https://100ascent.com)',
+          url: urlString,
+          type: 'image/jpeg',
+        };
+        Share.open(options)
+          .then(res => {
+            
+          })
+          .catch(err => {
+
+          });
+      });
     });
   };
+  
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View style={styles.container}>
         <View style={styles.subContainer}>
+          <ViewShot 
+            style={{ backgroundColor: Colors.WHITE, paddingHorizontal: 10, borderRadius: 30 }} 
+            ref={ref} 
+            options={{format: 'jpg', quality: 0.9}}>   
           <View style={styles.cross}>
             <View style={{flex: 2, alignItems: 'flex-end'}}>
               <Icon name="cross" type="entypo" onPress={onClose} size={30} />
@@ -47,20 +83,21 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
           </View>
           <View style={{padding: 5}} />
           
-          <Text20 
+          { data.title?.length > 0 ? <Text20 
             text={data.title} 
             textColor={Colors.TEXTDARK} 
             textStyle={FONTS.BOLD} 
             containerStyle={{paddingHorizontal: 5, marginTop: 10, alignItems: 'center'}} 
-          />
-          <Text16Normal
+          /> : null }
+          { data.description?.length > 0 ? <Text16Normal
             text={data.description}
-            textColor={Colors.BLACK3}
+            textColor={Colors.TEXTDARK}
             containerStyle={{paddingHorizontal: 5, alignItems: 'center', paddingTop: 5 }}
-          />
-          <View style={styles.buttonContainer}>
-            <ShareButton onPress={()=>{}} shouldShowIcon={false} />
-          </View>
+          /> : null }
+          </ViewShot>
+          { data.title?.length > 0 || data.description?.length > 0 ?  <View style={styles.buttonContainer}>
+            <ShareButton onPress={onShare} shouldShowIcon={false} />
+          </View> : <View style={styles.buttonContainer}/> }
         </View>
       </View>
     </Modal>
@@ -74,19 +111,22 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: '#000000aa',
     justifyContent: 'center',
+    borderRadius: 0,
   },
   subContainer: {
     backgroundColor: Colors.WHITE,
     marginHorizontal: 20,
-    paddingHorizontal: 20,
+    paddingHorizontal: 5,
     paddingVertical: 10,
     borderRadius: 30,
   },
   cross: {
     flexDirection: 'row',
-    marginVertical: 10
+    marginTop: 5,
+    marginBottom: 10
   },
   buttonContainer: {
     marginVertical: 20,
+    marginHorizontal: 30
   }
 })

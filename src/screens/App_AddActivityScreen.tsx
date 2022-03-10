@@ -43,6 +43,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const dispatch = useDispatch();
+  const headers = { 'X-CONTEXT-ID': contextId };
 
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -91,9 +92,8 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
       min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
       comment: comment,
-      challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.isSelected ))
+      challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.is_attach ))
     };
-
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
@@ -105,6 +105,22 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
         console.log(err);
       });
   };
+
+  const callToGetChallengeList = async() => {
+    await axios
+    .get("/api/user/sub/challenges", { headers })
+      .then(res => {
+        const data = res.data.data;
+        setSubscribedChallenge(data);
+      })
+      .catch(err => {
+        console.log('errorasdasdsad');
+        console.log(err);
+        setLoading(false);
+      });
+
+  }
+
 
   // Handle change of date
   const onChange = (event, selectedDateValue) => {
@@ -147,14 +163,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
     await axios
     .get(ACTIVITY_LIST, { headers })
       .then(res => {
-        const data = res.data.data;
+        const data = res.data.data;      
         dispatch(SetActivitData({data: data}));
         setDropdownData(data.activities);
         let item = data.activities;
         let index = item.findIndex(item => item.name.includes('Average'));
         setSelected(item[index]);
         setDefaultOption(item[index].is_distance ? 0 : 1);
-        getUserChallenges(data);
+        callToGetChallengeList();
         setLoading(false);
       })
       .catch(err => {
@@ -164,16 +180,6 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
 
     
   };
-
-  const getUserChallenges = (data) => {
-    let allChallenges = [...data.challenges];
-    for(let idx=0;idx<allChallenges.length;idx++){
-      let data = { ...allChallenges[idx]};
-      data['isSelected'] = true;
-      allChallenges[idx] = data;
-    }
-    setSubscribedChallenge([...allChallenges]);
-  }
 
   // Get distance time data
   const getDistanceTimeData = data => {
@@ -196,7 +202,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const handleSelectedChallenges = (idx) => {  
     let challenges = [...subscribedChallenge];
     let data = { ...challenges[idx] };
-    data.isSelected = !data.isSelected;
+    data.is_attach = !data.is_attach;
     challenges[idx] = data;
     checkPostButtonState();
     setSubscribedChallenge(challenges);    
@@ -425,6 +431,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                 </View>
                 <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard
+                    selectedDate={selectedDate}
                     challenges={subscribedChallenge}                    
                     handleSelectedChallenges={handleSelectedChallenges}
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}

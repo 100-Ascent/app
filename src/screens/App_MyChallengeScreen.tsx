@@ -4,23 +4,19 @@ import {SafeAreaView, View} from 'react-native';
 import {setCurrentValues, setJourneyIndex} from '../redux/action';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {AMSTERDAM} from '../utils/constants/versions';
 import {AppState} from '../redux';
 import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
 import ChallengeNameWithIconCard from '../components/Cards/Challenges/MyChallenges/ChallengeNameWithIconCard';
 import CheckpointCard from '../components/Cards/Challenges/MyChallenges/CheckpointCard';
 import {Colors} from '../utils/colors';
-import FloatingActionButton from '../components/Button/FloatingActionButton';
 import LinearGradient from 'react-native-linear-gradient';
 import { NavigationDrawerStructure } from '../routes/AppStack';
 import NewRewardsMilestonePopUp from '../components/PopUps/NewRewardsMilestonePopUp';
 import ProgressBar from '../components/ProgressBar/ProgressBar';
-import RNLoader from '../components/Loader/RNLoader';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import RewardsCard from '../components/Cards/Rewards/RewardsCard';
-import {ScrollView} from 'react-native-gesture-handler';
-import StatsCard from '../components/Cards/StatsCard';
+import {ScrollView} from 'react-native';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
@@ -31,6 +27,7 @@ interface Props {
 }
 
 const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
+  
   const data = route.params.data;
   const [challengeData, setChallengeData] = useState<any>([]);
   const [myJourneyData, setJourneyData] = useState([]);
@@ -111,6 +108,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const callToGetNewRewardsMilestone = async () => {
+    console.log("I am getting calledddd!!!!");
     const cid = route.params.challengeId;
     await axios
       .get('/api/challenge/new/updates/' + cid, {
@@ -143,9 +141,10 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
     callToGetTracksData();
     callToGetUserJourneyData();
     callToGetNewRewardsMilestone();
-  }, [isFocused]);
+  }, []);
 
   const onCheckpointPressed = () => {
+    setShowPopUp(false);
     navigation.navigate('CheckpointMilestoneScreen', {
       data: challengeData.current_checkpoint,
       current_distance: challengeData.current_distance,
@@ -154,10 +153,12 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const onViewDetailsPressed = () => {
+    setShowPopUp(false);
     navigation.navigate('ChallengeDescriptionScreen', {data: data});
   };
 
   const handleMyJourneyMilestonePressed = data => {
+    setShowPopUp(false);
     navigation.navigate('CheckpointMilestoneScreen', {
       data: data,
       current_distance: challengeData.current_distance,
@@ -166,7 +167,8 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const handleRewardsPressed = () => {
-    navigation.navigate('RewardsScreen', {
+    setShowPopUp(false);
+    navigation.push('RewardsScreen', {
       data: challengeData.rewards,
       name: challengeData.name,
       icon: challengeData.icon,
@@ -193,11 +195,8 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   onViewDetailsPressed={onViewDetailsPressed}
                   name={data.name}
                   icon={data.icon}
+                  image={{images: [data.image]}}
                 />
-
-                {/* <View style={{ marginTop: 20, marginHorizontal: 10 }}>
-                  <StatsCard streak={challengeData.streak} isToday={challengeData.is_today_streak} />
-                </View> */}
                 
                 <View style={{ marginTop: 20, marginHorizontal: 20 }}>
                   <CheckpointCard
@@ -248,12 +247,12 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                 <View style={{padding: 50}} />
               </LinearGradient>
             </ScrollView>
-            <NewRewardsMilestonePopUp 
+            {showPopUp ? <NewRewardsMilestonePopUp 
               checkpoints={newRewardsMilestone['checkpoints']} 
               rewards={newRewardsMilestone['rewards']} 
               visible={showPopUp} 
               onClose={onPopUpClose}
-            />
+            /> : null}
           </View>
         )}
       </Background>

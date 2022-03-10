@@ -49,7 +49,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
         let allChallenge = res.data.data[0].remainingList;     
         let activeChallenge = res.data.data[0].subsList;
         if (activeChallenge.length == 1) {
-          navigation.navigate('MyChallengeScreen', {
+          navigation.replace('MyChallengeScreen', {
             data: activeChallenge[0],
             challengeId: activeChallenge[0].id,
           });

@@ -41,7 +41,7 @@ const CheckpointMilestoneScreen: React.FC<Props> = ({navigation, route}) => {
     // navigation.navigate('MediaScreen', {
     //   data: url,
     // });
-  };
+  };  
 
   useEffect(()=>{
     navigation.setOptions({

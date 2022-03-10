@@ -22,7 +22,8 @@ const AfterPaymentScreen: React.FC<Props> = ({navigation, route}) => {
 
     //State variables
     const name = route.params.name;
-    const icon = route.params.icon; 
+    const icon = route.params.icon;
+    const image = route.params.image
     const [showPaymentPopUp, setShowPaymentPopup] = useState(false);
     const user = useSelector((state: AppState) => state.rootStore.user);
     //Async functions
@@ -42,7 +43,7 @@ return <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{f
         <View style={{ flex: 1 }}>
             
             <View style={{ height: '80%' }}>
-                <ChallengeNameWithIconCard showViewDetails={false} name={name} icon={icon} />
+                <ChallengeNameWithIconCard showViewDetails={false} name={name} icon={icon} image={{images: [image]}}  />
                 <View style={styles.subscribed}>
                     <Icon name="checkmark-circle" type='ionicon' size={25} color={Colors.SUCCESS_GREEN} />
                     <Text18 

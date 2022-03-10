@@ -260,7 +260,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             keyboardShouldPersistTaps="handled">
             {loading && dropdownData.length === 0 ? (
               <RNLoaderSimple />
-            ) : (
+            ) : subscribedChallenge.length === 0 ? <RNLoaderSimple /> : (
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View
                   style={{
@@ -442,6 +442,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
                 <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard
+                    selectedDate = {selectedDate}
                     challenges={subscribedChallenge}
                     handleSelectedChallenges={handleSelectedChallenges}
                     handleSubscribeToAChallenge={()=>navigation.navigate('JourneyScreen')}
@@ -463,7 +464,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
               </View>
             )}
-            <View style={{padding: 50}} />
+            <View style={{padding: 70}} />
           </ScrollView>
         </KeyboardAvoidingView>
       </Background>

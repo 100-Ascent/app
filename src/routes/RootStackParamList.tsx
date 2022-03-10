@@ -40,7 +40,7 @@ export type RootStackParamList = {
 
 
   PaymentScreen: { data: any };
-  AfterPaymentScreen: { name: any, icon: any };
+  AfterPaymentScreen: { name: any, icon: any, image: any };
     
   // EditActivityDataScreen: {data?: any; cd_id: any};
   // MyChallengeScreen: {data: Object; challengeId: Object};

@@ -1,5 +1,3 @@
-import React from 'react';
-import {useState} from 'react';
 import {
   ActivityIndicator,
   Dimensions,
@@ -9,11 +7,13 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import FastImage from 'react-native-fast-image';
 
+import {Colors} from '../../utils/colors';
+import FastImage from 'react-native-fast-image';
+import React from 'react';
 import auth from '@react-native-firebase/auth';
 import {useEffect} from 'react';
-import {Colors} from '../../utils/colors';
+import {useState} from 'react';
 
 interface Props {
   data: string[];
@@ -56,8 +56,8 @@ const ImageCarousal: React.FC<Props> = ({
           pagingEnabled
           horizontal
           style={[wrapStyle]}>
-          {data.map((val, index) => (
-            <TouchableOpacity
+          {data?.map((val, index) => (
+            <TouchableOpacity activeOpacity={0.8}
               onPress={() =>
                 onPressImageHandler(
                   typeof val === 'string' ? val : val['image'],
@@ -79,7 +79,7 @@ const ImageCarousal: React.FC<Props> = ({
           ))}
         </ScrollView>
         <View style={styles.wrapDot}>
-          {data.length > 1 &&
+          {data?.length > 1 &&
             data.map((val, index) => (
               <Text
                 key={val}

@@ -79,7 +79,6 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
 
 
   const callToSubscribeToChallenge = async(orderId) => {
-    console.log(orderId);
       setButtonLoading(true);
       await axios
         .get("/api/challenge/check/order/" + orderId, headers)
@@ -87,7 +86,7 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
           console.log(res.data);          
           if(res.data.success){ 
             setButtonLoading(false);        
-            navigation.replace('AfterPaymentScreen', { name: data.name, icon:data.backgroundImage  });
+            navigation.replace('AfterPaymentScreen', { name: data.name, icon:data.icon, image: data.image  });
           }else{
             setButtonLoading(false);
           }
@@ -219,7 +218,7 @@ return <SafeAreaView style={{flex: 1}}>
   {loading ? <RNLoaderSimple /> : <>
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps="handled" >
             <View style={{flex: 1 }}>
-                <ChallengeNameWithIconCard showViewDetails={false} name={data.name} icon={data.backgroundImage} />
+                <ChallengeNameWithIconCard showViewDetails={false} name={data.name} image={{images: [data.image]}} icon={data.icon} />
                 <View style={{ marginTop: 20 }}>
                     <SummaryCard currency={currency} data={summary} />
                 </View>

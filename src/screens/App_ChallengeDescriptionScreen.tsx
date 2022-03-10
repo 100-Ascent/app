@@ -129,7 +129,6 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
       ),
     });
   },[])
-  
   return (
     <SafeAreaView style={{flex: 1}}>
     <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -145,6 +144,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               shouldShowTitle={true}
               name={data.name}
               icon={data.icon}
+              image={{images: [data.image]}}
               cid={data.id}
               playlist={data.playlist}
               handleSubscribe={handleSubscribedPressed}
@@ -216,6 +216,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               icon={data.icon}
               cid={data.id}
               playlist={data.playlist}
+              image={{images: [data.image]}}
               handleSubscribe={handleSubscribedPressed}
               onSharePress={onShare}
             />

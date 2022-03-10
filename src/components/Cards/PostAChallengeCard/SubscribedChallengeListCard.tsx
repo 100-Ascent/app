@@ -1,4 +1,4 @@
-import {TouchableOpacity, View} from 'react-native';
+import {ToastAndroid, TouchableOpacity, View} from 'react-native';
 
 import {Colors} from '../../../utils/colors';
 import FastImage from 'react-native-fast-image';
@@ -9,30 +9,30 @@ import StyledButton from '../../Button/StyledButton';
 import Text16Normal from '../../Text/Text16Normal';
 
 interface Props {
+  selectedDate: any;
   challenges: any;
   handleSubscribeToAChallenge?: any;
   handleSelectedChallenges?: (idx: number) => void,
 }
 
 const SubscribedChallengeListCard: React.FC<Props> = ({
+  selectedDate,
   challenges,
   handleSubscribeToAChallenge,
   handleSelectedChallenges,
 }) => {
-  
+
   const challengeList = challenges.map((val, idx) => {
+    const isDisabled = new Date(selectedDate) < new Date(val.date_joined);  
+    console.log(new Date(selectedDate));
+    console.log(new Date(val.date_joined))
     return (
-      <View
-        style={{ flex: 1, marginHorizontal: 20,
-          borderWidth: val.is_attach || val.isSelected ? 0 : 1,
+      <View key={idx} style={{  flex: 1, marginHorizontal: 20, borderRadius: 10, marginTop: 15,
+          borderWidth: isDisabled? 1 : val.is_attach || val.isSelected ? 0 : 1,
           borderColor: val.is_attach ||  val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
-          borderRadius: 10, marginTop: 15,
-          backgroundColor: val.is_attach || val.isSelected ? Colors.BLACK5 : Colors.TEXT,
-        }}
-        key={idx}>
-        <TouchableOpacity
-          activeOpacity={0.8}
-          onPress={() => { handleSelectedChallenges(idx) }}>
+          backgroundColor: isDisabled ? Colors.INFO_GREY_LIGHT : val.is_attach || val.isSelected ? Colors.BLACK5 : Colors.TEXT,
+        }}>
+        <TouchableOpacity disabled={isDisabled} activeOpacity={0.8} onPress={() => { handleSelectedChallenges(idx) }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 1, padding: 10}}>
               <FastImage
@@ -49,17 +49,12 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
             </View>
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
-              <View
-                style={{
-                  padding: val.is_attach || val.isSelected ? 5 : 10,
-                  borderRadius: 50,
-                  borderWidth: 1,
-                  borderColor:
-                  val.is_attach || val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
-                  backgroundColor:
-                  val.is_attach || val.isSelected ? Colors.GREEN : Colors.TEXT,
+              <View style={{ borderRadius: 50, borderWidth: 1,
+                  padding: isDisabled ? 5 : val.is_attach || val.isSelected ? 5 :  10,
+                  borderColor: isDisabled ? '#D9D9D9' : val.is_attach || val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
+                  backgroundColor: isDisabled ? Colors.INFO_GREY_LIGHT : val.is_attach || val.isSelected ? Colors.GREEN : Colors.TEXT,
                 }}>
-                {val.is_attach || val.isSelected ? (
+                { isDisabled ?  <Icon name="cross" type='entypo' size={15} color={Colors.POPUP_RED} /> : val.is_attach || val.isSelected ? (
                   <Icon name="check" size={15} color={Colors.TEXT} />
                 ) : null}
               </View>
