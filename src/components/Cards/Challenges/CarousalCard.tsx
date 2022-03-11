@@ -19,13 +19,14 @@ interface Props {
 const CarousalCard: React.FC<Props> = ({ onPress, data, handleSubscribe, isSubscribed }) => {
   return (
     <View style={styles.parentContainer}>
-      <TouchableOpacity activeOpacity={0.8} onPress={onPress}>
+      <TouchableOpacity activeOpacity={0.8} onPress={onPress} style={{ paddingTop: 20}}>
         <View style={styles.container}>
           <View style={styles.imageContainer}>
-            <FastImage style={styles.image}
-              source={{ uri: data.icon, priority: FastImage.priority.high }}
-              resizeMode={FastImage.resizeMode.cover}
-            />
+              <FastImage 
+                style={styles.image}
+                source={{ uri: data.icon, priority: FastImage.priority.high }}
+                resizeMode={FastImage.resizeMode.cover}
+              />
           </View>
           <View style={styles.nameContainer}>
             <Text24 text={data.name} textStyle={FONTS.SEMIBOLD} />            
@@ -63,18 +64,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   imageContainer: { 
-    justifyContent: 'center', 
-    alignItems: 'center', 
-    paddingLeft: 20, 
-    paddingVertical: 20, 
-    borderRadius: 100,
-    width: '40%' 
+    marginLeft: 20, 
+    borderWidth: 3, 
+    borderColor: Colors.BLACK2, 
+    borderRadius: 100, 
+    padding: 3
   },
   image: {
     width: 100,
     height: 100,
     borderRadius: 100,
-    borderWidth: 3,
+    borderWidth: 0,
     justifyContent: 'center',
     alignItems: 'center',
   },
@@ -82,7 +82,6 @@ const styles = StyleSheet.create({
     width: '60%',
     flexDirection: 'column', 
     paddingHorizontal: 20, 
-    paddingTop: 20
   },
   buttonContainer: { 
     marginTop: 10

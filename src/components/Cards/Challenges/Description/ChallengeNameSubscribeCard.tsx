@@ -103,12 +103,11 @@ export default ChallengeNameSubscribeCard;
 
 const styles = StyleSheet.create({
   imageBorder : {
-    width: 110,
-    height: 110,
-    borderRadius: 55,
-    borderWidth: 4,
-    justifyContent: 'center',
-    alignItems: 'center'
+    marginLeft: 10, 
+    borderWidth: 3, 
+    borderColor: Colors.BLACK2, 
+    borderRadius: 100, 
+    padding: 3
   },
   image: {
     width: 100,
