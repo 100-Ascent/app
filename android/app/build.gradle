@@ -138,6 +138,7 @@ android {
     }
     defaultConfig {
         applicationId "com.tym.tym_100ascent"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
         versionCode 11
@@ -209,7 +210,7 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.2.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
-
+    implementation 'com.android.support:multidex:2.0.1'
     implementation "com.squareup.okhttp3:okhttp:4.2.1"
     implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
     implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
