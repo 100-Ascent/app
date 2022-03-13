@@ -138,7 +138,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
     callToGetChallengeDataFromId();
     callToGetTracksData();
     callToGetUserJourneyData();
-    callToGetNewRewardsMilestone();
+    callToGetNewRewardsMilestone();    
   }, []);
 
   const onCheckpointPressed = () => {

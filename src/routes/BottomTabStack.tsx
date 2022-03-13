@@ -120,8 +120,8 @@ const BottomTabStack = ({navigation}) => {
             tabBarIcon: ({focused}) => (
               <View style={{position: 'absolute', top: 15}}>
                 <Icon
-                  name="directions-run"
-                  type="material-icons"
+                  name="map"
+                  type="ionicon"
                   size={28}
                   color={focused ? Colors.POPUP_RED : Colors.POPUP_GREY}
                 />

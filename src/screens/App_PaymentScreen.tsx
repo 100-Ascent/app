@@ -104,7 +104,7 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
             MERCHANT_ID,
             txnToken,
             total.toString(),
-            "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=" + orderId,
+            CALLBACK_URL + orderId,
             true,
             true,
             ""

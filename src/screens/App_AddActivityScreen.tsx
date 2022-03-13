@@ -209,7 +209,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   }
 
   const handleSubscribeToAChallenge = () => {
-    navigation.navigate('AllChallengesScreen');
+    navigation.navigate('JourneyScreen');
   };
 
   // Calories, minutes, steps data

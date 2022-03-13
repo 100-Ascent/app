@@ -1,8 +1,10 @@
 import {Dimensions} from 'react-native';
 
-// export const BASEURL = 'https://team-100-ascent.herokuapp.com';
- export const BASEURL = 'https://pre-prod.100ascent.com';
-// export const BASEURL = 'https://api.100ascent.com';
+export const IS_DEV_ENVIRONMENT = true; 
+export const DEV_BASEURL = 'https://pre-prod.100ascent.com';
+export const PROD_BASEURL = 'https://api.100ascent.com';
+
+export const BASEURL = IS_DEV_ENVIRONMENT ? DEV_BASEURL : PROD_BASEURL;
 
 export const getCurrentEnvironmemnt = () => { return BASEURL; }
 
@@ -53,7 +55,7 @@ export enum ProfileInputFieldTypes {
   INSTITUTION = "institution",
 }
 
-export const GOOGLE_FIT_CONFIG = {
+export const DEV_GOOGLE_FIT_CONFIG = {
   issuer: 'https://accounts.google.com',
   clientId: '730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e.apps.googleusercontent.com',
   redirectUrl: 'com.googleusercontent.apps.730727502414-bk7k9runddlpv1s0b10n4q1tnfav2o1e:/oauth2redirect/google',
@@ -62,8 +64,25 @@ export const GOOGLE_FIT_CONFIG = {
 ]
 };
 
-export const MERCHANT_ID = "JBheFY42775698183177";
-export const CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=<order_id>";
+export const PROD_GOOGLE_FIT_CONFIG = {
+  issuer: 'https://accounts.google.com',
+  clientId: '730727502414-urev3kc18jh61qc41r3slea7pkltmvk5.apps.googleusercontent.com',
+  redirectUrl: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5:/oauth2redirect/google',
+  scopes: [ 
+    'https://www.googleapis.com/auth/fitness.activity.read',
+]
+};
+
+export const DEV_MERCHANT_ID = "JBheFY42775698183177";
+export const PROD_MERCHANT_ID = "KJPngf43133528107300";
+
+export const DEV_CALLBACK_URL = "https://securegw-stage.paytm.in/theia/paytmCallback?ORDER_ID=";
+export const PROD_CALLBACK_URL =  "https://securegw.paytm.in/theia/paytmCallback?ORDER_ID=";
+
+export const MERCHANT_ID = IS_DEV_ENVIRONMENT ? DEV_MERCHANT_ID : PROD_MERCHANT_ID;
+export const CALLBACK_URL = IS_DEV_ENVIRONMENT ? DEV_CALLBACK_URL : PROD_CALLBACK_URL;
+export const GOOGLE_FIT_CONFIG = IS_DEV_ENVIRONMENT ? DEV_GOOGLE_FIT_CONFIG : PROD_GOOGLE_FIT_CONFIG;
+
 
 export const STREAM = {
   GOOGLE_FIT : "Google Fit",
