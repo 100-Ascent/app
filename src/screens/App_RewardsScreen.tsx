@@ -22,6 +22,7 @@ interface Props {
   route: RootNavRouteProps<'RewardsScreen'>;
 }
 const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
+  
   let explosion = useRef(null);
   const challengeName = route.params.name;
   const challengeIcon = route.params.icon;
@@ -119,6 +120,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
     });
     getToUnlockRewards();
   }, []);
+  
   return (
     <SafeAreaView style={{flex: 1}}>
       <Background startColor={Colors.TEXT} endColor={Colors.TEXT}>
@@ -129,6 +131,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
             <ChallengeNameSubscribeCard
               name={challengeName}
               icon={challengeIcon}
+              image={[]}
               shouldShowButtons={false}
               shouldShowTitle={true} 
             />

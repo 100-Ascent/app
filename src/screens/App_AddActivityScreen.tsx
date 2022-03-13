@@ -82,11 +82,11 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   }
 
   // API call to update
-  const handlePostData = async () => {
+  const handlePostData = async () => {    
     const data = {
       count: parseFloat(distanceTimeData),
       activity_id: selected['id'],
-      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
+      date: selectedDate.toISOString().split('.')[0] + 'Z',
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
       min: defaultOption === 0 ? calminsteps.min : value,

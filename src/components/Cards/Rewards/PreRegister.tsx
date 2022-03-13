@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {StyleSheet, TextInput, View} from 'react-native';
+import {StyleSheet, TextInput, ToastAndroid, View} from 'react-native';
 
 import {Colors} from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
@@ -8,7 +8,9 @@ import Text16Normal from '../../Text/Text16Normal';
 
 const PreRegister = () => {
   const [email, setEmail] = useState('');
-  const submitHandler = () => {};
+  const submitHandler = () => {
+    setEmail("");
+  };
 
   return (
     <View style={styles.container}>

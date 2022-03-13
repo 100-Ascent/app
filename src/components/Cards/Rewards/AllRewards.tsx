@@ -1,3 +1,5 @@
+import {StyleSheet, View} from 'react-native';
+
 import {Colors} from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
 import FastImage from 'react-native-fast-image';
@@ -6,7 +8,6 @@ import React from 'react';
 import Text14 from '../../Text/Text14';
 import Text16Normal from '../../Text/Text16Normal';
 import {TouchableOpacity} from 'react-native-gesture-handler';
-import {View} from 'react-native';
 
 const AllRewards = ({data, isRewardToUnlock, onPress}) => {
   let rewards = [];
@@ -28,7 +29,7 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
     }
   }
   rewards.push(temp);
-
+  
   return (
     <View style={{ flex: 1, marginHorizontal: 20, borderRadius: 20, paddingBottom: 5, 
       backgroundColor: data.length ===0 ? Colors.TEXT : Colors.TRANSPARENT, elevation:  data.length ===0 ? 2 : 0 }}>
@@ -40,32 +41,21 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
           {rewards.map((row, idx) => {
             return (
               <View style={{ flex: 1, flexDirection: 'row' }} key={idx}>
-                {row.map((val, idx2) => {
+                {row.map((val, idx2) => {                  
                   return val.is_passed && val.is_scratched ? (
-                    <View
-                      style={{
-                        flex: 1,
-                        elevation: val !== '' ? 3 : 0,
-                        backgroundColor: "#FFF",
-                        marginRight: idx2 % 2 ? 0 : 10,
-                        marginLeft: idx2 % 2 ? 10 : 0,              
-                        padding: 5,
-                        marginTop: 15,
-                        paddingTop: 20,
-                        borderRadius: 10,
-                      }}
-                      key={idx2}>
-                      <View
-                        style={{
-                          marginHorizontal: 10,
-                          justifyContent: 'center',
-                          alignItems: 'center',
-                        }}>
+                    <View key={idx2} style={[styles.rewardsCard, { 
+                      backgroundColor: val.length === 0 ? Colors.TRANSPARENT : "#FFF",
+                      elevation: val !== '' ? 3 : 0, 
+                      marginRight: idx2 % 2 ? 0 : 10, 
+                      marginLeft: idx2 % 2 ? 10 : 0
+                      }]}>
+                      <View style={{ marginHorizontal: 10, justifyContent: 'center', alignItems: 'center' }}>
                         {val !== '' ? (
                           <TouchableOpacity
-                            onPress={() =>
-                              onPress(idx * rewards.length + idx2)
-                            }>
+                            onPress={() =>{      
+                              console.log(idx * (rewards.length-1) + idx2)                      
+                              onPress(idx * (rewards.length-1) + idx2)
+                            }}>
                             <View
                               style={{
                                 borderRadius: 70,
@@ -89,6 +79,7 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
                           </TouchableOpacity>
                         ) : null}
                       </View>
+
                       <View
                         style={{
                           flex: 1,
@@ -103,8 +94,9 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
                           textColor={Colors.BLACK4}                          
                         />
                       </View>
+                      
                     </View>
-                  ) : null;
+                  ) : <View style={[{ backgroundColor: val.length === 0 ? Colors.TRANSPARENT : "#FFF" },styles.rewardsCard]} />;
                 })}
               </View>
             );
@@ -122,3 +114,13 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
 };
 
 export default AllRewards;
+
+const styles = StyleSheet.create({
+  rewardsCard: {
+    flex: 1,             
+    padding: 5,
+    marginTop: 15,
+    paddingTop: 20,
+    borderRadius: 10,
+  }
+})

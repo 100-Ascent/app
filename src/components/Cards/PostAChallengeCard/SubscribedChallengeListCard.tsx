@@ -23,9 +23,7 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
 }) => {
 
   const challengeList = challenges.map((val, idx) => {
-    const isDisabled = new Date(selectedDate) < new Date(val.date_joined);  
-    console.log(new Date(selectedDate));
-    console.log(new Date(val.date_joined))
+    const isDisabled = new Date(selectedDate) < new Date(val.date_joined);
     return (
       <View key={idx} style={{  flex: 1, marginHorizontal: 20, borderRadius: 10, marginTop: 15,
           borderWidth: isDisabled? 1 : val.is_attach || val.isSelected ? 0 : 1,

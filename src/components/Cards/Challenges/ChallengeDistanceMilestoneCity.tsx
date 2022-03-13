@@ -25,7 +25,7 @@ const ChallengeDistanceMilestoneCity: React.FC<Props> = ({ cities, distance, mil
 //Component functions
 
 return <View>
-    <View style={{ flexDirection: 'row', marginTop: 5 }}>
+    <View style={{ flexDirection: 'row', marginTop: 15 }}>
           <View style={styles.challengeData}>
               <View style={{justifyContent: "center"}}>
                 <MileStoneIcon />

@@ -35,7 +35,8 @@ const ImageCarousal: React.FC<Props> = ({
 
   const [token, setToken] = useState('');
   const [active, setActive] = useState(0);
-  const [loading, setLoading] = useState(false);
+  const [imageLoading, setImageLoading] = useState(true);
+  
   const change = nativeEvent => {
     if (nativeEvent) {
       const slide = Math.ceil(
@@ -74,6 +75,9 @@ const ImageCarousal: React.FC<Props> = ({
                   },
                 }}
                 resizeMode={FastImage.resizeMode.cover}
+                onLoad={()=>{
+                  setImageLoading(false);
+                }}
               />
             </TouchableOpacity>
           ))}

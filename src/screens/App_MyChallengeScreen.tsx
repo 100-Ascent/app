@@ -19,7 +19,6 @@ import RewardsCard from '../components/Cards/Rewards/RewardsCard';
 import {ScrollView} from 'react-native';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import axios from 'axios';
-import { useIsFocused } from '@react-navigation/native';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -42,7 +41,6 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   const currentDistance = useSelector(
     (state: AppState) => state.rootStore.currentValue.distance,
   );
-  const isFocused = useIsFocused();
  
   const dispatch = useDispatch();
 
@@ -66,7 +64,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
         setLoading(false);
       })
       .catch(err => {
-        console.log('error123');
+        console.log('callToGetChallengeDataFromId');
         console.log(err);
       });
   };
@@ -108,7 +106,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
   };
 
   const callToGetNewRewardsMilestone = async () => {
-    console.log("I am getting calledddd!!!!");
+
     const cid = route.params.challengeId;
     await axios
       .get('/api/challenge/new/updates/' + cid, {
@@ -124,7 +122,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
         }
       })
       .catch(err => {
-        console.log('error123');
+        console.log('callToGetNewRewardsMilestone');
         console.log(err);
       });
   }
@@ -137,7 +135,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
       headerRight: () => <View style={{marginRight: 0}} />,
       headerLeft: () => <NavigationDrawerStructure navigationProps={navigation} />,
     });
-    callToGetChallengeDataFromId();    
+    callToGetChallengeDataFromId();
     callToGetTracksData();
     callToGetUserJourneyData();
     callToGetNewRewardsMilestone();

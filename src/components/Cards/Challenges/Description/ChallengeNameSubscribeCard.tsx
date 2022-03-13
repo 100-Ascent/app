@@ -94,7 +94,11 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
           <ShareButton onPress={onSharePress} />
         </View>
       </View>
-      <RewardsPopUp data={image} visible={showPopUp} onClose={()=> setShowPopUp(false)}  />
+      { 
+        image.length > 0 ?
+        <RewardsPopUp data={image} visible={showPopUp} onClose={()=> setShowPopUp(false)}  />
+        : null 
+      }
     </View>
   );
 };

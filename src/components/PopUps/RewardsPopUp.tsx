@@ -25,21 +25,8 @@ interface Props {
 }
 
 const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
-  const navigation = useNavigation();
-  const onPress = () => {
-    // onClose();
-    // navigation.navigate('MediaScreen', {
-    //   data: data.images[0],
-    // });
-  };
-
-
+  
   const ref = React.useRef<ViewShot | null>(null);
-
-  const onShare = () => {
-    captureScreenshot();    
-  };
-
   const captureScreenshot = () => {
     ref.current.capture().then(uri => {
       RNFS.readFile(uri, 'base64').then(res => {
@@ -61,6 +48,7 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
     });
   };
   
+  console.log(data);
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View style={styles.container}>
@@ -78,7 +66,7 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
             <ImageCarousal
               data={data.images}
               wrapStyle={{width: width, height: height}}
-              onPressImageHandler={onPress}
+              onPressImageHandler={()=>{}}
             />
           </View>
           <View style={{padding: 5}} />
@@ -96,7 +84,7 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
           /> : null }
           </ViewShot>
           { data.title?.length > 0 || data.description?.length > 0 ?  <View style={styles.buttonContainer}>
-            <ShareButton onPress={onShare} shouldShowIcon={false} />
+            <ShareButton onPress={captureScreenshot} shouldShowIcon={false} />
           </View> : <View style={styles.buttonContainer}/> }
         </View>
       </View>
