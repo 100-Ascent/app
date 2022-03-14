@@ -78,7 +78,6 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
         },
       })
       .then(res => {
-        console.log(res.data.data);
         explosion.current.start();
         let reward = [...scratchedReward];
         let toUnlockArray = [...toUnlockRewardsArray];
@@ -171,7 +170,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
             <View style={{ marginTop: 20 }}>
               <PreRegister />
             </View>
-              <NewRewardPopUp
+              { visible ? <NewRewardPopUp
                 visible={visible}
                 onCancel={handleCancel}
                 onHandleRevealPressed={onHandleRevealPressed}
@@ -180,7 +179,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
                 explosion={explosion}
                 isRevealed={isRevealed}
                 toUnlockRewardsArray={toUnlockRewardsArray}
-              />
+              /> : null }
           </View>
           <View style={{padding: 100}} />
         </ScrollView>

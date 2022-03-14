@@ -1,7 +1,8 @@
-import React from 'react';
-import {View} from 'react-native';
-import FastImage from 'react-native-fast-image';
+import {TouchableOpacity, View} from 'react-native';
+
 import {Colors} from '../../../utils/colors';
+import FastImage from 'react-native-fast-image';
+import React from 'react';
 import Text16Normal from '../../Text/Text16Normal';
 import Text20 from '../../Text/Text20';
 import TrophyIcon from '../../../../assets/icons/challenge-trophy-icon.svg';
@@ -9,6 +10,7 @@ import TrophyIcon from '../../../../assets/icons/challenge-trophy-icon.svg';
 const CompletedChallenge = ({data, onPress}) => {
   const completedChallengeList = data.map((val, idx) => {
     return (
+      <TouchableOpacity activeOpacity={0.7} onPress={()=>onPress(val)}>
       <View
         style={{
           borderRadius: 10,
@@ -41,6 +43,7 @@ const CompletedChallenge = ({data, onPress}) => {
           </View>
         </View>
       </View>
+      </TouchableOpacity>
     );
   });
   return (
@@ -50,7 +53,7 @@ const CompletedChallenge = ({data, onPress}) => {
         elevation: 1,
         borderRadius: 10,
         paddingBottom: 20,
-        marginHorizontal: 20,
+        marginHorizontal: 5,
         backgroundColor: Colors.TEXT,
       }}>
       <View style={{flex: 1, paddingTop: 20, paddingHorizontal: 20}}>

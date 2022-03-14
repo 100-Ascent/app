@@ -53,8 +53,7 @@ const AllRewards = ({data, isRewardToUnlock, onPress}) => {
                         {val !== '' ? (
                           <TouchableOpacity
                             onPress={() =>{      
-                              console.log(idx * (rewards.length-1) + idx2)                      
-                              onPress(idx * (rewards.length-1) + idx2)
+                              onPress(idx * 2 + idx2)
                             }}>
                             <View
                               style={{

@@ -225,6 +225,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                     userJourneyIndex={challengeData.user_journey_index}
                     tracksCoordinates={tracksData}
                     tracks={challengeData.tracks}
+                    current_track_index={challengeData.current_track_index}
                     distanceData={myDistanceData}
                     handleMyJourneyMilestonePressed={
                       handleMyJourneyMilestonePressed

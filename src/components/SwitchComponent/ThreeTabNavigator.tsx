@@ -49,20 +49,17 @@ const ThreeTabNavigator = ({
   funfact,
   distance,
   userLocation,
+  current_track_index,
   userJourneyIndex,
   callToGetChallengeDataFromId
 }) => {
   const [active, setActive] = useState(0);
-  const [index, setIndex] = useState(0);
   const navigation = useNavigation();
   const arr = journeyData.map((val, idx) => {
     return RINGCOLORS[0];
   });
-
+  
   const handlePress = (i: number) => setActive(i);
-  const getCurrentIndex = idx => {
-    setIndex(idx);
-  };
 
   const getComponent = () => {
     switch (active) {
@@ -74,8 +71,8 @@ const ThreeTabNavigator = ({
             data={journeyData}
             journeyIndex={userJourneyIndex}
             funfact={funfact}
-            fun_fact_start_color={tracks[index].fun_fact_start_color}
-            fun_fact_end_color={tracks[index].fun_fact_end_color}
+            fun_fact_start_color={tracks[current_track_index].fun_fact_start_color}
+            fun_fact_end_color={tracks[current_track_index].fun_fact_end_color}
           />
         );
       case 1:
@@ -100,8 +97,8 @@ const ThreeTabNavigator = ({
             <View style={{padding: 10}} />
             <FunFactCard
               fact={funfact}
-              startColor={tracks[index].fun_fact_start_color}
-              endColor={tracks[index].fun_fact_end_color}
+              startColor={tracks[current_track_index].fun_fact_start_color}
+              endColor={tracks[current_track_index].fun_fact_end_color}
             />
           </>
         );

@@ -1,8 +1,8 @@
-import React from 'react';
-import {View} from 'react-native';
 import {Colors} from '../../../utils/colors';
-import Text16Normal from '../../Text/Text16Normal';
+import React from 'react';
 import RewardCard from './NewRewardCard';
+import Text16Normal from '../../Text/Text16Normal';
+import {View} from 'react-native';
 
 interface Props {
   onPress: (idx: number) => void;
@@ -42,7 +42,6 @@ const RewardsUnlocked: React.FC<Props> = ({rewards, onPress}) => {
     }
   }
   data.push(temp);
-
   return (
     <View
       style={{
@@ -69,7 +68,7 @@ const RewardsUnlocked: React.FC<Props> = ({rewards, onPress}) => {
               }}
               key={idx}>
               {row.map((val, idx2) => {
-                const index = idx * data.length + idx2;
+                const index = idx * 2 + idx2;
                 return (
                   <View
                     style={{
@@ -80,15 +79,8 @@ const RewardsUnlocked: React.FC<Props> = ({rewards, onPress}) => {
                     }}
                     key={idx2}>
                     {val !== '' ? (
-                      <RewardCard
-                        startColor={
-                          REWARD_START_BGCOLOR[
-                            index % REWARD_START_BGCOLOR.length
-                          ]
-                        }
-                        endColor={
-                          REWARD_END_BGCOLOR[index % REWARD_END_BGCOLOR.length]
-                        }
+                      <RewardCard startColor={ REWARD_START_BGCOLOR[ index % 4 ] }
+                        endColor={ REWARD_END_BGCOLOR[index % 4] }
                         rewardIndex={index + 1}
                         onPress={onPress}
                       />

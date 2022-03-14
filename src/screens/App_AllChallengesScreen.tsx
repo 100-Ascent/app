@@ -105,7 +105,8 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
   };
 
   const onChallengePress = item => {
-    navigation.navigate('ChallengeDescriptionScreen', { data: item });
+    const cid = item.id;
+    navigation.replace('MyChallengeScreen', { data: item, challengeId: cid });
   };
 
   useEffect(() => {

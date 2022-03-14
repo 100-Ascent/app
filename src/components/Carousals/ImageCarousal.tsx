@@ -8,7 +8,6 @@ import {
   View,
 } from 'react-native';
 
-import {Colors} from '../../utils/colors';
 import FastImage from 'react-native-fast-image';
 import React from 'react';
 import auth from '@react-native-firebase/auth';

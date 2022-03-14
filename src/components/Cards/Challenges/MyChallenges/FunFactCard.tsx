@@ -1,11 +1,10 @@
-import React from 'react';
-import {View} from 'react-native';
-
-import LinearGradient from 'react-native-linear-gradient';
-
 import {Colors} from '../../../../utils/colors';
+import { FONTS } from '../../../../utils/constants/fonts';
+import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
 import Text14 from '../../../Text/Text14';
 import Text16Normal from '../../../Text/Text16Normal';
+import {View} from 'react-native';
 
 interface Props {
   fact: string;
@@ -25,10 +24,10 @@ const FunFactCard: React.FC<Props> = ({fact, startColor, endColor}) => {
           elevation: 1,
         }}>
         <View style={{flex: 1, paddingHorizontal: 25, paddingTop: 15}}>
-          <Text16Normal text="Fun Fact" textColor={Colors.WHITE} />
+          <Text16Normal text="Fun Fact" textColor={Colors.WHITE} textStyle={FONTS.BOLD} />
         </View>
         <View style={{flex: 1, paddingHorizontal: 25, paddingVertical: 15}}>
-          <Text14 text={fact} textColor={Colors.WHITE} />
+          <Text14 textStyle={FONTS.REGULAR} text={fact} textColor={Colors.WHITE} />
         </View>
       </View>
     </LinearGradient>

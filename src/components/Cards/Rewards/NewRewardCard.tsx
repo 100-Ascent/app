@@ -1,6 +1,8 @@
-import React from 'react';
 import {TouchableOpacity, View} from 'react-native';
+
 import Background from '../../Background/StyledBackground';
+import LinearGradient from 'react-native-linear-gradient';
+import React from 'react';
 import Reward1 from '../../../../assets/icons/Rewards/reward1.svg';
 import Reward2 from '../../../../assets/icons/Rewards/reward2.svg';
 
@@ -31,6 +33,7 @@ const RewardCard: React.FC<Props> = ({
         return <Reward2 />;
     }
   };
+  
   return (
     <View
       style={{
@@ -38,10 +41,10 @@ const RewardCard: React.FC<Props> = ({
         borderRadius: 10,
         margin: 10,
       }}>
-      <Background
-        style={{borderRadius: 10}}
-        startColor={startColor}
-        endColor={endColor}>
+     <LinearGradient
+        start={{x: 0, y: 0}}
+        end={{x: 1, y: 0}}
+        colors={[ startColor, endColor, ]} style={{ borderRadius: 10 }}>
         <TouchableOpacity
           activeOpacity={0.9}
           onPress={() => {
@@ -58,7 +61,7 @@ const RewardCard: React.FC<Props> = ({
             {getReward(rewardIndex)}
           </View>
         </TouchableOpacity>
-      </Background>
+        </LinearGradient>
     </View>
   );
 };

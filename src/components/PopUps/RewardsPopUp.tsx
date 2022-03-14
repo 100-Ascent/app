@@ -15,7 +15,7 @@ import Text20 from '../Text/Text20';
 import {View} from 'react-native';
 import ViewShot from 'react-native-view-shot';
 
-const width = Dimensions.get('window').width - 85;
+const width = Dimensions.get('window').width - 70;
 const height = Dimensions.get('window').height * 0.3;
 
 interface Props {
@@ -48,13 +48,12 @@ const RewardsPopUp: React.FC<Props> = ({visible, onClose, data}) => {
     });
   };
   
-  console.log(data);
   return (
     <Modal visible={visible} onRequestClose={onClose} transparent>
       <View style={styles.container}>
         <View style={styles.subContainer}>
           <ViewShot 
-            style={{ backgroundColor: Colors.WHITE, paddingHorizontal: 10, borderRadius: 30 }} 
+            style={{ backgroundColor: "#fff", paddingHorizontal: 10, borderRadius: 30 }} 
             ref={ref} 
             options={{format: 'jpg', quality: 0.9}}>   
           <View style={styles.cross}>
@@ -102,7 +101,7 @@ const styles = StyleSheet.create({
     borderRadius: 0,
   },
   subContainer: {
-    backgroundColor: Colors.WHITE,
+    backgroundColor: "#fff",
     marginHorizontal: 20,
     paddingHorizontal: 5,
     paddingVertical: 10,
