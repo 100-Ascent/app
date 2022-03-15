@@ -52,7 +52,7 @@ const DistanceComponent : React.FC<Props> = ({ distanceData, setLoading, setActi
   };
 
   const handleEditPressed = (id: any ) => {     
-    const index = distanceData.findIndex( obj => obj.uad? obj.uad.id : obj.id === id );
+    const index = distanceData.findIndex( obj => ( obj.uad? obj.uad.id : obj.id ) === id );
     handleEditActivity(distanceData[index])  
   };
 

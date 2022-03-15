@@ -23,7 +23,7 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
 }) => {
 
   const challengeList = challenges.map((val, idx) => {
-    const isDisabled = new Date(selectedDate) < new Date(val.date_joined);
+    const isDisabled = ( new Date(selectedDate) < new Date(val.date_joined) ) || val['is_completed'];
     return (
       <View key={idx} style={{  flex: 1, marginHorizontal: 20, borderRadius: 10, marginTop: 15,
           borderWidth: isDisabled? 1 : val.is_attach || val.isSelected ? 0 : 1,
@@ -34,7 +34,7 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 1, padding: 10}}>
               <FastImage
-                style={{width: 60, height: 60, borderRadius: 60}}
+                style={{width: 60, height: 60, borderRadius: 60 }}
                 source={{
                   uri: val.icon,
                   priority: FastImage.priority.high,
@@ -43,7 +43,7 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
               />
             </View>
             <View style={{flex: 2, justifyContent: 'center'}}>
-              <Text16Normal text={val.name} textColor={Colors.TEXTDARK} />
+              <Text16Normal text={val.name} textColor={ isDisabled? Colors.INFO_GREY : Colors.TEXTDARK} />
             </View>
             <View
               style={{flex: 1, justifyContent: 'center', alignItems: 'center'}}>
@@ -52,7 +52,7 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
                   borderColor: isDisabled ? '#D9D9D9' : val.is_attach || val.isSelected ? Colors.TRANSPARENT : '#D9D9D9',
                   backgroundColor: isDisabled ? Colors.INFO_GREY_LIGHT : val.is_attach || val.isSelected ? Colors.GREEN : Colors.TEXT,
                 }}>
-                { isDisabled ?  <Icon name="cross" type='entypo' size={15} color={Colors.POPUP_RED} /> : val.is_attach || val.isSelected ? (
+                { isDisabled ?  <Icon name="cross" type='entypo' size={15} color={Colors.INFO_GREY} /> : val.is_attach || val.isSelected ? (
                   <Icon name="check" size={15} color={Colors.TEXT} />
                 ) : null}
               </View>

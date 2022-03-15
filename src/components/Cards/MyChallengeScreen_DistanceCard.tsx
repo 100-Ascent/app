@@ -1,27 +1,27 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {Colors} from '../../utils/colors';
-import FastImage from 'react-native-fast-image';
-import Text28 from '../Text/Text28';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+
+import { AppState } from '../../redux';
 import CalorieCard from '../DistanceComponent/CalorieCard';
-import TimeCard from '../DistanceComponent/TimeCard';
-import FootCard from '../DistanceComponent/FootCard';
-import DistanceTotalCard from '../DistanceComponent/DistanceTotalCard';
-import FitnessCard from '../DistanceComponent/FitnessCard';
-import Text16Normal from '../Text/Text16Normal';
-import KlicksTooltip from '../Tooltip/KlicksTooltip';
-import Text14 from '../Text/Text14';
+import {Colors} from '../../utils/colors';
+import CommentCard from '../DistanceComponent/CommentCard';
 import CustomPopUp from '../PopUps/CustomPopUp';
+import DateCard from '../DistanceComponent/DateCard';
+import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
+import DistanceTotalCard from '../DistanceComponent/DistanceTotalCard';
+import FastImage from 'react-native-fast-image';
+import FitnessCard from '../DistanceComponent/FitnessCard';
+import FootCard from '../DistanceComponent/FootCard';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import KlicksTooltip from '../Tooltip/KlicksTooltip';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
+import Text14 from '../Text/Text14';
+import Text16Normal from '../Text/Text16Normal';
+import Text28 from '../Text/Text28';
+import TimeCard from '../DistanceComponent/TimeCard';
 import ViewShot from 'react-native-view-shot';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../redux';
-import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
-import CommentCard from '../DistanceComponent/CommentCard';
-import DateCard from '../DistanceComponent/DateCard';
-
 
 interface Props {
   data: any;

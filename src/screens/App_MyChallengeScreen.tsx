@@ -19,6 +19,7 @@ import RewardsCard from '../components/Cards/Rewards/RewardsCard';
 import {ScrollView} from 'react-native';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import axios from 'axios';
+import { useIsFocused } from '@react-navigation/native';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -126,7 +127,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
         console.log(err);
       });
   }
-
+  const isFocused = useIsFocused();
   useEffect(() => {
     navigation.setOptions({
       headerTitle: 'My Journey',
@@ -139,7 +140,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
     callToGetTracksData();
     callToGetUserJourneyData();
     callToGetNewRewardsMilestone();    
-  }, []);
+  }, [isFocused]);
 
   const onCheckpointPressed = () => {
     setShowPopUp(false);
