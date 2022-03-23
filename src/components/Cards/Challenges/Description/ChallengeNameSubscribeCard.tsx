@@ -95,7 +95,7 @@ const ChallengeNameSubscribeCard: React.FC<Props> = ({
         </View>
       </View>
       { 
-        image.length > 0 ?
+        Object.keys(image).length > 0 ?
         <RewardsPopUp data={image} visible={showPopUp} onClose={()=> setShowPopUp(false)}  />
         : null 
       }

@@ -33,14 +33,15 @@ interface Props {
 }
 
 const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
-
+  
   const data = route.params.data;
   const [currentTab, setTab] = useState(0);
   const [loading, setLoading] = useState(false);
   const contextId = useSelector((state: AppState) => state.rootStore.contextId);
   const [subscribePopUp, setSubscribePopUp] = useState<boolean>(false);
   const [toSubscribeCid, setSubscribeCid] = useState('');
-
+  const ref = React.useRef<ViewShot | null>(null);
+  
   const handleSwitch = () => {
     const tab = 1 - currentTab;
     setTab(tab);
@@ -83,7 +84,6 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     // });
   };
 
-  const ref = React.useRef<ViewShot | null>(null);
 
   const onShare = () => {
     captureScreenshot();    
@@ -134,7 +134,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
     <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
       {loading ? <RNLoaderSimple /> : 
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}}>
-        
+        <ViewShot style={{ backgroundColor: Colors.WHITE, borderRadius: 10 }} ref={ref} options={{format: 'jpg', quality: 0.9}}>
           <View style={{flex: 1 }}>
             <BackgroundVector />
             
@@ -222,6 +222,7 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
             />
           </View>
           <View style={{padding: 70}}/>
+          </ViewShot>
           
           <CustomPopUp
             icon={<SubscribeToChallenge/>}

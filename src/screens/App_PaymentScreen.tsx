@@ -105,8 +105,8 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
             txnToken,
             total.toString(),
             CALLBACK_URL + orderId,
-            true,
-            true,
+            false,
+            false,
             ""
         )
         .then((result) => {

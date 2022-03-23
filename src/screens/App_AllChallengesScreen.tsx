@@ -104,9 +104,13 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
     navigation.navigate('MyChallengeScreen', { data: data, challengeId: cid });
   };
 
-  const onChallengePress = item => {
+  const onCompletedChallengePress = (item) => {
     const cid = item.id;
-    navigation.replace('MyChallengeScreen', { data: item, challengeId: cid });
+    navigation.navigate('MyChallengeScreen', { data: item, challengeId: cid });
+  }
+
+  const onChallengePress = item => {
+    navigation.navigate('ChallengeDescriptionScreen', { data: item });
   };
 
   useEffect(() => {
@@ -147,7 +151,7 @@ const JourneyScreen: React.FC<Props> = ({navigation}) => {
                   showCompletedChallengeCard ?
                   <CompletedChallenge
                     data={completedChallenge}
-                    onPress={onChallengePress}
+                    onPress={onCompletedChallengePress}
                   /> : <View /> 
                 }
             </View>
