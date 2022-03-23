@@ -25,6 +25,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CustomPopUp from '../components/PopUps/CustomPopUp';
 import NotificationIcon from '../../assets/modal-icons/notification-icon.svg';
 import EmptyState from '../../assets/icons/empty_state.svg';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 interface Props {
   navigation: RootNavProp<'InstitutionScreen'>;
@@ -199,7 +200,7 @@ const InstitutionScreen: React.FC<Props> = ({navigation, route}) => {
                             borderColor: Colors.BLACK3,
                             borderRadius: 10, 
                             paddingHorizontal: 10, 
-                            paddingVertical: 5, 
+                            paddingVertical: isIOS? 7 : 5, 
                             color: Colors.TEXTDARK 
                           }]}                     
                           selectionColor={Colors.BLACK3}                                        
