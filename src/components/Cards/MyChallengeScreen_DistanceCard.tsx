@@ -1,27 +1,27 @@
 import React, {useState} from 'react';
 import {TouchableOpacity, View} from 'react-native';
-import {Colors} from '../../utils/colors';
-import FastImage from 'react-native-fast-image';
-import Text28 from '../Text/Text28';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
+
+import { AppState } from '../../redux';
 import CalorieCard from '../DistanceComponent/CalorieCard';
-import TimeCard from '../DistanceComponent/TimeCard';
-import FootCard from '../DistanceComponent/FootCard';
-import DistanceTotalCard from '../DistanceComponent/DistanceTotalCard';
-import FitnessCard from '../DistanceComponent/FitnessCard';
-import Text16Normal from '../Text/Text16Normal';
-import KlicksTooltip from '../Tooltip/KlicksTooltip';
-import Text14 from '../Text/Text14';
+import {Colors} from '../../utils/colors';
+import CommentCard from '../DistanceComponent/CommentCard';
 import CustomPopUp from '../PopUps/CustomPopUp';
+import DateCard from '../DistanceComponent/DateCard';
+import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
+import DistanceTotalCard from '../DistanceComponent/DistanceTotalCard';
+import FastImage from 'react-native-fast-image';
+import FitnessCard from '../DistanceComponent/FitnessCard';
+import FootCard from '../DistanceComponent/FootCard';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
+import KlicksTooltip from '../Tooltip/KlicksTooltip';
 import RNFS from 'react-native-fs';
 import Share from 'react-native-share';
+import Text14 from '../Text/Text14';
+import Text16Normal from '../Text/Text16Normal';
+import Text28 from '../Text/Text28';
+import TimeCard from '../DistanceComponent/TimeCard';
 import ViewShot from 'react-native-view-shot';
 import { useSelector } from 'react-redux';
-import { AppState } from '../../redux';
-import DeleteModalIcon from '../../../assets/modal-icons/delete-modal-icon.svg';
-import CommentCard from '../DistanceComponent/CommentCard';
-import DateCard from '../DistanceComponent/DateCard';
-
 
 interface Props {
   data: any;
@@ -35,6 +35,8 @@ const DistanceCard: React.FC<Props> = ({
   handleDelete,
   showAllActivities
 }) => {
+
+  data = data.uad? data.uad : data;
   const ref = React.useRef<ViewShot | null>(null);
   const [visible, setVisible] = useState(false);
   const [toDeleteId, setToDeleteId ] = useState(0);
@@ -78,10 +80,10 @@ const DistanceCard: React.FC<Props> = ({
     });
   };
 
-  const selectedActivity = activityData.activities.filter( obj => obj.id === data.activity_id)[0];
-  return (
-    <View style={{ flex: 1, borderRadius: 10 }}>
-      <ViewShot
+  const selectedActivity = activityData.activities.filter( obj => obj.id === (data.activity? data.activity.id : data.activity_id))[0];
+
+  return <View>
+     <ViewShot
         style={{backgroundColor: Colors.TEXT, borderRadius: 10 }}
         ref={ref}
         options={{format: 'jpg', quality: 0.9}}>
@@ -92,7 +94,7 @@ const DistanceCard: React.FC<Props> = ({
             backgroundColor: Colors.TEXT,
             paddingHorizontal: 20,
             paddingVertical: 20,
-            elevation: 2,
+            elevation: 3,
           }}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 2}}>
@@ -158,33 +160,7 @@ const DistanceCard: React.FC<Props> = ({
               </View>
             </View>
             <View style={{flex: 1}}>
-              {/* <View
-                style={{
-                  flex: 1,
-                  flexDirection: 'row',
-                  justifyContent: 'flex-end',
-                }}>
-                <View style={{}}>
-                  <Icon
-                    name="edit"
-                    type="material-icons"
-                    onPress={editPressed}
-                  />
-                </View>
-                <View style={{}}>
-                  <TouchableOpacity>
-                    <Icon
-                      name="delete"
-                      type="MaterialIcons"
-                      color={'#AF3F34'}
-                      onPress={() => {
-                        setToDeleteId(data.id);
-                        setVisible(true)
-                      }}
-                    />
-                  </TouchableOpacity>
-                </View>
-              </View> */}
+             
               { mask ? null : <View style={{flex: 1, alignItems: 'flex-end'}}>
                 <TouchableOpacity activeOpacity={0.7} onPress={() => onShare()}>
                   <Icon name="share" color={Colors.POPUP_GREY} size={24} />
@@ -216,7 +192,7 @@ const DistanceCard: React.FC<Props> = ({
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 7}}>
             <View style={{flex: 1, flexDirection: 'row'}}>
               <FitnessCard stream={data.stream} />
-              {/* <View style={{flex: 1}} /> */}
+
             </View>
           </View> 
           <View style={{flex: 1, marginHorizontal: 10, marginVertical: 10, marginBottom: -5, marginRight: -5, flexDirection: 'row'}}>
@@ -247,6 +223,7 @@ const DistanceCard: React.FC<Props> = ({
                         color={Colors.POPUP_GREY}
                         size={24}
                         onPress={() => {
+                          console.log(data)
                           setToDeleteId(data.id);
                           setVisible(true)
                         }}
@@ -270,7 +247,35 @@ const DistanceCard: React.FC<Props> = ({
         icon={<DeleteModalIcon/>} 
         />
     </View>
-  );
 };
 
 export default DistanceCard;
+
+
+ {/* <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  justifyContent: 'flex-end',
+                }}>
+                <View style={{}}>
+                  <Icon
+                    name="edit"
+                    type="material-icons"
+                    onPress={editPressed}
+                  />
+                </View>
+                <View style={{}}>
+                  <TouchableOpacity>
+                    <Icon
+                      name="delete"
+                      type="MaterialIcons"
+                      color={'#AF3F34'}
+                      onPress={() => {
+                        setToDeleteId(data.id);
+                        setVisible(true)
+                      }}
+                    />
+                  </TouchableOpacity>
+                </View>
+              </View> */}

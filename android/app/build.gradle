@@ -138,10 +138,11 @@ android {
     }
     defaultConfig {
         applicationId "com.tym.tym_100ascent"
+        multiDexEnabled true
         minSdkVersion rootProject.ext.minSdkVersion
         targetSdkVersion rootProject.ext.targetSdkVersion
-        versionCode 11
-        versionName "1.4.2"
+        versionCode 12
+        versionName "1.5.0"
         vectorDrawables.useSupportLibrary = true
         manifestPlaceholders = [
             appAuthRedirectScheme: 'com.googleusercontent.apps.730727502414-urev3kc18jh61qc41r3slea7pkltmvk5'
@@ -209,6 +210,10 @@ dependencies {
     implementation platform('com.google.firebase:firebase-bom:28.2.1')
     implementation 'com.google.firebase:firebase-analytics'
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.0.0"
+    implementation 'com.android.support:multidex:2.0.1'
+    implementation "com.squareup.okhttp3:okhttp:4.2.1"
+    implementation "com.squareup.okhttp3:logging-interceptor:4.2.1"
+    implementation "com.squareup.okhttp3:okhttp-urlconnection:4.2.1"
 
     debugImplementation("com.facebook.flipper:flipper:${FLIPPER_VERSION}") {
       exclude group:'com.facebook.fbjni'

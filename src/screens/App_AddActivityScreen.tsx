@@ -1,39 +1,36 @@
-import React, { useState, useEffect } from 'react';
+import { ACTIVITY_LIST, ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
 import {
-  View,
-  Platform,
-  TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
+  StyleSheet,
   Text,
   ToastAndroid,
-  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 
-import axios from 'axios';
+import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import { AppState } from '../redux';
+import Background from '../components/Background/StyledBackground';
+import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
+import { Colors } from '../utils/colors';
 import DateTimePicker from '@react-native-community/datetimepicker';
+import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
 import FastImage from 'react-native-fast-image';
 import { Icon } from 'react-native-elements/dist/icons/Icon';
-import moment from 'moment';
-import { useSelector } from 'react-redux';
-import { AppState } from '../redux';
-
-import Background from '../components/Background/StyledBackground';
 import RNLoader from '../components/Loader/RNLoader';
-
-import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
-import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
+import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
 import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-
-import StyledButton from '../components/Button/StyledButton';
-
 import { RootNavProp } from '../routes/RootStackParamList';
-import { Colors } from '../utils/colors';
-import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import { SetActivitData } from '../redux/action';
+import StyledButton from '../components/Button/StyledButton';
+import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
 import Text12Bold from '../components/Text/Text12Bold';
-
-import { ADD_ACTIVITY_DATA } from '../utils/apis/endpoints';
-import { isIOS } from 'react-native-elements/dist/helpers';
+import axios from 'axios';
+import moment from 'moment';
 import { styles } from '../styles/Global/styles';
 
 export type AndroidMode = 'date' | 'time';
@@ -44,6 +41,9 @@ interface Props {
 const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const dispatch = useDispatch();
+  const headers = { 'X-CONTEXT-ID': contextId };
 
   const [loading, setLoading] = useState(true);
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -71,30 +71,56 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   const [comment, setComment] = useState('');
   
   const [isAllowPost, setDisablePost] = useState(true);
+  const [subscribedChallenge, setSubscribedChallenge] = useState([]);
+
+  const getChallengeIdList = (data) => {
+    let arr = [];
+    for(let idx=0;idx<data.length;idx++){
+      arr.push(data[idx]['cid']);
+    }
+    return arr;
+  }
 
   // API call to update
-  const handlePostData = async () => {
+  const handlePostData = async () => {    
     const data = {
       count: parseFloat(distanceTimeData),
       activity_id: selected['id'],
-      date: selectedDate.toISOString().substring(0,19) + selectedDate.toISOString().substring(23,24),
+      date: selectedDate.toISOString().split('.')[0] + 'Z',
       is_distance: defaultOption === 0,
       calories: calminsteps.cal,
       min: defaultOption === 0 ? calminsteps.min : value,
       steps: calminsteps.steps,
-      comment: comment
+      comment: comment,
+      challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.is_attach ))
     };
     await axios
       .post(ADD_ACTIVITY_DATA, data)
       .then(res => {         
         ToastAndroid.show('Added Data successfully!', ToastAndroid.SHORT);
-        navigation.navigate('DataInListViewScreen');
+        navigation.navigate('JourneyScreen');
       })
       .catch(err => {
         console.log('error');
         console.log(err);
       });
   };
+
+  const callToGetChallengeList = async() => {
+    await axios
+    .get("/api/user/sub/challenges", { headers })
+      .then(res => {
+        const data = res.data.data;
+        setSubscribedChallenge(data);
+      })
+      .catch(err => {
+        console.log('errorasdasdsad');
+        console.log(err);
+        setLoading(false);
+      });
+
+  }
+
 
   // Handle change of date
   const onChange = (event, selectedDateValue) => {
@@ -131,13 +157,28 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
   };
 
   // Get activity data
-  const getDropdownActivities = () => {
-    setDropdownData(activityData.activities);
-    let item = activityData.activities;
-    let index = item.findIndex(item => item.name.includes('Average'));
-    setSelected(item[index]);
-    setDefaultOption(item[index].is_distance ? 0 : 1);
-    setLoading(false);
+  const getDropdownActivities = async() => {
+    const headers = { 'X-CONTEXT-ID': contextId };
+    setLoading(true);
+    await axios
+    .get(ACTIVITY_LIST, { headers })
+      .then(res => {
+        const data = res.data.data;      
+        dispatch(SetActivitData({data: data}));
+        setDropdownData(data.activities);
+        let item = data.activities;
+        let index = item.findIndex(item => item.name.includes('Average'));
+        setSelected(item[index]);
+        setDefaultOption(item[index].is_distance ? 0 : 1);
+        callToGetChallengeList();
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error');
+        console.log(err);
+      });
+
+    
   };
 
   // Get distance time data
@@ -148,6 +189,27 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
         selected['id'] === undefined ||
         data.length === 0,
     );
+  };
+
+  const checkPostButtonState = () => {
+    setDisablePost(
+      selectedDate === null ||
+        selected['id'] === undefined ||
+        distanceTimeData.length === 0,
+    );
+  };
+
+  const handleSelectedChallenges = (idx) => {  
+    let challenges = [...subscribedChallenge];
+    let data = { ...challenges[idx] };
+    data.is_attach = !data.is_attach;
+    challenges[idx] = data;
+    checkPostButtonState();
+    setSubscribedChallenge(challenges);    
+  }
+
+  const handleSubscribeToAChallenge = () => {
+    navigation.navigate('JourneyScreen');
   };
 
   // Calories, minutes, steps data
@@ -193,7 +255,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
             contentContainerStyle={{flexGrow: 1}}
             keyboardShouldPersistTaps="handled">
             {loading && dropdownData.length === 0 ? (
-              <RNLoader />
+              <RNLoaderSimple />
             ) : (
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View
@@ -367,13 +429,14 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
 
                   />
                 </View>
-                {/* <View style={{marginTop: 20}}>
+                <View style={{marginTop: 20}}>
                   <SubscribedChallengeListCard
-                    challenges={subscribedChallenge}
-                    getSelectedChallenge={getSelectedChallenge}
+                    selectedDate={selectedDate}
+                    challenges={subscribedChallenge}                    
+                    handleSelectedChallenges={handleSelectedChallenges}
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
-                </View> */}
+                </View>
                 <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
                   <AddCommentImageCard
                     comment={comment}

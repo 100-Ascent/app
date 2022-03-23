@@ -1,39 +1,36 @@
-import React, {useState, useEffect} from 'react';
 import {
-  View,
-  Platform,
-  TouchableOpacity,
   KeyboardAvoidingView,
+  Platform,
   ScrollView,
+  StyleSheet,
   Text,
   ToastAndroid,
-  StyleSheet,
+  TouchableOpacity,
+  View,
 } from 'react-native';
-
-import axios from 'axios';
-import DateTimePicker from '@react-native-community/datetimepicker';
-import FastImage from 'react-native-fast-image';
-import {Icon} from 'react-native-elements/dist/icons/Icon';
-import {useSelector} from 'react-redux';
-import moment from 'moment';
-import {AppState} from '../redux';
-
-import Background from '../components/Background/StyledBackground';
-import RNLoader from '../components/Loader/RNLoader';
+import React, {useEffect, useState} from 'react';
+import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
 
 import AddCommentImageCard from '../components/Cards/PostAChallengeCard/AddCommentImageCard';
+import {AppState} from '../redux';
+import Background from '../components/Background/StyledBackground';
 import CalMinStepsCard from '../components/Cards/PostAChallengeCard/CalMinStepsCard';
-import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
-import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
-import StyledButton from '../components/Button/StyledButton';
-import Text12Bold from '../components/Text/Text12Bold';
-
-import {RootNavProp, RootNavRouteProps} from '../routes/RootStackParamList';
-import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
-import { STREAM } from '../utils/constants/constants';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import DistanceTimeCard from '../components/Cards/PostAChallengeCard/PostChallengeCard_DistanceTimeCard';
+import FastImage from 'react-native-fast-image';
+import {Icon} from 'react-native-elements/dist/icons/Icon';
 import RNLoaderSimple from '../components/Loader/RNLoaderSimple';
+import RNSearchablePicker from '../components/SearchablePicker/SearchablePicker';
+import { STREAM } from '../utils/constants/constants';
+import StyledButton from '../components/Button/StyledButton';
+import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/SubscribedChallengeListCard';
+import Text12Bold from '../components/Text/Text12Bold';
+import {UPDATE_ACTIVITY_DATA} from '../utils/apis/endpoints';
+import axios from 'axios';
 import { isIOS } from 'react-native-elements/dist/helpers';
+import moment from 'moment';
+import {useSelector} from 'react-redux';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -43,19 +40,39 @@ interface Props {
 
 
 const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
+  
   const routeData = route.params.data;
+  const contextId = useSelector((state: AppState) => state.rootStore.contextId);
+  const headers = { 'X-CONTEXT-ID': contextId };
+  const [subscribedChallenge, setSubscribedChallenge] = useState([]);
+  const [loading, setLoading] = useState(true);
+  
+  const callToGetChallengeList = async() => {
+    await axios
+    .get("/api/user/data/" + routeData?.id, { headers })
+      .then(res => {
+        const data = res.data.data;
+        setSubscribedChallenge(data);
+        setLoading(false);
+      })
+      .catch(err => {
+        console.log('error');
+        console.log(err);
+        setLoading(false);
+      });
+
+  }
+
   const isEditable = routeData.stream.toLowerCase() === STREAM.MANUAL.toLowerCase();
   const routeDate = new Date(routeData.date);
 
   const activityData = useSelector((state: AppState) => state.rootStore.activityData.data);
-
-  const [loading, setLoading] = useState(true);
   const [show, setShow] = useState(false);
-  const [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
+  let [selectedDate, setSelectedDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
   const [date, setDate] = useState(new Date(routeDate.getFullYear(), routeDate.getMonth(), routeDate.getDate(), routeDate.getHours(), routeDate.getMinutes(), routeDate.getSeconds() ));
   
   const [dropdownData, setDropdownData] = useState([]);
-  const selectedActivity = activityData.activities.filter(obj => obj.id === routeData.activity_id)[0];
+  const selectedActivity = activityData.activities.filter(obj => obj.id === (routeData.activity? routeData.activity.id : routeData.activity_id) )[0];
   const [selected, setSelected] = useState(selectedActivity);
   
   const [defaultOption, setDefaultOption] = useState(routeData.is_distance ? 0 : 1);
@@ -71,31 +88,42 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
     
   const [comment, setComment] = useState(routeData.comment);
   const [isAllowPost, setDisablePost] = useState(false);
+
+  const getChallengeIdList = (data) => {
+    let arr = [];
+    for(let idx=0;idx<data.length;idx++){
+      arr.push(data[idx]['cid']);
+    }
+    return arr;
+  }
+  
   // API call to update
   const handleUpdateData = async () => {
     const timeNow = new Date(
       parseInt(selectedDate.toISOString().substring(0,4)), 
-      parseInt(selectedDate.toISOString().substring(5,7))-1, parseInt(selectedDate.toISOString().substring(8,10)), 
+      parseInt(selectedDate.toISOString().substring(5,7))-1, 
+      parseInt(selectedDate.toISOString().substring(8,10)), 
       new Date().getHours(), 
       new Date().getMinutes(), 
       new Date().getSeconds());
-     
-      const data = {
+
+    const data = {
         activity_id: selected.id,
-        date: selectedDate.toISOString().substring(0,10) + "T" + timeNow.toISOString().substring(11,19) + "Z",
+        date: timeNow.toISOString().substring(0,10) + "T" + timeNow.toISOString().substring(11,19) + "Z",
         count: parseFloat(distanceTimeData),
         is_distance: defaultOption === 0,
         calories: calminsteps.cal,
         min: defaultOption === 0 ? calminsteps.min : value,
         steps: calminsteps.steps,
         comment: comment,
+        challenges: getChallengeIdList(subscribedChallenge.filter(obj=> obj.is_attach ))
       };
-
+      
     await axios
       .put( UPDATE_ACTIVITY_DATA + route.params.data.id, data)
       .then(res => {
         ToastAndroid.show('Updated activity data',ToastAndroid.SHORT);
-        navigation.replace('DataInListViewScreen');
+        navigation.pop();
       })
       .catch(err => {
         console.log('error');
@@ -164,8 +192,24 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
   // Get activity data
   const getDropdownActivities = () => {
     setDropdownData(activityData.activities);
-    setLoading(false);
   };
+
+  const checkPostButtonState = () => {
+    setDisablePost(
+      selectedDate === null ||
+        selected['id'] === undefined ||
+        distanceTimeData.length === 0,
+    );
+  };
+
+  const handleSelectedChallenges = (idx) => {  
+    let challenges = [...subscribedChallenge];
+    let data = { ...challenges[idx] };
+    data.is_attach = !data.is_attach;
+    challenges[idx] = data;
+    checkPostButtonState();
+    setSubscribedChallenge(challenges);    
+  }
 
   useEffect(() => {
     navigation.setOptions({
@@ -179,12 +223,13 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             name="arrow-back"
             type="ionicons"
             size={30}
-            onPress={() => navigation.replace('DataInListViewScreen')}
+            onPress={() => navigation.pop()}
           />
         </View>
       ),
     });
     getDropdownActivities();
+    callToGetChallengeList();
   }, []);
 
   // Date difference for showing alert
@@ -197,7 +242,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
       Date.UTC(date.getFullYear(), date.getMonth(), date.getDate())) /
       (1000 * 60 * 60 * 24),
   );
-
+  
   return (
     <View style={{flex: 1}}>
       <Background startColor={Colors.WHITE} endColor={Colors.WHITE}>
@@ -216,7 +261,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
             keyboardShouldPersistTaps="handled">
             {loading && dropdownData.length === 0 ? (
               <RNLoaderSimple />
-            ) : (
+            ) : subscribedChallenge.length === 0 ? <RNLoaderSimple /> : (
               <View style={{flex: 1, marginHorizontal: 20}}>
                 <View
                   style={{
@@ -396,6 +441,14 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                     disabled={!isEditable}
                   />
                 </View>
+                <View style={{marginTop: 20}}>
+                  <SubscribedChallengeListCard
+                    selectedDate = {selectedDate}
+                    challenges={subscribedChallenge}
+                    handleSelectedChallenges={handleSelectedChallenges}
+                    handleSubscribeToAChallenge={()=>navigation.navigate('JourneyScreen')}
+                  />
+                </View>
 
                 <View style={[{marginTop: 20, marginHorizontal: -20}, isIOS? styles.shadow : {} ]}>
                   <AddCommentImageCard
@@ -412,7 +465,7 @@ const EditActivityScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
               </View>
             )}
-            <View style={{padding: 50}} />
+            <View style={{padding: 70}} />
           </ScrollView>
         </KeyboardAvoidingView>
       </Background>
@@ -434,10 +487,4 @@ const styles = StyleSheet.create({
   }
 })
 
-/* <View style={{marginTop: 20}}>
-                  <SubscribedChallengeListCard
-                    challenges={subscribedChallenge}
-                    getSelectedChallenge={getSelectedChallenge}
-                    handleSubscribeToAChallenge={handleSubscribeToAChallenge}
-                  />
-                </View> */
+

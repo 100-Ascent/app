@@ -28,6 +28,7 @@ import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
 import Background from '../components/Background/StyledBackground';
 import { isIOS } from 'react-native-elements/dist/helpers';
 import { styles } from '../styles/Global/styles';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props{
 navigation:RootNavProp<'LeaderboardScreen'>;

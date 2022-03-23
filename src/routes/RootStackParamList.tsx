@@ -12,6 +12,7 @@ export type RootStackParamList = {
   FitnessConnectionScreen: { data: any };
   LeaderboardScreen: undefined;
   InstitutionScreen: { selectedId ?: any, prevScreen?: any };
+  JourneyScreen : undefined;
 
   HomeStack: undefined;
   FitnessStack: undefined;
@@ -26,10 +27,21 @@ export type RootStackParamList = {
   
   DataLoaderScreen: undefined;
   HomeScreen: undefined;
-  ChallengeDescriptionScreen: {data: Object};
   OnboardingScreen: undefined;
   CommunityScreen: undefined;
-  
+
+
+  AllChallengesScreen: undefined;
+  MyChallengeScreen: { data: any, challengeId: any };  
+  ChallengeDescriptionScreen: {data: Object};
+  MediaScreen : { data: any }
+  CheckpointMilestoneScreen: { data: any, current_distance: any, total_distance: any  }
+  RewardsScreen: { data: any, name: any, icon: any }
+
+
+  PaymentScreen: { data: any };
+  AfterPaymentScreen: { name: any, icon: any, image: any };
+    
   // EditActivityDataScreen: {data?: any; cd_id: any};
   // MyChallengeScreen: {data: Object; challengeId: Object};
   // UserProfileScreen: undefined;

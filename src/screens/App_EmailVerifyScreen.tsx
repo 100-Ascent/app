@@ -1,18 +1,3 @@
-import React, {useEffect, useState} from 'react';
-import {
-  KeyboardAvoidingView,
-  Platform,
-  ScrollView,
-  TextInput,
-  TouchableOpacity,
-  View,
-} from 'react-native';
-import Background from '../components/Background/StyledBackground';
-import StyledButton from '../components/Button/StyledButton';
-import Text16Normal from '../components/Text/Text16Normal';
-import {Colors} from '../utils/colors';
-import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
-import axios from 'axios';
 import {
   EMAIL,
   EMAIL_VERIFICATION_SENT_AFTER_1,
@@ -23,15 +8,29 @@ import {
   PROCEED,
   VALID_EMAIL_ERROR,
 } from '../utils/constants/constants';
-import Text16Bold from '../components/Text/Text16Bold';
-import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
-import Text14 from '../components/Text/Text14';
+import {
+  KeyboardAvoidingView,
+  Platform,
+  ScrollView,
+  TextInput,
+  TouchableOpacity,
+  View,
+} from 'react-native';
+import React, {useState} from 'react';
+
+import AppIcon100Ascent from '../../assets/icons/app-icon.svg';
+import Background from '../components/Background/StyledBackground';
 import BackgroundVector from '../components/Background/BackgroundVector';
+import {Colors} from '../utils/colors';
+import RNStepIndicator from '../components/StepIndicator/RNStepIndicator';
+import StyledButton from '../components/Button/StyledButton';
+import Text14 from '../components/Text/Text14';
+import Text16Bold from '../components/Text/Text16Bold';
+import Text16Normal from '../components/Text/Text16Normal';
 import { UPDATE_EMAIL } from '../utils/apis/endpoints';
-import { Icon } from 'react-native-elements';
-import Text12Bold from '../components/Text/Text12Bold';
-import moment from 'moment';
+import axios from 'axios';
 import { isIOS } from 'react-native-elements/dist/helpers';
+import moment from 'moment';
 
 const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
   const [email, setEmail] = useState('');
@@ -140,7 +139,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                         <View style={{paddingVertical: 10}}>
                           <Text16Bold
                             text={email}
-                            textColor={Colors.TEXTDARK} textStyle={undefined}                          />
+                            textColor={Colors.TEXTDARK} textStyle={undefined} />
                         </View>
                         <View style={{paddingVertical: 3}}>
                           <Text16Normal
@@ -212,6 +211,7 @@ const EmailVerifyScreen = ({setIsEmailVerifiedToTrue}) => {
                                     lastName.length === 0,
                                 );
                               }}
+                              selectionColor={Colors.TEXTDARK}
                               style={{
                                 borderWidth: 1,
                                 borderRadius: 10,

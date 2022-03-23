@@ -1,9 +1,9 @@
-import React from 'react';
-import {View} from 'react-native';
-import {TouchableOpacity} from 'react-native';
 import {Colors} from '../../utils/colors';
+import React from 'react';
+import {TouchableOpacity} from 'react-native';
+import {View} from 'react-native';
 
-const CustomTabBarButton = ({onPress, children, isKeyboardVisible}) => {
+const CustomTabBarButton = ({onPress, children, showTabBarButton}) => {
   return (
     <TouchableOpacity
       activeOpacity={1}
@@ -11,7 +11,7 @@ const CustomTabBarButton = ({onPress, children, isKeyboardVisible}) => {
       style={{
         justifyContent: 'center',
         alignItems: 'center',
-        marginBottom: isKeyboardVisible ? -10 : 30,
+        marginBottom: showTabBarButton ? 30 : -10,
       }}>
       <View
         style={{

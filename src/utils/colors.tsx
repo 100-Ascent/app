@@ -3,8 +3,8 @@ export const Colors = {
   TEXT: '#F8F8F8',
   TEXT1: '#FAFAFA',
   TEXT2: '#949494',
-  TEXT3: '#878787',
-  TEXT4: '#333333',
+  // TEXT3: '#878787',
+  // TEXT4: '#333333',
   TEXTDARK: '#121212',
   HEADING: '#1A2741',
 
@@ -24,6 +24,7 @@ export const Colors = {
   INFO_YELLOW: "#EFAD45",
   GREEN: '#79AC40',
   INFO_GREEN: "#34CE27",
+  SUCCESS_GREEN: "#0BC675",
   INFO_GREY: "#A3A3A3",
   PROMOTED: "#B8F28B",
   PROMOTED_LIGHT: "#ECFFDE",
@@ -49,6 +50,6 @@ export const Colors = {
   POPUP_GREY: '#575757',
 
   GREY_LIGHT: '#ECECEC',
-
+  INFO_GREY_LIGHT: "#EFF0F3",
   BUTTON_DARK: '#111426',
 };

@@ -2,10 +2,10 @@ import React, {useEffect, useRef} from 'react';
 import {Dimensions, Modal, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import StyledButton from '../Button/StyledButton';
-import RewardCard from '../Cards/RewardsScreen/NewRewardCard';
 import ConfettiCannon from 'react-native-confetti-cannon';
 import {HEIGHT} from '../../utils/constants/constants';
 import FastImage from 'react-native-fast-image';
+import RewardCard from '../Cards/Rewards/NewRewardCard';
 
 const NewRewardPopUp = ({
   visible,

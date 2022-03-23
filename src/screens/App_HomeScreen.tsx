@@ -31,6 +31,7 @@ import { isIOS } from 'react-native-elements/dist/helpers';
 import { styles } from '../styles/Global/styles';
 import JoinInstitutionCard from '../components/Cards/Institution/JoinInstitutionCard';
 import AsyncStorage from '@react-native-community/async-storage';
+import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props {
   navigation: RootNavProp<'HomeScreen'>;
@@ -215,19 +216,19 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
               style={{flexGrow: 1}}
               contentContainerStyle={{flexGrow: 1}}>
               <View style={{flex: 1, paddingHorizontal: 15}}>
-                
+                <BackgroundVector/>
                 <View style={{ paddingHorizontal: 10, marginTop: 20, marginBottom: 10 }}>
                   <Text24Bold text={"hello, " + user['first_name'] + " 👋🏻"} textColor={Colors.TEXTDARK} textStyle={FONTS.BOLD} />
                   <Text16Normal text={"Here are some quick actions for you"} textColor={Colors.TEXTDARK} textStyle={FONTS.SEMIBOLD} />
                 </View>
 
                 {/* Institution Card */}
-                { toShowInstituteCard ? user['college'] === undefined ? <Text16Bold
+                { toShowInstituteCard ? user['college'] == undefined ? <Text16Bold
                     text={SELECT_INSTITUTE}
                     textColor={Colors.TEXTDARK}
                     containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                   /> : <View/> : <View/> }
-                { toShowInstituteCard ? user['college'] === undefined ? <View style={{ marginTop: 15 }}>
+                { toShowInstituteCard ? user['college'] == undefined ? <View style={[ styles.shadowElevation3, { marginTop: 15 }]}>
                   <JoinInstitutionCard onPress={handleInstitutionPress} callToSetInstitutionCard={callToSetInstitutionCard}/>
                   </View> : <View/> : <View/> }
 

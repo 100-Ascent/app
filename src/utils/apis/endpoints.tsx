@@ -18,3 +18,8 @@ export const REQUEST_NEW_CONNECTION = "/api/request/connection";
 export const USER_SETTINGS = '/api/user/settings';
 export const USER_STREAK_DATA = "/api/user/activity/streak"; 
 export const ACTIVITY_LIST = '/api/activities';
+
+export const CHALLENGE_DATA = '/api/challenge';
+export const SUBSCRIBE_CHALLENGE = '/api/challenge/subscribed/'; 
+
+export const CREATE_ORDER = "/api/create/order/";
