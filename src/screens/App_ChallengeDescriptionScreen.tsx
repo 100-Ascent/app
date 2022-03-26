@@ -26,6 +26,7 @@ import SubscribeToChallenge from '../../assets/modal-icons/notification-icon.svg
 import ViewShot from 'react-native-view-shot';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import { shadowStyles } from '../styles/Global/styles';
 
 interface Props {
   navigation: RootNavProp<'ChallengeDescriptionScreen'>;
@@ -161,26 +162,26 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
                   style={{ backgroundColor: Colors.TEXT, borderRadius: 10, marginHorizontal: 20, marginTop: 20 }}
                   ref={ref}
                   options={{format: 'jpg', quality: 0.9}}>    
-                  <View style={styles.cityMilestoneCard}>            
+                  <View style={[styles.cityMilestoneCard, shadowStyles.shadowElevation3]}>            
                   <ChallengeDistanceMilestoneCity  cities={data.cities} distance={data.distance} milestones={data.milestones} />
                 </View>
                 </ViewShot>
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} >
                   <PromoVideoCard />
                 </View>
 
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} >
                   <ChallengeDescriptionCard description={data.longDescription} />
                 </View>
                 
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} >
                   <RoadMapCard
                     roadMap={data.roadMap}
                     roadmapOnPressHandler={onRoadmapPressHandler}
                   />
                 </View>
 
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} >
                   <AboutChallengeCard
                     title={data.bottom_title}
                     description={data.bottom_desc}
@@ -191,17 +192,17 @@ const ChallengeDescriptionScreen: React.FC<Props> = ({navigation, route}) => {
               <>
                 {
                   data.rewards.map((val,idx)=>{
-                    return <View style={{ marginTop: 20 }} key={idx} >
+                    return <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} key={idx} >
                       <CommonCard data={val} imageOnPress={rewardImageOnPress} />
                     </View>
                   })
                 }
 
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]} >
                   <AdditionalRewardsCard data={data.extraRewards} />
                 </View>
                 
-                <View style={{ marginTop: 20 }} >
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation1]} >
                   <PreRegister />
                 </View>
 

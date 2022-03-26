@@ -27,7 +27,7 @@ import { TouchableOpacity } from 'react-native-gesture-handler';
 import LeaderboardPopUp from '../components/PopUps/LeaderboardPopUp';
 import Background from '../components/Background/StyledBackground';
 import { isIOS } from 'react-native-elements/dist/helpers';
-import { styles } from '../styles/Global/styles';
+import { shadowStyles } from '../styles/Global/styles';
 import BackgroundVector from '../components/Background/BackgroundVector';
 
 interface Props{
@@ -405,7 +405,7 @@ return loading || leaderboardData?.length === 0 ? <RNLoaderSimple/> : <Backgroun
                 flexDirection: 'row', 
                 backgroundColor: Colors.TEXT, 
                 alignItems: 'center' 
-                }, styles.shadowElevation1 ]}>
+                }, shadowStyles.shadowElevation1 ]}>
                 <View style={{ paddingLeft: 10}}>
                   <Icon name="search" type="ionicon" color={Colors.BLACK4}  />
                 </View> 

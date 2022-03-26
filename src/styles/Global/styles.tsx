@@ -34,7 +34,7 @@ export default StyleSheet.create({
   },
 });
 
-export const styles = StyleSheet.create({
+export const shadowStyles = StyleSheet.create({
   shadowElevation3 : {
     shadowColor: "#000",
     shadowOffset: {

@@ -28,7 +28,7 @@ import Text24Bold from '../components/Text/Text24Bold';
 import Text16Normal from '../components/Text/Text16Normal';
 import SessionCard from '../components/Cards/Sessions/SessionCard';
 import { isIOS } from 'react-native-elements/dist/helpers';
-import { styles } from '../styles/Global/styles';
+import { shadowStyles } from '../styles/Global/styles';
 import JoinInstitutionCard from '../components/Cards/Institution/JoinInstitutionCard';
 import AsyncStorage from '@react-native-community/async-storage';
 import BackgroundVector from '../components/Background/BackgroundVector';
@@ -228,7 +228,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                     textColor={Colors.TEXTDARK}
                     containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                   /> : <View/> : <View/> }
-                { toShowInstituteCard ? user['college'] == undefined ? <View style={[ styles.shadowElevation3, { marginTop: 15 }]}>
+                { toShowInstituteCard ? user['college'] == undefined ? <View style={[ shadowStyles.shadowElevation3, { marginTop: 15 }]}>
                   <JoinInstitutionCard onPress={handleInstitutionPress} callToSetInstitutionCard={callToSetInstitutionCard}/>
                   </View> : <View/> : <View/> }
 
@@ -267,7 +267,7 @@ const HomeScreen: React.FC<Props> = ({navigation}) => {
                   textColor={Colors.TEXTDARK}
                   containerStyle={{paddingHorizontal: 15, marginTop: 25}}
                 />
-                <View style={[{ marginTop: 15 }, Platform.OS==="ios" ? styles.shadowElevation3: {}]}>
+                <View style={[{ marginTop: 15 }, Platform.OS==="ios" ? shadowStyles.shadowElevation3: {}]}>
                   <PreferredTimePickerCard
                     isWorkoutNotification={ settings.length > 0 ? settings[0]["data"].find(obj => obj.name.toLowerCase().includes("workout")).active : false }
                     prefer_time={user['prefer_time']}

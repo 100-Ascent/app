@@ -3,7 +3,7 @@ import {TouchableOpacity, View} from 'react-native';
 import {Colors} from '../../utils/colors';
 import Text16Normal from '../Text/Text16Normal';
 import GoogleIcon from '../../../assets/icons/google-icon.svg';
-import { styles } from '../../styles/Global/styles';
+import { shadowStyles } from '../../styles/Global/styles';
 
 interface Props {
   onPress: () => void;
@@ -17,7 +17,7 @@ const GoogleSignInButton: React.FC<Props> = ({onPress}) => {
   //Component functions
 
   return (
-    <View style={ styles.shadowElevation3}>
+    <View style={ shadowStyles.shadowElevation3}>
       <TouchableOpacity
         activeOpacity={0.8}
         disabled={false}

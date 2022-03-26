@@ -31,7 +31,7 @@ import SubscribedChallengeListCard from '../components/Cards/PostAChallengeCard/
 import Text12Bold from '../components/Text/Text12Bold';
 import axios from 'axios';
 import moment from 'moment';
-import { styles } from '../styles/Global/styles';
+import { shadowStyles } from '../styles/Global/styles';
 
 export type AndroidMode = 'date' | 'time';
 interface Props {
@@ -406,7 +406,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     />
                   </View>
                 </View>
-                <View style={[{marginTop: 30, marginHorizontal: -20}, styles.shadowElevation3]}>
+                <View style={[{marginTop: 30, marginHorizontal: -20}, shadowStyles.shadowElevation3]}>
                   <DistanceTimeCard
                     defaultOption={defaultOption}
                     selectedItem={selected}
@@ -420,7 +420,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     setKlicks={setKlicks}
                   />
                 </View>
-                <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, shadowStyles.shadowElevation3 ]}>
                   <CalMinStepsCard
                     calminsteps={calminsteps}
                     getCalMinSteps={getCalMinStepsData}
@@ -437,7 +437,7 @@ const AddActivityScreen: React.FC<Props> = ({navigation}) => {
                     handleSubscribeToAChallenge={handleSubscribeToAChallenge}
                   />
                 </View>
-                <View style={[{marginTop: 20, marginHorizontal: -20}, styles.shadowElevation3 ]}>
+                <View style={[{marginTop: 20, marginHorizontal: -20}, shadowStyles.shadowElevation3 ]}>
                   <AddCommentImageCard
                     comment={comment}
                     onCommentChange={onCommentChange}

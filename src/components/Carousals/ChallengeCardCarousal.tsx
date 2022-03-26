@@ -1,6 +1,7 @@
 import React from 'react';
 import {useState} from 'react';
 import { ScrollView, StyleSheet, Text, View} from 'react-native';
+import { shadowStyles } from '../../styles/Global/styles';
 import CarousalCard from '../Cards/Challenges/CarousalCard';
 
 interface Props {
@@ -30,7 +31,7 @@ const ChallengeCardCarousal: React.FC<Props> = ({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={[styles.container, shadowStyles.shadowElevation3]}>
       <View style={{ marginTop: 15 }}>
         <ScrollView
           onScroll={({nativeEvent}) => change(nativeEvent)}

@@ -22,6 +22,7 @@ import Text28 from '../Text/Text28';
 import TimeCard from '../DistanceComponent/TimeCard';
 import ViewShot from 'react-native-view-shot';
 import { useSelector } from 'react-redux';
+import { shadowStyles } from '../../styles/Global/styles';
 
 interface Props {
   data: any;
@@ -88,14 +89,14 @@ const DistanceCard: React.FC<Props> = ({
         ref={ref}
         options={{format: 'jpg', quality: 0.9}}>
         <View
-          style={{
+          style={[{
             flex: 1,
             borderRadius: 10,
             backgroundColor: Colors.TEXT,
             paddingHorizontal: 20,
             paddingVertical: 20,
             elevation: 3,
-          }}>
+          }, shadowStyles.shadowElevation3]}>
           <View style={{flex: 1, flexDirection: 'row'}}>
             <View style={{flex: 2}}>
               <View

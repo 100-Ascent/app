@@ -20,6 +20,7 @@ import {ScrollView} from 'react-native';
 import ThreeTabNavigator from '../components/SwitchComponent/ThreeTabNavigator';
 import axios from 'axios';
 import { useIsFocused } from '@react-navigation/native';
+import { shadowStyles } from '../styles/Global/styles';
 
 interface Props {
   navigation: RootNavProp<'MyChallengeScreen'>;
@@ -197,18 +198,18 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                   image={{images: [data.image]}}
                 />
                 
-                <View style={{ marginTop: 20, marginHorizontal: 20 }}>
+                <View style={[shadowStyles.shadowElevation3,{ marginTop: 20, marginHorizontal: 20 }]}>
                   <CheckpointCard
                     checkpoint={challengeData.current_checkpoint}
                     onCheckpointPressed={onCheckpointPressed}
                   />
                 </View>
 
-                <View style={{ marginTop: 20, marginHorizontal: 20, elevation: 5 }}>
+                <View style={[shadowStyles.shadowElevation3,{ marginTop: 20, marginHorizontal: 20, elevation: 5 }]}>
                   <ProgressBar distance={currentDistance} />
                 </View>
 
-                <View style={{ marginTop: 20, marginHorizontal: 20, elevation: 5 }}>
+                <View style={[ shadowStyles.shadowElevation3, { marginTop: 20, marginHorizontal: 20, elevation: 5 }]}>
                   <RewardsCard
                     rewards={challengeData.rewards}
                     onPress={handleRewardsPressed}
@@ -216,7 +217,7 @@ const MyChallengeScreen: React.FC<Props> = ({navigation, route}) => {
                 </View>
 
                
-                <View style={{ marginTop: 20}}>
+                <View style={[shadowStyles.shadowElevation3,{ marginTop: 20}]}>
                   <ThreeTabNavigator
                     userLocation={{
                       latitude: challengeData.user_lat,

@@ -20,6 +20,7 @@ import ReturnPolicyCard from '../components/Cards/Payment/ReturnPolicyCard';
 import SummaryCard from '../components/Cards/Payment/SummaryCard';
 import axios from 'axios';
 import { setData } from '../redux/action';
+import { shadowStyles } from '../styles/Global/styles';
 
 interface Props{
 navigation:RootNavProp<'PaymentScreen'>;
@@ -219,16 +220,16 @@ return <SafeAreaView style={{flex: 1}}>
         <ScrollView scrollEnabled style={{flexGrow: 1}} contentContainerStyle={{flexGrow: 1}} keyboardShouldPersistTaps="handled" >
             <View style={{flex: 1 }}>
                 <ChallengeNameWithIconCard showViewDetails={false} name={data.name} image={{images: [data.image]}} icon={data.icon} />
-                <View style={{ marginTop: 20 }}>
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]}>
                     <SummaryCard currency={currency} data={summary} />
                 </View>
-                <View style={{ marginTop: 20 }}>
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation1]}>
                     <ReturnPolicyCard policy={policy} />
                 </View>
-                <View style={{ marginTop: 20 }}>
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]}>
                     <CouponCodeCard />
                 </View>    
-                <View style={{ marginTop: 20 }}>
+                <View style={[{ marginTop: 20 },shadowStyles.shadowElevation3]}>
                     <DeliveryAddressCard 
                       isAddressConfirmed={isAddressConfirmed} 
                       handleAddressConfirmed={()=>setAddressConfirmed(false)}

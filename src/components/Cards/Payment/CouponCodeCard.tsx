@@ -1,5 +1,6 @@
 import React, {useState} from 'react';
 import {StyleSheet, TextInput, View} from 'react-native';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 import {Colors} from '../../../utils/colors';
 import { FONTS } from '../../../utils/constants/fonts';
@@ -101,7 +102,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
   },
   buttonStyle: {
-      paddingVertical: 8, 
+      paddingVertical: isIOS? 4 : 8, 
       borderRadius: 0, 
       borderTopRightRadius: 15,
       borderBottomRightRadius: 15,

@@ -1,7 +1,7 @@
 import React from 'react';
 import {Platform, StyleSheet, TouchableOpacity, View} from 'react-native';
 import {TextInput} from 'react-native-gesture-handler';
-import { styles } from '../../../styles/Global/styles';
+import { shadowStyles } from '../../../styles/Global/styles';
 import {Colors} from '../../../utils/colors';
 import Text16Normal from '../../Text/Text16Normal';
 import Text24 from '../../Text/Text24';
@@ -107,7 +107,7 @@ const DistanceTimeCard: React.FC<Props> = ({
               borderRadius: 5,
               elevation: 3,
               marginLeft: 5,              
-            }, styles.shadowElevation3 ]}>
+            }, shadowStyles.shadowElevation3 ]}>
             <TextInput
               editable = {!disabled}
               value={value.toString()}
@@ -143,7 +143,7 @@ const DistanceTimeCard: React.FC<Props> = ({
               borderRadius: 5,
               backgroundColor: Colors.TEXT,
               marginLeft: 2,
-            }, styles.shadowElevation3 ]}>
+            }, shadowStyles.shadowElevation3 ]}>
             <Text16Normal
               text={defaultOption === 0 ? 'km' : 'min'}
               textColor={Colors.TEXTDARK}

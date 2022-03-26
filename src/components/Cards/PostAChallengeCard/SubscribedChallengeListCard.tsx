@@ -7,6 +7,7 @@ import React from 'react';
 import {SUBSCRIBE_TO_CHALLENGE} from '../../../utils/constants/constants';
 import StyledButton from '../../Button/StyledButton';
 import Text16Normal from '../../Text/Text16Normal';
+import { shadowStyles } from '../../../styles/Global/styles';
 
 interface Props {
   selectedDate: any;
@@ -64,12 +65,12 @@ const SubscribedChallengeListCard: React.FC<Props> = ({
   });
   return (
     <View
-      style={{
+      style={[{
         backgroundColor: Colors.TEXT,
         borderRadius: 10,
         elevation: 2,
-      }}>
-      <View style={{flex: 1, paddingHorizontal: 20, paddingTop: 20}}>
+      }, shadowStyles.shadowElevation1]}>
+      <View style={[{flex: 1, paddingHorizontal: 20, paddingTop: 20}]}>
         <Text16Normal text="Adding Klicks To" textColor={Colors.TEXTDARK} />
       </View>
       <View style={{flex: 1, paddingBottom: 30}}>

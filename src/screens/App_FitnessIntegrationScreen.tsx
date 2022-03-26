@@ -14,7 +14,7 @@ import RNLoader from '../components/Loader/RNLoader';
 import Text16Bold from '../components/Text/Text16Bold';
 import {AppState} from '../redux';
 import {RootNavProp} from '../routes/RootStackParamList';
-import { styles } from '../styles/Global/styles';
+import { shadowStyles } from '../styles/Global/styles';
 import {EXTERNAL_CONNECTIONS, REQUEST_NEW_CONNECTION} from '../utils/apis/endpoints';
 import {Colors} from '../utils/colors';
 
@@ -142,7 +142,7 @@ const FitnessIntegrationScreen: React.FC<Props> = ({navigation}) => {
                     borderRadius: 10,
                     backgroundColor: '#f8f8f8',
                     elevation: 10,                       
-                  }, styles.shadowElevation3 ]}>
+                  }, shadowStyles.shadowElevation3 ]}>
                   <View style={{flex: 1, paddingTop: 10 }}>
                     <Text16Bold
                       text={"Didn't find your preferred fitness app/band for connecting? Suggest One!"}

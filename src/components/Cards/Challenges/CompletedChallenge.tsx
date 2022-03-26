@@ -6,18 +6,19 @@ import React from 'react';
 import Text16Normal from '../../Text/Text16Normal';
 import Text20 from '../../Text/Text20';
 import TrophyIcon from '../../../../assets/icons/challenge-trophy-icon.svg';
+import { shadowStyles } from '../../../styles/Global/styles';
 
 const CompletedChallenge = ({data, onPress}) => {
   const completedChallengeList = data.map((val, idx) => {
     return (
       <TouchableOpacity activeOpacity={0.7} onPress={()=>onPress(val)}>
       <View
-        style={{
+        style={[ shadowStyles.shadowElevation1, {
           borderRadius: 10,
           backgroundColor: '#EEEEEE',
           flexDirection: 'row',
           marginTop: 15,
-        }}
+        }]}
         key={idx}>
         <View style={{flex: 1, padding: 10}}>
           <FastImage
@@ -48,14 +49,14 @@ const CompletedChallenge = ({data, onPress}) => {
   });
   return (
     <View
-      style={{
+      style={[ shadowStyles.shadowElevation1, {
         flex: 1,
         elevation: 1,
         borderRadius: 10,
         paddingBottom: 20,
         marginHorizontal: 5,
         backgroundColor: Colors.TEXT,
-      }}>
+      }]}>
       <View style={{flex: 1, paddingTop: 20, paddingHorizontal: 20}}>
         <Text20 text={'Completed Challenges'} textColor={Colors.TEXTDARK} />
       </View>

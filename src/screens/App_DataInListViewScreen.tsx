@@ -80,7 +80,7 @@ const DataInListViewScreen: React.FC<Props> = ({navigation, route}) => {
           style={{flexGrow: 1}}
           contentContainerStyle={{flexGrow: 1}}>
           <View style={{flex: 1, paddingHorizontal: 15, marginTop: 10 }}>
-            <View style={[{marginHorizontal: 10}, isIOS ? styles.shadow: {}]}>
+            <View style={[{marginHorizontal: 10}]}>
               <DistanceComponent
                 showAllActivities={true}
                 distanceData={data} 
