@@ -70,7 +70,14 @@ static void InitializeFlipper(UIApplication *application) {
 if ([self.authorizationFlowManagerDelegate resumeExternalUserAgentFlowWithURL:url]) {
   return YES;
 }
+  NSString *urlString = url.absoluteString;
+  NSDictionary *userInfo =
+  [NSDictionary dictionaryWithObject:urlString forKey:@"appInvokeNotificationKey"];
+  [[NSNotificationCenter defaultCenter] postNotificationName:
+  @"appInvokeNotification" object:nil userInfo:userInfo];
 return [RCTLinkingManager application:app openURL:url options:options];
 }
+
+
 
 @end

@@ -1,5 +1,6 @@
 import React from 'react';
 import {View} from 'react-native';
+import { shadowStyles } from '../../../../styles/Global/styles';
 import {Colors} from '../../../../utils/colors';
 import Text16Normal from '../../../Text/Text16Normal';
 import Text20 from '../../../Text/Text20';
@@ -9,7 +10,7 @@ import KlicksTooltip from '../../../Tooltip/KlicksTooltip';
 const AscendedRemainingDistanceCard = ({current, total}) => {
   return (
     <View
-      style={{
+      style={[{
         flex: 1,
         marginHorizontal: 15,
         borderRadius: 10,
@@ -21,7 +22,7 @@ const AscendedRemainingDistanceCard = ({current, total}) => {
           height: 10,
           width: 10,
         },
-      }}>
+      }, shadowStyles.shadowElevation3]}>
       <View
         style={{
           flex: 1,

@@ -16,6 +16,7 @@ import RewardsPopUp from '../components/PopUps/RewardsPopUp';
 import RewardsUnlocked from '../components/Cards/Rewards/RewardsUnlocked';
 import axios from 'axios';
 import {useSelector} from 'react-redux';
+import { shadowStyles } from '../styles/Global/styles';
 
 interface Props {
   navigation: RootNavProp<'RewardsScreen'>;
@@ -135,11 +136,11 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               shouldShowTitle={true} 
             />
 
-            <View style={{ marginTop: 20 }}>
+            <View style={[{ marginTop: 20 }, shadowStyles.shadowElevation1]}>
               <HamperCard />
             </View>
 
-            <View style={{ marginTop: toUnlockRewardsArray.length > 0 ? 20 : 0 }}>
+            <View style={[{ marginTop: toUnlockRewardsArray.length > 0 ? 20 : 0 }, shadowStyles.shadowElevation1]}>
               {toUnlockRewardsArray.length > 0 ? (
                 <RewardsUnlocked
                   rewards={toUnlockRewardsArray}
@@ -148,7 +149,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               ) : null}
             </View>
 
-            <View style={{ marginTop: 20 }}>
+            <View style={[{ marginTop: 20 },shadowStyles.shadowElevation1]}>
               {toUnlockRewardsArray.length > 0 &&
               scratchedReward.length === 0 ? null : (
                 <AllRewards
@@ -167,7 +168,7 @@ const RewardsScreen: React.FC<Props> = ({navigation, route}) => {
               />
             ) : null}
 
-            <View style={{ marginTop: 20 }}>
+            <View style={[{ marginTop: 20 }, shadowStyles.shadowElevation1]}>
               <PreRegister />
             </View>
               { visible ? <NewRewardPopUp

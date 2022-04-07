@@ -21,6 +21,7 @@ import SummaryCard from '../components/Cards/Payment/SummaryCard';
 import axios from 'axios';
 import { setData } from '../redux/action';
 import { shadowStyles } from '../styles/Global/styles';
+import { isIOS } from 'react-native-elements/dist/helpers';
 
 interface Props{
 navigation:RootNavProp<'PaymentScreen'>;
@@ -108,9 +109,10 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
             CALLBACK_URL + orderId,
             false,
             false,
-            ""
+            isIOS ? "paytm"+ MERCHANT_ID : "",
         )
         .then((result) => {
+          console.log(result);
             if(result.STATUS === "TXN_SUCCESS"){
               setStatus("SUCCESS");
               setShowPaymentPopup(true);
@@ -141,7 +143,6 @@ const PaymentScreen: React.FC<Props> = ({navigation, route}) => {
   }
 
   const onPayPress = async () => {
-    
     await axios.get(CREATE_ORDER + data.id)
       .then(res=>{
         if(res.data.success){
