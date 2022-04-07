@@ -2,7 +2,6 @@
   package="com.tym.tym_100ascent" xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-   
 
     <application
       android:name=".MainApplication"
@@ -21,6 +20,8 @@
     <meta-data
       android:name="com.google.firebase.messaging.default_notification_channel_id" tools:replace="android:value"
       android:value="@string/default_notification_channel_id"/>
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+   	  <meta-data android:name="com.facebook.sdk.ClientToken" android:value="@string/facebook_client_token"/>
    <!-- You will also only need to add this uses-library tag -->
    <uses-library android:name="org.apache.http.legacy" android:required="false"/>
       <activity

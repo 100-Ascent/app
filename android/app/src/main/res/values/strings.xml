@@ -1,4 +1,7 @@
 <resources>
     <string name="app_name">100 Ascent</string>
     <string name="default_notification_channel_id">all</string>
+    <string name="facebook_app_id">498017915364852</string>
+    <string name="fb_login_protocol_scheme">fb1234</string>
+    <string name="facebook_client_token">ac47e1bf7948b36acd69f95aeec604f8</string>
 </resources>
