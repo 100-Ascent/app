@@ -4,8 +4,9 @@
 
 Know More: https://youtu.be/e8nzhP30Jwk
 
-![4dc8f978-a0db-4f4c-9fd2-9dd5450efccd png](https://github.com/user-attachments/assets/feed2327-3b75-445c-86d4-b02e53ab9447)
+Please note that the project is not being actively worked up. We will get back very soon with some fresh ideas!
 
+![4dc8f978-a0db-4f4c-9fd2-9dd5450efccd png](https://github.com/user-attachments/assets/feed2327-3b75-445c-86d4-b02e53ab9447)
 
 ## App Preview
 
